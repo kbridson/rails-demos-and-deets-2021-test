@@ -14,9 +14,19 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
 1. Register an account at <https://github.com/> (if you don't already have one). Git and GitHub will be used for version control and collaboration in these demos. Be sure not to lose your GitHub username and password.
 
-1. Install the Visual Studio Code (VS Code) editor (<https://code.visualstudio.com/>). VS Code will be the code editor of choice for these demos. Use the latest stable version.
+1. Install the _Visual Studio Code_ (VS Code) editor (<https://code.visualstudio.com/>). VS Code will be the code editor of choice for these demos. Use the latest stable version.
 
-1. Additionally, within VS Code, install the following extensions: `Rails`, `Ruby`, `erb`, `markdownlint`, `Markdown PDF`, and `Code Spell Checker`.
+1. Additionally, within VS Code, install the following extensions:
+
+   - `Code Spell Checker`
+   
+   - `Markdown PDF`
+   
+   - `Markdown Preview Github Styling`
+   
+   - `markdownlint`
+   
+   - `Simple Ruby ERB`
 
 1. Install a Bash shell with SSH client (if you don't already have it).
 
@@ -26,7 +36,7 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
    - Debian/Ubuntu Linux users: you have the shell, but may need to install the "openssh-client" package (if it’s not already installed by default).
 
-1. Download and install VirtualBox (<https://www.virtualbox.org/>). I will be using this software to run an Ubuntu Linux virtual machine. This VM will house most of the Rails development tools (with a few graphical tools running in the host OS). Note: Your computer must support virtualization in order for VirtualBox to work.
+1. Download and install _VirtualBox_ (<https://www.virtualbox.org/>). I will be using this software to run an Ubuntu Linux virtual machine. This VM will house most of the Rails development tools (with a few graphical tools running in the host OS). Note: Your computer must support virtualization in order for VirtualBox to work.
     <span><a class="text-muted" data-toggle="collapse" href="#moreDetails" role="button" aria-expanded="false" aria-controls="moreDetails">More details...</a></span>
 
     <div class="collapse" id="moreDetails">
@@ -35,9 +45,9 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
         </p>
     </div>
 
-1. Download and install Vagrant (<https://www.vagrantup.com/>). Vagrant is used to package, distribute, and run custom-configured VMs. I have prepared a Vagrant "box" as you will see below.
+1. Download and install _Vagrant_ (<https://www.vagrantup.com/>). Vagrant is used to package, distribute, and run custom-configured VMs. I have prepared a Vagrant "box" as you will see below.
 
-1. Install pgAdmin 4, a database viewer and administration tool for PostgreSQL databases. This application will allow you to view the database on your VM from a browser on your host.
+1. Download and install _pgAdmin_ 4 (<https://www.pgadmin.org/download/>), a database viewer and administration tool for PostgreSQL databases. This application will allow you to view the database on your VM from a browser on your host.
 
 ## 2. Setting Up Workspace and Initializing VM
 
@@ -45,7 +55,7 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
 1. Download the file [Vagrantfile]({{ site.baseurl }}/resources/Vagrantfile) and the file [provisioner.sh]({{ site.baseurl }}/resources/provisioner.sh), and save them in your `workspace` folder. Make sure that no file suffix (e.g., ".txt") gets added to the Vagrantfile when saving it. For example, one way to download it would be to right-click on the hyperlink and select "Save Link As..." (or similar) from the context menu.
 
-1. Launch a terminal. In Windows, it involves launching _Git Bash_. In MacOS and Linux, this involves launching the _Terminal_ application.
+1. Launch a terminal. In Windows, it involves launching _Git Bash_. In MacOS and Linux, this involves launching a terminal application.
 
 1. In the terminal, change directory (using the `cd` command) to your `workspace` folder. Note: I will be using the command-line a lot in the demos. I will generally assume that readers are familiar with the basic file management and navigation commands (`cd`, `rm`, `cp`, `mv`, etc.).
     <span><a class="text-muted" data-toggle="collapse" href="#moreDetails" role="button" aria-expanded="false" aria-controls="moreDetails">More details...</a></span>
@@ -58,7 +68,7 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
 1. Install two Vagrant plugins by running the commands `vagrant plugin install vagrant-vbguest` and `vagrant plugin install vagrant-fsnotify`. [vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest) will ensure your VirtualBox Guest Additions versions are kept in sync between the host and the VM. [vagrant-fsnotify](https://github.com/adrienkohlbecker/vagrant-fsnotify) enhances VirtualBox shared folders by forwarding filesystem change notifications to your Vagrant VM.
 
-1. Run the command `vagrant up` to download and initialize the Vagrant box specified in the Vagrantfile you downloaded. BEWARE! This command (1) may take a long time to complete, (2) downloads a big file (~700MB), and (3) performs at least one processor-intensive compilation (of Ruby). Once this command completes, you will have a running Ubuntu Linux VM (headless). However, the fsnotify plugin will tie up the current terminal window and you will need a second terminal window in the workspace folder to run additional commands.
+1. Run the command `vagrant up` to download and initialize the Vagrant box specified in the Vagrantfile you downloaded. BEWARE! This command (1) may take a long time to complete, (2) downloads a big file (~700MB), and (3) performs at least one processor-intensive compilation (of Ruby). Once this command completes, you will have a running Ubuntu Linux VM (headless). **However, the fsnotify plugin will tie up the current terminal window, and you will need a second terminal window in the workspace folder to run additional commands.**
 
 ## 3. Testing the Environment
 
