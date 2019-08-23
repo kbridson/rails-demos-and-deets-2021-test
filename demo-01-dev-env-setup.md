@@ -12,8 +12,6 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
 ## 1. Installing Software
 
-<p><a class="btn btn-primary" href="#">▶️ Play</a></p>
-
 1. Register an account at <https://github.com/> (if you don't already have one). Git and GitHub will be used for version control and collaboration in these demos. Be sure not to lose your GitHub username and password.
 
 1. Install the Visual Studio Code (VS Code) editor (<https://code.visualstudio.com/>). VS Code will be the code editor of choice for these demos. Use the latest stable version. Additionally, within VS Code, install the following extensions:
