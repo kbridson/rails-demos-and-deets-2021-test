@@ -41,7 +41,7 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
 1. Create a folder `workspace`. This folder is where all the Rails projects in these demos will go.
 
-1. Download the file [Vagrantfile](/resources/Vagrantfile) and the file [provisioner.sh](/resources/provisioner.sh), and save them in your `workspace` folder. Make sure that no file suffix (e.g., ".txt") gets added to the Vagrantfile when saving it. For example, one way to download it would be to right-click on the hyperlink and select "Save Link As..." (or similar) from the context menu.
+1. Download the file [Vagrantfile]({{ site.baseurl }}/resources/Vagrantfile) and the file [provisioner.sh]({{ site.baseurl }}/resources/provisioner.sh), and save them in your `workspace` folder. Make sure that no file suffix (e.g., ".txt") gets added to the Vagrantfile when saving it. For example, one way to download it would be to right-click on the hyperlink and select "Save Link As..." (or similar) from the context menu.
 
 1. Launch a terminal. In Windows, it involves launching _Git Bash_. In MacOS and Linux, this involves launching the _Terminal_ application.
 
