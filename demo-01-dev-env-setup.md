@@ -14,17 +14,19 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
 1. Register an account at <https://github.com/> (if you don't already have one). Git and GitHub will be used for version control and collaboration in these demos. Be sure not to lose your GitHub username and password.
 
-1. Install the Visual Studio Code (VS Code) editor (<https://code.visualstudio.com/>). VS Code will be the code editor of choice for these demos. Use the latest stable version. Additionally, within VS Code, install the following extensions:
-    - `Rails`
-    - `Ruby`
-    - `erb`
-    - `markdownlint`
-    - `Markdown PDF`
-    - `Code Spell Checker`
+1. Install the Visual Studio Code (VS Code) editor (<https://code.visualstudio.com/>). VS Code will be the code editor of choice for these demos. Use the latest stable version.
 
-1. Install a Bash shell with SSH client (if you don't already have it). Windows users, download and install the _Git for the Windows_ platform (<http://git-scm.com/download/win>), which comes with a Bash shell and SSH client. MacOS users have this software by default (see the _Terminal_ app). Debian/Ubuntu Linux users have the shell, but may need to install the "openssh-client" package (if it’s not already installed by default).
+1. Additionally, within VS Code, install the following extensions: `Rails`, `Ruby`, `erb`, `markdownlint`, `Markdown PDF`, and `Code Spell Checker`.
 
-1. Download and install VirtualBox (<https://www.virtualbox.org/>). I will be using this software to run an Ubuntu Linux virtual machine. This VM will house the majority of the Rails development tools. In essence, the development environment in these demos will mainly be on Ubuntu Linux (with some graphical software running in the host OS). Note: Your computer must support virtualization in order for VirtualBox to work.
+1. Install a Bash shell with SSH client (if you don't already have it).
+
+   - Windows users: download and install the _Git for the Windows_ platform (<http://git-scm.com/download/win>), which comes with a Bash shell and SSH client.
+
+   - MacOS users: you have this software by default (see the _Terminal_ app).
+
+   - Debian/Ubuntu Linux users: you have the shell, but may need to install the "openssh-client" package (if it’s not already installed by default).
+
+1. Download and install VirtualBox (<https://www.virtualbox.org/>). I will be using this software to run an Ubuntu Linux virtual machine. This VM will house most of the Rails development tools (with a few graphical tools running in the host OS). Note: Your computer must support virtualization in order for VirtualBox to work.
     <span><a class="text-muted" data-toggle="collapse" href="#moreDetails" role="button" aria-expanded="false" aria-controls="moreDetails">More details...</a></span>
 
     <div class="collapse" id="moreDetails">
@@ -45,7 +47,14 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
 1. Launch a terminal. In Windows, it involves launching _Git Bash_. In MacOS and Linux, this involves launching the _Terminal_ application.
 
-1. In the terminal, change directory (using the `cd` command) to your `workspace` folder. Note: I will be using the command-line a lot in the demos. I will generally assume that readers are familiar with the basic file management and navigation commands (`cd`, `rm`, `cp`, `mv`, etc.). If you're new to the command-line, I highly suggest you spend some time on your own learning about it—for example, Codecademy has a course: <https://www.codecademy.com/learn/learn-the-command-line>.
+1. In the terminal, change directory (using the `cd` command) to your `workspace` folder. Note: I will be using the command-line a lot in the demos. I will generally assume that readers are familiar with the basic file management and navigation commands (`cd`, `rm`, `cp`, `mv`, etc.).
+    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails" role="button" aria-expanded="false" aria-controls="moreDetails">More details...</a></span>
+
+    <div class="collapse" id="moreDetails">
+        <p class="text-muted mr-3 ml-3">
+             If you're new to the command-line, I highly suggest you spend some time on your own learning about it—for example, Codecademy has <a href="https://www.codecademy.com/learn/learn-the-command-line" target="_">a course</a>.
+        </p>
+    </div>
 
 1. Install two Vagrant plugins by running the commands `vagrant plugin install vagrant-vbguest` and `vagrant plugin install vagrant-fsnotify`. [vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest) will ensure your VirtualBox Guest Additions versions are kept in sync between the host and the VM. [vagrant-fsnotify](https://github.com/adrienkohlbecker/vagrant-fsnotify) enhances VirtualBox shared folders by forwarding filesystem change notifications to your Vagrant VM.
 
