@@ -1,4 +1,3 @@
-# COMP 4081 - Software Engineering
+# Web Development with Ruby on Rails Tutorial 2019
 
-- Semester: Fall 2019
-- URL: <https://memphis-cs.github.io/comp-4081/>
+- URL: <https://memphis-cs.github.io/rails-tutorial-2018/>
