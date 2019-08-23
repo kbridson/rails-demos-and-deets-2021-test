@@ -21,7 +21,7 @@ baseurl: "/rails-tutorial-2019" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: scottdflem
 github_username:  sdflem
-copyright_notice: '&copy; <a href="https://sdflem.github.io/">Scott Fleming</a> 2019'
+copyright_notice: '&copy; <a href="/about/">The Authors</a> 2019'
 
 # Build settings
 markdown: kramdown

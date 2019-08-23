@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Demo 1 Development Environment Setup
+title: 'Demo 1: Development Environment Setup'
 permalink: /demo-01-dev-env-setup/
 ---
 
