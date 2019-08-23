@@ -1,0 +1,28 @@
+/*
+ * U of M Colors
+ * Blue: #003087
+ * Gray: #94948f
+ * Secondary Blue: #41b6e6
+ */
+
+.jumbotron {
+    color: #FFF;
+    background-color: #003087;
+    background-image: url('../img/jumbotron.jpg');
+}
+
+footer {
+    font-size: 0.75rem;
+}
+
+/* CUSTOMIZE THE NAVBAR
+-------------------------------------------------- */
+
+.navbar-brand {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  
+  .navbar {
+    padding: 0 1rem;
+  }

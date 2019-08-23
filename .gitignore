@@ -1,0 +1,14 @@
+_site
+.sass-cache
+.jekyll-metadata
+
+#
+# OSX Files
+#
+.DS_Store
+
+
+#
+# Office Temporary Files
+#
+~$*

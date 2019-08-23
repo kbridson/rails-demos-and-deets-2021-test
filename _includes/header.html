@@ -1,0 +1,22 @@
+{% assign home_url = '/' %}
+{% assign about_url = '/about/' %}
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="{{ site.baseurl }}{{ home_url }}"><img src="{{ site.baseurl }}/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item {% if home_url == page.url %}active{% endif %}">
+                    <a class="nav-link" href="{{ site.baseurl }}{{ home_url }}">Home</a>
+                </li>
+                <li class="nav-item {% if about_url == page.url %}active{% endif %}">
+                    <a class="nav-link" href="{{ site.baseurl }}{{ about_url }}">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>

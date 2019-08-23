@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        {% include head-meta.html %}
+        {% include head-css.html %}
+    </head>
+    <body>
+        {% include header.html %}
+
+        <main role="main">
+
+            <div class="container mt-4">
+                {{ content }}
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                {{ site.copyright_notice }}
+            </p>
+        </footer>
+
+        {% include bootstrap-js.html %}
+    </body>
+</html>
