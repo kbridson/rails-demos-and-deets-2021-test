@@ -16,17 +16,7 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
 1. Install the _Visual Studio Code_ (VS Code) editor (<https://code.visualstudio.com/>). VS Code will be the code editor of choice for these demos. Use the latest stable version.
 
-1. Additionally, within VS Code, install the following extensions:
-
-   - `Code Spell Checker`
-   
-   - `Markdown PDF`
-   
-   - `Markdown Preview Github Styling`
-   
-   - `markdownlint`
-   
-   - `Simple Ruby ERB`
+1. Additionally, within VS Code, install the following five extensions: (1) _Code Spell Checker_, (2) _Markdown PDF_, (3) _Markdown Preview Github Styling_, (4) _markdownlint_, and (5) _Simple Ruby ERB_.
 
 1. Install a Bash shell with SSH client (if you don't already have it).
 
