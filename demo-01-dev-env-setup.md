@@ -26,7 +26,7 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
    - Debian/Ubuntu Linux users: you have the shell, but may need to install the "openssh-client" package (if it’s not already installed by default).
 
-1. Download and install _VirtualBox_ (<https://www.virtualbox.org/>). I will be using this software to run an Ubuntu Linux virtual machine. This VM will house most of the Rails development tools (with a few graphical tools running in the host OS). Note: Your computer must support virtualization in order for VirtualBox to work.
+1. Download and install _VirtualBox_ version 6.0.4 (<https://www.virtualbox.org/wiki/Download_Old_Builds_6_0>). I will be using this software to run an Ubuntu Linux virtual machine that will house most of the Rails development tools (with only a few graphical tools running in the host OS). As of the time of writing, there is [a VirtualBox bug](https://www.virtualbox.org/ticket/18569) in releases newer than 6.0.4 that breaks Git, among other things, in the VM's shared folder. Note: Your computer must support virtualization in order for VirtualBox to work.
     <span><a class="text-muted" data-toggle="collapse" href="#moreDetails" role="button" aria-expanded="false" aria-controls="moreDetails">More details...</a></span>
 
     <div class="collapse" id="moreDetails">
@@ -37,7 +37,7 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
 1. Download and install _Vagrant_ (<https://www.vagrantup.com/>). Vagrant is used to package, distribute, and run custom-configured VMs. I have prepared a Vagrant "box" as you will see below.
 
-1. Download and install _pgAdmin_ 4 (<https://www.pgadmin.org/download/>), a database viewer and administration tool for PostgreSQL databases. This application will allow you to view the database on your VM from a browser on your host.
+1. Download and install _pgAdmin_ 4 (<https://www.pgadmin.org/download/>), a database viewer and administration tool for PostgreSQL databases. This application will allow you to view the database running on your VM from a web browser on your host.
 
 ## 2. Setting Up Workspace and Initializing VM
 
@@ -56,54 +56,146 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
         </p>
     </div>
 
-1. Install two Vagrant plugins by running the commands `vagrant plugin install vagrant-vbguest` and `vagrant plugin install vagrant-fsnotify`. [vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest) will ensure your VirtualBox Guest Additions versions are kept in sync between the host and the VM. [vagrant-fsnotify](https://github.com/adrienkohlbecker/vagrant-fsnotify) enhances VirtualBox shared folders by forwarding filesystem change notifications to your Vagrant VM.
+1. Install two Vagrant plugins by running the following commands:
 
-1. Run the command `vagrant up` to download and initialize the Vagrant box specified in the Vagrantfile you downloaded. BEWARE! This command (1) may take a long time to complete, (2) downloads a big file (~700MB), and (3) performs at least one processor-intensive compilation (of Ruby). Once this command completes, you will have a running Ubuntu Linux VM (headless). **However, the fsnotify plugin will tie up the current terminal window, and you will need a second terminal window in the workspace folder to run additional commands.**
+    `vagrant plugin install vagrant-vbguest`
+
+    `vagrant plugin install vagrant-fsnotify`
+
+    [vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest) will ensure your VirtualBox Guest Additions versions are kept in sync between the host and the VM. [vagrant-fsnotify](https://github.com/adrienkohlbecker/vagrant-fsnotify) enhances VirtualBox shared folders by forwarding filesystem change notifications to your Vagrant VM.
+
+1. Download and initialize the Vagrant box specified in the Vagrantfile you downloaded by running the following command:
+
+    `vagrant up`
+
+    BEWARE! This command (1) may take a long time to complete, (2) downloads a big file (~700MB), and (3) performs at least one processor-intensive compilation (of Ruby). Once this command completes, you will have a running Ubuntu Linux VM (headless). The last line of output from this command should look something like the following:
+
+    `default: ==> default: fsnotify: Watching (some system-specific file path)`
+
+    The fsnotify plugin will tie up the current terminal window from here on out.
 
 ## 3. Testing the Environment
 
-1. From a second terminal window in the workspace folder, run the command `vagrant ssh` to SSH into the Linux VM. A command prompt should appear that looks like this: `[vagrant@ubuntu1804:~]` followed by a `$` prompt. If you use the `ls -l` command, you will see a list of files in the current directory. Among them should be a `workspace` folder (actually a symbolic link to the folder `/vagrant`).
+1. Open a second terminal window (or tab) and change directory (using the `cd` command) to the `workspace` folder to continue running additional commands below.
+
+1. To SSH into the Linux VM, run the following command:
+
+    `vagrant ssh`
+
+    A command prompt should appear that looks like this: `[vagrant@ubuntu1804:~]` followed by a `$` prompt. If you use the `ls -l` command, you will see a list of files in the current directory. Among them should be a `workspace` folder (actually a symbolic link to the folder `/vagrant`).
 
 1. Change directory (using the `cd` command) to the `workspace` folder. Note that this folder is synced with the `workspace` folder on the host OS. That is, changes made in the folder on one side (VM or host OS) are instantly visible on the other side.
 
-1. Enter the command `git clone https://github.com/kbridson/rails6demo.git` to use Git to download an example project. A `rails6demo` folder should be visible inside the `workspace` folder. Note that the `workspace` folder is synced with the host OS, so the `rails6demo` folder should also be visible in the host OS's file explorer. The main reason for syncing this folder is that it will enable the use a GUI code editor (VS Code) to work on the code files.
+1. Use Git to download an example project by entering the following command:
 
-1. Change directory (using the `cd` command) to the `rails6demo` folder. When you run this command, RVM should print a message, which lets you know it's working.
+    `git clone https://github.com/memphis-cs/rails-6-test-app.git`
+
+    A `rails-6-test-app` folder should be visible inside the `workspace` folder. Note that the `workspace` folder is synced with the host OS, so the `rails-6-test-app` folder should also be visible in the host OS's file explorer. The main reason for syncing this folder is that it will enable the use a GUI code editor (VS Code) to work on the code files.
+
+1. Change directory (using the `cd` command) to the `rails-6-test-app` folder. When you run this command, RVM should print a message like the following, which lets you know it's working:
+
+    `ruby-2.6.3 - #gemset created /home/vagrant/.rvm/gems/ruby-2.6.3@quiz-maker`  
+    `ruby-2.6.3 - #generating quiz-maker wrappers.........`
+
     <span><a class="text-muted" data-toggle="collapse" href="#moreDetails" role="button" aria-expanded="false" aria-controls="moreDetails">More details...</a></span>
 
     <div class="collapse" id="moreDetails">
         <p class="text-muted mr-3 ml-3">
-            If no such message appears, then something is wrong. A common problem is that the terminal application is not configured to run as a "login" shell. This issue seems to come up the most for Linux users, or users of more exotic terminal applications. Typically, the solution can be found in the terminal application's settings.
+            If no such messages appears, then something is wrong. A common problem is that the terminal application is not configured to run as a "login" shell. This issue seems to come up the most for Linux users, or users of more exotic terminal applications. Typically, the solution can be found in the terminal application's settings.
         </p>
     </div>
 
-1. Run these four commands to set up the web app project (i.e., prepare it to run). The first two commands may take a while to complete because they download and install a lot of content.
-    - `bundle install`
-    - `yarn install`
-      - _For Windows users, if attempting to run `yarn install` throws symlink errors, you will need to complete some additional steps here._
-      1. _Enter the command `exit` to log out of the VM._
-      1. _Switch to the first terminal window and press Ctrl-C to stop the fsnotify plugin._
-      1. _Enter the command `vagrant halt` to shutdown the VM. You will now be able to type commands on the host._
-      1. _Open a command prompt with administrative privileges inside the workspace folder and enter the command `fsutil behavior set SymlinkEvaluation L2L:1 R2R:1 L2R:1 R2L:1`. Verify that has completed correctly with `fsutil behavior query symlinkevaluation` (all should be valid)._
-      1. _Restart your VM and attempt to run `yarn install` again. It should complete with no errors._
-    - `rails db:reset`
+1. Download and install the gems (Ruby libraries) for this Rails project by entering the following command:
 
-1. The project comes with some automated tests. Run the command `rails test` to execute the tests. You should see that all the tests passed.
+    `bundle install`
 
-1. Start up the Rails web app server with the command `rails s -b 0.0.0.0` (those are zeros). You should see that the server has started without error. Note that this command will not "return" like other commands—that is, the command prompt will not reappear until you halt the server process (covered below).
+1. Download and install all the JavaScript dependencies for this Rails project by entering the following command:
 
-1. Now open the URL <http://localhost:3000> in a web browser.  You should see a "Welcome to Quiz Maker" web page with a list of quizzes.
+    `yarn install`
 
-1. Start pgAdmin 4. In the left sidebar, go to Servers > Vagrant > Databases > default_development > Schemas > public > Tables. Right click on `quizzes` and go to View/Edit Data > All Rows. You should see the Data Output panel in the bottom right corner of the screen showing information about all the quizzes in the application.
+    Windows users: if attempting to run `yarn install` throws symlink errors, you will need to complete some additional steps here.
+    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails" role="button" aria-expanded="false" aria-controls="moreDetails">More details...</a></span>
 
-1. To further test out the web app, log in and create a new quiz. Follow the `Sign In` link at the top right and log in with the email `alice@email.com` and the password `password`. Click the `Create New Quiz` link and enter a title and description for a quiz. In your pgAdmin browser window, you can see the new quiz in the database by hitting the refresh button (F5 or the lightning bolt button). You can then add questions to the quiz by going to `Edit Quiz` link or return to the list of quizzes by clicking `Quizzes` at the top of the page.
+    <div class="collapse" id="moreDetails">
+    <p class="text-muted mr-3 ml-3">
+    <ol class="text-muted">
+    <li>Enter the command <code>exit</code> to log out of the VM.</li>
+    <li>Switch to the first terminal window and press Ctrl-C to stop the fsnotify plugin.</li>
+    <li>Enter the command <code>vagrant halt</code> to shutdown the VM. You will now be able to type commands on the host.</li>
+    <li>Open a command prompt with administrative privileges inside the workspace folder and enter the command:<br>
+    <code>fsutil behavior set SymlinkEvaluation L2L:1 R2R:1 L2R:1 R2L:1</code><br>
+    Verify that has completed correctly with:<br>
+    <code>fsutil behavior query symlinkevaluation</code><br>
+    (all should be valid).</li>
+    <li>Restart your VM and attempt to run <code>yarn install</code> again. It should complete with no errors.</li>
+    </ol>
+    </p>
+    </div>
+
+1. Wipe and reset the database to be used by this Rails app by entering the following command:
+
+    `rails db:reset`
+
+1. The project comes with some automated tests. Run them by entering the following command:
+
+    `rails test`
+
+    You should see that all the tests passed.
+
+1. Start up the Rails web app server by entering the following command (those are zeros):
+
+    `rails s -b 0.0.0.0`
+
+    You should see that the server has started without error. Note that this command will not "return" like other commands—that is, the command prompt will not reappear until you halt the server process (covered below).
+
+1. Now open the URL <http://localhost:3000> in a web browser on your host OS.  You should see a "Welcome to Quiz Maker" web page with a list of quizzes.
+
+1. Verify that the Postgres DBMS running on the server is accessible and that the app's database is configured as expected.
+
+    1. Launch the pgAdmin 4 app on your host OS. This will open a pgAdmin webpage in your web browser.
+
+    1. Create a password for pgAdmin when prompted. Don't forget it!
+
+    1. Add a Server with the following configuration:
+
+        - Name: `Vagrant`
+
+        - Hostname/address: `localhost`
+
+        - Port: `5432`
+
+        - User: `vagrant`
+
+        - Password: `password1`
+
+    1. In the left sidebar, go navigate as follows:
+
+        `Servers` > `Vagrant` > `Databases` > `default_development` > `Schemas` > `public` > `Tables`
+
+        Right click on `quizzes` and go to `View/Edit Data` > `All Rows`.
+
+        You should see the Data Output panel in the bottom right corner of the screen showing information about all the quizzes in the application.
+
+1. Further test out the web app by logging in and creating a quiz:
+
+    1. Follow the `Sign In` link at the top right and log in with the email `alice@email.com` and the password `password`. 
+
+    1. Click the `Create New Quiz` link and enter a title and description for a quiz.
+
+    1. In your pgAdmin browser window, you can see the new quiz in the database by hitting the refresh button (F5 or the lightning bolt button).
+
+    1. Add questions to the quiz by clicking to `Edit Quiz` link.
 
 ## 4. Shutting Everything Down
 
 To shut down everything:
 
-1. Back in the terminal, type Ctrl-C to kill the Rails server (that is, press and hold the Ctrl key and then click the 'C' key).
+1. In the terminal, type Ctrl-C to halt the Rails server (that is, press and hold the Ctrl key and then click the 'C' key).
+
 1. Enter the command `exit` to logout of the VM.
+
 1. Enter the command `vagrant halt` to shut down the VM.
+
+1. In the other terminal, type Ctrl-C to halt fsnotify.
 
 To restart the VM, run `vagrant up` to start it up (should be much faster than last time) and run `vagrant ssh` in a new terminal to log in again.
