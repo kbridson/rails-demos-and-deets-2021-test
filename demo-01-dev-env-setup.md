@@ -192,10 +192,10 @@ To shut down everything:
 
 1. In the terminal, type Ctrl-C to halt the Rails server (that is, press and hold the Ctrl key and then click the 'C' key).
 
-1. Enter the command `exit` to logout of the VM.
-
-1. Enter the command `vagrant halt` to shut down the VM.
+1. Enter the command `exit` to logout of the VM (and optionally close the terminal window/tab).
 
 1. In the other terminal, type Ctrl-C to halt fsnotify.
 
-To restart the VM, run `vagrant up` to start it up (should be much faster than last time) and run `vagrant ssh` in a new terminal to log in again.
+1. Enter the command `vagrant halt` to shut down the VM (and optionally close the terminal window/tab).
+
+To restart the VM, run `vagrant up` in the `workspace` folder on the host OS (should be much faster than last time), and run `vagrant ssh` in a new terminal window/tab to log in again.
