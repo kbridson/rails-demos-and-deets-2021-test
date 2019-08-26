@@ -27,9 +27,9 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
    - Debian/Ubuntu Linux users: you have the shell, but may need to install the "openssh-client" package (if it’s not already installed by default).
 
 1. Download and install _VirtualBox_ version 6.0.4 (<https://www.virtualbox.org/wiki/Download_Old_Builds_6_0>). I will be using this software to run an Ubuntu Linux virtual machine that will house most of the Rails development tools (with only a few graphical tools running in the host OS). As of the time of writing, there is [a VirtualBox bug](https://www.virtualbox.org/ticket/18569) in releases newer than 6.0.4 that breaks Git, among other things, in the VM's shared folder. Note: Your computer must support virtualization in order for VirtualBox to work.
-    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails" role="button" aria-expanded="false" aria-controls="moreDetails">More details...</a></span>
+    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails1-5" role="button" aria-expanded="false" aria-controls="moreDetails1-5">More details...</a></span>
 
-    <div class="collapse" id="moreDetails">
+    <div class="collapse" id="moreDetails1-5">
         <p class="text-muted mr-3 ml-3">
             Even if your computer does provide virtualization support you may need to enable in your system BIOS. For Windows users, VirtualBox will not work if you have Hyper-V enabled, so you will need to disable Hyper-V to complete the next steps or see the instructor for potential workarounds.
         </p>
@@ -48,9 +48,9 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 1. Launch a terminal. In Windows, it involves launching _Git Bash_. In MacOS and Linux, this involves launching a terminal application.
 
 1. In the terminal, change directory (using the `cd` command) to your `workspace` folder. Note: I will be using the command-line a lot in the demos. I will generally assume that readers are familiar with the basic file management and navigation commands (`cd`, `rm`, `cp`, `mv`, etc.).
-    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails" role="button" aria-expanded="false" aria-controls="moreDetails">More details...</a></span>
+    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails2-4" role="button" aria-expanded="false" aria-controls="moreDetails2-4">More details...</a></span>
 
-    <div class="collapse" id="moreDetails">
+    <div class="collapse" id="moreDetails2-4">
         <p class="text-muted mr-3 ml-3">
              If you're new to the command-line, I highly suggest you spend some time on your own learning about it—for example, Codecademy has <a href="https://www.codecademy.com/learn/learn-the-command-line" target="_">a course</a>.
         </p>
@@ -97,9 +97,9 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
     `ruby-2.6.3 - #gemset created /home/vagrant/.rvm/gems/ruby-2.6.3@quiz-maker`  
     `ruby-2.6.3 - #generating quiz-maker wrappers.........`
 
-    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails" role="button" aria-expanded="false" aria-controls="moreDetails">More details...</a></span>
+    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails3-5" role="button" aria-expanded="false" aria-controls="moreDetails3-5">More details...</a></span>
 
-    <div class="collapse" id="moreDetails">
+    <div class="collapse" id="moreDetails3-5">
         <p class="text-muted mr-3 ml-3">
             If no such messages appears, then something is wrong. A common problem is that the terminal application is not configured to run as a "login" shell. This issue seems to come up the most for Linux users, or users of more exotic terminal applications. Typically, the solution can be found in the terminal application's settings.
         </p>
@@ -114,9 +114,9 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
     `yarn install`
 
     Windows users: if attempting to run `yarn install` throws symlink errors, you will need to complete some additional steps here.
-    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails" role="button" aria-expanded="false" aria-controls="moreDetails">More details...</a></span>
+    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails3-7" role="button" aria-expanded="false" aria-controls="moreDetails3-7">More details...</a></span>
 
-    <div class="collapse" id="moreDetails">
+    <div class="collapse" id="moreDetails3-7">
     <p class="text-muted mr-3 ml-3">
     <ol class="text-muted">
     <li>Enter the command <code>exit</code> to log out of the VM.</li>
