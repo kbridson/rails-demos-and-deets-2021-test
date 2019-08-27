@@ -20,7 +20,7 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
 1. Install a Bash shell with SSH client (if you don't already have it).
 
-   - Windows users: download and install the _Git for the Windows_ platform (<http://git-scm.com/download/win>), which comes with a Bash shell and SSH client.
+   - Windows users: download and install the _Git for the Windows_ platform (<http://git-scm.com/download/win>), which comes with a Bash shell and SSH client. **Important!** During installation, you must check the "Enable symbolic links" checkbox.
 
    - MacOS users: you have this software by default (see the _Terminal_ app).
 
@@ -30,9 +30,9 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
     <span><a class="text-muted" data-toggle="collapse" href="#moreDetails1-5" role="button" aria-expanded="false" aria-controls="moreDetails1-5">More details...</a></span>
 
     <div class="collapse" id="moreDetails1-5">
-        <p class="text-muted mr-3 ml-3">
-            Even if your computer does provide virtualization support you may need to enable in your system BIOS. For Windows users, VirtualBox will not work if you have Hyper-V enabled, so you will need to disable Hyper-V to complete the next steps or see the instructor for potential workarounds.
-        </p>
+    <p class="text-muted mr-3 ml-3">
+    Even if your computer does provide virtualization support you may need to enable in your system BIOS. For Windows users, VirtualBox will not work if you have Hyper-V enabled, so you will need to disable Hyper-V to complete the next steps or see the instructor for potential workarounds.
+    </p>
     </div>
 
 1. Download and install _Vagrant_ (<https://www.vagrantup.com/>). Vagrant is used to package, distribute, and run custom-configured VMs. I have prepared a Vagrant "box" as you will see below.
@@ -178,7 +178,7 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
 1. Further test out the web app by logging in and creating a quiz:
 
-    1. Follow the `Sign In` link at the top right and log in with the email `alice@email.com` and the password `password`. 
+    1. Follow the `Sign In` link at the top right and log in with the email `alice@email.com` and the password `password`.
 
     1. Click the `Create New Quiz` link and enter a title and description for a quiz.
 
