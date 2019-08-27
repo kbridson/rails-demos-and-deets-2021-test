@@ -20,7 +20,7 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
 1. Install a Bash shell with SSH client (if you don't already have it).
 
-   - Windows users: download and install the _Git for the Windows_ platform (<http://git-scm.com/download/win>), which comes with a Bash shell and SSH client. **Important!** During installation, you must check the "Enable symbolic links" checkbox.
+   - Windows users: download and install _Git for Windows_ (<http://git-scm.com/download/win>), which comes with a Bash shell and SSH client. **Important!** During installation, you must check the "Enable symbolic links" checkbox. If you accidentally failed to do so, you must uninstall and then reinstall Git for Windows, this time checking the box.
 
    - MacOS users: you have this software by default (see the _Terminal_ app).
 
