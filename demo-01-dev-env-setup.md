@@ -20,19 +20,19 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
 1. Install a Bash shell with SSH client (if you don't already have it).
 
-   - Windows users: download and install the _Git for the Windows_ platform (<http://git-scm.com/download/win>), which comes with a Bash shell and SSH client.
+   - Windows users: download and install _Git for Windows_ (<http://git-scm.com/download/win>), which comes with a Bash shell and SSH client. **Important!** During installation, you must check the "Enable symbolic links" checkbox. If you accidentally failed to do so, you must uninstall and then reinstall Git for Windows, this time checking the box.
 
    - MacOS users: you have this software by default (see the _Terminal_ app).
 
    - Debian/Ubuntu Linux users: you have the shell, but may need to install the "openssh-client" package (if it’s not already installed by default).
 
 1. Download and install _VirtualBox_ version 6.0.4 (<https://www.virtualbox.org/wiki/Download_Old_Builds_6_0>). I will be using this software to run an Ubuntu Linux virtual machine that will house most of the Rails development tools (with only a few graphical tools running in the host OS). As of the time of writing, there is [a VirtualBox bug](https://www.virtualbox.org/ticket/18569) in releases newer than 6.0.4 that breaks Git, among other things, in the VM's shared folder. Note: Your computer must support virtualization in order for VirtualBox to work.
-    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails" role="button" aria-expanded="false" aria-controls="moreDetails">More details...</a></span>
+    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails1-5" role="button" aria-expanded="false" aria-controls="moreDetails1-5">More details...</a></span>
 
-    <div class="collapse" id="moreDetails">
-        <p class="text-muted mr-3 ml-3">
-            Even if your computer does provide virtualization support you may need to enable in your system BIOS. For Windows users, VirtualBox will not work if you have Hyper-V enabled, so you will need to disable Hyper-V to complete the next steps or see the instructor for potential workarounds.
-        </p>
+    <div class="collapse" id="moreDetails1-5">
+    <p class="text-muted mr-3 ml-3">
+    Even if your computer does provide virtualization support you may need to enable in your system BIOS. For Windows users, VirtualBox will not work if you have Hyper-V enabled, so you will need to disable Hyper-V to complete the next steps or see the instructor for potential workarounds.
+    </p>
     </div>
 
 1. Download and install _Vagrant_ (<https://www.vagrantup.com/>). Vagrant is used to package, distribute, and run custom-configured VMs. I have prepared a Vagrant "box" as you will see below.
@@ -48,9 +48,9 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 1. Launch a terminal. In Windows, it involves launching _Git Bash_. In MacOS and Linux, this involves launching a terminal application.
 
 1. In the terminal, change directory (using the `cd` command) to your `workspace` folder. Note: I will be using the command-line a lot in the demos. I will generally assume that readers are familiar with the basic file management and navigation commands (`cd`, `rm`, `cp`, `mv`, etc.).
-    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails" role="button" aria-expanded="false" aria-controls="moreDetails">More details...</a></span>
+    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails2-4" role="button" aria-expanded="false" aria-controls="moreDetails2-4">More details...</a></span>
 
-    <div class="collapse" id="moreDetails">
+    <div class="collapse" id="moreDetails2-4">
         <p class="text-muted mr-3 ml-3">
              If you're new to the command-line, I highly suggest you spend some time on your own learning about it—for example, Codecademy has <a href="https://www.codecademy.com/learn/learn-the-command-line" target="_">a course</a>.
         </p>
@@ -97,9 +97,9 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
     `ruby-2.6.3 - #gemset created /home/vagrant/.rvm/gems/ruby-2.6.3@quiz-maker`  
     `ruby-2.6.3 - #generating quiz-maker wrappers.........`
 
-    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails" role="button" aria-expanded="false" aria-controls="moreDetails">More details...</a></span>
+    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails3-5" role="button" aria-expanded="false" aria-controls="moreDetails3-5">More details...</a></span>
 
-    <div class="collapse" id="moreDetails">
+    <div class="collapse" id="moreDetails3-5">
         <p class="text-muted mr-3 ml-3">
             If no such messages appears, then something is wrong. A common problem is that the terminal application is not configured to run as a "login" shell. This issue seems to come up the most for Linux users, or users of more exotic terminal applications. Typically, the solution can be found in the terminal application's settings.
         </p>
@@ -114,9 +114,9 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
     `yarn install`
 
     Windows users: if attempting to run `yarn install` throws symlink errors, you will need to complete some additional steps here.
-    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails" role="button" aria-expanded="false" aria-controls="moreDetails">More details...</a></span>
+    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails3-7" role="button" aria-expanded="false" aria-controls="moreDetails3-7">More details...</a></span>
 
-    <div class="collapse" id="moreDetails">
+    <div class="collapse" id="moreDetails3-7">
     <p class="text-muted mr-3 ml-3">
     <ol class="text-muted">
     <li>Enter the command <code>exit</code> to log out of the VM.</li>
@@ -178,7 +178,7 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
 1. Further test out the web app by logging in and creating a quiz:
 
-    1. Follow the `Sign In` link at the top right and log in with the email `alice@email.com` and the password `password`. 
+    1. Follow the `Sign In` link at the top right and log in with the email `alice@email.com` and the password `password`.
 
     1. Click the `Create New Quiz` link and enter a title and description for a quiz.
 
