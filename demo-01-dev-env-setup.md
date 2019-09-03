@@ -10,7 +10,7 @@ In this demonstration, I will show you how to setup the development environment 
 
 Before I jump into the demo, I'd like to clear up a little terminology. In these demos, I will be using a _virtual machine_ (VM). A VM is where one OS is run inside of another OS (rather than directly on a physical machine). The parent OS is called the _host OS_. For example, imagine you have a Windows computer—that'll be the host OS. You can use the VirtualBox software to install a Linux OS within the host Windows OS and to run a Linux VM as if it were a Windows program.
 
-## 1. Installing Software
+## 1. Installing Software on the Host OS
 
 1. Register an account at <https://github.com/> (if you don't already have one). Git and GitHub will be used for version control and collaboration in these demos. Be sure not to lose your GitHub username and password.
 
@@ -37,7 +37,25 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
 1. Download and install _Vagrant_ (<https://www.vagrantup.com/>). Vagrant is used to package, distribute, and run custom-configured VMs. I have prepared a Vagrant "box" as you will see below.
 
+1. Install two Vagrant plugins by launching a terminal and entering the following commands:
+
+    `vagrant plugin install vagrant-vbguest`
+
+    `vagrant plugin install vagrant-fsnotify`
+
+    [vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest) will ensure that your VirtualBox Guest Additions versions are kept in sync between the host and the VM.
+
+    [vagrant-fsnotify](https://github.com/adrienkohlbecker/vagrant-fsnotify) enhances VirtualBox shared folders by forwarding filesystem change notifications to your Vagrant VM. Later, when you're adding new code to your Rails web apps, this plugin will save you from having to restart the Rails development web server every time you make a change.
+
+    Confirm that the plugins were successfully installed by entering the following command:
+
+    `vagrant plugin list`
+
 1. Download and install _pgAdmin_ 4 (<https://www.pgadmin.org/download/>), a database viewer and administration tool for PostgreSQL databases. This application will allow you to view the database running on your VM from a web browser on your host.
+
+    Confirm that the install was successful by launching the pgAdmin 4 app on your host OS. A pgAdmin page should open in your web browser.
+
+    The first time you launch pgAdmin, you will be prompted to create a password. Don't forget it, because you will need it to run pgAdmin in the future!
 
 ## 2. Setting Up Workspace and Initializing VM
 
@@ -48,21 +66,13 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 1. Launch a terminal. In Windows, it involves launching _Git Bash_. In MacOS and Linux, this involves launching a terminal application.
 
 1. In the terminal, change directory (using the `cd` command) to your `workspace` folder. Note: I will be using the command-line a lot in the demos. I will generally assume that readers are familiar with the basic file management and navigation commands (`cd`, `rm`, `cp`, `mv`, etc.).
-    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails2-4" role="button" aria-expanded="false" aria-controls="moreDetails2-4">More details...</a></span>
+    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails2-4" role="button" aria-expanded="false" aria-controls="moreDetails2-4">If you're new to the command-line...</a></span>
 
     <div class="collapse" id="moreDetails2-4">
         <p class="text-muted mr-3 ml-3">
              If you're new to the command-line, I highly suggest you spend some time on your own learning about it—for example, Codecademy has <a href="https://www.codecademy.com/learn/learn-the-command-line" target="_">a course</a>.
         </p>
     </div>
-
-1. Install two Vagrant plugins by running the following commands:
-
-    `vagrant plugin install vagrant-vbguest`
-
-    `vagrant plugin install vagrant-fsnotify`
-
-    [vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest) will ensure your VirtualBox Guest Additions versions are kept in sync between the host and the VM. [vagrant-fsnotify](https://github.com/adrienkohlbecker/vagrant-fsnotify) enhances VirtualBox shared folders by forwarding filesystem change notifications to your Vagrant VM.
 
 1. Download and initialize the Vagrant box specified in the Vagrantfile you downloaded by running the following command:
 
@@ -74,11 +84,13 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
     The fsnotify plugin will tie up the current terminal window from here on out.
 
-## 3. Testing the Environment
+    The VirtualBox application should show that a new VM was created and is running.
 
-1. Open a second terminal window (or tab) and change directory (using the `cd` command) to the `workspace` folder to continue running additional commands below.
+## 3. Testing a Rails App
 
-1. To SSH into the Linux VM, run the following command:
+1. To log into the Linux VM, open a second terminal window (or tab) and change directory (using the `cd` command) to the `workspace` folder.
+
+    Then, SSH into the VM by entering the following command:
 
     `vagrant ssh`
 
@@ -97,11 +109,11 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
     `ruby-2.6.3 - #gemset created /home/vagrant/.rvm/gems/ruby-2.6.3@quiz-maker`  
     `ruby-2.6.3 - #generating quiz-maker wrappers.........`
 
-    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails3-5" role="button" aria-expanded="false" aria-controls="moreDetails3-5">More details...</a></span>
+    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails3-5" role="button" aria-expanded="false" aria-controls="moreDetails3-5">If no messages appear...</a></span>
 
     <div class="collapse" id="moreDetails3-5">
         <p class="text-muted mr-3 ml-3">
-            If no such messages appears, then something is wrong. A common problem is that the terminal application is not configured to run as a "login" shell. This issue seems to come up the most for Linux users, or users of more exotic terminal applications. Typically, the solution can be found in the terminal application's settings.
+            If no messages from RVM appears, then something is wrong. A common problem is that the terminal application is not configured to run as a "login" shell. This issue seems to come up the most for Linux users, or users of more exotic terminal applications. Typically, the solution can be found in the terminal application's settings. Restarting the terminal application after fixing the setting will likely be necessary.
         </p>
     </div>
 
@@ -151,10 +163,6 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 1. Now open the URL <http://localhost:3000> in a web browser on your host OS.  You should see a "Welcome to Quiz Maker" web page with a list of quizzes.
 
 1. Verify that the Postgres DBMS running on the server is accessible and that the app's database is configured as expected.
-
-    1. Launch the pgAdmin 4 app on your host OS. This will open a pgAdmin webpage in your web browser.
-
-    1. Create a password for pgAdmin when prompted. Don't forget it!
 
     1. Add a Server with the following configuration:
 
