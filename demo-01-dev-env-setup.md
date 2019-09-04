@@ -116,7 +116,7 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
     A `rails-6-test-app` folder should be visible inside the `workspace` folder. Note that the `workspace` folder is synced with the host OS, so the `rails-6-test-app` folder should also be visible in the host OS's file explorer. The main reason for syncing this folder is that it will enable the use a GUI code editor (VS Code) to work on the code files.
 
-1. Change directory (using the `cd` command) to the `rails-6-test-app` folder. When you run this command, RVM should print a message like the following, which lets you know it's working:
+1. Change directory (using the `cd` command) to the `rails-6-test-app` folder. When you run this command, RVM should print a message like the following, which lets you know it's working. Note that this message appears only after the _first_ time you `cd` into the project.
 
     `ruby-2.6.3 - #gemset created /home/vagrant/.rvm/gems/ruby-2.6.3@quiz-maker`  
     `ruby-2.6.3 - #generating quiz-maker wrappers.........`
