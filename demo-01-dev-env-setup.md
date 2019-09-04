@@ -12,6 +12,10 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
 ## 1. Installing Software on the Host OS
 
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/l4Moh3_7IYM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
 1. Register an account at <https://github.com/> (if you don't already have one). Git and GitHub will be used for version control and collaboration in these demos. Be sure not to lose your GitHub username and password.
 
 1. Install the _Visual Studio Code_ (VS Code) editor (<https://code.visualstudio.com/>). VS Code will be the code editor of choice for these demos. Use the latest stable version.
@@ -59,6 +63,10 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 
 ## 2. Setting Up Workspace and Initializing VM
 
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/VGpxOg6e_8Y" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
 1. Create a folder `workspace`. This folder is where all the Rails projects in these demos will go.
 
 1. Download the file [Vagrantfile]({{ site.baseurl }}/resources/Vagrantfile) and the file [provisioner.sh]({{ site.baseurl }}/resources/provisioner.sh), and save them in your `workspace` folder. Make sure that no file suffix (e.g., ".txt") gets added to the Vagrantfile when saving it. For example, one way to download it would be to right-click on the hyperlink and select "Save Link As..." (or similar) from the context menu.
@@ -87,6 +95,10 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
     The VirtualBox application should show that a new VM was created and is running.
 
 ## 3. Testing a Rails App
+
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/g8xaHHwqQ0E" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 1. To log into the Linux VM, open a second terminal window (or tab) and change directory (using the `cd` command) to the `workspace` folder.
 
@@ -195,6 +207,10 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
     1. Add questions to the quiz by clicking to `Edit Quiz` link.
 
 ## 4. Shutting Everything Down
+
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/tZpPCU1ZIws" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 To shut down everything:
 
