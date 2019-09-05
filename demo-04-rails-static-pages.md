@@ -6,7 +6,7 @@ permalink: /demo-04-rails-static-pages/
 
 # Demo 4: Adding (Mostly Static) View Pages in Rails
 
-In this demonstration, I will show how to create mostly static webpages in Rails. I will continue to work on the _QuizMe_ project from the previous demos. Specifically, I will be making this [welcome page](/resources/welcome-page.png).
+In this demonstration, I will show how to create mostly static webpages in Rails. I will continue to work on the _QuizMe_ project from the previous demos. Specifically, I will be making this [welcome page]({{ site.baseurl }}/resources/welcome-page.png).
 
 This and all future demos will assume you are starting in the workspace folder on your virtual machine.
 
@@ -54,7 +54,7 @@ Based on the MVC model, there are three things needed to setup a page in a Rails
 
 ## 2. Adding Text HTML Content to a View
 
-While the automatically generated view is a useful starting point, we need to customize the HTML to display the information we want. Remember we want to have this [welcome page](/resources/welcome-page.png).
+While the automatically generated view is a useful starting point, we need to customize the HTML to display the information we want. Remember we want to have this [welcome page]({{ site.baseurl }}/resources/welcome-page.png).
 
 You can keep the Rails server running and reload the page to view changes as you make them.
 
@@ -95,7 +95,7 @@ You can keep the Rails server running and reload the page to view changes as you
 
 ## 3. Adding an Image to a View Using Rails Helpers
 
-Webpages with only unstyled text are not very nice to look at, so for now we will add a little color with a [quiz graphic](/resources/quiz-bubble.png). We will add additional style formatting to the app later.
+Webpages with only unstyled text are not very nice to look at, so for now we will add a little color with a [quiz graphic]({{ site.baseurl }}/resources/quiz-bubble.png). We will add additional style formatting to the app later.
 
 1. Start by downloading the image file using the link above and save it to the project's `app/assets/images` folder. All files in the assets directory get compiled by the server and require Rails helper methods to reference the correct file.
 
