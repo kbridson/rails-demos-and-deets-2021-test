@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-tutorial-2019/assets/img/favicon.png">
+
+<title>Demo 2: Setting Up a New Rails Project | Web Development with Ruby on Rails Tutorial 2019</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-tutorial-2019/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-tutorial-2019/"><img src="/rails-tutorial-2019/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-tutorial-2019/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-tutorial-2019/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="demo-2-setting-up-a-new-rails-project">Demo 2: Setting Up a New Rails Project</h1>
+
+<p>In this demonstration, I will show you how to create and setup a new Rails 6 project. The application I will create in these tutorials is QuizMe, a quizzing application similar to Quizlet but with multiple choice and fill in the blank questions.</p>
+
+<p>This and all future demos will assume you are starting in the workspace folder on your virtual machine.</p>
+
+<h2 id="1-create-a-new-project">1. Create a New Project</h2>
+
+<ol>
+  <li>
+    <p>Setup RVM to use ruby version 2.6.3 as the default version by running the command <code class="highlighter-rouge">rvm use ruby-2.6.3 --default</code>. You can check this has been done correctly by running the command <code class="highlighter-rouge">rvm list</code> and verifying <code class="highlighter-rouge">=*</code> appears next to the correct version.</p>
+  </li>
+  <li>
+    <p>Install the Rails 6 gem using the command <code class="highlighter-rouge">gem install rails</code>. You can verify the correct version was installed by running <code class="highlighter-rouge">rails -v</code> and verifying the output is <code class="highlighter-rouge">Rails 6.0.0</code>.</p>
+  </li>
+  <li>Create a new Rails project backed by a PostgreSQL database by entering the command <code class="highlighter-rouge">rails new quiz-me --database=postgresql --skip-coffee</code>.
+    <blockquote>
+      <p><em>By Rails convention the name of the project should be the name of the app in lowercase with words separated by dashes. SQLite is the default database for Rails Applications so the <code class="highlighter-rouge">--database</code> option is required to use PostgreSQL. Rails applications also default to automatically creating Coffeescript files, but the <code class="highlighter-rouge">--skip-coffee</code> option specifies plain Javascript files should be created instead.</em></p>
+    </blockquote>
+
+    <p>This command will take a while to complete and run several intermediate commands to complete the process.</p>
+
+    <blockquote>
+      <p><em>The project directory files are created first. Then, new gems are installed by running <code class="highlighter-rouge">bundle install</code>. Beware, some gems can take a long time to install (nokogiri, pg), but this is normal. One of the gems installed is webpacker which allows the app to serve all the project’s Javascript files in one large file, but it requires some installation setup which is the next thing to run as <code class="highlighter-rouge">rails webpacker:install</code>. Last the node packages will be installed by running <code class="highlighter-rouge">yarn install</code>. Many packages and their dependencies should be added. There will likely be a few dependency warnings which will later be resolved, but there should be no symlink errors.</em></p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Open the project folder in VS Code and familiarize yourself with the directory structure.</p>
+  </li>
+  <li>
+    <p>Change directory into the quiz-me folder (<code class="highlighter-rouge">cd quiz-me</code>) and create a new project-specific gemset by running the command <code class="highlighter-rouge">rvm use ruby-2.6.3@quiz-me --ruby-version --create</code>. This command will create two files, .ruby-gemset and .ruby-version, if they do not already exist to store the information for RVM.</p>
+  </li>
+  <li>
+    <p>Open the file <code class="highlighter-rouge">Gemfile</code> in the top level of the quiz-me folder. This file contains all the gems required for the project. Add the following code lines to the end of the file:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c1"># Disconnects all connections to PostgreSQL db when running rails db:reset</span>
+ <span class="n">gem</span> <span class="s1">'pgreset'</span><span class="p">,</span> <span class="s1">'~&gt; 0.1.1'</span>
+</code></pre></div>    </div>
+
+    <blockquote>
+      <p><em>Without the pgreset gem, you will get <code class="highlighter-rouge">PG::ObjectInUse</code> errors when attempting to drop the database while pgAdmin is running.</em></p>
+    </blockquote>
+  </li>
+  <li>Run the command <code class="highlighter-rouge">bundle install</code> to install all the gems into the new gemset.</li>
+</ol>
+
+<h2 id="1-creating-a-postgresql-database-for-a-new-rails-project">1. Creating a PostgreSQL Database for a New Rails Project</h2>
+
+<ol>
+  <li>
+    <p>Open the project folder in VS Code and familiarize yourself with the directory structure.</p>
+  </li>
+  <li>
+    <p>Open the file <code class="highlighter-rouge">config/database.yml</code>. This file contains the connection information for the project’s three PostgreSQL databases. Rails uses three environments (development, test and production), each with their own separate databases.</p>
+  </li>
+  <li>
+    <p>Create the three databases with the names specified in the database.yml file by running the following commands:</p>
+
+    <pre><code class="language-Powershell"> sudo -i -u postgres psql -c "CREATE DATABASE quiz_me_development OWNER vagrant;"
+ sudo -i -u postgres psql -c "CREATE DATABASE quiz_me_test OWNER vagrant;"
+ sudo -i -u postgres psql -c "CREATE DATABASE quiz_me_production OWNER vagrant;"
+</code></pre>
+
+    <blockquote>
+      <p><em>The above commands can be adapted for any project by following the below template and changing the values of the variable <code class="highlighter-rouge">PG_DB_ROOT</code> with the appropriate information for the project. The first two psql commands only need to be run once on a system:</em></p>
+    </blockquote>
+
+    <pre><code class="language-Powershell"> PG_USER="vagrant"
+ PG_PSWD="password1"
+ PG_DB_ROOT="default"
+
+ sudo -i -u postgres psql -c "CREATE USER $PG_USER WITH PASSWORD '$PG_PSWD';"
+ sudo -i -u postgres psql -c "ALTER USER $PG_USER WITH SUPERUSER CREATEDB;"
+ sudo -i -u postgres psql -c "CREATE DATABASE ${PG_DB_ROOT}_development OWNER $PG_USER;"
+ sudo -i -u postgres psql -c "CREATE DATABASE ${PG_DB_ROOT}_test OWNER $PG_USER;"
+ sudo -i -u postgres psql -c "CREATE DATABASE ${PG_DB_ROOT}_production OWNER $PG_USER;"
+</code></pre>
+  </li>
+  <li>Make the following changes to the database.yml file:
+    <ul>
+      <li>
+        <p>Add username and password to the default configuration to match the following:</p>
+
+        <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">default</span><span class="pi">:</span> <span class="nl">&amp;default</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">postgresql</span>
+  <span class="na">encoding</span><span class="pi">:</span> <span class="s">unicode</span>
+  <span class="c1"># For details on connection pooling, see Rails configuration guide</span>
+  <span class="c1"># https://guides.rubyonrails.org/configuring.html#database-pooling</span>
+  <span class="na">pool</span><span class="pi">:</span> <span class="s">&lt;%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %&gt;</span>
+  <span class="na">username</span><span class="pi">:</span> <span class="s">vagrant</span>
+  <span class="na">password</span><span class="pi">:</span> <span class="s">password1</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>Comment out the preset username and password on the production database to match the following:</p>
+
+        <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">production</span><span class="pi">:</span>
+  <span class="s">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*default</span>
+  <span class="na">database</span><span class="pi">:</span> <span class="s">default_production</span>
+  <span class="c1"># username: quiz_maker</span>
+  <span class="c1"># password: &lt;%= ENV['QUIZ_MAKER_DATABASE_PASSWORD'] %&gt;</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>Confirm the database configuration is correct by running the commands <code class="highlighter-rouge">rails db:migrate</code> and <code class="highlighter-rouge">rails db:reset</code>.</li>
+</ol>
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2019
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
