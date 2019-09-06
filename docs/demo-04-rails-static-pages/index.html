@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-tutorial-2019/assets/img/favicon.png">
+
+<title>Demo 4: Adding (Mostly Static) View Pages in Rails | Web Development with Ruby on Rails Tutorial 2019</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-tutorial-2019/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-tutorial-2019/"><img src="/rails-tutorial-2019/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-tutorial-2019/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-tutorial-2019/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="demo-4-adding-mostly-static-view-pages-in-rails">Demo 4: Adding (Mostly Static) View Pages in Rails</h1>
+
+<p>In this demonstration, I will show how to create mostly static webpages in Rails. I will continue to work on the <em>QuizMe</em> project from the previous demos. Specifically, I will be making this <a href="/rails-tutorial-2019/resources/welcome-page.png">welcome page</a>.</p>
+
+<p>This and all future demos will assume you are starting in the workspace folder on your virtual machine.</p>
+
+<h2 id="1-adding-a-new-page">1. Adding a New Page</h2>
+
+<p>Based on the MVC model, there are three things needed to setup a page in a Rails project. You need a controller action (a function inside a controller file) which renders a html.erb view file containing the html code for the page. You also need a route in the routes.rb file which links the URL for the page with the controller action.</p>
+
+<ol>
+  <li>
+    <p>Create the controller and controller action and template view file using the following command:</p>
+
+    <p><code class="highlighter-rouge">rails g controller StaticPages welcome</code></p>
+
+    <p>You should see the files <code class="highlighter-rouge">app/controllers/static_pages_controller.rb</code>, <code class="highlighter-rouge">app/views/static_pages/welcome.html.erb</code> have been created along with some other files we will use later.</p>
+  </li>
+  <li>
+    <p>Looking at the <code class="highlighter-rouge">app/controllers/static_pages_controller.rb</code> file, a function, <code class="highlighter-rouge">welcome</code>, has been created but it is empty. Modify the generated controller action to explicitly render the <code class="highlighter-rouge">welcome.html.erb</code> view by adding a <code class="highlighter-rouge">respond_to</code> block with a <code class="highlighter-rouge">render</code> statement to match:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">def</span> <span class="nf">welcome</span>
+   <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+     <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:welcome</span> <span class="p">}</span>
+   <span class="k">end</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+
+    <div class="collapse" id="moreDetails1-2">
+ <p class="text-muted mr-3 ml-3">
+   The `respond_to` block allows you to specify different responses to generate based on the type of data the request is looking for. For now, the requests will only be expecting HTML responses, but common alternatives are Javascript and JSON.
+ </p>
+ </div>
+  </li>
+  <li>
+    <p>Looking at the <code class="highlighter-rouge">app/config/routes.rb</code> file, a GET route to ‘static_pages/welcome’ has been created, meaning the URL for the page would be <a href="http://localhost:3000/static_pages/welcome">http://localhost:3000/static_pages/welcome</a>. Instead, make the route to point to <a href="http://localhost:3000/welcome">http://localhost:3000/welcome</a> by editing it to match:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">get</span> <span class="s1">'welcome'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'static_pages#welcome'</span><span class="p">,</span> <span class="ss">as: </span><span class="s1">'welcome'</span>
+</code></pre></div>    </div>
+
+    <p><span><a class="text-muted" data-toggle="collapse" href="#moreDetails1-3" role="button" aria-expanded="false" aria-controls="moreDetails1-3">More details…</a></span></p>
+
+    <div class="collapse" id="moreDetails1-3">
+ <p class="text-muted mr-3 ml-3">
+   Route syntax looks a little confusing until you get the hang of it. The first part `get 'welcome'` means make a GET request to the URL formed by concatenating the site root (for now &lt;http://localhost:3000&gt;) with a slash `/` followed by the page specific path in quotes. The `to` option tells the router which controller and action should be used when it receives that request. The `as` option generates a named route helper methods `welcome_path` and `welcome_url` which you can use to link to a certain url instead of hard-coding it. Since the system root could change (for example, if the app was deployed to Heroku or was running on a port other than 3000), using the helpers is much better practice.
+ </p>
+ </div>
+  </li>
+  <li>
+    <p>Now start the Rails server (<code class="highlighter-rouge">rails s -b 0.0.0.0</code>) and navigate to <a href="http://localhost:3000/welcome">http://localhost:3000/welcome</a> to check that the page displays. You should see some automatically generated text telling you what controller, controller action, and view file were used.</p>
+  </li>
+</ol>
+
+<h2 id="2-adding-text-html-content-to-a-view">2. Adding Text HTML Content to a View</h2>
+
+<p>While the automatically generated view is a useful starting point, we need to customize the HTML to display the information we want. Remember we want to have this <a href="/rails-tutorial-2019/resources/welcome-page.png">welcome page</a>.</p>
+
+<p>You can keep the Rails server running and reload the page to view changes as you make them.</p>
+
+<ol>
+  <li>
+    <p>Start by replacing the generated text with a large heading that says “Welcome to QuizMe!”, using the following code:</p>
+
+    <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;h1&gt;</span>Welcome to QuizMe!<span class="nt">&lt;/h1&gt;</span>
+</code></pre></div>    </div>
+
+    <blockquote>
+      <p>The <code class="highlighter-rouge">&lt;h1&gt;</code> tag is usually used for page titles and only once per page.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Add a description of the QuizMe app under the welcome header, using the following code:</p>
+
+    <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;p&gt;</span>QuizMe is a free Quizlet style quizzing application that helps you learn by taking quizzes and trying to improve your scores.<span class="nt">&lt;/p&gt;</span>
+</code></pre></div>    </div>
+
+    <blockquote>
+      <p>The <code class="highlighter-rouge">&lt;p&gt;</code> tag is used for blocks of paragraph text.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Finally, add a list of features the QuizMe app will have, using the following code:</p>
+
+    <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;h2&gt;</span>Features<span class="nt">&lt;/h2&gt;</span>
+
+ <span class="nt">&lt;p&gt;</span>QuizMe allows users to:<span class="nt">&lt;/p&gt;</span>
+
+ <span class="nt">&lt;ul&gt;</span>
+   <span class="nt">&lt;li&gt;</span>Choose from premade quizzes on a variety of topics<span class="nt">&lt;/li&gt;</span>
+   <span class="nt">&lt;li&gt;</span>Make your own quizzes to customize your learning<span class="nt">&lt;/li&gt;</span>
+   <span class="nt">&lt;li&gt;</span>Compare your scores with other users<span class="nt">&lt;/li&gt;</span>
+ <span class="nt">&lt;/ul&gt;</span>
+
+ <span class="nt">&lt;p&gt;</span>QuizMe also supports a variety of question styles like multiple choice and fill in the blank.<span class="nt">&lt;/p&gt;</span>
+</code></pre></div>    </div>
+
+    <blockquote>
+      <p>The <code class="highlighter-rouge">&lt;h2&gt;</code> tag is usually used for the first level of subheadings.<br />
+The <code class="highlighter-rouge">&lt;ul&gt;</code> tag is usually used for bulleted lists. The text for each bullet point must be enclosed in its own <code class="highlighter-rouge">&lt;li&gt;</code> tag. You can replace the <code class="highlighter-rouge">&lt;ul&gt;</code> tag with <code class="highlighter-rouge">&lt;ol&gt;</code> to make a numbered list.</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h2 id="3-adding-an-image-to-a-view-using-rails-helpers">3. Adding an Image to a View Using Rails Helpers</h2>
+
+<p>Webpages with only unstyled text are not very nice to look at, so for now we will add a little color with a <a href="/rails-tutorial-2019/resources/quiz-bubble.png">quiz graphic</a>. We will add additional style formatting to the app later.</p>
+
+<ol>
+  <li>
+    <p>Start by downloading the image file using the link above and save it to the project’s <code class="highlighter-rouge">app/assets/images</code> folder. All files in the assets directory get compiled by the server and require Rails helper methods to reference the correct file.</p>
+  </li>
+  <li>
+    <p>Add the image to the page using the <code class="highlighter-rouge">image_tag</code> helper method by adding the following code to the top of the <code class="highlighter-rouge">welcome.html.erb</code> file:</p>
+
+    <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="cp">&lt;%=</span> <span class="n">image_tag</span> <span class="s2">"quiz-bubble.png"</span><span class="p">,</span> <span class="ss">height: </span><span class="mi">300</span> <span class="cp">%&gt;</span>
+</code></pre></div>    </div>
+
+    <p>The original size of the image is about 700x480px. You can scale it down but keep the original aspect ratio by only setting the height or the width option. The values are in pixels.</p>
+
+    <blockquote>
+      <p>TODO: add more info on what &lt;% %&gt; and erb means.<br />
+&lt;% %&gt; and &lt;%= %&gt; both execute Ruby code.  &lt;%= %&gt; will additionally render the return value into the html.</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h2 id="4-adding-links-to-a-view-using-rails-helpers">4. Adding Links to a View Using Rails Helpers</h2>
+
+<p>Instead of using the anchor (<code class="highlighter-rouge">&lt;a&gt;</code>) HTML tags for links, Rails provides the <code class="highlighter-rouge">link_to</code> helper to add links. Remember, Ruby code in the views must be enclosed in a <code class="highlighter-rouge">&lt;% %&gt;</code> or <code class="highlighter-rouge">&lt;%= %&gt;</code> block.</p>
+
+<ol>
+  <li>
+    <p>Using the <code class="highlighter-rouge">link_to</code> helper, add a hyperlink on the word “Quizlet” to the Quizlet homepage by editing the QuizMe app description to match the following:</p>
+
+    <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;p&gt;</span>QuizMe is a free <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Quizlet"</span><span class="p">,</span> <span class="s2">"https://quizlet.com"</span><span class="p">,</span> <span class="ss">target: </span><span class="s2">"_blank"</span> <span class="cp">%&gt;</span> style quizzing application that helps you learn by taking quizzes and trying to improve your scores.<span class="nt">&lt;/p&gt;</span>
+</code></pre></div>    </div>
+
+    <p>The format for the <code class="highlighter-rouge">link_to</code> helper is the text you want to display, the link destination, then any additional HTML options you need to add.</p>
+  </li>
+  <li>
+    <p>Add an About page to the QuizMe app by adding the following:</p>
+
+    <ul>
+      <li>
+        <p>Setup the route to point to an about function in the StaticPagesController and to have the URL be <a href="http://localhost:3000/about">http://localhost:3000/about</a> by adding the following to <code class="highlighter-rouge">config/routes.rb</code>:</p>
+
+        <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">get</span> <span class="s1">'about'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'static_pages#about'</span><span class="p">,</span> <span class="ss">as: </span><span class="s1">'about'</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>Add the following about function to the StaticPagesController:</p>
+
+        <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">about</span>
+  <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+    <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:about</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>Create a new file <code class="highlighter-rouge">app/views/static_pages/about.html.erb</code> and add the following:</p>
+
+        <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;h1&gt;</span>About<span class="nt">&lt;/h1&gt;</span>
+
+<span class="nt">&lt;h2&gt;</span>The Authors<span class="nt">&lt;/h2&gt;</span>
+
+<span class="nt">&lt;p&gt;</span>This site was created by Scott Fleming and Katie Bridson.<span class="nt">&lt;/p&gt;</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+
+    <p>Navigate to the new page using the URL and make sure it displays correctly.</p>
+  </li>
+  <li>
+    <p>Now that we have more than one page in the app, we need to add links on each of the pages so users don’t need to enter the URL to switch pages. We can add links to other pages in the app by using the named route helpers with the <code class="highlighter-rouge">link_to</code> helper with the following:</p>
+
+    <ul>
+      <li>
+        <p>Add a link to the about page at the bottom of the welcome page with:</p>
+
+        <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"About"</span><span class="p">,</span> <span class="n">about_path</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>Add a link to the about page at the bottom of the welcome page with:</p>
+
+        <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Welcome'</span><span class="p">,</span> <span class="n">welcome_path</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+
+    <p>Reload the page and confirm the links on both pages work correctly.</p>
+  </li>
+  <li>
+    <p>If you navigate to the site’s root (<a href="http://localhost:3000">http://localhost:3000</a>), you’ll notice it still has the old default Rails project page. We probably want this to be something more useful for our app like the welcome page. We can change what root routes to by adding the following at the top of the <code class="highlighter-rouge">config/routes.rb</code> file:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">root</span> <span class="ss">to: </span><span class="n">redirect</span><span class="p">(</span><span class="s1">'/welcome'</span><span class="p">,</span> <span class="ss">status: </span><span class="mi">302</span><span class="p">)</span>
+</code></pre></div>    </div>
+
+    <blockquote>
+      <p>This statement means that whenever someone tries to go to <a href="http://localhost:3000">http://localhost:3000</a> they are automatically redirected to the welcome page URL via the route we previously made. If you didn’t want to have a separate URL for the welcome page, you could point root directly to the controller action with <code class="highlighter-rouge">root to: 'static_pages#welcome'</code> and remove original welcome route. Then, in the <code class="highlighter-rouge">link_to</code> statement, you would use the <code class="highlighter-rouge">root_path</code> helper instead of <code class="highlighter-rouge">welcome_path</code>.</p>
+    </blockquote>
+  </li>
+</ol>
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2019
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
