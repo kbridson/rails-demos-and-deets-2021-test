@@ -8,19 +8,19 @@ permalink: /demo-04-rails-static-pages/
 
 In this demonstration, I will show how to create mostly static webpages in Rails. I will continue to work on the _QuizMe_ project from the previous demos. Specifically, I will be making this [welcome page]({{ site.baseurl }}/resources/welcome-page.png).
 
-This and all future demos will assume you are starting in the workspace folder on your virtual machine.
-
 ## 1. Adding a New Page
 
-Based on the MVC model, there are three things needed to setup a page in a Rails project. You need a controller action (a function inside a controller file) which renders a html.erb view file containing the html code for the page. You also need a route in the routes.rb file which links the URL for the page with the controller action.
+Based on the Rails MVC model, there are three things needed to set up a page in a Rails project. You need (1) a controller action (a public method inside a controller class) which renders (2) an `html.erb` view file containing the html code for the page. You also need (3) a route in the `routes.rb` file which links the URL for the page with the controller action.
 
-1. Create the controller and controller action and template view file using the following command:
+1. Generate the controller class, a controller action inside that class, and a template view file by entering the following command:
 
-    `rails g controller StaticPages welcome`
+    ```bash
+    rails g controller StaticPages welcome
+    ```
 
-    You should see the files `app/controllers/static_pages_controller.rb`, `app/views/static_pages/welcome.html.erb` have been created along with some other files we will use later.
+    You should see that the files `app/controllers/static_pages_controller.rb` and `app/views/static_pages/welcome.html.erb` have been created, along with some other files we will use later.
 
-1. Looking at the `app/controllers/static_pages_controller.rb` file, a function, `welcome`, has been created but it is empty. Modify the generated controller action to explicitly render the `welcome.html.erb` view by adding a `respond_to` block with a `render` statement to match:
+1. Looking at the `app/controllers/static_pages_controller.rb` file, a method `welcome` has been created, but it is empty. Modify this method to explicitly render the `welcome.html.erb` view by adding a `respond_to` block with a `render` statement to match:
 
     ```ruby
     def welcome
@@ -30,27 +30,35 @@ Based on the MVC model, there are three things needed to setup a page in a Rails
     end
     ```
 
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-2" role="button" aria-expanded="false" aria-controls="moreDetails1-2">More details about this code...</a></small></span>
+
     <div class="collapse" id="moreDetails1-2">
     <p class="text-muted mr-3 ml-3">
-      The `respond_to` block allows you to specify different responses to generate based on the type of data the request is looking for. For now, the requests will only be expecting HTML responses, but common alternatives are Javascript and JSON.
+    The <code>respond_to</code> block allows you to specify different responses to generate based on the type of data the request is looking for. For now, the requests will only be expecting HTML responses, but common alternatives are Javascript and JSON.
     </p>
     </div>
 
-1. Looking at the `app/config/routes.rb` file, a GET route to 'static_pages/welcome' has been created, meaning the URL for the page would be <http://localhost:3000/static_pages/welcome>. Instead, make the route to point to <http://localhost:3000/welcome> by editing it to match:
+1. Looking at the `app/config/routes.rb` file, a GET (as in HTTP GET request) route to `'static_pages/welcome'` has been created, meaning the URL for the page would be <http://localhost:3000/static_pages/welcome>. Instead, make the route point to <http://localhost:3000/welcome> by editing it as follows:
 
     ```ruby
     get 'welcome', to: 'static_pages#welcome', as: 'welcome'
     ```
 
-    <span><a class="text-muted" data-toggle="collapse" href="#moreDetails1-3" role="button" aria-expanded="false" aria-controls="moreDetails1-3">More details...</a></span>
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-3" role="button" aria-expanded="false" aria-controls="moreDetails1-3">More details about this code...</a></small></span>
 
     <div class="collapse" id="moreDetails1-3">
     <p class="text-muted mr-3 ml-3">
-      Route syntax looks a little confusing until you get the hang of it. The first part `get 'welcome'` means make a GET request to the URL formed by concatenating the site root (for now <http://localhost:3000>) with a slash `/` followed by the page specific path in quotes. The `to` option tells the router which controller and action should be used when it receives that request. The `as` option generates a named route helper methods `welcome_path` and `welcome_url` which you can use to link to a certain url instead of hard-coding it. Since the system root could change (for example, if the app was deployed to Heroku or was running on a port other than 3000), using the helpers is much better practice.
+      Route syntax looks a little confusing until you get the hang of it. The first part, <code>get 'welcome'</code> tells the Rails router to accept GET requests to the URL formed by concatenating the site root (for now <code>http://localhost:3000</code>) with a slash (<code>/</code>) followed by the page-specific path in quotes (<code>welcome</code>).
+      </p>
+      <p class="text-muted mr-3 ml-3">
+      The `to` argument tells the router which controller action should be called when it receives such a GET request. Note that routes use the shorthand "<code>static_pages#welcome</code>" to refer to the method <code>welcome</code> in the <code>StaticPagesController</code> class.
+      </p>
+      <p class="text-muted mr-3 ml-3">
+      The `as` argument automatically generates the helper methods <code>welcome_path</code> and <code>welcome_url</code>, which return the relative path and the full URL for this route, respectively. You should use these helpers in your code instead of hard-coding paths. For example, the system root could change (e.g., if the app was deployed to Heroku or was running on a port other than 3000), and using these helpers will save you from having to search for and update all the hard-coded URLs spread throughout your code.
     </p>
     </div>
 
-1. Now start the Rails server (`rails s -b 0.0.0.0`) and navigate to <http://localhost:3000/welcome> to check that the page displays. You should see some automatically generated text telling you what controller, controller action, and view file were used.
+1. Verify that he page displays properly by starting the Rails server (`rails s -b 0.0.0.0`) and navigating to <http://localhost:3000/welcome>. You should see some automatically generated text telling you what controller, controller action, and view file were used.
 
 ## 2. Adding Text HTML Content to a View
 
