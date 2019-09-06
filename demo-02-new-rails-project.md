@@ -12,6 +12,10 @@ This and all future demos will assume you are starting in the `workspace` folder
 
 ## 1. Creating a New Rails Project
 
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/vIMQ2FpUJV0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
 1. Set up RVM to use Ruby version 2.6.3 as the default version by running the following command:
 
     ```bash
@@ -96,6 +100,10 @@ This and all future demos will assume you are starting in the `workspace` folder
 
 ## 2. Creating a PostgreSQL Database for the New Rails Project
 
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/JKc52mCNok8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
 1. Open the file `config/database.yml`. This file contains the connection information for the project's three PostgreSQL databases. Rails uses three environments (development, test, and production), each with their own separate databases.
 
 1. Create the three PostgreSQL databases with the names specified in the `database.yml` file by running the following commands:
@@ -142,9 +150,9 @@ This and all future demos will assume you are starting in the `workspace` folder
       ```yaml
       production:
         <<: *default
-        database: default_production
-        # username: quiz_maker
-        # password: <%= ENV['QUIZ_MAKER_DATABASE_PASSWORD'] %>
+        database: quiz_me_production
+        # username: quiz_me
+        # password: <%= ENV['QUIZ_ME_DATABASE_PASSWORD'] %>
       ```
 
 1. Confirm the database configuration is correct by running the following commands:
