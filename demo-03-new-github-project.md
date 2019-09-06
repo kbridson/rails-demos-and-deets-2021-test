@@ -8,13 +8,17 @@ permalink: /demo-03-new-github-project/
 
 In this demonstration, I will show you how to create and upload an existing project to a new Github repository.
 
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/9mViBwYb8HI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
 1. Log in to Github (<https://www.github.com/>) with the username and password you previously created.
 
 1. From the homepage, click on `New` under the Repositories heading in the left sidebar panel.
 
-1. In the `Create a new repository` form, enter a repository name. Usually this will be the same as the project folder name. For this project, the repository name should be "`quiz-me`". Then, click the `Create repository` button and you will be taken to the main page for your new empty repository.
+1. In the `Create a new repository` form, enter a repository name. Usually this will be the same as the project folder name. For this project, the repository name should be "`quiz-me`". Then, click the `Create repository` button, and you will be taken to the main page for your new empty repository.
 
-1. Setup your Github account information globally for your VM by entering the following commands, replacing the variables (beginning with $) with your information:
+1. Set up your Github account information globally for your VM by entering the following commands, replacing the variables (beginning with `$`) with your information:
 
     ```bash
     git config --global user.name "$FIRST_NAME $LAST_NAME"
@@ -28,12 +32,6 @@ In this demonstration, I will show you how to create and upload an existing proj
     git commit -m "Initial commit"
     ```
 
-    Verify the commit has the correct information by entering the following command:
-
-    ```bash
-    git log
-    ```
-
     <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails0-5" role="button" aria-expanded="false" aria-controls="moreDetails0-5">More about these Git commands...</a></small></span>
 
     <div class="collapse" id="moreDetails0-5">
@@ -41,6 +39,12 @@ In this demonstration, I will show you how to create and upload an existing proj
     The <code>git add</code> and <code>git commit</code> commands will be run often as you are making changes to your projects and want to save them to the online repository. The <code>git add</code> command adds a change in the working directory to the staging area. It tells Git that you want to include updates to a particular file in the next commit. The <code>-A</code> option tells Git to include all changes to all files in the project folder. You can view the contents of the staging area with the <code>git status</code> command. The <code>git commit</code> command creates the snapshot and saves it to your local repository. Each commit will have a default commit message that you can override with the <code>-m "$MSG"</code> option to make a more informative description of the changes in that commit.
     </p>
     </div>
+
+    Verify the commit has the correct information by entering the following command:
+
+    ```bash
+    git log
+    ```
 
 1. Copy the instructions on the GitHub repository webpage for pushing an existing repository from the command line, and paste them into your terminal. The commands should look something like this (only with the "`...`" replaced with your GitHub username):
 
