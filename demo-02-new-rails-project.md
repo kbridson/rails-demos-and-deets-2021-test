@@ -50,7 +50,7 @@ This and all future demos will assume you are starting in the `workspace` folder
     rails new quiz-me --database=postgresql --skip-coffee
     ```
 
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-3a" role="button" aria-expanded="false" aria-controls="moreDetails1-3a">More details about this command...</a></small></span>
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-3a" role="button" aria-expanded="false" aria-controls="moreDetails1-3a">More details about this command...▼</a></small></span>
 
     <div class="collapse" id="moreDetails1-3a">
     <p class="text-muted mr-3 ml-3">
@@ -59,7 +59,7 @@ This and all future demos will assume you are starting in the `workspace` folder
     </div>
 
     This command will take a while to complete and run several intermediate commands to complete the process.
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-3b" role="button" aria-expanded="false" aria-controls="moreDetails1-3b">More details...</a></small></span>
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-3b" role="button" aria-expanded="false" aria-controls="moreDetails1-3b">More details...▼</a></small></span>
 
     <div class="collapse" id="moreDetails1-3b">
     <p class="text-muted mr-3 ml-3">
@@ -84,7 +84,7 @@ This and all future demos will assume you are starting in the `workspace` folder
     gem 'pgreset', '~> 0.1.1'
     ```
 
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-6" role="button" aria-expanded="false" aria-controls="moreDetails1-6">More details...</a></small></span>
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-6" role="button" aria-expanded="false" aria-controls="moreDetails1-6">More details...▼</a></small></span>
 
     <div class="collapse" id="moreDetails1-6">
     <p class="text-muted mr-3 ml-3">
@@ -114,7 +114,7 @@ This and all future demos will assume you are starting in the `workspace` folder
     sudo -i -u postgres psql -c "CREATE DATABASE quiz_me_production OWNER vagrant;"
     ```
 
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails2-2" role="button" aria-expanded="false" aria-controls="moreDetails2-2">More details...</a></small></span>
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails2-2" role="button" aria-expanded="false" aria-controls="moreDetails2-2">More details...▼</a></small></span>
 
     <div class="collapse" id="moreDetails2-2">
     <p class="text-muted mr-3 ml-3">

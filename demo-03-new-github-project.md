@@ -32,7 +32,7 @@ In this demonstration, I will show you how to create and upload an existing proj
     git commit -m "Initial commit"
     ```
 
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails0-5" role="button" aria-expanded="false" aria-controls="moreDetails0-5">More about these Git commands...</a></small></span>
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails0-5" role="button" aria-expanded="false" aria-controls="moreDetails0-5">More about these Git commands...▼</a></small></span>
 
     <div class="collapse" id="moreDetails0-5">
     <p class="text-muted mr-3 ml-3">
@@ -53,7 +53,7 @@ In this demonstration, I will show you how to create and upload an existing proj
     git push -u origin master
     ```
 
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails0-6" role="button" aria-expanded="false" aria-controls="moreDetails0-6">More about these Git commands...</a></small></span>
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails0-6" role="button" aria-expanded="false" aria-controls="moreDetails0-6">More about these Git commands...▼</a></small></span>
 
     <div class="collapse" id="moreDetails0-6">
     <p class="text-muted mr-3 ml-3">

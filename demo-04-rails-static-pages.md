@@ -39,7 +39,7 @@ Based on the Rails MVC model, there are three things needed to set up a page in 
     end
     ```
 
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-2" role="button" aria-expanded="false" aria-controls="moreDetails1-2">More details about this code...</a></small></span>
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-2" role="button" aria-expanded="false" aria-controls="moreDetails1-2">More details about this code...▼</a></small></span>
 
     <div class="collapse" id="moreDetails1-2">
     <p class="text-muted mr-3 ml-3">
@@ -53,7 +53,7 @@ Based on the Rails MVC model, there are three things needed to set up a page in 
     get 'welcome', to: 'static_pages#welcome', as: 'welcome'
     ```
 
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-3" role="button" aria-expanded="false" aria-controls="moreDetails1-3">More details about this code...</a></small></span>
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-3" role="button" aria-expanded="false" aria-controls="moreDetails1-3">More details about this code...▼</a></small></span>
 
     <div class="collapse" id="moreDetails1-3">
     <p class="text-muted mr-3 ml-3">
@@ -77,7 +77,7 @@ Based on the Rails MVC model, there are three things needed to set up a page in 
     <h1>Welcome to QuizMe!</h1>
     ```
 
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-5" role="button" aria-expanded="false" aria-controls="moreDetails1-5">More details about this code...</a></small></span>
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-5" role="button" aria-expanded="false" aria-controls="moreDetails1-5">More details about this code...▼</a></small></span>
 
     <div class="collapse" id="moreDetails1-5">
     <p class="text-muted mr-3 ml-3">
@@ -93,7 +93,7 @@ Based on the Rails MVC model, there are three things needed to set up a page in 
     </p>
     ```
 
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-6" role="button" aria-expanded="false" aria-controls="moreDetails1-6">More details about this code...</a></small></span>
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-6" role="button" aria-expanded="false" aria-controls="moreDetails1-6">More details about this code...▼</a></small></span>
 
     <div class="collapse" id="moreDetails1-6">
     <p class="text-muted mr-3 ml-3">
@@ -121,7 +121,7 @@ Based on the Rails MVC model, there are three things needed to set up a page in 
     </p>
     ```
 
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-7" role="button" aria-expanded="false" aria-controls="moreDetails1-7">More details about this code...</a></small></span>
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-7" role="button" aria-expanded="false" aria-controls="moreDetails1-7">More details about this code...▼</a></small></span>
 
     <div class="collapse" id="moreDetails1-7">
     <p class="text-muted mr-3 ml-3">
@@ -151,7 +151,7 @@ Webpages with only unstyled text are not very nice to look at, so for now, we wi
     <%= image_tag "quiz-bubble.png", height: 300 %>
     ```
 
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails2-2" role="button" aria-expanded="false" aria-controls="moreDetails2-2">More details about this code...</a></small></span>
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails2-2" role="button" aria-expanded="false" aria-controls="moreDetails2-2">More details about this code...▼</a></small></span>
 
     <div class="collapse" id="moreDetails2-2">
     <p class="text-muted mr-3 ml-3">
@@ -234,7 +234,7 @@ If you navigate to the site's root (<http://localhost:3000>), you'll notice that
 root to: redirect('/welcome', status: 302)
 ```
 
-<span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails5-0" role="button" aria-expanded="false" aria-controls="moreDetails5-0">More details about this code...</a></small></span>
+<span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails5-0" role="button" aria-expanded="false" aria-controls="moreDetails5-0">More details about this code...▼</a></small></span>
 
 <div class="collapse" id="moreDetails5-0">
 <p class="text-muted mr-3 ml-3">

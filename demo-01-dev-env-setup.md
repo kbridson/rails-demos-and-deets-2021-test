@@ -31,7 +31,7 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
    - Debian/Ubuntu Linux users: you have the shell, but may need to install the "openssh-client" package (if it’s not already installed by default).
 
 1. Download and install _VirtualBox_ version 6.0.4 (<https://www.virtualbox.org/wiki/Download_Old_Builds_6_0>). I will be using this software to run an Ubuntu Linux virtual machine that will house most of the Rails development tools (with only a few graphical tools running in the host OS). As of the time of writing, there is [a VirtualBox bug](https://www.virtualbox.org/ticket/18569) in releases newer than 6.0.4 that breaks Git, among other things, in the VM's shared folder. Note: Your computer must support virtualization in order for VirtualBox to work.
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-5" role="button" aria-expanded="false" aria-controls="moreDetails1-5">More details...</a></small></span>
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-5" role="button" aria-expanded="false" aria-controls="moreDetails1-5">More details...▼</a></small></span>
 
     <div class="collapse" id="moreDetails1-5">
     <p class="text-muted mr-3 ml-3">
@@ -77,7 +77,7 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
 1. Launch a terminal. In Windows, it involves launching _Git Bash_. In MacOS and Linux, this involves launching a terminal application.
 
 1. In the terminal, change directory (using the `cd` command) to your `workspace` folder. Note: I will be using the command-line a lot in the demos. I will generally assume that readers are familiar with the basic file management and navigation commands (`cd`, `rm`, `cp`, `mv`, etc.).
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails2-4" role="button" aria-expanded="false" aria-controls="moreDetails2-4">If you're new to the command-line...</a></small></span>
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails2-4" role="button" aria-expanded="false" aria-controls="moreDetails2-4">If you're new to the command-line...▼</a></small></span>
 
     <div class="collapse" id="moreDetails2-4">
     <p class="text-muted mr-3 ml-3">
@@ -130,7 +130,7 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
     ruby-2.6.3 - #generating quiz-maker wrappers.........
     ```
 
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails3-5" role="button" aria-expanded="false" aria-controls="moreDetails3-5">Troubleshoot: no messages appear...</a></small></span>
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails3-5" role="button" aria-expanded="false" aria-controls="moreDetails3-5">Troubleshoot: no messages appear...▼</a></small></span>
 
     <div class="collapse" id="moreDetails3-5">
     <p class="text-muted mr-3 ml-3">
@@ -151,7 +151,7 @@ Before I jump into the demo, I'd like to clear up a little terminology. In these
     ```
 
     Windows users: if attempting to run `yarn install` throws symlink errors, you will need to complete some additional steps here.
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails3-7" role="button" aria-expanded="false" aria-controls="moreDetails3-7">More details...</a></small></span>
+    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails3-7" role="button" aria-expanded="false" aria-controls="moreDetails3-7">More details...▼</a></small></span>
 
     <div class="collapse" id="moreDetails3-7">
     <p class="text-muted mr-3 ml-3">
