@@ -10,6 +10,10 @@ In this demonstration, I will show how to create mostly static webpages in Rails
 
 ## 1. Adding a New Page
 
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/T5TcOyo4ocs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
 We will start by making the welcome page depicted in Fig. 1.
 
 <div class="figure-container mx-auto my-4" style="max-width: 960px;">
@@ -134,6 +138,10 @@ Based on the Rails MVC model, there are three things needed to set up a page in 
 
 ## 2. Adding an Image to a View Using Rails Helpers
 
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/aPuB7UZaB7E" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
 Webpages with only unstyled text are not very nice to look at, so for now, we will add a little color with the [quiz graphic]({{ site.baseurl }}/resources/quiz-bubble.png) depicted in Fig. 2. We will add additional style formatting to the app later.
 
 <div class="figure-container mx-auto my-4" style="max-width: 698px;">
@@ -163,6 +171,10 @@ Webpages with only unstyled text are not very nice to look at, so for now, we wi
     </div>
 
 ## 3. Adding Another Page
+
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/eHxwNgmzfwA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 Before we begin adding hyperlinks, we will add an additional _About_ page (to which we can link).
 
@@ -196,6 +208,10 @@ Before we begin adding hyperlinks, we will add an additional _About_ page (to wh
 
 ## 4. Adding Links to a View Using Rails Helpers
 
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-rJTIkqEkEs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
 Instead of using the anchor (`<a>`) HTML tags for links, Rails provides the `link_to` helper to add links. Remember, Ruby code in the views must be enclosed in a `<% %>` or a `<%= %>` tag.
 
 We will first add a link to an external website and then add one to another page within the web app.
@@ -227,6 +243,10 @@ We will first add a link to an external website and then add one to another page
     Reload the page and confirm the links on both pages work correctly.
 
 ## 5. Adding a Root Route
+
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jRKjzQqAA8Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 If you navigate to the site's root (<http://localhost:3000>), you'll notice that it still has the old default Rails project page. We probably want this to be something more useful for our app, like the Welcome page. We can change what root routes to by adding the following code at the top of the `config/routes.rb` file:
 
