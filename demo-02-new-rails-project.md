@@ -131,7 +131,7 @@ This and all future demos will assume you are starting in the `workspace` folder
     </p>
     </div>
 
-1. Make the following changes to the database.yml file:
+1. Make the following changes to the `database.yml` file:
     - Add username and password to the default configuration to match the following:
 
       ```yaml
