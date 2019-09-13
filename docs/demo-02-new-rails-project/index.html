@@ -47,83 +47,136 @@
             <div class="container mt-4">
                 <h1 id="demo-2-setting-up-a-new-rails-project">Demo 2: Setting Up a New Rails Project</h1>
 
-<p>In this demonstration, I will show you how to create and setup a new Rails 6 project. The application I will create in these tutorials is QuizMe, a quizzing application similar to Quizlet but with multiple choice and fill in the blank questions.</p>
+<p>In this demonstration, I will show you how to create and setup a new Rails 6 project. The application I will create in these tutorials is QuizMe, a quizzing application similar to <a href="https://quizlet.com/">Quizlet</a>, but with multiple choice and fill in the blank questions.</p>
 
-<p>This and all future demos will assume you are starting in the workspace folder on your virtual machine.</p>
+<p>This and all future demos will assume you are starting in the <code class="highlighter-rouge">workspace</code> folder on your Linux VM.</p>
 
-<h2 id="1-create-a-new-project">1. Create a New Project</h2>
+<h2 id="1-creating-a-new-rails-project">1. Creating a New Rails Project</h2>
+
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/vIMQ2FpUJV0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+</div>
 
 <ol>
   <li>
-    <p>Setup RVM to use ruby version 2.6.3 as the default version by running the command <code class="highlighter-rouge">rvm use ruby-2.6.3 --default</code>. You can check this has been done correctly by running the command <code class="highlighter-rouge">rvm list</code> and verifying <code class="highlighter-rouge">=*</code> appears next to the correct version.</p>
-  </li>
-  <li>
-    <p>Install the Rails 6 gem using the command <code class="highlighter-rouge">gem install rails</code>. You can verify the correct version was installed by running <code class="highlighter-rouge">rails -v</code> and verifying the output is <code class="highlighter-rouge">Rails 6.0.0</code>.</p>
-  </li>
-  <li>Create a new Rails project backed by a PostgreSQL database by entering the command <code class="highlighter-rouge">rails new quiz-me --database=postgresql --skip-coffee</code>.
-    <blockquote>
-      <p><em>By Rails convention the name of the project should be the name of the app in lowercase with words separated by dashes. SQLite is the default database for Rails Applications so the <code class="highlighter-rouge">--database</code> option is required to use PostgreSQL. Rails applications also default to automatically creating Coffeescript files, but the <code class="highlighter-rouge">--skip-coffee</code> option specifies plain Javascript files should be created instead.</em></p>
-    </blockquote>
+    <p>Set up RVM to use Ruby version 2.6.3 as the default version by running the following command:</p>
 
-    <p>This command will take a while to complete and run several intermediate commands to complete the process.</p>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rvm use ruby-2.6.3 <span class="nt">--default</span>
+</code></pre></div>    </div>
 
-    <blockquote>
-      <p><em>The project directory files are created first. Then, new gems are installed by running <code class="highlighter-rouge">bundle install</code>. Beware, some gems can take a long time to install (nokogiri, pg), but this is normal. One of the gems installed is webpacker which allows the app to serve all the project’s Javascript files in one large file, but it requires some installation setup which is the next thing to run as <code class="highlighter-rouge">rails webpacker:install</code>. Last the node packages will be installed by running <code class="highlighter-rouge">yarn install</code>. Many packages and their dependencies should be added. There will likely be a few dependency warnings which will later be resolved, but there should be no symlink errors.</em></p>
-    </blockquote>
+    <p>You can check that this has worked correctly by running the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rvm list
+</code></pre></div>    </div>
+
+    <p>Verify that <code class="highlighter-rouge">=*</code> appears next to version 2.6.3, indicating that it is both the current and default version of Ruby.</p>
   </li>
   <li>
-    <p>Open the project folder in VS Code and familiarize yourself with the directory structure.</p>
+    <p>Install the Rails 6 gem using the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> gem <span class="nb">install </span>rails
+</code></pre></div>    </div>
+
+    <p>Verify that the correct version was installed by running the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails <span class="nt">-v</span>
+</code></pre></div>    </div>
+
+    <p>Verify that the output is <code class="highlighter-rouge">Rails 6.0.0</code>.</p>
   </li>
   <li>
-    <p>Change directory into the quiz-me folder (<code class="highlighter-rouge">cd quiz-me</code>) and create a new project-specific gemset by running the command <code class="highlighter-rouge">rvm use ruby-2.6.3@quiz-me --ruby-version --create</code>. This command will create two files, .ruby-gemset and .ruby-version, if they do not already exist to store the information for RVM.</p>
+    <p>Create a new Rails project backed by a PostgreSQL database by entering the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails new quiz-me <span class="nt">--database</span><span class="o">=</span>postgresql <span class="nt">--skip-coffee</span>
+</code></pre></div>    </div>
+
+    <p><span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-3a" role="button" aria-expanded="false" aria-controls="moreDetails1-3a">More details about this command…▼</a></small></span></p>
+
+    <div class="collapse" id="moreDetails1-3a">
+ <p class="text-muted mr-3 ml-3">
+ By Rails convention the name of the project should be the name of the app in lowercase with words separated by dashes. SQLite is the default database for Rails Applications so the <code>--database</code> option is required to use PostgreSQL. Rails applications also default to automatically creating Coffeescript files, but the <code>--skip-coffee</code> option specifies plain Javascript files should be created instead.
+ </p>
+ </div>
+
+    <p>This command will take a while to complete and run several intermediate commands to complete the process.
+ <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-3b" role="button" aria-expanded="false" aria-controls="moreDetails1-3b">More details…▼</a></small></span></p>
+
+    <div class="collapse" id="moreDetails1-3b">
+ <p class="text-muted mr-3 ml-3">
+ The project directory files are created first. Then, new gems are installed by running <code>bundle install</code>. Beware, some gems can take a long time to install (nokogiri, pg), but this is normal. One of the gems installed is webpacker which allows the app to serve all the project's JavaScript files in one large file, but it requires some installation setup which is the next thing to run as <code>rails webpacker:install</code>. Last the node packages will be installed by running <code>yarn install</code>. Many packages and their dependencies should be added. There will likely be a few dependency warnings which will later be resolved, but there should be no symlink errors.
+ </p>
+ </div>
   </li>
   <li>
-    <p>Open the file <code class="highlighter-rouge">Gemfile</code> in the top level of the quiz-me folder. This file contains all the gems required for the project. Add the following code lines to the end of the file:</p>
+    <p>Open the <code class="highlighter-rouge">quiz-me</code> project folder in VS Code and familiarize yourself with the directory structure.</p>
+  </li>
+  <li>
+    <p>Change directory into the <code class="highlighter-rouge">quiz-me</code> folder (<code class="highlighter-rouge">cd quiz-me</code>), and create a new project-specific gemset by running the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rvm use ruby-2.6.3@quiz-me <span class="nt">--ruby-version</span> <span class="nt">--create</span>
+</code></pre></div>    </div>
+
+    <p>This command will create two files, <code class="highlighter-rouge">.ruby-gemset</code> and <code class="highlighter-rouge">.ruby-version</code>, if they do not already exist to store the Ruby version and gemset information for RVM.</p>
+  </li>
+  <li>
+    <p>Open the file <code class="highlighter-rouge">Gemfile</code> in the top level of the <code class="highlighter-rouge">quiz-me</code> folder. This file declares all the gems required for the project. Another package is needed to ensure that PosgreSQL works correctly as the project’s database backend. To add the package insert the following code lines at the end of the file:</p>
 
     <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c1"># Disconnects all connections to PostgreSQL db when running rails db:reset</span>
  <span class="n">gem</span> <span class="s1">'pgreset'</span><span class="p">,</span> <span class="s1">'~&gt; 0.1.1'</span>
 </code></pre></div>    </div>
 
-    <blockquote>
-      <p><em>Without the pgreset gem, you will get <code class="highlighter-rouge">PG::ObjectInUse</code> errors when attempting to drop the database while pgAdmin is running.</em></p>
-    </blockquote>
+    <p><span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails1-6" role="button" aria-expanded="false" aria-controls="moreDetails1-6">More details…▼</a></small></span></p>
+
+    <div class="collapse" id="moreDetails1-6">
+ <p class="text-muted mr-3 ml-3">
+ Without the <code>pgreset</code> gem, you will get <code>PG::ObjectInUse</code> errors when attempting to drop the database while pgAdmin is running.
+ </p>
+ </div>
   </li>
-  <li>Run the command <code class="highlighter-rouge">bundle install</code> to install all the gems into the new gemset.</li>
+  <li>
+    <p>Install all the gems into the new gemset by running the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> bundle <span class="nb">install</span>
+</code></pre></div>    </div>
+  </li>
 </ol>
 
-<h2 id="1-creating-a-postgresql-database-for-a-new-rails-project">1. Creating a PostgreSQL Database for a New Rails Project</h2>
+<h2 id="2-creating-a-postgresql-database-for-the-new-rails-project">2. Creating a PostgreSQL Database for the New Rails Project</h2>
+
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/JKc52mCNok8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+</div>
 
 <ol>
   <li>
-    <p>Open the project folder in VS Code and familiarize yourself with the directory structure.</p>
+    <p>Open the file <code class="highlighter-rouge">config/database.yml</code>. This file contains the connection information for the project’s three PostgreSQL databases. Rails uses three environments (development, test, and production), each with their own separate databases.</p>
   </li>
   <li>
-    <p>Open the file <code class="highlighter-rouge">config/database.yml</code>. This file contains the connection information for the project’s three PostgreSQL databases. Rails uses three environments (development, test and production), each with their own separate databases.</p>
+    <p>Create the three PostgreSQL databases with the names specified in the <code class="highlighter-rouge">database.yml</code> file by running the following commands:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo</span> <span class="nt">-i</span> <span class="nt">-u</span> postgres psql <span class="nt">-c</span> <span class="s2">"CREATE DATABASE quiz_me_development OWNER vagrant;"</span>
+ <span class="nb">sudo</span> <span class="nt">-i</span> <span class="nt">-u</span> postgres psql <span class="nt">-c</span> <span class="s2">"CREATE DATABASE quiz_me_test OWNER vagrant;"</span>
+ <span class="nb">sudo</span> <span class="nt">-i</span> <span class="nt">-u</span> postgres psql <span class="nt">-c</span> <span class="s2">"CREATE DATABASE quiz_me_production OWNER vagrant;"</span>
+</code></pre></div>    </div>
+
+    <p><span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails2-2" role="button" aria-expanded="false" aria-controls="moreDetails2-2">More details…▼</a></small></span></p>
+
+    <div class="collapse" id="moreDetails2-2">
+ <p class="text-muted mr-3 ml-3">
+ The above commands can be adapted for any project by following the below template and changing the values of the variable <code>PG_DB_ROOT</code> with the appropriate information for the project. The first two psql commands only need to be run once on a system:
+
+ <code class="d-block pl-3 pr-3 bg-light">PG_USER="vagrant"</code>
+ <code class="d-block pl-3 pr-3 bg-light">PG_PSWD="password1"</code>
+ <code class="d-block pl-3 pr-3 bg-light">PG_DB_ROOT="default"</code>
+ <code class="d-block pl-3 pr-3 bg-light">sudo -i -u postgres psql -c "CREATE USER $PG_USER WITH PASSWORD '$PG_PSWD';"</code>
+ <code class="d-block pl-3 pr-3 bg-light">sudo -i -u postgres psql -c "ALTER USER $PG_USER WITH SUPERUSER CREATEDB;"</code>
+ <code class="d-block pl-3 pr-3 bg-light">sudo -i -u postgres psql -c "CREATE DATABASE ${PG_DB_ROOT}_development OWNER $PG_USER;"</code>
+ <code class="d-block pl-3 pr-3 bg-light">sudo -i -u postgres psql -c "CREATE DATABASE ${PG_DB_ROOT}_test OWNER $PG_USER;"</code>
+ <code class="d-block pl-3 pr-3 bg-light">sudo -i -u postgres psql -c "CREATE DATABASE ${PG_DB_ROOT}_production OWNER $PG_USER;"</code>
+ </p>
+ </div>
   </li>
-  <li>
-    <p>Create the three databases with the names specified in the database.yml file by running the following commands:</p>
-
-    <pre><code class="language-Powershell"> sudo -i -u postgres psql -c "CREATE DATABASE quiz_me_development OWNER vagrant;"
- sudo -i -u postgres psql -c "CREATE DATABASE quiz_me_test OWNER vagrant;"
- sudo -i -u postgres psql -c "CREATE DATABASE quiz_me_production OWNER vagrant;"
-</code></pre>
-
-    <blockquote>
-      <p><em>The above commands can be adapted for any project by following the below template and changing the values of the variable <code class="highlighter-rouge">PG_DB_ROOT</code> with the appropriate information for the project. The first two psql commands only need to be run once on a system:</em></p>
-    </blockquote>
-
-    <pre><code class="language-Powershell"> PG_USER="vagrant"
- PG_PSWD="password1"
- PG_DB_ROOT="default"
-
- sudo -i -u postgres psql -c "CREATE USER $PG_USER WITH PASSWORD '$PG_PSWD';"
- sudo -i -u postgres psql -c "ALTER USER $PG_USER WITH SUPERUSER CREATEDB;"
- sudo -i -u postgres psql -c "CREATE DATABASE ${PG_DB_ROOT}_development OWNER $PG_USER;"
- sudo -i -u postgres psql -c "CREATE DATABASE ${PG_DB_ROOT}_test OWNER $PG_USER;"
- sudo -i -u postgres psql -c "CREATE DATABASE ${PG_DB_ROOT}_production OWNER $PG_USER;"
-</code></pre>
-  </li>
-  <li>Make the following changes to the database.yml file:
+  <li>Make the following changes to the <code class="highlighter-rouge">database.yml</code> file:
     <ul>
       <li>
         <p>Add username and password to the default configuration to match the following:</p>
@@ -143,14 +196,20 @@
 
         <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">production</span><span class="pi">:</span>
   <span class="s">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*default</span>
-  <span class="na">database</span><span class="pi">:</span> <span class="s">default_production</span>
-  <span class="c1"># username: quiz_maker</span>
-  <span class="c1"># password: &lt;%= ENV['QUIZ_MAKER_DATABASE_PASSWORD'] %&gt;</span>
+  <span class="na">database</span><span class="pi">:</span> <span class="s">quiz_me_production</span>
+  <span class="c1"># username: quiz_me</span>
+  <span class="c1"># password: &lt;%= ENV['QUIZ_ME_DATABASE_PASSWORD'] %&gt;</span>
 </code></pre></div>        </div>
       </li>
     </ul>
   </li>
-  <li>Confirm the database configuration is correct by running the commands <code class="highlighter-rouge">rails db:migrate</code> and <code class="highlighter-rouge">rails db:reset</code>.</li>
+  <li>
+    <p>Confirm the database configuration is correct by running the following commands:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails db:migrate
+ rails db:reset
+</code></pre></div>    </div>
+  </li>
 </ol>
 
             </div> <!-- /.container -->

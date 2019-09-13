@@ -67,7 +67,7 @@ Vagrant.configure("2") do |config|
   # config.vm.synced_folder ".", "/vagrant", 
   #   type:"nfs", 
   #   mount_options: %w{rw,async,fsc,nolock,vers=3,udp,rsize=32768,wsize=32768,hard,noatime,actimeo=2}
-  config.vm.synced_folder ".", "/vagrant", fsnotify: true
+  config.vm.synced_folder ".", "/vagrant", fsnotify: true, exclude: [ '.git', 'node_modules', 'tmp/cache' ]
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.

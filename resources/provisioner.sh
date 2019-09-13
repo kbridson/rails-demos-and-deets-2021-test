@@ -37,8 +37,8 @@ sudo timedatectl set-timezone America/Chicago
 
 # 
 # Display motd (Message of the Day)
-# 
-sudo sed -i 's?motd=/etc/motd?motd=/run/motd.dynamic?g' /etc/pam.d/sshd
+#
+sudo sed -i 's?.*motd=/etc/motd$?session    optional      pam_motd.so  motd=/run/motd.dynamic?g' /etc/pam.d/sshd
 
 #
 # Install the requisite Ubuntu packages.
