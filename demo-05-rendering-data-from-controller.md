@@ -8,13 +8,15 @@ permalink: /demo-05-rendering-data-from-controller/
 
 In this demonstration, I will demonstrate how to pass data from a controller action to a view and how to render the view using ruby functions. I will continue to work on the _QuizMe_ project from the previous demos.
 
-## 1. Moving Business Data from the View to the Controller
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pRj5C4ZzC1Y" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
-Following Rails' MVC architecture, the models and to some extent the controllers should be responsible for storing and processing a website's data. The views should only format and display that data. Central to mastering Rails is understanding the ways that data can be passed between the models, views, and controllers.
+Following Rails' MVC architecture, the models (and to some extent the controllers) should be responsible for storing and processing a website's data. The views should only format and display that data. Central to mastering Rails is understanding the ways that data can be passed between the models, views, and controllers.
 
 The _QuizMe_ site does not have much data so far; however, for demonstration purposes, we would like to extract the list of features (i.e., some data) currently in the welcome page view, and instead, encode them as an array of strings in the controller. That way, the array of feature-list items can be rendered using a loop in the view. Such a setup would make adding new feature-list items much easier than inserting them (along with all their accompanying HTML code) manually into the view. The following steps can be performed to make this change.
 
-1. Copy the feature strings from `app/views/static/welcome.html.erb` and reformat them into a ruby array in the `app/controllers/static_pages_controller.rb`'s welcome action above the `respond_to` block. The resulting array should match:
+1. Copy the feature strings from `app/views/static/welcome.html.erb` and reformat them into a ruby array in the `app/controllers/static_pages_controller.rb`'s `welcome` action above the `respond_to` block. The resulting array should look like this:
 
     ```ruby
     features = [
