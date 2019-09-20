@@ -1,10 +1,10 @@
 ---
 layout: page
-title: 'Demo 6: Rendering Data From Controllers'
-permalink: /demo-06-rendering-data-from-controller/
+title: 'Demo 5: Rendering Data From Controllers'
+permalink: /demo-05-rendering-data-from-controller/
 ---
 
-# Demo 6: Rendering Data From Controllers
+# Demo 5: Rendering Data From Controllers
 
 In this demonstration, I will show how to pass data from a controller action to its view and render it using ruby functions. I will continue to work on the _QuizMe_ project from the previous demos.
 

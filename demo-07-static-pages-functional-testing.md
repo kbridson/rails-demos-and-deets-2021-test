@@ -1,10 +1,10 @@
 ---
 layout: page
-title: 'Demo 5: Functional Testing of Static Pages'
-permalink: /demo-05-static-pages-functional-testing/
+title: 'Demo 7: Functional Testing of Static Pages'
+permalink: /demo-07-static-pages-functional-testing/
 ---
 
-# Demo 5: Functional Testing of Static Pages
+# Demo 7: Functional Testing of Static Pages
 
 In this demonstration, I will show how to do some basic automated testing of the routes and static pages to make sure they are still working correctly without having to start the server and check each one manually. I will continue to work on the _QuizMe_ project from the previous demos.
 
