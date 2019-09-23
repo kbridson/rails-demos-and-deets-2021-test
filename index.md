@@ -17,7 +17,8 @@ title: Home
 ### 2. Creating and Testing Simple Web Pages
 
 - [Demo 4: Adding (Mostly Static) View Pages in Rails]({{ site.baseurl }}/demo-04-rails-static-pages)
-- [Demo 5: Demo 5: Rendering Data from Controllers]({{ site.baseurl }}/demo-05-rendering-data-from-controller/)
+- [Demo 5: Rendering Data from Controllers]({{ site.baseurl }}/demo-05-rendering-data-from-controller/)
+- [Demo 6: Passing Data from View to Controller]({{ site.baseurl }}/demo-06-passing-data-from-view-to-controller/)
 
 ## Deets
 
