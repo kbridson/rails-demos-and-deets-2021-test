@@ -21,6 +21,10 @@ In particular, the form will appear within a _Contact_ page, and it will be used
 
 In this part, I will create the new _Contact_ page that will later hold the form. Since this part involves only tasks that have already been covered in a [previous demo]({{ site.baseurl }}/demo-04-rails-static-pages/), I give only a brief description of the steps.
 
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/_vKGqS6BWK4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
 1. Add a new contact page to house form _QuizMe_ users can use to send feedback to the developers. The contact page should have the URL <http://localhost:3000/contact>. The contact view should start with the following base content:
 
     ```erb
@@ -37,9 +41,15 @@ In this part, I will create the new _Contact_ page that will later hold the form
 
 1. Add a link to the _Contact_ page to the bottom of the _Welcome_ page.
 
+**[➥ Code changeset for this part](https://github.com/sdflem/quiz-me/commit/44ac01bdb4f47c734bf14e9f0801376c1ada2a4b)**
+
 ## 2. Collecting Form Data from the User
 
 In this part, I will be building the form depicted in Fig. 1. The form will collect a users' name, email, whether someone from _QuizMe_ is allowed to contact them at the provided email, the kind of feedback they want to leave, and their message. For now, users will be able to fill out and submit the form, but the app will not yet process the input data submitted. I will cover input processing in the next part of the demo.
+
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pXVcP3F8uVU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 1. Create a new POST route for the URL <http://localhost:3000/contact> that points to a new `leave_feedback` action in the `StaticPagesController` class, and name the new route `'leave_feedback'`. The new route should look like this:
 
@@ -152,9 +162,15 @@ In this part, I will be building the form depicted in Fig. 1. The form will coll
 
         The main `submit_tag` argument is the text that the button will display (`"Send Feedback"`).
 
+**[➥ Code changeset for this part](https://github.com/sdflem/quiz-me/commit/1201588e156f74e9e730f7ef898bf5c136beb2f7)**
+
 ## 3. Processing User-Submitted Form Data in the Controller
 
 In this part, I will make the `leave_feedback` controller action process the user data submitted via a form. All form fields will be required to accept a submission. Submitting the form will reload the _Contact_ page with a status message that tells the user if the submission was valid or if they missed any fields.
+
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/VeLVcfSAvYo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 Form-input data is sent to the controller via the `params` hash. In Ruby, a _hash_ is a key-value data structure (similar to a dictionary in Python). You can set values for all the keys in the hash using code like `options = { font_size: 10, font_family: "Arial" }`, or you can set or access a single value using code like `options[:font_size]`. When a form is submitted the field ID (key) and value of each form field is added to the `params` hash. Also, the params hash only uses string values, so even if the field takes an integer or a boolean it will be converted to a string. You need to be aware of this if you are doing comparisons in the controller.
 
@@ -254,3 +270,5 @@ The controller action should check if all required fields have a value other tha
         ```
 
 We should now have a working form that users can use to easily enter their feedback and see if it has been accepted. We will see in the next few demos how to further improve this form by using remote form submission (to stop the page from reloading every time the form is submitted) and using so-called _flash_ messages (to display a more dynamic status message). Of course, at this point, a big omission to the feedback form feature is having it actually do something useful with the submitted data, like saving the data. Upcoming demos will also cover a variety of ways to save and process such form data.
+
+**[➥ Code changeset for this part](https://github.com/sdflem/quiz-me/commit/cde8d654fef8dd34055cee1f47e2116bd5817d88)**
