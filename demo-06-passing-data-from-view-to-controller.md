@@ -222,11 +222,19 @@ The controller action should check if all required fields have a value other tha
 
 1. At this point, the user should be able to submit the form and see the response message. However, if the user is told the form was incomplete, the current version of the app requires them to re-enter their information for all the fields, not just the ones that were missing/invalid. We can fix this usability problem by passing the data from the `params` hash back into the view in a new hash local variable `feedback`. Then, in the view, we can set the value of each form field based on the `feedback` hash. If a field has no value in the `feedback` hash, it will be set to the original default value for the field. The following steps set this up:
 
-    1. Add the `feedback` variable to the response by changing the HTML response to match:
+    1. In the `leave_feedback` controller action, add the `feedback` variable to the response by changing the HTML response to look like this:
 
         ```ruby
         format.html { render :contact, locals: { status_msg: form_status_msg, feedback: params } }
         ```
+
+    1. In the `contact` controller action, add the `feedback` variable to the response by changing the HTML response to look like this:
+
+        ```ruby
+        format.html { render :contact, locals: { feedback: {} } }
+        ```
+
+        This change is needed, because the `contact.html.erb` view code will assume that a `feedback` hash exists, so whenever the view is rendered, a hash must be passed in. However, the hash may be empty (as it is in this case).
 
     1. Change the fields' values to come from the `feedback` hash if set and to use the default if not. Previously, we used the `has_key?` method with an `if` statement to optionally set this. We might try doing the same here using the following [ternary operator](https://syntaxdb.com/ref/ruby/ternary):
 
