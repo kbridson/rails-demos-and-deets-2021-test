@@ -1,16 +1,21 @@
 ---
 layout: page
-title: 'Demo 5: Functional Testing of Static Pages'
-permalink: /demo-05-static-pages-functional-testing/
+title: 'Demo 7: Functional Testing of Static Pages'
+permalink: /demo-07-static-pages-functional-testing/
 ---
 
-# Demo 5: Functional Testing of Static Pages
+# Demo 7: Functional Testing of Static Pages
 
-In this demonstration, I will show how to do some basic automated testing of the routes and static pages to make sure they are still working correctly without having to start the server and check each one manually. I will continue to work on the _QuizMe_ project from the previous demos.
+In this demonstration, I will show how to write some basic automated test functions to make sure that the pages we have made are working the way we expect them to. Later on these tests will help us to make sure any changes we make later do not unexpectedly break any of the functionality we already have. I will continue to work on the _QuizMe_ project from the previous demos.
 
 This and all future demos will assume you are starting in the workspace folder on your virtual machine.
 
-## 1. Adding a New Page
+## Controller Tests
+
+
+
+
+1. Adding a New Page
 
 Based on the MVC model, there are three things needed to setup a page in a Rails project. You need a controller action (a function inside a controller file) which renders a html.erb view file containing the html code for the page. You also need a route in the routes.rb file which links the URL for the page with the controller action.
 
