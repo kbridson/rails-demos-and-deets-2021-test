@@ -167,7 +167,7 @@ TODO: Explanation of what we are doing including:
             choices = [question.answer, question.distractor_1, question.distractor_2]
             choices.each do |c|
             %>
-              <div class="custom-control custom-radio">
+              <div>
                 <%= radio_button_tag "guess", c, checked = c == question.answer, disabled: true %>
                 <%= label_tag "guess_#{c}", c %>
               </div>
