@@ -20,6 +20,10 @@ title: Home
 - [Demo 5: Rendering Data from Controllers]({{ site.baseurl }}/demo-05-rendering-data-from-controller/)
 - [Demo 6: Passing Data from View to Controller]({{ site.baseurl }}/demo-06-passing-data-from-view-to-controller/)
 
+### 3. Storing and Retrieving Data via the Model
+
+- [Demo 7: Working with Simple Models]({{ site.baseurl }}/demo-07-working-with-simple-models/)
+
 ## Deets
 
 - [ERBs Explained]({{ site.baseurl }}/deets-erb/)
