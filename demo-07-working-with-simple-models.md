@@ -19,6 +19,10 @@ Since we are building a quizzing application, we will need to store questions in
 </figure>
 </div>
 
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/qZLxdc_6MOI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
 1. Run the following `rails generate model ...` command to create the model class shown in the above class diagram:
 
     ```bash
@@ -58,9 +62,15 @@ Since we are building a quizzing application, we will need to store questions in
 
     Observe the new records in pgAdmin.
 
+**[➥ Code changeset for this part](https://github.com/sdflem/quiz-me/commit/0f812ada8d65c6755f13563cee09324b7bc47df3)**
+
 ## 2. Retrieving and Viewing Records from the Database
 
 In the first part of this demo, we stored a few questions in the database, so in this part, we will demonstrate how to retrieve and display the questions. In particular, we will demonstrate how to display a single question using a `show` action and how to display all the questions using an `index` action. These two actions are semi-standard read (as in the R in CRUD) actions in Rails. There are also semi-standard `create`, `update`, and `destroy` actions that we will cover in future demos.
+
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/QxIifPWWNKA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 1. Create a controller for `McQuestion` objects by running the `rails generate controller ...` command as follows:
 
@@ -193,3 +203,5 @@ In the first part of this demo, we stored a few questions in the database, so in
         Now, the group ID should be unique for each question. I also changed the `label` tag `id` for consistency.
 
 The QuizMe app now provides a way to view an individual multiple-choice question (`show`) and a way to view all the multiple-choice questions on a single page (`index`).
+
+**[➥ Code changeset for this part](https://github.com/sdflem/quiz-me/commit/9f9d520e550fc0802a4d6e1212469d9d92bc3671)**
