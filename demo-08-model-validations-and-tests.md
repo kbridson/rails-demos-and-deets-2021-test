@@ -316,13 +316,13 @@ In the case of multiple choice questions, all the choices should be unique for a
     test "choices cannot be duplicate not valid" do
       q = mc_questions(:one)
       q.distractor_1 = q.answer
-      assert q.valid?, q.errors.full_messages.inspect
+      assert_not q.valid?, q.errors.full_messages.inspect
       q = mc_questions(:one)
       q.distractor_1 = q.distractor_2
-      assert q.valid?, q.errors.full_messages.inspect
+      assert_not q.valid?, q.errors.full_messages.inspect
       q = mc_questions(:one)
       q.distractor_2 = q.answer
-      assert q.valid?, q.errors.full_messages.inspect
+      assert_not q.valid?, q.errors.full_messages.inspect
     end
     ```
 
