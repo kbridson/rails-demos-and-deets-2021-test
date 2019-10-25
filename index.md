@@ -24,7 +24,9 @@ title: Home
 
 - [Demo 7: Working with Simple Models]({{ site.baseurl }}/demo-07-working-with-simple-models/)
 - [Demo 8: Model Validations and Tests]({{ site.baseurl }}/demo-08-model-validations-and-tests/)
+- [Demo 9: Forms for Creating New Model Records]({{ site.baseurl }}/demo-09-new-create-forms/)
 
 ## Deets
 
 - [ERBs Explained]({{ site.baseurl }}/deets-erb/)
+- [Sessions and the Flash Explained]({{ site.baseurl }}/deets-sessions/)
