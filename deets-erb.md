@@ -68,4 +68,6 @@ The generated HTML would look like this:
 
 ```
 
+## Further Reading
+
 For more info on ERB, see the official Ruby documentation: <https://ruby-doc.org/stdlib-2.6.4/libdoc/erb/rdoc/ERB.html>
