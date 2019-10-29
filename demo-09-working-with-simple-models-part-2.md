@@ -214,7 +214,7 @@ Now let's add the logic to the `create` action. The action will need to retrieve
     # success message
     flash[:success] = "Question saved successfully"
     # redirect to index
-    redirect_to mc_questions_url, notice: "Question saved successfully"
+    redirect_to mc_questions_url
     ```
 
 1. On a failed save, add an error message to the flash using `flash.now`, and render the `new` form, so the user can try again, like this:
