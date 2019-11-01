@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-tutorial-2019/assets/img/favicon.png">
+
+<title>Demo 10: Working with Simple Models (part 3) | Web Development with Ruby on Rails Tutorial 2019</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-tutorial-2019/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-tutorial-2019/"><img src="/rails-tutorial-2019/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-tutorial-2019/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-tutorial-2019/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="demo-10-working-with-simple-models-part-3">Demo 10: Working with Simple Models (part 3)</h1>
+
+<p>In this demonstration, I will show how to add controller actions and views that allow users to update and delete database records. I will continue to work on the <em>QuizMe</em> project from the previous demos.</p>
+
+<h2 id="1-updating-records">1. Updating Records</h2>
+
+<p>In the previous demo, we added the ability for users to create new questions; however, once a question is saved they have no way to edit the attributes. In this section, we will work on adding the ability to update records.</p>
+
+<p>The update functionality will be similar to the create functionality in that users will edit the attributes in a form. However, this form will use an existing object, so we need to use the <code class="highlighter-rouge">find</code> query method to get the correct object in both controller actions. The actions we will use will be <code class="highlighter-rouge">edit</code> and <code class="highlighter-rouge">update</code>. Based on the <code class="highlighter-rouge">new</code> and <code class="highlighter-rouge">update</code> actions, you might guess that the <code class="highlighter-rouge">edit</code> action will be responsible for displaying the form, the form will submit to the <code class="highlighter-rouge">update</code> action, and the <code class="highlighter-rouge">update</code> action will be responsible for saving the changes or returning errors. Unlike <code class="highlighter-rouge">new</code> and <code class="highlighter-rouge">create</code>, both the <code class="highlighter-rouge">edit</code> and <code class="highlighter-rouge">update</code> actions will need to be supplied an existing record’s id, so their routes will contain a URL parameter <code class="highlighter-rouge">:id</code> which is the id of the record to modify.</p>
+
+<p>Let’s start by setting up the <code class="highlighter-rouge">edit</code> and <code class="highlighter-rouge">update</code> boilerplate:</p>
+
+<ol>
+  <li>
+    <p>Add the standard resource routes for the <code class="highlighter-rouge">McQuestionsController</code>’s <code class="highlighter-rouge">edit</code> and <code class="highlighter-rouge">update</code> actions:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c1"># index route</span>
+ <span class="c1"># new route</span>
+ <span class="c1"># create route</span>
+ <span class="n">get</span> <span class="s1">'mc_questions/:id/edit'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'mc_questions#edit'</span><span class="p">,</span> <span class="ss">as: </span><span class="s1">'edit_mc_question'</span> <span class="c1"># edit</span>
+ <span class="n">patch</span> <span class="s1">'mc_questions/:id'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'mc_questions#update'</span>                          <span class="c1"># update (as needed)</span>
+ <span class="n">put</span> <span class="s1">'mc_questions/:id'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'mc_questions#update'</span>                            <span class="c1"># update (full replacement)</span>
+ <span class="c1"># show route</span>
+</code></pre></div>    </div>
+
+    <p>Pay attention to the order of the routes. Also, notice that instead of using a POST request for update, we have two new request types: PATCH and PUT. 
+ TODO: Patch vs put “Use PUT when you want to modify a singular resource which is already a part of resources collection. PUT replaces the resource in its entirety. Use PATCH if request updates part of the resource.”</p>
+
+    <blockquote>
+      <p>You can also combine the patch and put routes into one line with:</p>
+    </blockquote>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ```ruby
+ match 'mc_questions/:id', to: 'mc_questions#update', via: [:put, :patch]
+ ```
+
+ This only works because the path and controller method are the same for different request types.
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>In the <code class="highlighter-rouge">McQuestionsController</code>, add a <code class="highlighter-rouge">edit</code> action that will render the standard corresponding view and pass an empty McQuestion object to use in the form. The code should be:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">def</span> <span class="nf">edit</span>
+   <span class="c1"># object to use in form</span>
+   <span class="n">question</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+   <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+     <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">question: </span><span class="n">question</span> <span class="p">}</span> <span class="p">}</span>
+   <span class="k">end</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add an empty <code class="highlighter-rouge">update</code> action.</p>
+  </li>
+  <li>
+    <p>Create the <code class="highlighter-rouge">edit.html.erb</code> file under <code class="highlighter-rouge">app/views/mc_questions</code> containing the following code:</p>
+
+    <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;h1&gt;</span>Edit Question<span class="nt">&lt;/h1&gt;</span>
+
+ <span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="n">question</span><span class="p">,</span> <span class="ss">url: </span><span class="n">mc_question_path</span><span class="p">,</span> <span class="ss">method: :patch</span><span class="p">,</span> <span class="ss">local: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">scope: :mc_question</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+
+   <span class="c">&lt;!-- attribute fields --&gt;</span>
+   <span class="nt">&lt;div&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:question</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:question</span> <span class="cp">%&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+
+   <span class="nt">&lt;div&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:answer</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:answer</span> <span class="cp">%&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+
+   <span class="nt">&lt;div&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:distractor_1</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:distractor_1</span> <span class="cp">%&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+
+   <span class="nt">&lt;div&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:distractor_2</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:distractor_2</span> <span class="cp">%&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+
+   <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">submit</span> <span class="s1">'Update Question'</span> <span class="cp">%&gt;</span>
+
+ <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div>    </div>
+
+    <p>This code is largely the same as <code class="highlighter-rouge">new.html.erb</code>. The heading has changed to “Edit”. The <code class="highlighter-rouge">url</code> and <code class="highlighter-rouge">method</code> options on the <code class="highlighter-rouge">form_with</code> helper have been changed to match the update route. The submit button text has been changed to “Update”.</p>
+  </li>
+</ol>
+
+<p>At this point, you can try visiting <a href="http://localhost:3000/mc_questions/1/edit">http://localhost:3000/mc_questions/1/edit</a> to see the data load and the form display. Depending on how you recently you have reset the database, it might be difficult to guess an id of an existing object in your database so you may get <code class="highlighter-rouge">RecordNotFound</code> errors. It would be better to add links to the edit pages for each object instead of trying to guess the URL ourselves.</p>
+
+<ol>
+  <li>
+    <p>Add an show (🛈 symbol) and edit (✎ symbol) link to the display of each question on the index page by changing the question display to:</p>
+
+    <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;p&gt;</span>
+   <span class="cp">&lt;%=</span> <span class="n">question</span><span class="p">.</span><span class="nf">question</span> <span class="cp">%&gt;</span>
+   <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'🛈'</span><span class="p">,</span> <span class="n">mc_question_path</span><span class="p">(</span><span class="n">question</span><span class="p">)</span> <span class="cp">%&gt;</span>
+   <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'✎'</span><span class="p">,</span> <span class="n">edit_mc_question_path</span><span class="p">(</span><span class="n">question</span><span class="p">)</span> <span class="cp">%&gt;</span>
+ <span class="nt">&lt;/p&gt;</span>
+</code></pre></div>    </div>
+
+    <p>You might also want to add the edit symbol after the question text on the show page as well.</p>
+  </li>
+</ol>
+
+<p>You should now be able to go to the edit page for any question by clicking the <code class="highlighter-rouge">✎</code> link for that question on the index page.</p>
+
+<p>Now let’s add the logic to the <code class="highlighter-rouge">update</code> action. We need to load the existing object from the database again using the id passed through the update path and attempt to update it using the permitted parameters from mc_question in the params hash. We will perform a redirect action if it updates correctly, or render the form again with an error message if not. Psuedocode for the logic would look like:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```ruby
+def update
+  # load existing object again from URL param
+  # respond_to block
+    # html format block
+      # if question updates with permitted params
+        # success message
+        # redirect to index
+      # else
+        # error message
+        # render edit
+end
+```
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p>Add code to load the existing object using the id from the path in params hash like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c1"># load existing object again from URL param</span>
+ <span class="n">question</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add the respond to block and if logic using the <code class="highlighter-rouge">update</code> method which takes permitted params:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c1"># respond_to block</span>
+ <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+   <span class="c1"># html format block</span>
+   <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span>
+     <span class="c1"># if question updates with permitted params</span>
+     <span class="k">if</span> <span class="n">question</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:mc_question</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:question</span><span class="p">,</span> <span class="ss">:answer</span><span class="p">,</span> <span class="ss">:distractor_1</span><span class="p">,</span> <span class="ss">:distractor_2</span><span class="p">))</span>
+       <span class="c1"># success message</span>
+       <span class="c1"># redirect to index</span>
+     <span class="k">else</span>
+       <span class="c1"># error message</span>
+       <span class="c1"># render edit</span>
+     <span class="k">end</span>
+   <span class="p">}</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Complete the logic for no errors on question.save by adding a success message to the flash and a redirect to the index page using the named url helper:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c1"># success message</span>
+ <span class="n">flash</span><span class="p">[</span><span class="ss">:success</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Question updated successfully'</span>
+ <span class="c1"># redirect to index</span>
+ <span class="n">redirect_to</span> <span class="n">mc_questions_url</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Complete the logic for errors on question.update by adding an error message to the flash using <code class="highlighter-rouge">flash.now</code> and re-rendering the edit page:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c1"># error message</span>
+ <span class="n">flash</span><span class="p">.</span><span class="nf">now</span><span class="p">[</span><span class="ss">:error</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Error: Question could not be updated'</span>
+ <span class="c1"># render edit</span>
+ <span class="n">render</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">question: </span><span class="n">question</span> <span class="p">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>Users can now update existing questions.</p>
+
+<h2 id="2-deleting-records">2. Deleting Records</h2>
+
+<p>TODO: What are we doing? Although we are “deleting” records, the controller action we create is called “destroy” and we will use the ActiveRecord <code class="highlighter-rouge">McQuestion#destroy</code> method to remove the object. However, the HTTP request verb is still “delete”. Also, although destroy has a controller action and route, there is usually no html page for deleting a record, only a confirmation dialog box.</p>
+
+<ol>
+  <li>
+    <p>Add the standard resource routes for the <code class="highlighter-rouge">McQuestionsController</code>’s <code class="highlighter-rouge">destroy</code> action:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c1"># show route</span>
+ <span class="n">delete</span> <span class="s1">'mc_questions/:id'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'mc_questions#destroy'</span> <span class="c1"># destroy route</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add an empty destroy controller action.</p>
+  </li>
+</ol>
+
+<p>Since <code class="highlighter-rouge">destroy</code> has no html page, the logic for the controller action will only find the object to delete based on the id from the URL, delete it, and redirect to the index page. The psuedocode for this logic looks like:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```ruby
+def destroy
+  # load existing object again from URL param
+  # destroy object
+  # respond_to block
+    # html format block
+      # success message
+      # redirect to index
+end
+```
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p>Add code to load the existing object using the id from the path in params hash and delete it like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c1"># load existing object again from URL param</span>
+ <span class="n">question</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+ <span class="c1"># destroy object</span>
+ <span class="n">question</span><span class="p">.</span><span class="nf">destroy</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Complete the logic for the respond_to block by adding a success message to the flash and a redirect to the index page using the named url helper:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c1"># respond_to block</span>
+ <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+   <span class="c1"># html format block</span>
+   <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span>
+     <span class="c1"># success message</span>
+     <span class="n">flash</span><span class="p">[</span><span class="ss">:success</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Question removed successfully'</span>
+     <span class="c1"># redirect to index</span>
+     <span class="n">redirect_to</span> <span class="n">mc_questions_url</span>
+   <span class="p">}</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add a delete (🗑 symbol) link after the edit link in the display of each question on the index page and show page:</p>
+
+    <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c">&lt;!-- edit link --&gt;</span>
+ <span class="c">&lt;!-- delete link --&gt;</span>
+ <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'🗑'</span><span class="p">,</span> <span class="n">mc_question_path</span><span class="p">(</span><span class="n">question</span><span class="p">),</span> <span class="ss">method: :delete</span> <span class="cp">%&gt;</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>You should now be able to delete any question by clicking the <code class="highlighter-rouge">🗑</code> link for that question on the index page.</p>
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2019
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>

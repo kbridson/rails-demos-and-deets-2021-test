@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-tutorial-2019/assets/img/favicon.png">
+
+<title>Demo 11: One to Many Associations (part 1) | Web Development with Ruby on Rails Tutorial 2019</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-tutorial-2019/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-tutorial-2019/"><img src="/rails-tutorial-2019/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-tutorial-2019/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-tutorial-2019/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="demo-11-one-to-many-associations-part-1">Demo 11: One to Many Associations (part 1)</h1>
+
+<p>In this demonstration, I will show how to setup a one-to-many model association by creating the appropriate migrations and model statements. I will also update the seeds, fixtures and tests to reflect the new association. I will continue to work on the <em>QuizMe</em> project from the previous demos.</p>
+
+<p>TODO: What are we doing. Class diagram. (Quiz has title and description)
+TODO: How are we doing it.</p>
+<ul>
+  <li>Changing db: We need to change the db schema by adding a new migration that will create the quizzes table for the new Quiz model. We also need to add a column to the mc_questions table to hold the quizzes FK.</li>
+  <li>Changing model classes: After the Quiz model has been created, we need to add a belongs_to statement to the McQuestion model class and a has_many statement to the Quiz model class.</li>
+</ul>
+
+<h2 id="1-changing-the-database">1. Changing the Database</h2>
+
+<p>TODO: In this section…</p>
+
+<ol>
+  <li>
+    <p>Generate the migration for the Quiz model.</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails g model Quiz title description:text <span class="o">(</span>string datatype is default and can be omitted<span class="o">)</span>
+</code></pre></div>    </div>
+
+    <p>TODO: Look at the file that was created.</p>
+  </li>
+  <li>
+    <p>After the <code class="highlighter-rouge">create_table</code> block in the CreateQuizzes migration, add a statement that will add a quiz reference (FK) to the mc_questions table with:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">add_reference</span> <span class="ss">:mc_questions</span><span class="p">,</span> <span class="ss">:quiz</span><span class="p">,</span> <span class="ss">foreign_key: </span><span class="kp">true</span>
+</code></pre></div>    </div>
+
+    <p>Scott: I think that auto-generating that statement in its own migration file based on the name of the file is more confusing. For debugging if they get the name slightly wrong, they would need to look at this statement in the file and make sure it makes sense anyways.</p>
+  </li>
+  <li>
+    <p>Run db:migrate and look at the updated schema file.</p>
+  </li>
+</ol>
+
+<h2 id="2-changing-model-classes">2. Changing Model Classes</h2>
+
+<p>TODO: In this section…</p>
+
+<ol>
+  <li>
+    <p>Add the following belongs_to statement to <code class="highlighter-rouge">mc_questions.rb</code>:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">belongs_to</span> <span class="ss">:quiz</span><span class="p">,</span> <span class="c1"># McQuestion attribute of with datatype Quiz</span>
+   <span class="ss">class_name: </span><span class="s1">'Quiz'</span><span class="p">,</span> <span class="c1"># datatype of attribute</span>
+   <span class="ss">foreign_key: </span><span class="s1">'quiz_id'</span><span class="p">,</span> <span class="c1"># name of column containing FK</span>
+   <span class="ss">inverse_of: :mc_questions</span> <span class="c1"># attribute on other side of association (array containing all McQuestion objects belonging to a quiz)</span>
+</code></pre></div>    </div>
+
+    <p>If the attribute name is the lowercase form of the class name and the column name is the lowercase form of the class name with “_id”, then the class_name, foreign_key and inverse_of options do not need to be explicitly declared. In this case, the statement <code class="highlighter-rouge">belongs_to :quiz</code> is equivalent.</p>
+  </li>
+  <li>
+    <p>Add the following has_many statement to <code class="highlighter-rouge">quiz.rb</code>:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">has_many</span> <span class="ss">:mc_questions</span><span class="p">,</span> <span class="c1"># Quiz attribute containing an array of McQuestion objects</span>
+   <span class="ss">class_name: </span><span class="s1">'McQuestion'</span><span class="p">,</span> <span class="c1"># datatype of attribute</span>
+   <span class="ss">foreign_key: </span><span class="s1">'quiz_id'</span><span class="p">,</span> <span class="c1"># name of column containing FK in other table</span>
+   <span class="ss">inverse_of: :quiz</span> <span class="c1"># attribute on other side of association (parent Quiz object)</span>
+</code></pre></div>    </div>
+
+    <p>Similar to the belongs_to statement, class_name, foreign_key, and inverse_of are redundant in this case.</p>
+  </li>
+</ol>
+
+<h2 id="3-updating-seeds">3. Updating Seeds</h2>
+
+<p>TODO: In this section…</p>
+
+<ol>
+  <li>
+    <p>Add a couple Quiz seeds at the top of the seeds file:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">q1</span> <span class="o">=</span> <span class="no">Quiz</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">title: </span><span class="s1">'MVC Concepts'</span><span class="p">)</span>
+ <span class="n">q2</span> <span class="o">=</span> <span class="no">Quiz</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">title: </span><span class="s1">'Rails Concepts'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add a few more McQuestion objects to match:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">question: </span><span class="s1">'What does the M in MVC stand for?'</span><span class="p">,</span> 
+   <span class="ss">answer: </span><span class="s1">'Model'</span><span class="p">,</span> <span class="ss">distractor_1: </span><span class="s1">'Media'</span><span class="p">,</span> <span class="ss">distractor_2: </span><span class="s1">'Mode'</span><span class="p">)</span>
+ <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">question: </span><span class="s1">'What does the V in MVC stand for?'</span><span class="p">,</span> 
+   <span class="ss">answer: </span><span class="s1">'View'</span><span class="p">,</span> <span class="ss">distractor_1: </span><span class="s1">'Verify'</span><span class="p">,</span> <span class="ss">distractor_2: </span><span class="s1">'Validate'</span><span class="p">)</span>
+ <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">question: </span><span class="s1">'What does the C in MVC stand for?'</span><span class="p">,</span> 
+   <span class="ss">answer: </span><span class="s1">'Controller'</span><span class="p">,</span> <span class="ss">distractor_1: </span><span class="s1">'Create'</span><span class="p">,</span> <span class="ss">distractor_2: </span><span class="s1">'Code'</span><span class="p">)</span>
+
+ <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">question: </span><span class="s1">'Which hash is primarily used for one way message passing from the controller to the view?'</span><span class="p">,</span> 
+   <span class="ss">answer: </span><span class="s1">'flash'</span><span class="p">,</span> <span class="ss">distractor_1: </span><span class="s1">'session'</span><span class="p">,</span> <span class="ss">distractor_2: </span><span class="s1">'params'</span><span class="p">)</span>
+ <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">question: </span><span class="s1">'In which folder are image assets for the QuizMe app stored?'</span><span class="p">,</span> 
+   <span class="ss">answer: </span><span class="s1">'quiz-me/app/assets/images'</span><span class="p">,</span> <span class="ss">distractor_1: </span><span class="s1">'quiz-me'</span><span class="p">,</span> <span class="ss">distractor_2: </span><span class="s1">'quiz-me/images'</span><span class="p">)</span>
+ <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">question: </span><span class="s1">'Which standard RESTful controller action is used to remove records?'</span><span class="p">,</span>
+   <span class="ss">answer: </span><span class="s1">'destroy'</span><span class="p">,</span> <span class="ss">distractor_1: </span><span class="s1">'delete'</span><span class="p">,</span> <span class="ss">distractor_2: </span><span class="s1">'remove'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add a one of the Quiz seed objects as an attribute to each of the McQuestion seeds:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">quiz: </span><span class="n">q1</span><span class="p">,</span> <span class="ss">question: </span><span class="s1">'What does the M in MVC stand for?'</span><span class="p">,</span> 
+   <span class="ss">answer: </span><span class="s1">'Model'</span><span class="p">,</span> <span class="ss">distractor_1: </span><span class="s1">'Media'</span><span class="p">,</span> <span class="ss">distractor_2: </span><span class="s1">'Mode'</span><span class="p">)</span>
+ <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">quiz: </span><span class="n">q1</span><span class="p">,</span> <span class="ss">question: </span><span class="s1">'What does the V in MVC stand for?'</span><span class="p">,</span> 
+   <span class="ss">answer: </span><span class="s1">'View'</span><span class="p">,</span> <span class="ss">distractor_1: </span><span class="s1">'Verify'</span><span class="p">,</span> <span class="ss">distractor_2: </span><span class="s1">'Validate'</span><span class="p">)</span>
+ <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">quiz: </span><span class="n">q1</span><span class="p">,</span> <span class="ss">question: </span><span class="s1">'What does the C in MVC stand for?'</span><span class="p">,</span> 
+   <span class="ss">answer: </span><span class="s1">'Controller'</span><span class="p">,</span> <span class="ss">distractor_1: </span><span class="s1">'Create'</span><span class="p">,</span> <span class="ss">distractor_2: </span><span class="s1">'Code'</span><span class="p">)</span>
+
+ <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">quiz: </span><span class="n">q2</span><span class="p">,</span> <span class="ss">question: </span><span class="s1">'Which hash is primarily used for one way message passing from the controller to the view?'</span><span class="p">,</span> 
+   <span class="ss">answer: </span><span class="s1">'flash'</span><span class="p">,</span> <span class="ss">distractor_1: </span><span class="s1">'session'</span><span class="p">,</span> <span class="ss">distractor_2: </span><span class="s1">'params'</span><span class="p">)</span>
+ <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">quiz: </span><span class="n">q2</span><span class="p">,</span> <span class="ss">question: </span><span class="s1">'In which folder are image assets for the QuizMe app stored?'</span><span class="p">,</span> 
+   <span class="ss">answer: </span><span class="s1">'quiz-me/app/assets/images'</span><span class="p">,</span> <span class="ss">distractor_1: </span><span class="s1">'quiz-me'</span><span class="p">,</span> <span class="ss">distractor_2: </span><span class="s1">'quiz-me/images'</span><span class="p">)</span>
+ <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">quiz: </span><span class="n">q2</span><span class="p">,</span> <span class="ss">question: </span><span class="s1">'Which standard RESTful controller action is used to remove records?'</span><span class="p">,</span>
+   <span class="ss">answer: </span><span class="s1">'destroy'</span><span class="p">,</span> <span class="ss">distractor_1: </span><span class="s1">'delete'</span><span class="p">,</span> <span class="ss">distractor_2: </span><span class="s1">'remove'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Seed the database (<code class="highlighter-rouge">rails db:seed:replant</code> or <code class="highlighter-rouge">rails db:migrate:reset db:seed</code>) and use pgAdmin or the console to confirm the data has been correctly added. In a later demo, we will add pages to view the associated records in the app.</p>
+  </li>
+</ol>
+
+<h2 id="4-updating-fixtures-and-tests">4. Updating Fixtures and Tests</h2>
+
+<p>TODO: In this section…</p>
+
+<ol>
+  <li>
+    <p>Run <code class="highlighter-rouge">rails db:migrate:reset RAILS_ENV=test</code> and <code class="highlighter-rouge">rails test</code>.</p>
+
+    <p>The test checking that the fixtures are valid should fail. The association we created requires that each McQuestion object should belong to a Quiz object, and it creates an invisible validation that the quiz attribute must exist. This explains why we get the following failure message stating “Quiz must exist”:</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Failure:                                                                              McQuestionTest#test_fixtures_are_valid <span class="o">[</span>/home/kbridson/workspace/quiz-me/test/models/mc_question_test.rb:38]:
+ <span class="o">[</span><span class="s2">"Quiz must exist"</span><span class="o">]</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Create a Quiz fixture object:</p>
+
+    <div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="na">one</span><span class="pi">:</span>
+   <span class="na">title</span><span class="pi">:</span> <span class="s">Rails Concepts</span>
+   <span class="na">description</span><span class="pi">:</span> <span class="s">This quiz covers basic Rails programming concepts.</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add a quiz attribute to each McQuestion fixture that points to the Quiz fixture we just made:</p>
+
+    <div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="na">one</span><span class="pi">:</span>
+   <span class="na">question</span><span class="pi">:</span> <span class="s">By default, every Rails model is a subclass of which superclass?</span>
+   <span class="na">answer</span><span class="pi">:</span> <span class="s">ApplicationRecord</span>
+   <span class="na">distractor_1</span><span class="pi">:</span> <span class="s">Object</span>
+   <span class="na">distractor_2</span><span class="pi">:</span> <span class="s">ActiveModel</span>
+   <span class="na">quiz</span><span class="pi">:</span> <span class="s">one</span>
+
+ <span class="na">two</span><span class="pi">:</span>
+   <span class="na">question</span><span class="pi">:</span> <span class="s">The command rails db:migrate updates the schema.rb file.</span>
+   <span class="na">answer</span><span class="pi">:</span> <span class="no">true</span>
+   <span class="na">distractor_1</span><span class="pi">:</span> <span class="no">false</span>
+   <span class="na">distractor_2</span><span class="pi">:</span> <span class="c1"># blank loads as nil</span>
+   <span class="na">quiz</span><span class="pi">:</span> <span class="s">one</span>
+</code></pre></div>    </div>
+
+    <p>Note that <code class="highlighter-rouge">quiz: one</code> refers to the Quiz fixture named <code class="highlighter-rouge">one</code>.</p>
+  </li>
+  <li>
+    <p>Run <code class="highlighter-rouge">rails test</code> again to see the tests pass.</p>
+  </li>
+</ol>
+
+<h2 id="5-bonus-adding-validations-and-tests-to-the-quiz-model">5. Bonus: Adding Validations and Tests to the Quiz Model</h2>
+
+<p>This section will not introduce any new material but for completeness I will add the appropriate validations and tests to the Quiz model we created in this demo. The attributes title and descriptions should not be allowed to be blank.</p>
+
+<ol>
+  <li>
+    <p>Add presence validations for title and description:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">validates</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:description</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add a test for valid fixtures:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">test</span> <span class="s2">"fixtures are valid"</span> <span class="k">do</span>
+   <span class="n">quizzes</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">q</span><span class="o">|</span>
+     <span class="n">assert</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span><span class="p">,</span> <span class="n">q</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">full_messages</span><span class="p">.</span><span class="nf">inspect</span>
+   <span class="k">end</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add tests for title and description invalid presence:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">test</span> <span class="s2">"title presence not valid"</span> <span class="k">do</span>
+   <span class="n">q</span> <span class="o">=</span> <span class="n">quizzes</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+   <span class="n">q</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="kp">nil</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+   <span class="n">q</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">""</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+   <span class="n">q</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\t</span><span class="s2">"</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+ <span class="k">end</span>
+
+ <span class="nb">test</span> <span class="s2">"description presence not valid"</span> <span class="k">do</span>
+   <span class="n">q</span> <span class="o">=</span> <span class="n">quizzes</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+   <span class="n">q</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="kp">nil</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+   <span class="n">q</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">""</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+   <span class="n">q</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\t</span><span class="s2">"</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Run <code class="highlighter-rouge">rails test</code> to confirm tests are passing.</p>
+  </li>
+</ol>
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2019
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
