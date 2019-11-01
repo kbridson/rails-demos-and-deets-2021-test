@@ -4,7 +4,7 @@ title: 'ERBs Explained'
 permalink: /deets-erb/
 ---
 
-# ERBs Explained
+# {{ page.title }}
 
 Understanding how ERBs work can be a bit confusing at first. This page aims to explain it in straightforward terms using a simple example.
 

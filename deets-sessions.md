@@ -4,7 +4,7 @@ title: 'Sessions and the Flash Explained'
 permalink: /deets-sessions/
 ---
 
-# Sessions and the Flash Explained
+# {{ page.title }}
 
 A single web server may, at any given time, be engaged in separate "conversations" with many different users. By _conversation_, we mean that a given user on a given browser is interacting with a website being served up by the server. The interaction produces a series of related HTTP request/response cycles between the browser and server. For example, Figure 1 illustrates a conversation between a user, Alice, who is navigating a website, and a web server that is serving up the web pages, images, etc.
 
