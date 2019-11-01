@@ -4,7 +4,7 @@ title: 'Demo 2: Setting Up a New Rails Project'
 permalink: /demo-02-new-rails-project/
 ---
 
-# Demo 2: Setting Up a New Rails Project
+# {{ page.title }}
 
 In this demonstration, I will show you how to create and setup a new Rails 6 project. The application I will create in these tutorials is QuizMe, a quizzing application similar to [Quizlet](https://quizlet.com/), but with multiple choice and fill in the blank questions.
 

@@ -4,7 +4,7 @@ title: 'Demo 5: Rendering Data from Controllers'
 permalink: /demo-05-rendering-data-from-controller/
 ---
 
-# Demo 5: Rendering Data from Controllers
+# {{ page.title }}
 
 In this demonstration, I will demonstrate how to pass data from a controller action to a view and how to render the view using ruby functions. I will continue to work on the _QuizMe_ project from the previous demos.
 

@@ -4,7 +4,7 @@ title: 'Demo 1: Development Environment Setup'
 permalink: /demo-01-dev-env-setup/
 ---
 
-# Demo 1: Development Environment Setup
+# {{ page.title }}
 
 In this demonstration, I will show you how to setup the development environment used in the rest of the demos. The following setup should generally work for Windows, Mac, and Linux.
 

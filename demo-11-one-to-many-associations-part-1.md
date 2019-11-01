@@ -4,7 +4,7 @@ title: 'Demo 11: One to Many Associations (part 1)'
 permalink: /demo-11-one-to-many-associations-part-1/
 ---
 
-# Demo 11: One to Many Associations (part 1)
+# {{ page.title }}
 
 In this demonstration, I will show how to setup a one-to-many model association by creating the appropriate migrations and model statements. I will also update the seeds, fixtures and tests to reflect the new association. I will continue to work on the _QuizMe_ project from the previous demos.
 

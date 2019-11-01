@@ -4,7 +4,7 @@ title: 'Demo 6: Passing Data from View to Controller'
 permalink: /demo-06-passing-data-from-view-to-controller/
 ---
 
-# Demo 6: Passing Data from View to Controller
+# {{ page.title }}
 
 In this demonstration, I will show how to pass data collected with a form in the view to the controller action for processing. I will continue to work on the _QuizMe_ project from the previous demos.
 

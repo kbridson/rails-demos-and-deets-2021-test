@@ -4,7 +4,7 @@ title: 'Demo 4: Adding (Mostly Static) View Pages in Rails'
 permalink: /demo-04-rails-static-pages/
 ---
 
-# Demo 4: Adding (Mostly Static) View Pages in Rails
+# {{ page.title }}
 
 In this demonstration, I will show how to create mostly static webpages in Rails. I will continue to work on the _QuizMe_ project from the previous demos.
 

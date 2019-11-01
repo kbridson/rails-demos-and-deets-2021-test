@@ -4,7 +4,7 @@ title: 'Demo 10: Working with Simple Models (part 3)'
 permalink: /demo-10-working-with-simple-models-part-3/
 ---
 
-# Demo 10: Working with Simple Models (part 3)
+# {{ page.title }}
 
 In this demonstration, I will show how to add controller actions and views that allow users to update and delete database records. I will continue to work on the _QuizMe_ project from the previous demos.
 

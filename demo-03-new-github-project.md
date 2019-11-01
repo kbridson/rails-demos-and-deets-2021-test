@@ -4,7 +4,7 @@ title: 'Demo 3: Setting Up a New Github Project Repository'
 permalink: /demo-03-new-github-project/
 ---
 
-# Demo 3: Setting Up a New Github Project Repository
+# {{ page.title }}
 
 In this demonstration, I will show you how to create and upload an existing project to a new Github repository.
 

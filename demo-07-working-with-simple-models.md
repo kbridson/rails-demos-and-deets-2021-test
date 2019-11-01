@@ -4,7 +4,7 @@ title: 'Demo 7: Working with Simple Models'
 permalink: /demo-07-working-with-simple-models/
 ---
 
-# Demo 7: Working with Simple Models
+# {{ page.title }}
 
 In this demonstration, I will show how to create a model class and some sample objects, persist those objects in the database, and then retrieve and view them on a web page. I will continue to work on the _QuizMe_ project from the previous demos.
 

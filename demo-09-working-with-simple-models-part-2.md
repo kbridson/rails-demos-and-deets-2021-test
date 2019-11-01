@@ -4,7 +4,7 @@ title: 'Demo 9: Forms for Creating New Model Records'
 permalink: /demo-09-new-create-forms/
 ---
 
-# Demo 9: Forms for Creating New Model Records
+# {{ page.title }}
 
 In this demonstration, I will show how to add controller actions and views that allow users to create new model records and save them to the database. We will continue to build upon the _QuizMe_ project from the previous demos.
 

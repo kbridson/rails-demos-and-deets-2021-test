@@ -4,7 +4,7 @@ title: 'Demo 8: Model Validations and Tests'
 permalink: /demo-08-model-validations-and-tests/
 ---
 
-# Demo 8: Model Validations and Tests
+# {{ page.title }}
 
 In this demonstration, I will show how to add model validations and verify that the validations were set up correctly by creating automated unit tests. I will continue to work on the _QuizMe_ project from the previous demos.
 
