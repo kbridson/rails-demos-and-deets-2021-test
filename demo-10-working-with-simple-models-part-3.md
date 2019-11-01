@@ -172,7 +172,7 @@ Let's start by setting up the `edit` action along with some other boilerplate co
 
     You should now be able to go to the `edit` page for any question by clicking the `🖋` link for that question on the `index` page or the `show` page.
 
-## Processing Form Data with the `update` Action
+### 1.2. Processing Form Data with the `update` Action
 
 Now let's fill in the logic to the `update` action. The action must first retrieve the object to be updated from the database, using the `id` in the request URL. Next, the action must attempt to update the object using the `mc_question` data the `params` hash. If saving the object is successful, the action will respond with an HTTP redirect to the `index` page. If saving the object is unsuccessful, the action will render the `edit` form again with a flash error message. Psuedocode for the logic would look like this:
 
