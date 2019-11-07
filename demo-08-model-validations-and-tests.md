@@ -103,7 +103,7 @@ To remove the generated controller tests, open the Ruby files in `test/controlle
 
 ## 2. Creating Valid Fixtures
 
-Before I begin adding model validations, I will do some initial preparation of the test code that will eventually be used to test the validations. In particular, I will first create some valid model objects to be used in the tests. Such test objects are called _fixtures_. In Rails, the fixtures for each model are stored in a [YAML](https://en.wikipedia.org/wiki/YAML) (`.yml`) file in the `test/fixures` directory. Looking at the `mc_questions.yml` file, we can see a couple of default fixtures have been made, `one` and `two`. We will replace those fixtures with appropriate valid examples of multiple-choice questions.
+Before I begin adding model validations, I will do some initial preparation of the test code that will eventually be used to test the validations. In particular, I will first create some valid model objects to be used in the tests. Such test objects are called _fixtures_. In Rails, the fixtures for each model are stored in a [YAML](https://en.wikipedia.org/wiki/YAML) (`.yml`) file in the `test/fixtures` directory. Looking at the `mc_questions.yml` file, we can see a couple of default fixtures have been made, `one` and `two`. We will replace those fixtures with appropriate valid examples of multiple-choice questions.
 
 1. Replace fixture `one` with the following:
 
@@ -145,7 +145,7 @@ Rails model tests are considered a kind of unit test, so they should be small an
 
 First, I will write a test that tests fixture `one` to verify that the system considers it valid.
 
-1. Create a test with the name "`fixures are valid`" that first retrieves the test fixture `one` object and then asserts that the object is valid. If it's not valid, then the test will print validation error messages. Note that, for this test, we skip step 2 mentioned above (setting fixture attributes), because this test doesn't need to change any of the fixture's attribute values. The test code should be as follows:
+1. Create a test with the name "`fixtures are valid`" that first retrieves the test fixture `one` object and then asserts that the object is valid. If it's not valid, then the test will print validation error messages. Note that, for this test, we skip step 2 mentioned above (setting fixture attributes), because this test doesn't need to change any of the fixture's attribute values. The test code should be as follows:
 
     ```ruby
     test "fixtures are valid" do
