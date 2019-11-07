@@ -220,8 +220,8 @@ As a final task, we will seed the database with example data using our newly cre
 1. Add a couple of `Quiz` seeds at the top of the `seeds.rb` file, like this:
 
     ```ruby
-    q1 = Quiz.create(title: 'MVC Concepts')
-    q2 = Quiz.create(title: 'Rails Concepts')
+    q1 = Quiz.create!(title: 'MVC Concepts', description: 'This quiz covers basic MVC concepts.')
+    q2 = Quiz.create!(title: 'Rails Concepts', description: 'This quiz covers basic Rails programming concepts.')
     ```
 
 1. Add a few more `McQuestion` objects that will go with the `Quiz` seed objects, like this:
