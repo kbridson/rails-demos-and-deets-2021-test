@@ -31,7 +31,7 @@ Since we are building a quizzing application, we will need to store questions in
 
     Note the files that are generated, including `app/models/mc_question.rb` (the model class), `db/migrate/20190926192541_create_mc_questions.rb` (the database migration; timestamp will vary), and two files for automated testing, `test/fixtures/mc_questions.yml` (data for use in the tests) and `test/models/mc_question_test.rb` (unit tests for the model class).
 
-1. Run the following command to set up the `mc_questions` table in the database and to regenerate the `app/db/schema.rb` file, which holds the Rails app's representation of the database.
+1. Run the following command to set up the `mc_questions` table in the database and to regenerate the `db/schema.rb` file, which holds the Rails app's representation of the database.
 
     ```bash
     rails db:migrate
@@ -39,7 +39,7 @@ Since we are building a quizzing application, we will need to store questions in
 
     Observe the changes to the `schema.rb` file and the new `mc_questions` table in pgAdmin.
 
-1. Add a couple sample questions in the `app/db/seeds.rb` file as follows:
+1. Add a couple sample questions in the `db/seeds.rb` file as follows:
 
     ```ruby
     q1 = McQuestion.create!(question: 'What does the M in MVC stand for?', 
