@@ -6,20 +6,19 @@ permalink: /demo-11-one-to-many-associations-part-1/
 
 # {{ page.title }}
 
-In this demonstration, I will show how to set up a one-to-many model association by creating the appropriate migrations and model declarations. We will continue to build upon on the _QuizMe_ project from the previous demos, and we will also update the seeds, fixtures, and tests to use the new association.
+In this demonstration, I will show how to set up and use one-to-many model class associations. We will continue to build upon on the _QuizMe_ project from the previous demos
 
-In particular, we will be updating our model design by adding a new model class, `Quiz`, and a new one-to-many association between the `Quiz` and `McQuestion` model classes, as depicted in Figure 1.
+In particular, we will be updating our model design by adding a new one-to-many association between the `Quiz` and `McQuestion` model classes, as depicted in Figure 1.
 
 <div class="figure-container mx-auto my-4" style="max-width: 960px;">
 <figure class="figure">
 <img src="{{ site.baseurl }}/resources/demo11_fig01.svg" class="figure-img img-fluid rounded border" alt="Class diagram.">
-<figcaption class="figure-caption">Figure 1. Model class design diagram showing (1) the new model class <code>Quiz</code> and (2) the one-to-many association between <code>Quiz</code> and <code>McQuestion</code>. In particular, each <code>Quiz</code> object has many <code>McQuestion</code> objects, and each <code>McQuestion</code> object belongs to one <code>Quiz</code> object.</figcaption>
+<figcaption class="figure-caption">Figure 1. Model class design diagram showing the one-to-many association between <code>Quiz</code> and <code>McQuestion</code>. As per the association, each <code>Quiz</code> object has many <code>McQuestion</code> objects, and each <code>McQuestion</code> object belongs to one <code>Quiz</code> object.</figcaption>
 </figure>
 </div>
 
 In order to implement this association, there are a series of high-level tasks we will perform:
 
-1. Create the new model class `Quiz`, including input validations and model tests to verify its correctness.
 1. Add a foreign key (FK) column to our existing `mc_questions` table by creating a new database migration. The purpose of this FK column will be to reference `Quiz` records. The FK column is necessary to satisfy the [Rails ORM for one-to-many associations](https://guides.rubyonrails.org/association_basics.html#the-has-many-association).
 1. Add declarations to the `Quiz` and `McQuestion` model classes to set up the one-to-many association. In particular, `Quiz` will get a `has_many` declaration, and `McQuestion` will get a `belongs_to` declaration.
 1. Update the model test fixtures to incorporate association links.
@@ -27,81 +26,7 @@ In order to implement this association, there are a series of high-level tasks w
 
 We will work through each of these task in a section below.
 
-## 1. Creating a New Model Class to Associate With (`Quiz`)
-
-For this part, we will perform the following steps to create the new model class, `Quiz`, along with corresponding model validations and tests.
-
-1. Generate the migration for the `Quiz` model class, like this:
-
-    ```bash
-    rails g model Quiz title description:text
-    ```
-
-    In the above command, we did not need to specify the datatype for `title` above, because `string` is the default datatype for model attributes (and that's what we wanted).
-
-1. Run the newly generated migration to update the database schema by running the following command:
-
-    ```bash
-    rails db:migrate
-    ```
-
-1. In the `Quiz` model class, add `presence` validations for `title` and `description`, like this:
-
-    ```ruby
-    validates :title, :description, presence: true
-    ```
-
-1. In `test/fixtures/quizzes.yml`, add a valid test fixture for the `Quiz` model, like this:
-
-    ```yml
-    one:
-      title: Rails Concepts
-      description: This quiz covers basic Rails programming concepts.
-    ```
-
-1. In `test/models/quiz_test.rb`, add a test for all fixtures to verify that they are valid, like this:
-
-    ```ruby
-    test "fixtures are valid" do
-      quizzes.each do |q|
-        assert q.valid?, q.errors.full_messages.inspect
-      end
-    end
-    ```
-
-1. Also add tests to verify that `title` and `description` must be present (not `nil`, not an empty string, and not a string containing only whitespace characters) in order for a `Quiz` object to be considered valid, like this:
-
-    ```ruby
-    test "title presence not valid" do
-      q = quizzes(:one)
-      q.title = nil
-      assert_not q.valid?
-      q.title = ""
-      assert_not q.valid?
-      q.title = "\t"
-      assert_not q.valid?
-    end
-
-    test "description presence not valid" do
-      q = quizzes(:one)
-      q.description = nil
-      assert_not q.valid?
-      q.description = ""
-      assert_not q.valid?
-      q.description = "\t"
-      assert_not q.valid?
-    end
-    ```
-
-1. Confirm that the tests work and are passing by running the following command:
-
-    ```bash
-    rails test
-    ```
-
-    You should see `0 failures` and `0 errors`. If you do see failures or errors, then there is a bug in the code that needs fixing.
-
-## 2. Adding a Foreign Key Column to an Existing Table (`mc_questions`)
+## 1. Adding a Foreign Key Column to an Existing Table (`mc_questions`)
 
 In preparation for creating the model class association, we will perform the following steps to add a new foreign key column to the database table `mc_questions`. This FK column will reference `Quiz` records and satisfy the Rails ORM for setting up a one-to-many association between `Quiz` and `McQuestion`.
 
@@ -127,7 +52,7 @@ In preparation for creating the model class association, we will perform the fol
     rails db:migrate
     ```
 
-## 3. Creating a One-to-Many Association between Two Model Classes
+## 2. Creating a One-to-Many Association between Two Model Classes
 
 Now that we have got the database tables set up, the other thing we need to do to set up the one-to-many association is to add `has_many` and `belongs_to` declarations to `Quiz` and `McQuestion`, respectively.
 
@@ -153,15 +78,16 @@ Now that we have got the database tables set up, the other thing we need to do t
       class_name: 'McQuestion', # datatype of attribute
       foreign_key: 'quiz_id', # name of column containing FK in other table
       inverse_of: :quiz # attribute on other side of association (parent Quiz object)
+      dependent: :destroy # if a quiz is destroyed, also destroy all of its questions
     ```
 
     Similar to the `belongs_to` declaration above, the `class_name`, `foreign_key`, and `inverse_of` options are included here for instructional purposes and are not actually required in this case. Thus, the following declaration could suffice:
 
     ```ruby
-    has_many :mc_questions
+    has_many :mc_questions, dependent: :destroy
     ```
 
-## 4. Updating Model Test Fixtures to Use the Association
+## 3. Updating Model Test Fixtures to Use the Association
 
 Now that the one-to-many association has been set up, we will use it to create some linked `Quiz` and `McQuestion` objects in the app's test fixtures. Adding the model association has left our test fixtures invalid. For example, try running these commands:
 
@@ -179,7 +105,7 @@ Failure:                                                                        
 
 In the subsequent steps, we will correct this failure by updating the fixtures so that all association links are present.
 
-1. Create a `Quiz` fixture object, like this:
+1. Update `test/fixtures/quizzes.yml` such that it contains one `Quiz` fixture object, like this:
 
     ```yml
     one:
@@ -187,7 +113,7 @@ In the subsequent steps, we will correct this failure by updating the fixtures s
       description: This quiz covers basic Rails programming concepts.
     ```
 
-1. Add a `quiz` attribute to each `McQuestion` fixture that points to the `Quiz` fixture we just created in the previous step:
+1. In `test/fixtures/mc_questions.yml`, add a `quiz` attribute to each `McQuestion` fixture that points to the `Quiz` fixture we just created in the previous step, like this:
 
     ```yml
     one:
@@ -205,7 +131,7 @@ In the subsequent steps, we will correct this failure by updating the fixtures s
       quiz: one
     ```
 
-    Note that `quiz: one` refers to the `Quiz` fixture named `one`.
+    Note that `quiz: one` refers to the `Quiz` fixture in `test/fixtures/quizzes.yml` named `one`.
 
 1. Run the following command to verify that the tests now pass:
 
@@ -213,39 +139,28 @@ In the subsequent steps, we will correct this failure by updating the fixtures s
     rails test
     ```
 
-## 5. Creating Seed Data That Use the Association
+## 4. Creating Seed Data That Use the Association
 
 As a final task, we will seed the database with example data using our newly created model class association, as per the steps below. In a later demo, we will add pages to view and manipulate this seed data in the app.
 
-1. Add a couple of `Quiz` seeds at the top of the `seeds.rb` file, like this:
+1. Add a three more `McQuestion` objects, like this:
 
     ```ruby
-    q1 = Quiz.create!(title: 'MVC Concepts', description: 'This quiz covers concepts related to the Model-View-Controller web application architecture.')
-    q2 = Quiz.create!(title: 'Rails Concepts', description: 'This quiz covers concepts related to web application development using the Ruby on Rails platform.')
-    ```
-
-1. Add a few more `McQuestion` objects that will go with the `Quiz` seed objects, like this:
-
-    ```ruby
-    McQuestion.create!(question: 'What does the M in MVC stand for?', answer: 'Model', distractor_1: 'Media', distractor_2: 'Mode')
-    McQuestion.create!(question: 'What does the V in MVC stand for?', answer: 'View', distractor_1: 'Verify', distractor_2: 'Validate')
-    McQuestion.create!(question: 'What does the C in MVC stand for?', answer: 'Controller', distractor_1: 'Create', distractor_2: 'Code')
-
-    McQuestion.create!(question: 'Which hash is primarily used for one way message passing from the controller to the view?', answer: 'flash', distractor_1: 'session', distractor_2: 'params')
-    McQuestion.create!(question: 'In which folder are image assets for the QuizMe app stored?', answer: 'quiz-me/app/assets/images', distractor_1: 'quiz-me', distractor_2: 'quiz-me/images')
-    McQuestion.create!(question: 'Which standard RESTful controller action is used to remove records?', answer: 'destroy', distractor_1: 'delete', distractor_2: 'remove')
+    q4 = McQuestion.create!(question: 'Which hash is primarily used for one way message passing from the controller to the view?', answer: 'flash', distractor_1: 'session', distractor_2: 'params')
+    q5 = McQuestion.create!(question: 'In which folder are image assets for the QuizMe app stored?', answer: 'quiz-me/app/assets/images', distractor_1: 'quiz-me', distractor_2: 'quiz-me/images')
+    q6 = McQuestion.create!(question: 'Which standard RESTful controller action is used to remove records?', answer: 'destroy', distractor_1: 'delete', distractor_2: 'remove')
     ```
 
 1. Create association links between the `Quiz` and `McQuestion` objects by setting a `quiz` option in each call to `McQuestion.create!`, like this:
 
     ```ruby
-    McQuestion.create!(quiz: q1, question: 'What does the M in MVC stand for?', answer: 'Model', distractor_1: 'Media', distractor_2: 'Mode')
-    McQuestion.create!(quiz: q1, question: 'What does the V in MVC stand for?', answer: 'View', distractor_1: 'Verify', distractor_2: 'Validate')
-    McQuestion.create!(quiz: q1, question: 'What does the C in MVC stand for?', answer: 'Controller', distractor_1: 'Create', distractor_2: 'Code')
+    q1 = McQuestion.create!(quiz: quiz1, question: 'What does the M in MVC stand for?', answer: 'Model', distractor_1: 'Media', distractor_2: 'Mode')
+    q2 = McQuestion.create!(quiz: quiz1, question: 'What does the V in MVC stand for?', answer: 'View', distractor_1: 'Verify', distractor_2: 'Validate')
+    q3 = McQuestion.create!(quiz: quiz1, question: 'What does the C in MVC stand for?', answer: 'Controller', distractor_1: 'Create', distractor_2: 'Code')
 
-    McQuestion.create!(quiz: q2, question: 'Which hash is primarily used for one way message passing from the controller to the view?', answer: 'flash', distractor_1: 'session', distractor_2: 'params')
-    McQuestion.create!(quiz: q2, question: 'In which folder are image assets for the QuizMe app stored?', answer: 'quiz-me/app/assets/images', distractor_1: 'quiz-me', distractor_2: 'quiz-me/images')
-    McQuestion.create!(quiz: q2, question: 'Which standard RESTful controller action is used to remove records?', answer: 'destroy', distractor_1: 'delete', distractor_2: 'remove')
+    q4 = McQuestion.create!(quiz: quiz2, question: 'Which hash is primarily used for one way message passing from the controller to the view?', answer: 'flash', distractor_1: 'session', distractor_2: 'params')
+    q5 = McQuestion.create!(quiz: quiz2, question: 'In which folder are image assets for the QuizMe app stored?', answer: 'quiz-me/app/assets/images', distractor_1: 'quiz-me', distractor_2: 'quiz-me/images')
+    q6 = McQuestion.create!(quiz: quiz2, question: 'Which standard RESTful controller action is used to remove records?', answer: 'destroy', distractor_1: 'delete', distractor_2: 'remove')
     ```
 
 1. Seed the database using the following command:
@@ -254,10 +169,4 @@ As a final task, we will seed the database with example data using our newly cre
     rails db:seed:replant
     ```
 
-    Alternatively, this command would also work:
-
-    ```bash
-    rails db:migrate:reset db:seed
-    ```
-
-    To confirm that the data was seeded correctly, use pgAdmin to inspect the database, or use the Rails console, for example, to run `McQuestion.all` and inspect the output.
+To confirm that the data was seeded correctly, use pgAdmin to inspect the database, or use the Rails console, for example, to run `McQuestion.all` and inspect the output.

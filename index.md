@@ -26,7 +26,12 @@ title: Home
 - [Demo 8: Model Validations and Tests]({{ site.baseurl }}/demo-08-model-validations-and-tests/)
 - [Demo 9: Forms for Creating New Model Records]({{ site.baseurl }}/demo-09-new-create-forms/)
 - [Demo 10: Forms and Actions for Updating and Deleting Model Records]({{ site.baseurl }}/demo-10-edit-update-destroy-forms/)
+
+### 4. Linking Model Objects with Associations
+
+- [Demo 10½: Creating a New Model Class to Associate With]({{ site.baseurl }}/demo-10b-one-to-many-associations-part-0/)
 - [Demo 11: One-to-Many Model Associations]({{ site.baseurl }}/demo-11-one-to-many-associations-part-1/)
+- [Demo 12: Forms That Handle One-to-Many Associations]({{ site.baseurl }}/demo-12-one-to-many-associations-part-2/)
 
 ## Deets
 

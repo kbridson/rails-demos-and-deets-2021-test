@@ -1,159 +1,41 @@
 ---
 layout: page
-title: 'Demo 12: One to Many Associations (part 2)'
+title: 'Demo 12: Forms That Handle One-to-Many Associations'
 permalink: /demo-12-one-to-many-associations-part-2/
 ---
 
-# Demo 12: One to Many Associations (part 2)
+# {{ page.title }}
 
-In this demonstration, I will add Quiz CRUD pages and show how to refactor the existing McQuestion CRUD pages to include the Quiz association we added in the last demo. I will continue to work on the _QuizMe_ project from the previous demos.
+In this demonstration, I will show how incorporate an association into the basic CRUD resource pages and actions we have discussed previously (i.e., `index`, `show`, `new`/`create`, `edit`/`update`, and `destroy`). We will continue to build upon the _QuizMe_ project from the previous demos.
 
-## 1. Generating Quiz CRUD Pages
+In particular, because our association now specifies that `McQuestion` objects belong to a particular `Quiz` object, several changes to our CRUD pages and actions are necessitated. These changes will involve three main tasks:
 
-TODO: In this section...
-
-1. Create the QuizzesController.
-
-    ```sh
-    rails g controller Quizzes
-    ```
-
-    TODO: Empty controller actions have been made.
-
-1. Create the standard RESTful routes for Quizzes including index, show, new, create, edit, update, and delete routes.
-
-    ```ruby
-    # Quiz resources
-    get 'quizzes', to: 'quizzes#index', as: 'quizzes'               # index
-    get 'quizzes/new', to: 'quizzes#new', as: 'new_quiz'            # new
-    post 'quizzes', to: 'quizzes#create'                            # create
-    get 'quizzes/:id/edit', to: 'quizzes#edit', as: 'edit_quiz'     # edit
-    match 'quizzes/:id', to: 'quizzes#update', via: [:put, :patch]  # update
-    get 'quizzes/:id', to: 'quizzes#show', as: 'quiz'               # show
-    delete 'quizzes/:id', to: 'quizzes#destroy'                     # destroy
-    ```
-
-    Using standard RESTful routes is a very common practice, so Rails provides a shortcut to these resource routes for any model object. If you are comfortable with the form of these routes, especially the URL parameters and named path helpers, you can replace the above code with:
-
-    ```ruby
-    resources :quizzes
-    ```
-
-1. Create the Quizzes index action and page to display all quizzes. The view should match THIS.
-
-    ```erb
-    <h1>Quizzes</h1>
-
-    <%= link_to 'New Quiz', new_quiz_path %>
-
-    <% quizzes.each do |quiz| %>
-      <div id="<%= dom_id(quiz) %>">
-        <br>
-        <p>
-          <%= quiz.title %>
-          <%= link_to '🔎', quiz_path(quiz) %>
-          <%= link_to '🖋', edit_quiz_path(quiz) %>
-          <%= link_to '🗑', quiz_path(quiz), method: :delete %>
-        </p>
-        <p>
-          <%= truncate quiz.description, length: 75, separator: ' ' %>
-        </p>
-      </div>
-    <% end %>
-    ```
-
-1. Add a link to the Quiz index page above the About and Contact links on the Home page:
-
-    ```erb
-    <p><%= link_to "Quizzes", quizzes_path %></p>
-    ```
-
-1. Create the Quizzes new/create and edit/update actions and pages. The views should contain form fields for title and description.
-
-    > `new.html.erb`
-    ```erb
-    <h1>New Quiz</h1>
-
-    <%= form_with model: quiz, url: quizzes_path, method: :post, local: true, scope: :quiz do |form| %>
-
-      <div>
-        <%= form.label :title %><br>
-        <%= form.text_field :title %>
-      </div>
-
-      <div>
-        <%= form.label :description %><br>
-        <%= form.text_area :description, size: "27x7" %>
-      </div>
-
-      <%= form.submit "Add Quiz" %>
-
-    <% end %>
-    ```
-
-    > `edit.html.erb`
-    ```erb
-    <h1>Edit Quiz</h1>
-
-    <%= form_with model: quiz, url: quiz_path, method: :patch, local: true, scope: :quiz do |form| %>
-
-      <div>
-        <%= form.label :title %><br>
-        <%= form.text_field :title %>
-      </div>
-
-      <div>
-        <%= form.label :description %><br>
-        <%= form.text_area :description, size: "27x7" %>
-      </div>
-
-      <%= form.submit "Update Quiz" %>
-
-    <% end %>
-    ```
-
-1. Create the Quizzes delete action.
-
-    If you attempt to test the destroy functionality now, you will get a `PG::ForeignKeyViolation` error that, in summary, says "you are trying to delete a parent object (quiz) without destroying the children (mc_questions) which would make the FK reference (quiz_id) invalid." To fix this, you need to add the `dependent: destroy` option on the `has_many` association in Quiz:
-
-    ```ruby
-    has_many :mc_questions, # Quiz attribute containing an array of McQuestion objects
-      class_name: 'McQuestion', # datatype of attribute
-      foreign_key: 'quiz_id', # name of column containing FK in other table
-      inverse_of: :quiz # attribute on other side of association (parent Quiz object)
-      dependent: :destroy
-    ```
-
-    With this option, destroying a parent will destroy all the child records as well.
-
-1. Create the Quizzes show action and page to display a single quiz. For now, the view should match THIS.
+1. Update the `show` page for `Quiz` to display associated `McQuestion` objects, as depicted in Figure 1.
+1. Move `index`, `new`, and `create` actions into a new `QuizMcQuestionsController` class with new routes that include the `Quiz` ID in the URI.
+1. Update the existing `update` and `destroy` actions to, for example, redirect to the parent `Quiz`'s `show` page (instead of the `McQuestion` `index` page).
 
 <div class="figure-container mx-auto my-4" style="max-width: 960px;">
 <figure class="figure">
-<img src="{{ site.baseurl }}/resources/demo-12-quiz-show-1.png" class="figure-img img-fluid rounded" alt="Class diagram for McQuestion model.">
-<figcaption class="figure-caption">Fig 1. Class diagram for McQuestion model. (Diagram created using <a href="https://www.genmymodel.com">GenMyModel</a>.)</figcaption>
+<img src="{{ site.baseurl }}/resources/demo12_fig01.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page">
+<figcaption class="figure-caption">Figure 1. Updated <code>show</code> page for <code>Quiz</code> records that now has a "Questions" subsection that displays the associated <code>McQuestion</code> objects.</figcaption>
 </figure>
 </div>
 
-    ```erb
-    <h2><%= quiz.title %></h3>
+As we perform the tasks below, don't forget, after you finish each page, to run the page so as to "fail fast", catching and fixing bugs quickly when it's easier to find and understand them.
 
-    <p><%= quiz.description %></p>
-    ```
+## 1. Displaying Associated Records on a Model's `show` Page
 
-1. Add code to show page to render the questions associated with a certain quiz on the show page.
+1. On the `show` page for a `Quiz` object, display the questions associated with that quiz by adding HTML.ERB code to the `show.html.erb`, like this:
 
     ```erb
     <h2>Questions</h2>
-
-    <%= link_to 'New Question', new_mc_question_path %>
 
     <% quiz.mc_questions.each do |question| %>
       <div id="<%= dom_id(question) %>">
         <p>
           <%= question.question %>
-          <%= link_to '🛈', mc_question_path(question) %>
-          <%= link_to '✎', edit_mc_question_path(question) %>
+          <%= link_to '🔎', mc_question_path(question) %>
+          <%= link_to '🖋', edit_mc_question_path(question) %>
           <%= link_to '🗑', mc_question_path(question), method: :delete %>
         </p>
 
@@ -172,33 +54,32 @@ TODO: In this section...
     <% end %>
     ```
 
-    TODO: Try to create a new question using the link. Cannot save because of quiz id.
+## 2. Moving `index`, `new`, and `create` Actions from `McQuestion` into `QuizMcQuestionsController`
 
-## 2. Refactoring Existing McQuestion Pages to Use the Association
+1. Create a new controller `QuizMcQuestionsController` using this command:
 
-TODO: In this section...
-What actions need to be refactored? Shallow nesting - index, new, create
+    ```bash
+    rails g controller QuizMcQuestions
+    ```
 
-Refactor New/Create: 
-
-1. Add a new controller QuizMcQuestionsController.
-
-1. Move the index.html.erb and new.html.erb from mc_questions to quiz_mc_questions.
-
-1. Replace the existing McQuestion routes for index, new, and show with nested routes:
+1. Replace the existing `McQuestion` routes for `index`, `new`, and `show` with nested routes, like this:
 
     ```ruby
     # get 'mc_questions', to: 'mc_questions#index', as: 'mc_questions' # index
-    get 'quizzes/:id/mc_questions', to: 'quiz_mc_questions#index', as: 'quiz_mc_questions' # nested index  
+    get 'quizzes/:id/mc_questions', to: 'quiz_mc_questions#index', as: 'quiz_mc_questions' # nested index
+
     # get 'mc_questions/new', to: 'mc_questions#new', as: 'new_mc_question' # new
     get 'quizzes/:id/mc_questions/new', to: 'quiz_mc_questions#new', as: 'new_quiz_mc_question' # nested new
-    # post 'mc_questions', to: 'mc_questions#create'                        # create
-    post 'quizzes/:id/mc_questions', to: 'quiz_mc_questions#create'                        # nested create
+
+    # post 'mc_questions', to: 'mc_questions#create' # create
+    post 'quizzes/:id/mc_questions', to: 'quiz_mc_questions#create' # nested create
     ```
 
-1. Comment out the existing index, new, create actions in McQuestionsController.
+1. Move the `index.html.erb` and `new.html.erb` view files from `app/views/mc_questions` to `app/views/quiz_mc_questions`.
 
-1. Add an index action in QuizMcQuestionsController:
+1. Comment out (or delete) the existing `index`, `new`, and `create` actions in `McQuestionsController`.
+
+1. Add a new `index` action to `QuizMcQuestionsController`, like this:
 
     ```ruby
     def index
@@ -209,13 +90,15 @@ Refactor New/Create:
     end
     ```
 
-1. Change the path for the "New Question" link in `quiz_mc_questions/index.html.erb` and `quizzes/show.html.erb` to the nested path:
+    The `includes` method helps minimize the number of database queries by specifying the associations that need to be loaded (see the [N+1 Queries Problem](https://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations)).
+
+1. Update the "`New Question`" link in `quiz_mc_questions/index.html.erb` and add a "`New Question`" link to `quizzes/show.html.erb` (as per Figure 1), like this:
 
     ```erb
     <%= link_to 'New Question', new_quiz_mc_question_path(quiz) %>
     ```
 
-1. Create the new action:
+1. Add a `new` action to `QuizMcQuestionsController`, like this:
 
     ```ruby
     def new
@@ -226,18 +109,21 @@ Refactor New/Create:
     end
     ```
 
-1. Change the URL for the form in new.html.erb:
+    The call to `build` allocates in memory a new empty `McQuestion` object that is associated with the `quiz`; however, the `McQuestion` object is not yet saved to the database (and thus, for example, has an `id` that is `nil`).
+
+1. In `new.html.erb`, change the `url` argument for `form_with`, like this:
 
     ```erb
     <%= form_with model: question, url: quiz_mc_questions_path(quiz), method: :post, local: true, scope: :mc_question do |form| %>
     ```
 
-1. Create the create action:
+1. Add a `create` action to `QuizMcQuestionsController`, like this::
 
     ```ruby
     def create
-      # new object from params
+      # find the quiz to which the new question will be added
       quiz = Quiz.find(params[:id])
+      # allocate a new question associated with the quiz
       question = quiz.mc_questions.build(params.require(:mc_question).permit(:question, :answer, :distractor_1, :distractor_2))
       # respond_to block
       respond_to do |format|
@@ -259,7 +145,9 @@ Refactor New/Create:
     end
     ```
 
-1. Change the update action in McQuestionsController to permit quiz_id and redirect to the quiz show page:
+## 3. Updating `McQuestion` `update` and `destroy` Actions to Use Parent `Quiz`
+
+1. Modify the `update` action in `McQuestionsController` to permit `quiz_id` and redirect to the `Quiz` `show` page, like this:
 
     ```ruby
     def update
@@ -286,7 +174,7 @@ Refactor New/Create:
     end
     ```
 
-1. Change the destroy action to redirect to the quiz show page:
+1. Change the `destroy` action in `McQuestionsController` to redirect to the `Quiz` `show` page, like this:
 
     ```ruby
     def destroy
@@ -306,3 +194,5 @@ Refactor New/Create:
       end
     end
     ```
+
+Having successfully completed the above tasks, the QuizMe app now provides users with a full set of features for CRUDing quizzes and questions.

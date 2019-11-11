@@ -18,7 +18,7 @@ Figure 1 depicts an example of an `index` page with these link icons.
 
 <div class="figure-container mx-auto my-4" style="max-width: 960px;">
 <figure class="figure">
-<img src="{{ site.baseurl }}/resources/demo10_fig01.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page with xxx">
+<img src="{{ site.baseurl }}/resources/demo10_fig01.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page">
 <figcaption class="figure-caption">Figure 1. Updated <code>index</code> page for multiple-choice questions. Note the 🔎, 🖋,  and 🗑 link icons.</figcaption>
 </figure>
 </div>
@@ -27,7 +27,7 @@ We will also update the `show` page, adding the 🖋 (edit) and 🗑 (delete) li
 
 <div class="figure-container mx-auto my-4" style="max-width: 960px;">
 <figure class="figure">
-<img src="{{ site.baseurl }}/resources/demo10_fig02.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page with xxx">
+<img src="{{ site.baseurl }}/resources/demo10_fig02.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page">
 <figcaption class="figure-caption">Figure 2. Updated <code>show</code> page for multiple-choice questions. Note the 🖋 and 🗑 link icons.</figcaption>
 </figure>
 </div>
@@ -36,7 +36,7 @@ Clicking the 🖋 link for a question on either the `index` or the `show` page w
 
 <div class="figure-container mx-auto my-4" style="max-width: 960px;">
 <figure class="figure">
-<img src="{{ site.baseurl }}/resources/demo10_fig03.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page with xxx">
+<img src="{{ site.baseurl }}/resources/demo10_fig03.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page">
 <figcaption class="figure-caption">Figure 3. Example <code>edit</code> page for multiple-choice questions. Data submitted via this form will be processed by an <code>update</code> action.</figcaption>
 </figure>
 </div>
@@ -45,7 +45,7 @@ If a user submits the `edit` form, the submitted form data will be processed by 
 
 <div class="figure-container mx-auto my-4" style="max-width: 960px;">
 <figure class="figure">
-<img src="{{ site.baseurl }}/resources/demo10_fig04.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page with xxx">
+<img src="{{ site.baseurl }}/resources/demo10_fig04.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page">
 <figcaption class="figure-caption">Figure 4. Example <code>index</code> page resulting from the successful processing of an <code>edit</code>-form submission. Note the success notification near the top of the page.</figcaption>
 </figure>
 </div>
@@ -54,7 +54,7 @@ If the `update` action is unable to save the submitted data, for example, becaus
 
 <div class="figure-container mx-auto my-4" style="max-width: 960px;">
 <figure class="figure">
-<img src="{{ site.baseurl }}/resources/demo10_fig05.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page with xxx">
+<img src="{{ site.baseurl }}/resources/demo10_fig05.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page">
 <figcaption class="figure-caption">Figure 5. Example <code>edit</code> page resulting from the unsuccessful processing of an <code>edit</code>-form submission. Note that the form has been filled in with the rejected form data, and an error notification appears near the top of the page.</figcaption>
 </figure>
 </div>
@@ -63,7 +63,7 @@ Finally, clicking the 🗑 link for a question on either the `index` or the `sho
 
 <div class="figure-container mx-auto my-4" style="max-width: 960px;">
 <figure class="figure">
-<img src="{{ site.baseurl }}/resources/demo10_fig06.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page with xxx">
+<img src="{{ site.baseurl }}/resources/demo10_fig06.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page">
 <figcaption class="figure-caption">Figure 6. Example <code>index</code> page resulting from the successful deletion of a question. Note that a success notification appears near the top of the page.</figcaption>
 </figure>
 </div>
