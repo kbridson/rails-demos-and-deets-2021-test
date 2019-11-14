@@ -33,6 +33,10 @@ title: Home
 - [Demo 11: One-to-Many Model Associations]({{ site.baseurl }}/demo-11-one-to-many-associations-part-1/)
 - [Demo 12: Forms That Handle One-to-Many Associations]({{ site.baseurl }}/demo-12-one-to-many-associations-part-2/)
 
+### 5. Adding Authentication and Authorization
+
+- [Demo 13: Authentication with Devise (Part 1)]({{ site.baseurl }}/demo-13-authentication-with-devise-part-1/)
+
 ## Deets
 
 - [ERBs Explained]({{ site.baseurl }}/deets-erb/)
