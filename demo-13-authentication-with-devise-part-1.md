@@ -46,9 +46,16 @@ If a user (e.g., with email `homer@email.com`) signs in successfully, the sign-i
 
 To implement this functionality, we will perform three main tasks:
 
-1. Install and set up Devise (including the sign-up and sign-in pages).
+1. Install and set up Devise, including generating a Devise `User` model class (as depicted in Figure 5) along with the sign-up and sign-in pages.
 1. Create the sign-in/sign-out/sign-up hyperlinks.
 1. Restrict access to controller actions to only users who are signed in.
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;">
+<figure class="figure">
+<img src="{{ site.baseurl }}/resources/demo13_fig05.svg" class="figure-img img-fluid rounded border" alt="Class diagram">
+<figcaption class="figure-caption">Figure 5. Model class design diagram showing the new Devise <code>User</code> model class. (Note that the Devise <code>User</code> class actually contains a few additional attributes to support Devise's inner workings; however, those attributes have been omitted here for clarity.)</figcaption>
+</figure>
+</div>
 
 ## 1. Installing and Setting Up Devise
 
