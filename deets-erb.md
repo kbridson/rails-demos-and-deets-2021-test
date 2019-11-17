@@ -29,7 +29,7 @@ When a Rails controller renders this HTML.ERB code, the HTML.ERB code effectivel
 ```ruby
 write('<h1>')
 write(title)
-write('<h1>')
+write('</h1>\n')
 write('\n')
 write('<ul>\n')
 lyrics.each do |l|
