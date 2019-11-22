@@ -36,6 +36,7 @@ title: Home
 ### 5. Adding Authentication and Authorization
 
 - [Demo 13: Authentication with Devise (Part 1)]({{ site.baseurl }}/demo-13-authentication-with-devise-part-1/)
+- [Demo 14: Authentication with Devise (Part 2)]({{ site.baseurl }}/demo-14-authentication-with-devise-part-2/)
 
 ## Deets
 
