@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'>
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='51 -15 597 460' xmlns:xlink='http://www.w3.org/1999/xlink' width='960.0px' font-size='10' font-family='Arial, LiberationSans' version='1.1'>
+  <defs>
+<style type='text/css'><![CDATA[svg text {text-rendering: geometricPrecision;}]]></style>    <linearGradient y1='0.0%' x1='0.0%' y2='100.0%' x2='0.0%' id='b1540a7e-a53a-4ae0-a44d-1df890f7e722' spreadMethod='pad'>
+      <stop stop-opacity='1' offset='0' stop-color='rgb(255, 255, 255)'/>
+      <stop stop-opacity='1' offset='100' stop-color='rgb(238, 238, 238)'/>
+    </linearGradient>
+    <linearGradient y1='0.0%' x1='0.0%' y2='100.0%' x2='0.0%' id='9a9f4981-b71a-446b-ba25-33807fd0a889' spreadMethod='pad'>
+      <stop stop-opacity='1' offset='0' stop-color='rgb(255, 255, 255)'/>
+      <stop stop-opacity='1' offset='100' stop-color='rgb(238, 238, 238)'/>
+    </linearGradient>
+    <linearGradient y1='0.0%' x1='0.0%' y2='100.0%' x2='0.0%' id='0791c0ac-814e-4cc7-b5f5-8ec5a575264c' spreadMethod='pad'>
+      <stop stop-opacity='1' offset='0' stop-color='rgb(255, 255, 255)'/>
+      <stop stop-opacity='1' offset='100' stop-color='rgb(239, 233, 222)'/>
+    </linearGradient>
+    <linearGradient y1='0.0%' x1='0.0%' y2='100.0%' x2='0.0%' id='1db82a95-3bcd-4cd6-bd00-2d4ff9973d72' spreadMethod='pad'>
+      <stop stop-opacity='1' offset='0' stop-color='rgb(255, 255, 255)'/>
+      <stop stop-opacity='1' offset='100' stop-color='rgb(239, 233, 222)'/>
+    </linearGradient>
+    <linearGradient y1='0.0%' x1='0.0%' y2='100.0%' x2='0.0%' id='1a96c4ab-2d32-4352-8484-780209219d26' spreadMethod='pad'>
+      <stop stop-opacity='1' offset='0' stop-color='rgb(255, 255, 255)'/>
+      <stop stop-opacity='1' offset='100' stop-color='rgb(239, 233, 222)'/>
+    </linearGradient>
+  </defs>
+  <desc>SequenceDiagram</desc>
+  <g transform='translate(81.0,15.0)' id='_yXVFQdlrEDeF0d73M265Lg'>
+    <rect rx='3.0' ry='3.0' x='0.0' width='90.0px' y='0.0' stroke-width='1.0' fill='url(#b1540a7e-a53a-4ae0-a44d-1df890f7e722)' stroke='rgb(187, 187, 187)' look='allInOne' height='33.0px'/>
+    <line y1='33.0' x1='45.0' y2='400.0' stroke-dasharray='10, 5' x2='45.0' stroke-width='1.0' stroke='rgb(187, 187, 187)' look='border'/>
+    <g transform='translate(16.0)'>
+      <image x='0.0' width='16.0' y='7.0' xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAMFBMVEX///9woMRAgLDi8P84e7Dp9P86fLDw9/88fbD3+/89frD+/v8/f7AAUpEAS4XA0+HHhLc3AAAAAXRSTlMAQObYZgAAAAFiS0dEDxi6ANkAAAAHdElNRQfhBA4RJS4tUqcbAAAAQElEQVQI12NgYFQCAQYGBiZjIDABMUKBIAzEKAeCChBjJhDMAjF2A8EeIAOo6xJYFxA8YICCDzDGAwwGMVIgAADwcBTlv8WhiQAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxNS0wMS0yMVQxNDozOTowMyswMTowMC1TktIAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTUtMDEtMjFUMTQ6Mzk6MDMrMDE6MDBcDipuAAAAAElFTkSuQmCC' height='16.0'/>
+      <text font-weight='bold' text-anchor='start' x='18.0' y='19.0' font-size='10' fill='rgb(3, 54, 86)'>Browser</text>
+    </g>
+  </g>
+  <g transform='translate(510.0,15.0)' id='_zy5rYdlrEDeF0d73M265Lg'>
+    <rect rx='3.0' ry='3.0' x='0.0' width='108.0px' y='0.0' stroke-width='1.0' fill='url(#9a9f4981-b71a-446b-ba25-33807fd0a889)' stroke='rgb(187, 187, 187)' look='allInOne' height='33.0px'/>
+    <line y1='33.0' x1='54.0' y2='400.0' stroke-dasharray='10, 5' x2='54.0' stroke-width='1.0' stroke='rgb(187, 187, 187)' look='border'/>
+    <g transform='translate(17.5)'>
+      <image x='0.0' width='16.0' y='7.0' xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAMFBMVEX///9woMRAgLDi8P84e7Dp9P86fLDw9/88fbD3+/89frD+/v8/f7AAUpEAS4XA0+HHhLc3AAAAAXRSTlMAQObYZgAAAAFiS0dEDxi6ANkAAAAHdElNRQfhBA4RJS4tUqcbAAAAQElEQVQI12NgYFQCAQYGBiZjIDABMUKBIAzEKAeCChBjJhDMAjF2A8EeIAOo6xJYFxA8YICCDzDGAwwGMVIgAADwcBTlv8WhiQAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxNS0wMS0yMVQxNDozOTowMyswMTowMC1TktIAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTUtMDEtMjFUMTQ6Mzk6MDMrMDE6MDBcDipuAAAAAElFTkSuQmCC' height='16.0'/>
+      <text font-weight='bold' text-anchor='start' x='18.0' y='19.0' font-size='10' fill='rgb(3, 54, 86)'>Web Server</text>
+    </g>
+  </g>
+  <g transform='translate(118.0,55.0)' id='_1vIHgNlrEDeF0d73M265Lg'>
+    <rect rx='2.0' ry='2.0' x='0.0' width='16.0px' y='0.0' stroke-width='1.0' fill='url(#0791c0ac-814e-4cc7-b5f5-8ec5a575264c)' stroke='rgb(194, 183, 159)' look='allInOne' height='360.0px'/>
+  </g>
+  <g transform='translate(556.0,128.0)' id='_3xN7EtlrEDeF0d73M265Lg'>
+    <rect rx='2.0' ry='2.0' x='0.0' width='16.0px' y='0.0' stroke-width='1.0' fill='url(#1db82a95-3bcd-4cd6-bd00-2d4ff9973d72)' stroke='rgb(194, 183, 159)' look='allInOne' height='50.0px'/>
+  </g>
+  <g transform='translate(556.0,304.0)' id='_41DWotlrEDeF0d73M265Lg'>
+    <rect rx='2.0' ry='2.0' x='0.0' width='16.0px' y='0.0' stroke-width='1.0' fill='url(#1a96c4ab-2d32-4352-8484-780209219d26)' stroke='rgb(194, 183, 159)' look='allInOne' height='50.0px'/>
+  </g>
+  <g transform='translate(230.0,107.0)' id='_3xQXUNlrEDeF0d73M265Lg'>
+    <g transform='translate(0.0,0.0)'>
+      <text text-anchor='middle' x='103.0' y='13.0' font-size='10' fill='rgb(0, 0, 0)'>HTTP GET request for form page</text>
+    </g>
+  </g>
+  <g transform='translate(230.0,158.0)' id='_3xSzkNlrEDeF0d73M265Lg'>
+    <g transform='translate(0.0,0.0)'>
+      <text text-anchor='middle' x='116.5' y='13.0' font-size='10' fill='rgb(0, 0, 0)'>HTTP response with form page HTML</text>
+    </g>
+  </g>
+  <g transform='translate(230.0,282.0)' id='_41GZ89lrEDeF0d73M265Lg'>
+    <g transform='translate(0.0,0.0)'>
+      <text text-anchor='middle' x='144.0' y='13.0' font-size='10' fill='rgb(0, 0, 0)'>HTTP POST request with form submission data</text>
+    </g>
+  </g>
+  <g transform='translate(230.0,334.0)' id='_41I2MNlrEDeF0d73M265Lg'>
+    <g transform='translate(0.0,0.0)'>
+      <text text-anchor='middle' x='101.5' y='13.0' font-size='10' fill='rgb(0, 0, 0)'>HTTP response with page HTML</text>
+    </g>
+  </g>
+  <g id='_3xMF4NlrEDeF0d73M265Lg'>
+    <line y1='128.0' x1='134.0' y2='128.0' x2='556.0' id='_3xPJMNlrEDeF0d73M265Lg' stroke-width='1.0' fill='none' stroke='rgb(0, 0, 0)'/>
+    <polygon transform='translate(556.0,128.0) rotate(90.0)' stroke-width='1.0' fill='rgb(0, 0, 0)' stroke='rgb(0, 0, 0)' points='-4.0,12.0 0.0,0.0 4.0,12.0'/>
+    <line y1='128.0' x1='134.0' y2='128.0' x2='556.0' id='_3xPJMNlrEDeF0d73M265Lg' stroke-width='1.0' fill='none' stroke='rgb(0, 0, 0)'/>
+  </g>
+  <g id='_3xMs8tlrEDeF0d73M265Lg'>
+    <line y1='178.0' x1='556.0' y2='178.0' x2='134.0' stroke-dasharray='1, 2' id='_3xQ-YNlrEDeF0d73M265Lg' stroke-width='1.0' fill='none' stroke='rgb(0, 0, 0)'/>
+    <polyline transform='translate(134.0,178.0) rotate(-90.0)' stroke-width='1.0' fill='none' stroke='rgb(0, 0, 0)' points='-5.0,10.0 0.0,0.0 5.0,10.0'/>
+    <line y1='178.0' x1='556.0' y2='178.0' x2='134.0' stroke-dasharray='1, 2' id='_3xQ-YNlrEDeF0d73M265Lg' stroke-width='1.0' fill='none' stroke='rgb(0, 0, 0)'/>
+  </g>
+  <g id='_41BhctlrEDeF0d73M265Lg'>
+    <line y1='304.0' x1='134.0' y2='304.0' x2='556.0' id='_41D9s9lrEDeF0d73M265Lg' stroke-width='1.0' fill='none' stroke='rgb(0, 0, 0)'/>
+    <polygon transform='translate(556.0,304.0) rotate(90.0)' stroke-width='1.0' fill='rgb(0, 0, 0)' stroke='rgb(0, 0, 0)' points='-4.0,12.0 0.0,0.0 4.0,12.0'/>
+    <line y1='304.0' x1='134.0' y2='304.0' x2='556.0' id='_41D9s9lrEDeF0d73M265Lg' stroke-width='1.0' fill='none' stroke='rgb(0, 0, 0)'/>
+  </g>
+  <g id='_41CvkdlrEDeF0d73M265Lg'>
+    <line y1='354.0' x1='556.0' y2='354.0' x2='134.0' stroke-dasharray='1, 2' id='_41HBAtlrEDeF0d73M265Lg' stroke-width='1.0' fill='none' stroke='rgb(0, 0, 0)'/>
+    <polyline transform='translate(134.0,354.0) rotate(-90.0)' stroke-width='1.0' fill='none' stroke='rgb(0, 0, 0)' points='-5.0,10.0 0.0,0.0 5.0,10.0'/>
+    <line y1='354.0' x1='556.0' y2='354.0' x2='134.0' stroke-dasharray='1, 2' id='_41HBAtlrEDeF0d73M265Lg' stroke-width='1.0' fill='none' stroke='rgb(0, 0, 0)'/>
+  </g>
+</svg>
