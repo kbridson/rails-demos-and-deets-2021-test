@@ -38,6 +38,10 @@ title: Home
 - [Demo 13: Authentication with Devise (Part 1)]({{ site.baseurl }}/demo-13-authentication-with-devise-part-1/)
 - [Demo 14: Authentication with Devise (Part 2)]({{ site.baseurl }}/demo-14-authentication-with-devise-part-2/)
 
+### 6. Styling Pages with Bootstrap
+
+- [Demo 15: Styling with Bootstrap]({{ site.baseurl }}/demo-15-styling-with-bootstrap/)
+
 ## Deets
 
 - [ERBs Explained]({{ site.baseurl }}/deets-erb/)

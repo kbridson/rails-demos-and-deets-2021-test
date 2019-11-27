@@ -6,27 +6,48 @@ permalink: /demo-15-styling-with-bootstrap/
 
 # {{ page.title }}
 
-In this demonstration, I will show how to style the existing pages of the QuizMe app using the [Bootstrap](https://getbootstrap.com/docs/4.3/getting-started/introduction/) library. I will focus on demonstrating how to complete certain tasks including creating a navbar, adding key specific colors to the flash messages, centering content on the page, adding cards, adding colors to text or backgrounds, and styling forms with errors on particular fields.
+In this demonstration, I will show how to use the popular front-end component library, [Bootstrap](https://getbootstrap.com/docs/4.3/getting-started/introduction/), to make pages that are stylish and modern looking. We will continue to build upon the _QuizMe_ project from the previous demos.
 
-## Installing Bootstrap
+In particular, we will use Bootstrap components in combination with a [Bootswatch](https://bootswatch.com/) theme to customize the style (e.g., fonts, colors, text alignment, and layout) of our current pages, and we will add a [Bootstrap navbar](https://getbootstrap.com/docs/4.3/components/navbar/) (short for _navigation bar_), as depicted in Figure 1.
 
-This section has already been done in your project repos, so you can start using it immediately.
+<div class="figure-container mx-auto my-4" style="max-width: 960px;">
+<figure class="figure">
+<img src="{{ site.baseurl }}/resources/demo15_home_page.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page">
+<figcaption class="figure-caption">Figure 1. Updated welcome page that now has Bootstrap styling and a navbar.</figcaption>
+</figure>
+</div>
 
-1. Add some yarn packages to the project including Bootstrap and its dependencies by running the console command:
+We will also use [Bootstrap cards](https://getbootstrap.com/docs/4.3/components/card/) to display `Quiz` records, as depicted in Figure 2.
 
-    ```sh
+<div class="figure-container mx-auto my-4" style="max-width: 960px;">
+<figure class="figure">
+<img src="{{ site.baseurl }}/resources/demo15_quizzes_index_page.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page">
+<figcaption class="figure-caption">Figure 2. Updated <code>index</code> page for <code>Quiz</code> records that now uses Bootstrap cards to display each quiz record.</figcaption>
+</figure>
+</div>
+
+Finally, we will use [Bootstrap alerts](https://getbootstrap.com/docs/4.3/components/alerts/) to style our form notifications, and we will annotate form fields with error messages, as depicted in Figure 3.
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;">
+<figure class="figure">
+<img src="{{ site.baseurl }}/resources/demo15_quiz_form_error.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page">
+<figcaption class="figure-caption">Figure 3. Updated form page for <code>Quiz</code> records that now uses Bootstrap to style notice/alert messages and now annotates form fields with error messages.</figcaption>
+</figure>
+</div>
+
+## 1. Installing Bootstrap
+
+Note to COMP 4018 students: This task has already been done in your project repo, so you can start using it immediately.
+
+1. Add some Yarn packages to the project, including Bootstrap and its dependencies, by running the console command:
+
+    ```bash
     yarn add bootstrap jquery popper.js expose-loader bootswatch jquery-ui autosize
     ```
 
-    - bootstrap library requires jquery and popper.js
-    - bootswatch for bootstrap themes
-    - expose-loader allows you to use jquery in your views
-    - jquery-ui has some nice features (position)
-    - autosize fits textarea to input content
-    
-1. Configure Webpacker by adding the following to `config/webpack/environment.js`:
+    In particular, the `bootstrap` library requires `jquery` and `popper.js`. We are installing `bootswatch` to conveniently choose from a selection Bootstrap-based themes. `expose-loader` enables the use of JQuery in views. `jquery-ui` has some nice features (e.g., [the `position` method](https://jqueryui.com/position/)). `autosize` enables automatically scaling the height of a `textarea` to fit its content.
 
-    > (insert on line 2)
+1. [Webpacker](https://github.com/rails/webpacker) is a Rails subsystem for managing JavaScript in Rails. Configure Webpacker by inserting the following code on line 2 of the file, `config/webpack/environment.js`:
 
     ```js
     const webpack = require("webpack")
@@ -76,41 +97,39 @@ This section has already been done in your project repos, so you can start using
     })
     ```
 
-1. Change app/assets/stylesheets/application.css to `application.scss`.
+1. Rename the file, `app/assets/stylesheets/application.css`, to be `application.scss` (note the extra `s` in the file extension).
 
-1. Import the Bootstrap css classes by adding the following to `application.scss`:
+1. Import the Bootstrap CSS classes by adding the following to `application.scss`:
 
     ```scss
     @import "../node_modules/bootstrap/scss/bootstrap";
     ```
 
-If you reload the QuizMe app now, you should see the fonts have changed.
+    If you reload the QuizMe app now, you should see the fonts have changed.
 
-## Adding a Bootwatch Theme
+## 2. Adding a Bootswatch Theme
 
-Bootswatch themes override the default colors, font, sizing, and look of the default Bootstrap classes. You can see examples of elements of each available theme on the [Bootswatch website](https://bootswatch.com/).
+Bootswatch themes override the default colors, font, sizing, and look of the default Bootstrap classes. You can find a list of the available themes (including examples) on the [Bootswatch website](https://bootswatch.com/). For the QuizMe project, we will use the [Yeti theme](https://bootswatch.com/yeti).
 
-I will add the [Yeti](https://bootswatch.com/yeti) theme to the QuizMe project by importing the styles in `application.scss`:
+1. Add the Yeti theme by importing the styles in `application.scss`, like this:
 
     ```scss
-     @import "../node_modules/bootswatch/dist/yeti/variables";
-     @import "../node_modules/bootstrap/scss/bootstrap";
-     @import "../node_modules/bootswatch/dist/yeti/bootswatch";
+      @import "../node_modules/bootswatch/dist/yeti/variables";
+      @import "../node_modules/bootstrap/scss/bootstrap";
+      @import "../node_modules/bootswatch/dist/yeti/bootswatch";
     ```
 
-You can change which theme is used by replacing "yeti" with the theme name you want.
+    You can change which theme is used by replacing "`yeti`" with the theme name you want.
 
-Once the theme has been added, you can reload the page to see the text styling has changed again.
+    Once the theme has been added, you can reload the page to see the text styling has changed again.
 
-## Adding a Navbar
+## 3. Adding a Navbar
 
-The documentation for Bootstrap navbar is [here](https://getbootstrap.com/docs/4.3/components/navbar/).
+### 3.1. Migrating the Old Navigation Links into a Navbar
 
-In this section, we are going to turn the existing list of links at the top of every page (in the `<ul>` element) into a real navbar.
+For this task, we will convert the existing list of links at the top of our pages (i.e., the ones in the `ul` element) into a more modern and practical [Bootstrap navbar](https://getbootstrap.com/docs/4.3/components/navbar/). In particular, we will start with the Yeti navbar templates (provided [here](https://bootswatch.com/yeti/#navbars)) and customize the template code to have the correct links.
 
-I am going to use the navbar templates provided [here](https://bootswatch.com/yeti/) and customize it to have the correct links.
-
-1. Add the default navbar from the link above:
+1. Paste in the Yeti navbar template, like this:
 
     ```erb
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -142,13 +161,13 @@ I am going to use the navbar templates provided [here](https://bootswatch.com/ye
     </nav>
     ```
 
-1. Change the `navbar-brand` element to the name of the app:
+1. Change the `navbar-brand` element to _QuizMe_, like this:
 
     ```erb
     <a class="navbar-brand" href="#">QuizMe</a>
     ```
 
-1. Replace the existing links in the `<ul>` element with:
+1. Replace the links in the template's `ul` element with our actual Home, About, etc. links, like this:
 
     ```erb
     <ul class="navbar-nav mr-auto">
@@ -172,7 +191,7 @@ I am going to use the navbar templates provided [here](https://bootswatch.com/ye
     </ul>
     ```
 
-1. Replace the existing form element with another `<ul>` containing the Devise links:
+1. Replace the template's `form` element with another `ul` element that contains the Devise links, like this:
 
     ```erb
     <ul class="navbar-nav">
@@ -194,9 +213,13 @@ I am going to use the navbar templates provided [here](https://bootswatch.com/ye
     </ul>
     ```
 
-The `active` class on a link is what highlights the link for the current page. If you load the page and try clicking on one the links other than Home, you will see the "Home" tab is still active and the current page is not. To fix this, we will conditionally add the `active` class to the link depending on the current page.
+### 3.2. Conditionally Highlighting the Active Navigation Link
 
-1. Add a helper method `active_class` to `application_helper.rb`:
+In the above code, the `nav-item` element for the Home link has an additional `active` class; however, this is incorrect and needs to be fixed. The intent of the `active` class is to highlight the nav link for the currently open page. However, to achieve this behavior, the `active` class must be applied to the `nav-item` element that corresponds to the current page. The above code is broken in that the Home `nav-item` element is always styled as `active` regardless of which page is actually open.
+
+To fix this problem, we will conditionally add the `active` class to the appropriate `nav-item` element for the current page by making the following changes.
+
+1. Add a helper method `active_class` to `application_helper.rb` that returns the string "`active`" if the path of the current HTTP request matches a `path` parameter and that otherwise return an empty string, like this:
 
     ```ruby
     def active_class(path)
@@ -208,7 +231,7 @@ The `active` class on a link is what highlights the link for the current page. I
     end
     ```
 
-1. Add code to use the helper method to set the active class based on the path to each of the navbar links:
+1. Use this helper method in the navbar view code to add the `active` class to the appropriate `nav-item` element, like this:
 
     ```erb
     <ul class="navbar-nav mr-auto">
@@ -249,21 +272,23 @@ The `active` class on a link is what highlights the link for the current page. I
     </ul>
     ```
 
-1. Remove the simple `<ul>` list of links we made in previous demos and the links from the bottom of the welcome page.
+## 4. Centering Content
 
-## Centering Content
+For this task, we will center several different types of elements on our pages.
 
-Let's continue improving the welcome page by centering the content.
+### 4.1. Centering a Text Element
 
-### Centering a Text Element
+One element that we would like to center is the `h1` text-heading elements on all our pages.
 
-We can center a single element containing text by adding the `.text-center` class. For example, let's center the text of the `<h1>` element on this page with:
+1. To center an individual `h1` element, we could add the Bootstrap `text-center` class, like this:
 
     ```erb
     <h1 class="text-center">Welcome to QuizMe!</h1>
     ```
 
-If we know we want all `<h1>` elements to be centered, we can set a global style for all the `<h1>` tags by adding some css to `application.scss` like:
+    However, this class must be applied to individual elements, which would not be a very [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) way to apply the style, considering that we want to center all `h1` elements on all pages.
+
+1. Instead of individually styling each individual `h1` element with the `text-center` class, we will instead set a global `text-align` style for all `h1` elements by adding some CSS to `application.scss`, like this:
 
     ```scss
     h1 {
@@ -271,25 +296,23 @@ If we know we want all `<h1>` elements to be centered, we can set a global style
     }
     ```
 
-This global style will be set for heading tags on every page in the app.
+    This global style will center the heading text for all `h1` elements on every page in the app.
 
-### Centering an Element with Margin
+### 4.2. Centering an Element with Margin
 
-We can horizontally center elements that don't contain text using the `.mx-auto` class. This class divides the empty whitespace around the element between the element's left and right margins, centering the element within its parent element.
+Another element that we would like to center on the page is the QuizMe welcome-page image; however, we can't use the `text-align` style like we did for the `h1` heading elements, because the style only works for text elements. To horizontally center elements that don't contain text, we can use the Bootstrap `mx-auto` class. This class divides the empty whitespace around the element between the element's left and right margins, centering the element within its parent element.
 
-For example, we can center the welcome page image by making the `<img>` element a block-level element and adding `.mx-auto`:
+1. Center the welcome-page image by making the `img` element a block-level element (using the Bootstrap `d-block` class) and by adding the `.mx-auto` class, like this:
 
     ```erb
     <%= image_tag "quiz-bubble.png", width: 400, class: 'd-block mx-auto' %>
     ```
 
-### Centering with Columns and Justify Content
+### 4.3. Centering with Columns and Justify Content
 
-You can read about Bootstrap's 12-column flexbox grid layout system [here](https://getbootstrap.com/docs/4.3/layout/grid/).
+A final sort of element centering that we would like to do is to make the content of each page layout in a column such that the column is placed in the center (horizontally speaking) of the page. To accomplish this task, we will leverage [Bootstrap's 12-column flexbox grid layout system](https://getbootstrap.com/docs/4.3/layout/grid/). For most of the pages in QuizMe, we don't want multiple columns side-by-side, but we do want the content to be somewhat in the middle of the page with margins on both sides. We can achieve this by creating a single column that spans 8 of the 12 possible Bootstrap columns, and then, by centering the entire column on the page (leaving the width of 2 columns on each side).
 
-For most of the pages in QuizMe, we don't want multiple columns side-by-side, but we do want the content to be somewhat in the middle of the page with equal non-zero margins on both sides. We can achieve this by creating a single column that spans 8 of the 12 possible columns and, then, centering the entire column on the page (leaving 2 columns-width of space on each side).
-
-We can achieve this by wrapping the `yield` statement in `application.html.erb` in a 3-layer div wrapper with the outermost div having `.container-fluid`, the second div having `.row` and `justify-content-center` and the innermost div having `col-8`. The code should be:
+1. To achieve this layout, wrap the `yield` statement in `application.html.erb` in a 3-layer `div` wrapper with the outermost `div` having the Bootstrap `container-fluid` class, the second `div` having the Bootstrap `row` and `justify-content-center` classes, and the innermost `div` having the Bootstrap `col-8` class, like this:
 
     ```erb
     <div class="container-fluid">
@@ -301,55 +324,11 @@ We can achieve this by wrapping the `yield` statement in `application.html.erb` 
     </div>
     ```
 
-## Adding Flash Key Colors
+## 5. Displaying Records as Bootstrap Cards
 
-Flash messages are typically styled with the `alert` class and one of the colored alert classes like `alert-success` (usually, green) or `alert-danger` (usually, red). We can add a helper method to automatically set the color class based on the key used for the message.
+In this task, we will restyle the quizzes displayed on the `index` page for `Quiz` records by displaying each quiz as a [Bootstrap card](https://getbootstrap.com/docs/4.3/components/card/), as shown in Figure 2.
 
-1. Add a `flash_class` helper method that links all flash key values used in the app to an appropriate color class:
-
-    ```ruby
-    def flash_class(level)
-      bootstrap_alert_class = {
-        "success" => "alert-success",
-        "error" => "alert-danger",
-        "notice" => "alert-info",
-        "alert" => "alert-danger",
-        "warn" => "alert-warning"
-      }
-      bootstrap_alert_class[level]
-    end
-    ```
-
-    You can add more keys later if you need to. A list of all the alert color classes is found [here](https://getbootstrap.com/docs/4.0/components/alerts/). If you have a Bootswatch theme applied, the colors of each alert class will be different.
-
-1. Replace the existing flash message display with:
-
-    ```erb
-    <% flash.each do |key, message| %>
-      <div class="alert <%= flash_class(key) %> alert-dismissible fade show text-center" role="alert">
-        <%= message %>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    <% end %>
-    ```
-
-1. The alert text is slightly off-center. Fix this by adding the following to application.scss: 
-
-    ```scss
-    .alert-dismissible {
-      padding-left: $close-font-size + $alert-padding-x * 2;
-    }
-    ```
-
-    These variables are declared in the Bootstrap files in the node_modules folder, but we can use them in our scss files after the import statement.
-
-## Bootstrap Cards
-
-Bootstrap's cards provide stylish bordered content containers. You can read about all of their options [here](https://getbootstrap.com/docs/4.1/components/card/).
-
-In the QuizMe app, we are going to use them to clean up the `quizzes#index` page by putting each quiz into a card container.
+1. Put each quiz in the `quizzes/index.html.erb` view into a card container, like this:
 
     ```erb
     <div id="<%= dom_id(quiz) %>">
@@ -372,16 +351,59 @@ In the QuizMe app, we are going to use them to clean up the `quizzes#index` page
     </div>
     ```
 
+## 6. Adding Flash Key Colors
 
-## Styling Forms That Display Errors
+In this task, we will apply a flashier Bootstrap style to our flash messages (as depicted in Figure 3). In Bootstrap, flash messages are typically styled with the `alert` class along with one of the colored `alert-x` classes, such as `alert-success` (usually green) or `alert-danger` (usually red).
 
-Validation errors are added to an errors hash on the model object. We can determine if an object is invalid (has any validation errors) by checking if the errors hash is empty. We can also get the errors for a particular attribute using a key-based lookup in the errors hash.
+1. To automatically set the `alert` class based on the key used for the message, add a `flash_class` helper method that maps all flash key values used in the app to an appropriate `alert` class, like this:
 
-In this section, we will add styling to the form to make the fields look nicer. Then, we can add attribute specific error messages and coloring to the form fields to make it clear to the users what errors they need to fix in their input. The documentation for the Bootstrap form classes is found [here](https://getbootstrap.com/docs/4.3/components/forms/).
+    ```ruby
+    def flash_class(level)
+      bootstrap_alert_class = {
+        "success" => "alert-success",
+        "error" => "alert-danger",
+        "notice" => "alert-info",
+        "alert" => "alert-danger",
+        "warn" => "alert-warning"
+      }
+      bootstrap_alert_class[level]
+    end
+    ```
 
-Most importantly, the `<div>` containing the label and field elements should have `.form-group`. The input field should have `.form-control`. The submit button should have `.btn`, and probably one or more of the special button styling classes like `.btn-primary` for color or `.btn-block` for a full-width button. 
+    More keys can be added later if necessary. A list of all the `alert` classes can be found [here](https://getbootstrap.com/docs/4.3/components/alerts/). If a Bootswatch theme has been applied, the colors of each alert class will be different depending on the theme.
 
-1. Add the appropriate Bootstrap classes to the `AccountQuizzes#new` view:
+1. In the view layout `layouts/application.html.erb`, update the existing flash message code to use the Bootstrap `alert` class and the `flash_class` helper method, like this:
+
+    ```erb
+    <% flash.each do |key, message| %>
+      <div class="alert <%= flash_class(key) %> alert-dismissible fade show text-center" role="alert">
+        <%= message %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <% end %>
+    ```
+
+1. The above code has a little problem: the `alert` text is slightly off-center. Fix this by adding the following to `application.scss`:
+
+    ```scss
+    .alert-dismissible {
+      padding-left: $close-font-size + $alert-padding-x * 2;
+    }
+    ```
+
+    These variables were declared in the Bootstrap files in the `node_modules` folder, but we can use them in our SCSS files after the `import` statement.
+
+## 7. Styling Forms That Display Errors
+
+In this final task, we will use the [Bootstrap form classes](https://getbootstrap.com/docs/4.3/components/forms/) to make the app's form fields look nicer. Then, we will add attribute-specific error messages and coloring to the form fields to make it clearer to the user what errors they need to fix in their input (as depicted in Figure 3).
+
+### 7.1. Applying Bootstrap Form Classes
+
+Styling forms using the Bootstrap form classes can be accomplished as follows. Each `div` that contains a `label` and a field element should have the `form-group` class. Each field element should have the `form-control` class. The `submit` button should have the `btn` class, and probably one or more of the special button-styling classes, such as `btn-primary` for color or `btn-block` for a full-width button.
+
+1. Add the appropriate Bootstrap form classes to the `account_quizzes/new.html.erb` view, like this:
 
     ```erb
     <div class="form-group">
@@ -397,23 +419,25 @@ Most importantly, the `<div>` containing the label and field elements should hav
     <%= form.submit "Add Quiz", class: "btn btn-block btn-primary" %>
     ```
 
-    Notice we don't need the `<br>` tags between the label and field anymore.
+    Notice that we no longer need the `br` elements between the labels and fields.
 
-Now we can add the attribute error indicators by:
+### 7.2. Adding Field-Specific Error Messages
 
-1. Before the `.form-group` div, add a variable that checks if there are errors for the attribute:
+When a Rails model validation fails, Rails adds a description of the error to an `errors` hash that is part of the model object. We can determine if an object is invalid (i.e., has any validation errors) by checking if the `errors` hash is empty. We can also get the errors for a particular attribute using a key-based lookup in the `errors` hash.
+
+1. Before each `form-group` `div`, add a `boolean` variable that holds whether there are errors for the corresponding attribute, like this code for the `title` attribute:
 
     ```erb
     <% invalid = quiz.errors.include?(:title) %>
     ```
 
-1. Use the invalid variable to add the `.is-invalid` class to the field if there are errors on the attribute:
+1. Use the `invalid` variable to conditionally add the `is-invalid` class to the field element if there are any errors for the attribute, like this code for the `title` attribute:
 
     ```erb
     <%= form.text_field :title, class: "form-control #{'is-invalid' if invalid}" %>
     ```
 
-1. Display the error messages for the attribute if there are any by adding the following to the end of the `.form-group` div:
+1. Display the error messages for the attribute (if there are any) by conditionally inserting a `div` with the error message after the field element, like this code for the `title` attribute:
 
     ```erb
     <% if invalid %>
@@ -425,21 +449,21 @@ Now we can add the attribute error indicators by:
     <% end %>
     ```
 
-This process should be followed for each form field. For each one, you should have something like:
+The preceding steps should be followed for each form field such that each on looks similar to this:
 
-    ```erb
-    <% invalid = quiz.errors.include?(:title) %>
-    <div class="form-group">
-      <%= form.label :title %>
-      <%= form.text_field :title, class: "form-control #{'is-invalid' if invalid}" %>
-      <% if invalid %>
-        <div class="invalid-feedback d-block">
-          <% quiz.errors.full_messages_for(:title).each do |error_message| %>
-            <%= error_message %>.
-          <% end %>
-        </div>
+```erb
+<% invalid = quiz.errors.include?(:title) %>
+<div class="form-group">
+  <%= form.label :title %>
+  <%= form.text_field :title, class: "form-control #{'is-invalid' if invalid}" %>
+  <% if invalid %>
+    <div class="invalid-feedback d-block">
+      <% quiz.errors.full_messages_for(:title).each do |error_message| %>
+        <%= error_message %>.
       <% end %>
     </div>
-    ```
+  <% end %>
+</div>
+```
 
-Try creating an invalid quiz to see the new styling.
+We should now be able to submit invalid quiz data and to see the field-specific error messages.
