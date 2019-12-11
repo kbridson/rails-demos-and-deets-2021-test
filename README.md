@@ -39,6 +39,7 @@
 
 ### Missing topics
 
+- Add attributes to Devise user model (e.g., first and last names)
 - Image uploads, active storage
 - Many-to-many assoc., join table
 - JQuery
