@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2020/assets/img/favicon.png">
+
+<title>Demo 7: Working with Simple Models | Web Development with Ruby on Rails Tutorial 2019</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2020/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2020/"><img src="/rails-demos-n-deets-2020/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="demo-7-working-with-simple-models">Demo 7: Working with Simple Models</h1>
+
+<p>In this demonstration, I will show how to create a model class and some sample objects, persist those objects in the database, and then retrieve and view them on a web page. I will continue to work on the <em>QuizMe</em> project from the previous demos.</p>
+
+<h2 id="1-adding-a-new-model-class-and-sample-data">1. Adding a New Model Class and Sample Data</h2>
+
+<p>Since we are building a quizzing application, we will need to store questions in the database. At first, the app will only allow multiple choice questions but in a later demo we will see that it’s pretty easy to add other kinds of questions too (e.g., fill in the blank). For multiple choice questions we need to store the question, answer, and a couple of incorrect options (distractors). Figure 1 shows the corresponding class diagram.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;">
+<figure class="figure">
+<img src="/rails-demos-n-deets-2020/resources/class-diagram.png" class="figure-img img-fluid rounded" alt="Class diagram for McQuestion model." />
+<figcaption class="figure-caption">Fig 1. Class diagram for McQuestion model. (Diagram created using <a href="https://www.genmymodel.com">GenMyModel</a>.)</figcaption>
+</figure>
+</div>
+
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/qZLxdc_6MOI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+</div>
+
+<ol>
+  <li>
+    <p>Run the following <code class="highlighter-rouge">rails generate model ...</code> command to create the model class shown in the above class diagram:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails g model McQuestion question:string answer:string distractor_1:string distractor_2:string
+</code></pre></div>    </div>
+
+    <p>Note the files that are generated, including <code class="highlighter-rouge">app/models/mc_question.rb</code> (the model class), <code class="highlighter-rouge">db/migrate/20190926192541_create_mc_questions.rb</code> (the database migration; timestamp will vary), and two files for automated testing, <code class="highlighter-rouge">test/fixtures/mc_questions.yml</code> (data for use in the tests) and <code class="highlighter-rouge">test/models/mc_question_test.rb</code> (unit tests for the model class).</p>
+  </li>
+  <li>
+    <p>Run the following command to set up the <code class="highlighter-rouge">mc_questions</code> table in the database and to regenerate the <code class="highlighter-rouge">db/schema.rb</code> file, which holds the Rails app’s representation of the database.</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails db:migrate
+</code></pre></div>    </div>
+
+    <p>Observe the changes to the <code class="highlighter-rouge">schema.rb</code> file and the new <code class="highlighter-rouge">mc_questions</code> table in pgAdmin.</p>
+  </li>
+  <li>
+    <p>Add a couple sample questions in the <code class="highlighter-rouge">db/seeds.rb</code> file as follows:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">q1</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">question: </span><span class="s1">'What does the M in MVC stand for?'</span><span class="p">,</span> 
+   <span class="ss">answer: </span><span class="s1">'Model'</span><span class="p">,</span> <span class="ss">distractor_1: </span><span class="s1">'Media'</span><span class="p">,</span> <span class="ss">distractor_2: </span><span class="s1">'Mode'</span><span class="p">)</span>
+
+ <span class="n">q2</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">question: </span><span class="s1">'What does the V in MVC stand for?'</span><span class="p">,</span> 
+   <span class="ss">answer: </span><span class="s1">'View'</span><span class="p">,</span> <span class="ss">distractor_1: </span><span class="s1">'Verify'</span><span class="p">,</span> <span class="ss">distractor_2: </span><span class="s1">'Validate'</span><span class="p">)</span>
+
+ <span class="n">q3</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">question: </span><span class="s1">'What does the C in MVC stand for?'</span><span class="p">,</span> 
+   <span class="ss">answer: </span><span class="s1">'Controller'</span><span class="p">,</span> <span class="ss">distractor_1: </span><span class="s1">'Create'</span><span class="p">,</span> <span class="ss">distractor_2: </span><span class="s1">'Code'</span><span class="p">)</span>
+</code></pre></div>    </div>
+
+    <p>Note that we use the <code class="highlighter-rouge">create!</code> method (with a bang <code class="highlighter-rouge">!</code>) to create new database records in the <code class="highlighter-rouge">seeds.rb</code> file. The reason is that the bang version of <code class="highlighter-rouge">create</code> (i.e., <code class="highlighter-rouge">create!</code>) throws an exception if something goes wrong, which will, among other things, produce an error message. If the plain old <code class="highlighter-rouge">create</code> (with no <code class="highlighter-rouge">!</code>) method was used, the command will fail silently, which can be awfully confusing.</p>
+  </li>
+  <li>
+    <p>Run the following command to execute the <code class="highlighter-rouge">seeds.rb</code> file, adding the sample records to the database.</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails db:seed
+</code></pre></div>    </div>
+
+    <p>Observe the new records in pgAdmin.</p>
+  </li>
+</ol>
+
+<p><strong><a href="https://github.com/sdflem/quiz-me/commit/0f812ada8d65c6755f13563cee09324b7bc47df3">➥ Code changeset for this part</a></strong></p>
+
+<h2 id="2-retrieving-and-viewing-records-from-the-database">2. Retrieving and Viewing Records from the Database</h2>
+
+<p>In the first part of this demo, we stored a few questions in the database, so in this part, we will demonstrate how to retrieve and display the questions. In particular, we will demonstrate how to display a single question using a <code class="highlighter-rouge">show</code> action and how to display all the questions using an <code class="highlighter-rouge">index</code> action. These two actions are semi-standard read (as in the R in CRUD) actions in Rails. There are also semi-standard <code class="highlighter-rouge">create</code>, <code class="highlighter-rouge">update</code>, and <code class="highlighter-rouge">destroy</code> actions that we will cover in future demos.</p>
+
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/QxIifPWWNKA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+</div>
+
+<ol>
+  <li>
+    <p>Create a controller for <code class="highlighter-rouge">McQuestion</code> objects by running the <code class="highlighter-rouge">rails generate controller ...</code> command as follows:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails g controller McQuestions index show
+</code></pre></div>    </div>
+
+    <p>Note that this command generates the file <code class="highlighter-rouge">app/controllers/mc_questions_controller.rb</code>, which contains the class <code class="highlighter-rouge">McQuestionsController</code>. This controller class has two actions (public methods), <code class="highlighter-rouge">index</code> and <code class="highlighter-rouge">show</code>. The command also inserted into the <code class="highlighter-rouge">routes.rb</code> file a new route for each of these controller actions, and it created two new view files, <code class="highlighter-rouge">app/views/mc_questions/index.html.erb</code> and <code class="highlighter-rouge">app/views/mc_questions/show.html.erb</code>.</p>
+  </li>
+  <li>
+    <p>Replace the generated routes with standard resources routes for the <code class="highlighter-rouge">McQuestionsController</code>’s <code class="highlighter-rouge">index</code> and <code class="highlighter-rouge">show</code> actions as follows:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">get</span> <span class="s1">'mc_questions'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'mc_questions#index'</span><span class="p">,</span> <span class="ss">as: </span><span class="s1">'mc_questions'</span> <span class="c1"># index</span>
+ <span class="n">get</span> <span class="s1">'mc_questions/:id'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'mc_questions#show'</span><span class="p">,</span> <span class="ss">as: </span><span class="s1">'mc_question'</span> <span class="c1"># show</span>
+</code></pre></div>    </div>
+
+    <p>Previously, we saw parameters passed to the Rails server via POST requests (recall the <code class="highlighter-rouge">params</code> hash); however, parameters can also be passed via GET requests. In particular, the <code class="highlighter-rouge">show</code> route has as part of its URI pattern an <code class="highlighter-rouge">:id</code> request parameter that becomes part of the URL (e.g., <a href="http://localhost:3000/mc_questions/125">http://localhost:3000/mc_questions/125</a>). The <code class="highlighter-rouge">:id</code> value for a given request can be retrieved from <code class="highlighter-rouge">params[:id]</code>.</p>
+
+    <p>Additionally, it is possible to pass even more parameters, if needed, by appending them to the end of the URL, as in this example: <a href="http://localhost:3000/somepath?keyword1=value1&amp;keyword2=value2&amp;keyword3=value3">http://localhost:3000/somepath?keyword1=value1&amp;keyword2=value2&amp;keyword3=value3</a>.</p>
+  </li>
+  <li>
+    <p>Add the standard <code class="highlighter-rouge">respond_to</code> blocks to the <code class="highlighter-rouge">show</code> and <code class="highlighter-rouge">index</code> actions.</p>
+  </li>
+  <li>
+    <p>We will also need to add the object(s) to display to the controller actions by using the <a href="https://guides.rubyonrails.org/active_record_querying.html#retrieving-a-single-object">ActiveRecord query methods</a> for our <code class="highlighter-rouge">McQuestion</code> model class. For the <code class="highlighter-rouge">show</code> action, which displays only one object, we use the <code class="highlighter-rouge">find</code> method with an <code class="highlighter-rouge">id</code> parameter as follows:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">question</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+</code></pre></div>    </div>
+
+    <p>For the <code class="highlighter-rouge">index</code> action, which displays all the records from that table, we use the <code class="highlighter-rouge">all</code> method as follows:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">questions</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">all</span>
+</code></pre></div>    </div>
+
+    <p>You will also need to pass those variables into the <code class="highlighter-rouge">locals</code> hash, so they will be available in the view.</p>
+  </li>
+  <li>
+    <p>The <code class="highlighter-rouge">show</code> action should display all the <em>important</em> attributes of the <code class="highlighter-rouge">mc_question</code> object (i.e., not the timestamps and not the <code class="highlighter-rouge">id</code> because that is shown in the URL). We could simply set up something like <code class="highlighter-rouge">&lt;p&gt;Answer: &lt;%= answer %&gt;&lt;/p&gt;</code> for each attribute, but let’s make it a little more interesting by showing the question and a set of disabled radio buttons for all the answer choices (the correct answer and distractor(s)). Note that the radio buttons are just for show in this case, and will not be part of a working form.</p>
+
+    <ol>
+      <li>
+        <p>Create a <code class="highlighter-rouge">&lt;p&gt;</code> block for the question text as follows:</p>
+
+        <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">question</span><span class="p">.</span><span class="nf">question</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>Now we need to create the radio button group with all the answers. Let’s make three radio button tags as follows:</p>
+
+        <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;div&gt;</span>
+   <span class="cp">&lt;%=</span> <span class="n">radio_button_tag</span> <span class="s2">"guess"</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">answer</span><span class="p">,</span> <span class="n">checked</span> <span class="o">=</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">disabled: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+   <span class="cp">&lt;%=</span> <span class="n">label_tag</span> <span class="s2">"guess_</span><span class="si">#{</span><span class="n">question</span><span class="p">.</span><span class="nf">answer</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">answer</span> <span class="cp">%&gt;</span>
+ <span class="nt">&lt;/div&gt;</span>
+ <span class="nt">&lt;div&gt;</span>
+   <span class="cp">&lt;%=</span> <span class="n">radio_button_tag</span> <span class="s2">"guess"</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">distractor_1</span><span class="p">,</span> <span class="n">checked</span> <span class="o">=</span> <span class="kp">false</span><span class="p">,</span> <span class="ss">disabled: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+   <span class="cp">&lt;%=</span> <span class="n">label_tag</span> <span class="s2">"guess_</span><span class="si">#{</span><span class="n">question</span><span class="p">.</span><span class="nf">distractor_1</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">distractor_1</span> <span class="cp">%&gt;</span>
+ <span class="nt">&lt;/div&gt;</span>
+ <span class="nt">&lt;div&gt;</span>
+   <span class="cp">&lt;%=</span> <span class="n">radio_button_tag</span> <span class="s2">"guess"</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">distractor_2</span><span class="p">,</span> <span class="n">checked</span> <span class="o">=</span> <span class="kp">false</span><span class="p">,</span> <span class="ss">disabled: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+   <span class="cp">&lt;%=</span> <span class="n">label_tag</span> <span class="s2">"guess_</span><span class="si">#{</span><span class="n">question</span><span class="p">.</span><span class="nf">distractor_2</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">distractor_2</span> <span class="cp">%&gt;</span>
+ <span class="nt">&lt;/div&gt;</span>
+</code></pre></div>        </div>
+
+        <p>In the <code class="highlighter-rouge">radio_button_tag</code> options, we need to make sure the buttons are all disabled by adding <code class="highlighter-rouge">disabled: true</code>. We also need to be sure that only the correct answer is checked by setting the <code class="highlighter-rouge">checked</code> option to be true only for the answer radio button. For the unique label tag IDs, we use string interpolation to execute some ruby code and put it inside the string (e.g. <code class="highlighter-rouge">#{question.answer}</code>).</p>
+      </li>
+      <li>
+        <p>Coding each radio button, like we did above, works, but it results in a lot of duplicate code. Instead, we can programmatically generate the radio buttons by looping through an array that contains all the choices and creating the radio button inside the loop.</p>
+
+        <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="cp">&lt;%</span>
+ <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="n">question</span><span class="p">.</span><span class="nf">answer</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">distractor_1</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">distractor_2</span><span class="p">]</span>
+ <span class="n">choices</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+ <span class="cp">%&gt;</span>
+   <span class="nt">&lt;div&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">radio_button_tag</span> <span class="s2">"guess"</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">checked</span> <span class="o">=</span> <span class="n">c</span> <span class="o">==</span> <span class="n">question</span><span class="p">.</span><span class="nf">answer</span><span class="p">,</span> <span class="ss">disabled: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">label_tag</span> <span class="s2">"guess_</span><span class="si">#{</span><span class="n">c</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">c</span> <span class="cp">%&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+
+ <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div>        </div>
+
+        <p>Setting most of the options is straightforward based on the <code class="highlighter-rouge">c</code> value but determining which radio button to check is more complicated. We know the <code class="highlighter-rouge">checked</code> option should be true only if <code class="highlighter-rouge">c</code> is <code class="highlighter-rouge">question.answer</code>, so we can actually set <code class="highlighter-rouge">checked</code> equal to the the result of determining if <code class="highlighter-rouge">c</code> is equal to <code class="highlighter-rouge">question.answer</code>.</p>
+      </li>
+      <li>
+        <p>Try going to <a href="http://localhost:3000/mc_questions/1">http://localhost:3000/mc_questions/1</a> to see the show page for one of the questions we added to the database.</p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>The <code class="highlighter-rouge">index</code> action should display some data for each of the records in the associated database table. Often, <code class="highlighter-rouge">index</code> actions will display the database table in an HTML <code class="highlighter-rouge">table</code> element, with a row for each record and a column for each of the record attributes; however, I will direct you to pgAdmin’s show-all-records feature for that. In this demo, we will simply display all the <code class="highlighter-rouge">McQuestion</code> objects on one page in the same way that they were displayed individually by the <code class="highlighter-rouge">show</code> action. However, each question will be wrapped in its own HTML <code class="highlighter-rouge">div</code> element with a unique <code class="highlighter-rouge">id</code> attribute generated by the <code class="highlighter-rouge">dom_id</code> helper.</p>
+
+    <ol>
+      <li>
+        <p>Create a heading for the page as follows:</p>
+
+        <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;h1&gt;</span>Multiple Choice Questions<span class="nt">&lt;/h1&gt;</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>Recall that we added a local <code class="highlighter-rouge">questions</code> variable to the <code class="highlighter-rouge">index</code> action that contains all the <code class="highlighter-rouge">McQuestion</code> objects in the database. Add code that loops through each question and creates an empty <code class="highlighter-rouge">div</code> element (for now) with a unique <code class="highlighter-rouge">id</code> for each question using the <code class="highlighter-rouge">dom_id</code> helper as follows:</p>
+
+        <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="cp">&lt;%</span> <span class="n">questions</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">question</span><span class="o">|</span> <span class="cp">%&gt;</span>
+   <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">dom_id</span><span class="p">(</span><span class="n">question</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+ <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div>        </div>
+
+        <p>Navigating to the index page now shows that three <code class="highlighter-rouge">div</code> elements have been created that look like <code class="highlighter-rouge">&lt;div id="mc_question_1"&gt;</code> where the number is the record <code class="highlighter-rouge">id</code>.</p>
+      </li>
+      <li>
+        <p>Each question should be displayed the same as on the <code class="highlighter-rouge">show</code> page, so we copy the <code class="highlighter-rouge">show</code> page code into the empty <code class="highlighter-rouge">div</code> we have, like this:</p>
+
+        <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="cp">&lt;%</span> <span class="n">questions</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">question</span><span class="o">|</span> <span class="cp">%&gt;</span>
+   <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">dom_id</span><span class="p">(</span><span class="n">question</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+     <span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">question</span><span class="p">.</span><span class="nf">question</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+
+     <span class="cp">&lt;%</span>
+     <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="n">question</span><span class="p">.</span><span class="nf">answer</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">distractor_1</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">distractor_2</span><span class="p">]</span>
+     <span class="n">choices</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+     <span class="cp">%&gt;</span>
+       <span class="nt">&lt;div&gt;</span>
+         <span class="cp">&lt;%=</span> <span class="n">radio_button_tag</span> <span class="s2">"guess"</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">checked</span> <span class="o">=</span> <span class="n">c</span> <span class="o">==</span> <span class="n">question</span><span class="p">.</span><span class="nf">answer</span><span class="p">,</span> <span class="ss">disabled: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+         <span class="cp">&lt;%=</span> <span class="n">label_tag</span> <span class="s2">"guess_</span><span class="si">#{</span><span class="n">c</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">c</span> <span class="cp">%&gt;</span>
+       <span class="nt">&lt;/div&gt;</span>
+
+     <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+ <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>If we reload the <code class="highlighter-rouge">index</code> page now, we can see that all the questions are displayed, but only one radio button is checked on the entire page. Looking at the code we copied from the <code class="highlighter-rouge">show</code> page, the radio button tag <code class="highlighter-rouge">id</code> is “guess” for all the radio buttons. This was fine for the <code class="highlighter-rouge">show</code> page, but it now means that the radio buttons for all the questions belong to the same group, and only one can ever be checked at a time. We fix this problem by generating a unique radio button group ID for each question, like this:</p>
+
+        <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="cp">&lt;%=</span> <span class="n">radio_button_tag</span> <span class="s2">"guess_</span><span class="si">#{</span><span class="n">question</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">checked</span> <span class="o">=</span> <span class="n">c</span> <span class="o">==</span> <span class="n">question</span><span class="p">.</span><span class="nf">answer</span><span class="p">,</span> <span class="ss">disabled: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+ <span class="cp">&lt;%=</span> <span class="n">label_tag</span> <span class="s2">"guess_</span><span class="si">#{</span><span class="n">question</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">_</span><span class="si">#{</span><span class="n">c</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">c</span> <span class="cp">%&gt;</span>
+</code></pre></div>        </div>
+
+        <p>Now, the group ID should be unique for each question. I also changed the <code class="highlighter-rouge">label</code> tag <code class="highlighter-rouge">id</code> for consistency.</p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<p>The QuizMe app now provides a way to view an individual multiple-choice question (<code class="highlighter-rouge">show</code>) and a way to view all the multiple-choice questions on a single page (<code class="highlighter-rouge">index</code>).</p>
+
+<p><strong><a href="https://github.com/sdflem/quiz-me/commit/9f9d520e550fc0802a4d6e1212469d9d92bc3671">➥ Code changeset for this part</a></strong></p>
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2019
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
