@@ -1,5 +1,5 @@
 ---
-title: 'Demo 8: Model Validations and Tests'
+title: 'Model Validations and Tests'
 ---
 
 # {{ page.title }}

@@ -1,5 +1,5 @@
 ---
-title: 'Demo 5: Rendering Data from Controllers'
+title: 'Rendering Data from Controllers'
 ---
 
 # {{ page.title }}

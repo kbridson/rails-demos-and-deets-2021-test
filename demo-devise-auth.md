@@ -1,5 +1,5 @@
 ---
-title: 'Demo 13: Authentication with Devise (Part 1)'
+title: 'Adding Authentication with Devise'
 ---
 
 # {{ page.title }}

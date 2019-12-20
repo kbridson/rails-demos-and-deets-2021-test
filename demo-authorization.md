@@ -1,5 +1,5 @@
 ---
-title: 'Demo 14: Authentication with Devise (Part 2)'
+title: 'Enforcing User Ownership of Resources'
 ---
 
 # {{ page.title }}

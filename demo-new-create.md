@@ -1,5 +1,5 @@
 ---
-title: 'Demo 9: Forms for Creating New Model Records'
+title: 'Forms for Creating New Model Records'
 ---
 
 # {{ page.title }}

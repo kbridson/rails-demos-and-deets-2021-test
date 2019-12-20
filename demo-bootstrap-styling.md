@@ -1,5 +1,5 @@
 ---
-title: 'Demo 15: Styling with Bootstrap'
+title: 'Styling with Bootstrap'
 ---
 
 # {{ page.title }}

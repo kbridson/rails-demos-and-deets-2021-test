@@ -1,5 +1,5 @@
 ---
-title: 'Demo 11: One-to-Many Model Associations'
+title: 'One-to-Many Model Associations'
 ---
 
 # {{ page.title }}

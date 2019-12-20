@@ -1,5 +1,5 @@
 ---
-title: 'Demo 1: Development Environment Setup'
+title: 'Setting Up the Development Environment'
 ---
 
 # {{ page.title }}

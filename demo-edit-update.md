@@ -1,5 +1,5 @@
 ---
-title: 'Demo 10: Forms and Actions for Updating and Deleting Model Records'
+title: 'Forms and Actions for Updating and Deleting Model Records'
 ---
 
 # {{ page.title }}

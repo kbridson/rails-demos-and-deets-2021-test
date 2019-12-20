@@ -1,5 +1,5 @@
 ---
-title: 'Demo 6: Passing Data from View to Controller'
+title: 'Passing Data from View to Controller with Simple Forms'
 ---
 
 # {{ page.title }}

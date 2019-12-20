@@ -1,5 +1,5 @@
 ---
-title: 'Demo 12: Forms That Handle One-to-Many Associations'
+title: 'Forms That Handle One-to-Many Associations'
 ---
 
 # {{ page.title }}

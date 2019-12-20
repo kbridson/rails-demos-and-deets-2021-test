@@ -1,5 +1,5 @@
 ---
-title: 'Demo 10½: Creating a New Model Class to Associate With'
+title: 'Creating a New Model Class to Associate With'
 ---
 
 # {{ page.title }}

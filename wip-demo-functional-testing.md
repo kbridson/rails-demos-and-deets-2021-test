@@ -1,17 +1,14 @@
 ---
-title: 'Demo 7: Functional Testing of Static Pages'
+title: 'Functional Testing of Static Pages'
 ---
 
-# Demo 7: Functional Testing of Static Pages
+# {{ page.title }}
 
 In this demonstration, I will show how to write some basic automated test functions to make sure that the pages we have made are working the way we expect them to. Later on these tests will help us to make sure any changes we make later do not unexpectedly break any of the functionality we already have. I will continue to work on the _QuizMe_ project from the previous demos.
 
 This and all future demos will assume you are starting in the workspace folder on your virtual machine.
 
 ## Controller Tests
-
-
-
 
 1. Adding a New Page
 

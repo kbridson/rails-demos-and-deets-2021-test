@@ -1,5 +1,5 @@
 ---
-title: 'Demo 7: Working with Simple Models'
+title: 'Working with Simple Models'
 ---
 
 # {{ page.title }}

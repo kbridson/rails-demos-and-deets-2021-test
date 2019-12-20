@@ -1,5 +1,5 @@
 ---
-title: 'Demo 4: Adding (Mostly Static) View Pages in Rails'
+title: 'Adding (Mostly Static) View Pages in Rails'
 ---
 
 # {{ page.title }}

@@ -1,5 +1,5 @@
 ---
-title: 'Demo 3: Setting Up a New Github Project Repository'
+title: 'Setting Up a New Github Project Repository'
 ---
 
 # {{ page.title }}

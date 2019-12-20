@@ -1,5 +1,5 @@
 ---
-title: 'Demo 2: Setting Up a New Rails Project'
+title: 'Setting Up a New Rails Project'
 ---
 
 # {{ page.title }}
