@@ -1,7 +1,5 @@
 ---
-layout: page
 title: 'Demo 5: Rendering Data from Controllers'
-permalink: /demo-05-rendering-data-from-controller/
 ---
 
 # {{ page.title }}

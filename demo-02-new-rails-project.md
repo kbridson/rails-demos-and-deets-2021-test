@@ -1,7 +1,5 @@
 ---
-layout: page
 title: 'Demo 2: Setting Up a New Rails Project'
-permalink: /demo-02-new-rails-project/
 ---
 
 # {{ page.title }}

@@ -1,7 +1,5 @@
 ---
-layout: page
 title: 'Demo 12: Forms That Handle One-to-Many Associations'
-permalink: /demo-12-one-to-many-associations-part-2/
 ---
 
 # {{ page.title }}

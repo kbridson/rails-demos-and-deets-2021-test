@@ -1,7 +1,5 @@
 ---
-layout: page
 title: 'Demo 8: Model Validations and Tests'
-permalink: /demo-08-model-validations-and-tests/
 ---
 
 # {{ page.title }}

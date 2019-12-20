@@ -1,7 +1,5 @@
 ---
-layout: page
 title: 'Demo 7: Functional Testing of Static Pages'
-permalink: /demo-07-static-pages-functional-testing/
 ---
 
 # Demo 7: Functional Testing of Static Pages

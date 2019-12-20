@@ -1,7 +1,5 @@
 ---
-layout: page
 title: 'Demo 13: Authentication with Devise (Part 1)'
-permalink: /demo-13-authentication-with-devise-part-1/
 ---
 
 # {{ page.title }}

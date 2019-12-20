@@ -13,11 +13,13 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Web Development with Ruby on Rails Tutorial 2019
+title: "Ruby on Rails ⇨ Demos 'n' Deets"
+edition: "Spring 2020 Edition"
 email: Scott.Fleming@memphis.edu
 description: >- # this means to ignore newlines until "baseurl:"
   TODO.
 baseurl: "/rails-demos-n-deets-2020" # the subpath of your site, e.g. /blog
+permalink: "/:title/"
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: scottdflem
 github_username:  sdflem
@@ -45,3 +47,10 @@ exclude:
   - Makefile
   - docs
   - graphics
+
+defaults:
+  -
+    scope:
+      path: "" # an empty string here means all files in the project
+    values:
+      layout: "page"

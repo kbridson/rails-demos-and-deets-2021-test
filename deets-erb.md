@@ -1,7 +1,5 @@
 ---
-layout: page
 title: 'ERBs Explained'
-permalink: /deets-erb/
 ---
 
 # {{ page.title }}

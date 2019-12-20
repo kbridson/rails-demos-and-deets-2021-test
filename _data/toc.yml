@@ -1,0 +1,36 @@
+demos_sections:
+  - heading: Getting Started
+    links:
+      - demo-01-dev-env-setup.md
+      - demo-02-new-rails-project.md
+      - demo-03-new-github-project.md
+  - heading: Creating Simple Web Pages and Forms
+    links:
+      - demo-04-rails-static-pages.md
+      - demo-05-rendering-data-from-controller.md
+      - demo-06-passing-data-from-view-to-controller.md
+  - heading: Storing and Retrieving Data via the Model
+    links:
+      - demo-07-working-with-simple-models.md
+      - demo-08-model-validations-and-tests.md
+      - demo-09-working-with-simple-models-part-2.md
+      - demo-10-working-with-simple-models-part-3.md
+  - heading: Linking Model Objects with Associations
+    links:
+      - demo-10b-one-to-many-associations-part-0.md
+      - demo-11-one-to-many-associations-part-1.md
+      - demo-12-one-to-many-associations-part-2.md
+  - heading: Adding Authentication and Authorization
+    links:
+      - demo-13-authentication-with-devise-part-1.md
+      - demo-14-authentication-with-devise-part-2.md
+  - heading: Styling Pages with Bootstrap
+    links:
+      - demo-15-styling-with-bootstrap.md
+
+deets_sections:
+  - heading: Web Development with Rails
+    links:
+      - deets-erb.md
+      - deets-sessions.md
+  - heading: Pitfalls and Common Errors

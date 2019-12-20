@@ -1,7 +1,5 @@
 ---
-layout: page
 title: 'Sessions and the Flash Explained'
-permalink: /deets-sessions/
 ---
 
 # {{ page.title }}

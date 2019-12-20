@@ -1,7 +1,5 @@
 ---
-layout: page
 title: 'Demo 9: Forms for Creating New Model Records'
-permalink: /demo-09-new-create-forms/
 ---
 
 # {{ page.title }}

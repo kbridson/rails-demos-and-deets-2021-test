@@ -1,7 +1,5 @@
 ---
-layout: page
 title: 'Demo 10: Forms and Actions for Updating and Deleting Model Records'
-permalink: /demo-10-edit-update-destroy-forms/
 ---
 
 # {{ page.title }}

@@ -21,7 +21,7 @@
 - Add `--skip-bundle` (and `--skip-webpack-install`?) when creating new Rails project
 - Switch to `rails db:migrate:reset db:seed`
 
-### Changes to App
+### Changes to App and Demos
 
 - Should do a pages controller or should we do a home controller, about controller, etc.? (I've been seeing the latter mentioned)
 - Should we use only `resource` for routes and then `rails routes` to see exactly what's there?
@@ -36,6 +36,7 @@
 - Should we use `locals` for all arg passing to views or is it too weird?
 - May need to have CSS-to-fix-the-style/layout mini pieces within a demo. Might be a good way to explain all those wee little tweaks we do to the CSS.
 - Should we quit using the useless RESTful pages (e.g., `show` often seems unnecessary)? Maybe we could just say everything is a RESTFUL route/action, so you just have to pick the controller and the RESTful action depending on what you need?
+- Should we do Quizzes before Questions?
 
 ### Missing topics
 
@@ -43,7 +44,7 @@
 - Image uploads, active storage
 - Many-to-many assoc., join table
 - JQuery
-- AJAX
+- AJAX / remote forms
 - Adding things to webpacker
 - Searching (e.g., for a quiz)
 - Pagination (e.g., for quizzes)

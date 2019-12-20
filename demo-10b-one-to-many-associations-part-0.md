@@ -1,7 +1,5 @@
 ---
-layout: page
 title: 'Demo 10½: Creating a New Model Class to Associate With'
-permalink: /demo-10b-one-to-many-associations-part-0/
 ---
 
 # {{ page.title }}

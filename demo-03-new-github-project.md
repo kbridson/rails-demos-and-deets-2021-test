@@ -1,7 +1,5 @@
 ---
-layout: page
 title: 'Demo 3: Setting Up a New Github Project Repository'
-permalink: /demo-03-new-github-project/
 ---
 
 # {{ page.title }}

@@ -1,7 +1,5 @@
 ---
-layout: page
 title: 'Demo 15: Styling with Bootstrap'
-permalink: /demo-15-styling-with-bootstrap/
 ---
 
 # {{ page.title }}

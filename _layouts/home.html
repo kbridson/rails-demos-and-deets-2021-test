@@ -12,11 +12,51 @@
             <!-- Main jumbotron for a primary marketing message or call to action -->
             <div class="jumbotron">
                 <div class="container">
-                    <h1>Web Development with <span class="text-nowrap">Ruby on Rails</span> <span class="text-nowrap">Tutorial 2019</span></h1>
+                    <h1 class="mb-1"><span class="text-nowrap">Ruby on Rails</span> <span class="text-nowrap">⇨ Demos 'n' Deets</span></h1>
+                    <p class="pl-5">{{ site.edition }}</p>
                 </div><!-- /.container -->
             </div> <!-- /.jumbotron -->
 
             <div class="container">
+
+                <div class="row">
+                        <div class="col-lg-6">
+                          
+                <div class="card">
+                    <h2 class="card-header my-0">Demos</h2>
+                    <div class="card-body">
+                        {% for demos_section in site.data.toc.demos_sections %}
+                            <h3 class="mt-1">{{ demos_section.heading }}</h3>
+                            <ul>
+                                {% for demo_link in demos_section.links %}{% assign demo_page = site.pages | where: "name", demo_link | first %}
+                                    <li><a href="{{ site.baseurl }}{{ demo_page.url }}">{{ demo_page.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}                            
+                    </div> <!-- /.card-body -->
+                </div> <!-- /.card -->
+
+                    </div>
+                    <div class="col-lg-6">          
+
+                <div class="card">
+                    <h2 class="card-header my-0">Deets</h2>
+                    <div class="card-body">
+                        {% for deets_section in site.data.toc.deets_sections %}
+                            <h3 class="mt-1">{{ deets_section.heading }}</h3>
+                            <ul>
+                                {% for deets_link in deets_section.links %}{% assign deets_page = site.pages | where: "name", deets_link | first %}
+                                    <li><a href="{{ site.baseurl }}{{ deets_page.url }}">{{ deets_page.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}                            
+                    </div> <!-- /.card-body -->
+                </div> <!-- /.card -->
+                </div> <!-- /.card-group -->
+
+                    </div>
+                </div>
+
                 {{ content }}
             </div> <!-- /.container -->
 

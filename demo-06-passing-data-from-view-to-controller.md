@@ -1,7 +1,5 @@
 ---
-layout: page
 title: 'Demo 6: Passing Data from View to Controller'
-permalink: /demo-06-passing-data-from-view-to-controller/
 ---
 
 # {{ page.title }}

@@ -1,7 +1,5 @@
 ---
-layout: page
 title: 'Demo 4: Adding (Mostly Static) View Pages in Rails'
-permalink: /demo-04-rails-static-pages/
 ---
 
 # {{ page.title }}

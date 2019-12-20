@@ -1,7 +1,5 @@
 ---
-layout: page
 title: 'Demo 7: Working with Simple Models'
-permalink: /demo-07-working-with-simple-models/
 ---
 
 # {{ page.title }}
