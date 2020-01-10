@@ -29,6 +29,10 @@ demos_sections:
       - demo-bootstrap-styling.md
 
 deets_sections:
+  - heading: Prerequisite Technologies
+    links:
+      - deets-unix.md
+      - deets-ruby.md
   - heading: Web Development with Rails
     links:
       - deets-erb.md

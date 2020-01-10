@@ -1,5 +1,5 @@
 ---
-title: 'Sessions and the Flash Explained'
+title: 'Sessions and the Flash'
 ---
 
 # {{ page.title }}

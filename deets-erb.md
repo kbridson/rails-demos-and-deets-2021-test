@@ -1,5 +1,5 @@
 ---
-title: 'ERBs Explained'
+title: 'ERBs'
 ---
 
 # {{ page.title }}
