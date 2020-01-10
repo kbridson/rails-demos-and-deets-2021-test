@@ -1,82 +1,20 @@
 ---
-title: 'Setting Up the Development Environment (Windows & Linux users)'
+title: 'Setting Up the Development Environment (Mac users)'
 ---
 
 # {{ page.title }}
 
-In this demonstration, I will show you how to setup the development environment used in the rest of the demos. Some of the setup will be different based on your computer's operating system (OS). In particular, Windows users will be using Ubuntu via the Windows Subsytem for Linux (WSL). Once that part of their setup is complete, Windows and Linux users will have the same command line steps to follow.
+In this demonstration, I will show you how to setup the development environment used in the rest of the demos.
 
-## 1. Setup WSL and Windows Terminal (Windows only)
+## 1. Install Homebrew (if you have not already)
 
-1. Open the Settings app and click `Update & Security` as seen in Figure 1.
+1. Open the Terminal application and run:
 
-{% include image.html file="wsl/1_Settings.PNG" alt="Settings app" caption="Figure 1. Windows Settings app" %}
+    ```console
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    ```
 
-1. In the left menu, click `For developers` as seen in Figure 2.
-
-{% include image.html file="wsl/2_fordevelopers.PNG" alt="For developers" caption="Figure 2. For developers in Update & Security" %}
-
-1. Enable Developer mode as seen in Figure 3.
-
-{% include image.html file="wsl/3_click_developers.PNG" alt="Developer mode" caption="Figure 3. Developer mode" %}
-
-Accept the confirmation as seen in Figure 4.
-
-{% include image.html file="wsl/4_accept_confirmation.PNG" alt="Developer mode confirmation" caption="Figure 4. Developer mode confirmation" %}
-
-Wait for the Developer Mode package to install as seen in Figure 5.
-
-{% include image.html file="wsl/5_wait_for_install.PNG" alt="Searching for Developer Mode package" caption="Figure 5. Searching for Developer Mode package" %}
-
-When Developer mode has been enabled, you should see something like Figure 6.
-
-{% include image.html file="wsl/6_developer_enabled.PNG" alt="Developer mode enabled" caption="Figure 6. Developer mode enabled" %}
-
-1. Open the Control Panel and click on Programs and Features as seen in Figure 7.
-
-{% include image.html file="wsl/7_control_panel.PNG" alt="Control Panel" caption="Figure 7. Programs and Features in Control Panel" %}
-
-Notice that the view setting is `Small icons`. If you are using the default view `Category`, you can click `Programs` then `Turn Windows features on or off` and skip the next step.
-
-1. Click on `Turn Windows features on or off` as seen in Figure 8.
-
-{% include image.html file="wsl/8_turn_features_on_off.PNG" alt="Turn Windows features on or off" caption="Figure 8. Turn Windows features on or off" %}
-
-1. Scroll to the bottom and check the box for Windows Subsystem for Linux as seen in Figure 9.
-
-{% include image.html file="wsl/9_WSL.PNG" alt="Windows Subsystem for Linux checkbox" caption="Figure 9. Windows Subsystem for Linux checkbox" %}
-
-Click `Restart now` in the window that pops up as seen in Figure 10.
-
-{% include image.html file="wsl/10_reboot.PNG" alt="Restart confirmation" caption="Figure 10. Restart confirmation" %}
-
-1. After your computer has restarted, open the Microsoft Store app and search for `Ubuntu`. When the results appear, select the "Ubuntu" app as seen in Figure 11. Do not install one of the versioned Ubuntu apps.
-
-{% include image.html file="wsl/11_ubuntu_on_store.png" alt="Find Ubuntu in Microsoft Store" caption="Figure 11. Find Ubuntu in Microsoft Store" %}
-
-1. Click on `Install` as seen in Figure 12.
-
-{% include image.html file="wsl/12_install_ubuntu.PNG" alt="Install Ubuntu" caption="Figure 12. Install Ubuntu" %}
-
-1. When the installation completes, click on `Launch` as seen in Figure 13.
-
-{% include image.html file="wsl/13_launch.PNG" alt="Launch Ubuntu" caption="Figure 13. Launch Ubuntu" %}
-
-1. In the terminal that opens, enter a username and then a password that you will remember as seen in Figure 14.
-
-{% include image.html file="wsl/15_setup_complete.PNG" alt="Ubuntu user setup" caption="Figure 14. Ubuntu root user setup" %}
-
-You may close the terminal window when you are finished. You may reopen this terminal by starting the Ubuntu app, or you can go on to install the new `Windows Terminal` app (recommended).
-
-1. In the Microsoft Store, search for the `Windows Terminal (Preview)` app, install it, and then launch it as seen in Figure 15.
-
-{% include image.html file="wsl/16_terminal_in_store.PNG" alt="Terminal app in Microsoft Store" caption="Figure 15. Launch Windows Terminal from Microsoft Store" %}
-
-1. Open a new WSL Ubuntu terminal by clicking the dropdown and selecting Ubuntu as seen in Figure 16.
-
-{% include image.html file="wsl/17_terminal_ubuntu.PNG" alt="Open new Ubuntu terminal tab" caption="Figure 16. Open a new Ubuntu terminal tab" %}
-
-You can also open other types of terminals like Powershell and the older Command Prompt.
+    When it asks you to install XCode CommandLine Tools, say yes.
 
 ## 2. Install Additional Software
 
@@ -98,12 +36,6 @@ You can also open other types of terminals like Powershell and the older Command
 
     ```console
     git --version
-    ```
-
-    If Git is not installed (resulting in an error message instead of a version number), install it by running:
-
-    ```console
-    sudo apt install git
     ```
 
 1. Set your global Git configuration settings by creating a `.gitconfig` file by running:
@@ -161,21 +93,18 @@ You can also open other types of terminals like Powershell and the older Command
 1. Install the Node.js and Yarn repositories by running each of the following commands:
 
     ```console
-    sudo apt install curl
-    curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-
-    sudo apt-get update
-    sudo apt-get install zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libffi-dev nodejs yarn
+    brew install yarn
     ```
 
 1. Install RVM by running each of the following commands:
 
     ```console
-    sudo apt-get install libgdbm-dev libncurses5-dev automake libtool bison libffi-dev
+    brew install gnupg
+
     gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-    curl -sSL https://get.rvm.io | bash -s stable
+
+    \curl -sSL https://get.rvm.io | bash -s stable --ruby
+
     source ~/.rvm/scripts/rvm
     ```
 
@@ -190,7 +119,7 @@ You can also open other types of terminals like Powershell and the older Command
     If Ruby has successfully installed, the output of `ruby -v` should be something like:
 
     ```console
-    ruby 2.6.5p114 (2019-10-01 revision 67812) [x86_64-linux]
+    ruby 2.6.5p114 (2019-10-01 revision 67812) [x86_64-darwin18]
     ```
 
 1. Globally install the Bundler gem to manage project gemsets by running:
@@ -198,30 +127,6 @@ You can also open other types of terminals like Powershell and the older Command
     ```console
     rvm @global do gem install bundler
     ```
-
-    If this command times out because you cannot connect to rubygems.org, you may need to try restarting your computer or following the below steps on WSL:
-
-    1. Edit the /etc/gai.conf file by running:
-
-        ```console
-        sudo vi /etc/gai.conf
-        ```
-
-    2. Uncomment lines to match the following:
-
-        ```conf
-        #For sites which prefer IPv4 connections change the last line to
-        precedence ::ffff:0:0/96 100
-        ...
-        #    For sites which use site-local IPv4 addresses behind NAT there is
-        #    the problem that even if IPv4 addresses are preferred they do not
-        #    have the same scope and are therefore not sorted first.  To change
-        #    this use only these rules:
-        #
-        scopev4 ::ffff:169.254.0.0/112  2
-        scopev4 ::ffff:127.0.0.0/104    2
-        scopev4 ::ffff:0.0.0.0/96       14
-        ```
 
 1. Globally install Rails by running:
 
@@ -236,62 +141,16 @@ You can also open other types of terminals like Powershell and the older Command
 1. Install the Postgres packages by running:
 
     ```console
-    sudo apt -y install postgresql-12 postgresql-client-12
-    ```
-
-    If the postgresql-12 package cannot be found, you will need to do some additional steps then try the above command again:
-
-    1. Add the repository by running:
-
-    ```console
-    sudo tee /etc/apt/sources.list.d/pgdg.list <<END
-    deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
-    END
-    ```
-
-    1. Get the signing key and import it by running:
-
-    ```console
-    wget https://www.postgresql.org/media/keys/ACCC4CF8.asc
-    sudo apt-key add ACCC4CF8.asc
-    ```
-
-    1. Fetch the metadata from the new repo by running:
-
-    ```console
-    sudo apt-get update
+    brew install postgresql
     ```
 
 1. Start the Postgres service by running:
 
     ```console
-    sudo service postgresql start
+    brew services start postgresql
     ```
 
-    For WSL users, you will need to run this command every time you restart your Ubuntu terminal.
-
-1. Setup a postgres user with permission to create databases (which must have the same name as your Ubuntu user) by running:
-
-    ```console
-    sudo -u postgres createuser kbridson -s -d
-    ```
-
-1. Set a password for your postgres username by running:
-
-    ```console
-    sudo -u postgres psql
-    ```
-
-    At the new prompt enter the following command substituting your username and password:
-
-    ```console
-    ALTER USER kbridson WITH PASSWORD 'password1';
-    ```
-
-    Use `\q` to exit the postgres prompt.
-
-
-## 6. Running a Rails App
+## 7. Running a Rails App
 
 1. From your terminal application, create a folder `workspace` in your home directory by running:
 
@@ -352,7 +211,7 @@ You can also open other types of terminals like Powershell and the older Command
 
     ```text
     export DB_USERNAME=kbridson
-    export DB_PASSWORD=password1
+    export DB_PASSWORD=
     ```
 
 1. Wipe and reset the database to be used by this Rails app by entering the following command:
@@ -391,9 +250,9 @@ You can also open other types of terminals like Powershell and the older Command
 
         - User: `kbridson`
 
-        - Password: `password1`
+        - Password: 
 
-        The user and password must match your Postgres and Ubuntu user.
+        The user and password must match your Postgres and Mac user.
 
     1. In the left sidebar, go navigate as follows:
 

@@ -2,6 +2,7 @@ demos_sections:
   - heading: Getting Started
     links:
       - demo-dev-env.md
+      - demo-dev-env-mac.md
       - demo-new-rails-project.md
       - demo-new-github-project.md
   - heading: Creating Simple Web Pages and Forms
