@@ -271,11 +271,11 @@ If there are multiple such files, then the terminal will blink/beep at you, and 
 
 Similar to the up-arrow shortcut, this [Tab completion](https://en.wikipedia.org/wiki/Command-line_completion) feature will save you tons of time and typing.
 
-## More Resources
+## Helpful Resources
 
 As the above document was just intended as a practical introduction, you may want to explore these other resources to learn more details about how Unix shells work and how to use them effectively.
 
 - [Wikipedia List of Unix commands](https://en.wikipedia.org/wiki/List_of_Unix_commands)
-- [Codecademy](https://www.codecademy.com/) has this course: [Learn the Command Line](https://www.codecademy.com/learn/learn-the-command-line)
+- [Learn the Command Line Codecademy Course](https://www.codecademy.com/learn/learn-the-command-line)
 
 _Suggestions for other helpful resources are welcome!_
