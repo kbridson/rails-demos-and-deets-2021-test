@@ -28,7 +28,7 @@ Command-line interfaces are very widely used in software development environment
 
 Although different flavors of command-line interface exist, the demos will use the Unix Shell command-line interface (specifically [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))/[Z Shell](https://en.wikipedia.org/wiki/Z_shell)), which is arguably the most popular for Rails development.
 
-## Anatomy of a Typical Command-Line Interface and UNIX Command
+## Typical User–Shell Interaction
 
 Interactions with a Unix shell command-line interface goes something like this. The shell provides a prompt that might look something like this:
 
@@ -44,7 +44,7 @@ Users can type commands after the prompt, like this:
 $ ls -l▊
 ```
 
-In this case, the user has typed the command `ls -l`, which displays a detailed file listing    . If the user presses the Enter key, the command will run, producing output, like this:
+In this case, the user has typed the command `ls -l`, which displays a detailed file listing. If the user presses the Enter key, the command will run, producing output, like this:
 
 ```text
 $ ls -l
@@ -60,6 +60,33 @@ $ ▊
 ```
 
 Note that once the command completes, another prompt is offered, so that the user can enter their next command.
+
+## Command Syntax
+
+At its most basic, Unix command syntax is a command token followed by an arbitrary number of whitespace-separated argument tokens. All tokens are strings. Since whitespace is used to separate arguments, a string token itself generally may not contain embedded whitespace characters; otherwise, it will will be interpreted as multiple tokens. If you have an argument that must contain whitespace (e.g., because it's a filename that contains whitespace), then either the argument must be surrounded by quotes or the whitespace characters must be escaped (e.g., "`\ `"). Here are some examples of the `cat` command with varying numbers and types of arguments.
+
+| Example Command | Explanation |
+| --------------- | ----------- |
+| `cat aaa.txt` | In this example, the `cat` command is given one argument, `aaa.txt`. |
+| `cat aaa.txt bbb.txt` | In this example, the `cat` command is given two arguments, `aaa.txt` and `bbb.txt`. |
+| `cat aaa.txt bbb.txt ccc.txt` | In this example, the `cat` command is given three arguments. |
+| `cat 'filename with spaces.txt'` | In this example, the `cat` command is given one argument. Because that argument contains spaces, it is surrounded by single quotes. |
+| `cat "filename with spaces.txt"` | Same as the previous example, except using double quotes instead of single quotes. (Either one is OK to use.) |
+| `cat filename\ with\ spaces.txt` | Same as the previous example, except escaping each embedded space character instead of surrounding the whole argument with quotes. |
+| `cat aaa.txt x\ x\ x.txt "y y y.txt" zzz.txt` | In this example, the `cat` command is given four arguments. Can you tell what they are? |
+
+In addition to this basic syntax, there are several common syntactic patterns that Unix shell commands employ.
+
+One such common pattern are _dash options_. Dash options are arguments with a form like this: `-a`, `-b`, `-c`, etc.
+
+| Example Command | Explanation |
+| --------------- | ----------- |
+| `ls -l` | The `ls` command may be called with a `-l` option that makes the command produce more-detailed output. |
+| `ls -a` | `ls` may also be called with a `-a` option that makes the command output include hidden files. |
+| `ls -a -l` | Multiple dash options may be used for a single command. |
+| `ls -al` | For single-letter dash options, multiple options may also be combined together as a single dash option. |
+| `ls --all` | For each option, Unix commands often have a single-letter dash option and a corresponding longer double-dash version. For example, the `ls` option `-a` may also be expressed as `--all`.
+| `ls -a -l foo bar` | Dash options may be used in combination with other sorts of arguments. For example, this command has two dash options (`-a` and `-l`) and two string arguments (`foo` and `bar`). |
 
 ## Directory Tree Structure
 
@@ -88,9 +115,11 @@ Note how the `assets` directory is contained within the `app` parent directory a
 
 The entire Unix filesystem directory tree originates from a single _root directory_, which is denoted as `/`.
 
+Each registered user of the system has a _home directory_ somewhere in the filesystem directory tree. The home directory is denoted as `~`. Where home directories are located depends on the OS. In Linux, they are often in the `/home` directory (e.g., `/home/alice`). In macOS, they are in the `/Users` directory (e.g., `/Users/alice`).
+
 ## Expressing File Paths
 
-When interacting with a shell, the user is always "in" some directory in the file system. This directory is referred to as the _current working directory_ (also sometimes _present working directory_).
+When interacting with a shell, the user is always "in" some directory in the file system. This directory is referred to as the _current working directory_ (also sometimes _present working directory_). Generally, a user's home directory set as the current working directory when a user logs into the system.
 
 Shell commands often take a file or directory as part of their arguments. To illustrate, the following are some examples of different ways to express file paths using the `ls` (directory listing) command. Assume that the examples take place in the context of this directory tree:
 
@@ -142,8 +171,6 @@ Here are some examples of common usages of these commands, including some of the
 | `ls -a` | List all files in the current working directory, including hidden files. |
 | `ls -l` | List all files in the current working directory, providing a "long" listing that includes permissions, etc. |
 | `ls -l -a` | Combines the above two commands. |
-| `ls -la` | Also combines the above two commands. Single-letter options can be combined in this way. |
-| `ls --all` | Same as `ls -a`. Many single-letter options also have longer `--` versions.
 | `cd` | Change the working directory to the home directory. |
 | `cd foo` | Change the working directory to the directory named `foo` within the current working directory. |
 | `cd ..` | Change the working directory to the parent directory of the current working directory. |
@@ -168,7 +195,7 @@ Here are some examples of common usages of these commands, including some of the
 | `mkdir foo` | Make a directory named `foo` in the current working directory. |
 | `cp a.txt b.txt` | Make a copy of the file `a.txt` in the current working directory, and save the copy as `b.txt` (also in the current working directory). |
 | `cp a.txt foo/` | Make a copy of the file `a.txt` in the current working directory, and save the copy (using the same filename) in the subdirectory `foo`. |
-| `cp -a foo bar` | Make a copy of the folder `foo` (including all the folder's contents), and save the new folder as `bar`.
+| `cp -a foo bar` | Make a copy of the folder `foo` (including all the folder's contents), and save the new folder as `bar`. Note that the `-a` option (short for _archive_) is needed when copying a directory. |
 | `mv a.txt b.txt` | Rename the file `a.txt` to `b.txt` |
 | `mv a.txt foo/` | Move the file `a.txt` from the current working directory into the subdirectory `foo`. |
 | `rm a.txt` | Remove (i.e., delete) the file `a.txt` from the current working directory. |
