@@ -4,17 +4,6 @@ title: 'Setting Up the Development Environment (Mac users)'
 
 # {{ page.title }}
 
-In this demonstration, I will show you how to setup the development environment used in the rest of the demos.
-
-## 1. Install Homebrew (if you have not already)
-
-1. Open the Terminal application and run:
-
-    ```console
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    ```
-
-    When it asks you to install XCode CommandLine Tools, say yes.
 
 ## 2. Install Additional Software
 

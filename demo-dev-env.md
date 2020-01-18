@@ -1,166 +1,158 @@
 ---
-title: 'Setting Up the Development Environment (Windows & Linux users)'
+title: 'Setting Up the Development Environment'
 ---
 
 # {{ page.title }}
 
 In this demonstration, I will show you how to setup the development environment used in the rest of the demos. Some of the setup will be different based on your computer's operating system (OS). In particular, Windows users will be using Ubuntu via the Windows Subsytem for Linux (WSL). Once that part of their setup is complete, Windows and Linux users will have the same command line steps to follow.
 
-## 1. Setup WSL and Windows Terminal (Windows only)
+## 1. Unix-Like Environment and Terminal App
 
-1. Open the Settings app and click `Update & Security` as seen in Figure 1.
+- {% include windows-badge.html %} **⇨** Set up the [Windows Subsystem for Linux (WSL)](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux) and install the [Windows Terminal](https://en.wikipedia.org/wiki/Windows_Terminal) app. To do so, follow the steps in this [demo on setting up WSL and Windows Terminal]({{ '/demo-wsl/' | relative_url }}).
 
-{% include image.html file="wsl/1_Settings.PNG" alt="Settings app" caption="Figure 1. Windows Settings app" %}
+- {% include macos-badge.html %} **⇨** No action needed. macOS is Unix based and ships with a [Terminal](https://en.wikipedia.org/wiki/Terminal_(macOS)) app by default.
 
-1. In the left menu, click `For developers` as seen in Figure 2.
+- {% include linux-badge.html %} **⇨** No action needed. Linux is Unix based and generally comes with a terminal app (with many more to choose from). We recommend [GNOME Terminal](https://en.wikipedia.org/wiki/GNOME_Terminal), because we have tested and which worked well for the demos.
 
-{% include image.html file="wsl/2_fordevelopers.PNG" alt="For developers" caption="Figure 2. For developers in Update & Security" %}
+## 2. Package Manager
 
-1. Enable Developer mode as seen in Figure 3.
+- {% include windows-linux-badge.html %} **⇨** No action needed. Ubuntu ships with the [APT](https://en.wikipedia.org/wiki/APT_(software)) package manager by default.
 
-{% include image.html file="wsl/3_click_developers.PNG" alt="Developer mode" caption="Figure 3. Developer mode" %}
+- {% include macos-badge.html %} **⇨** Install the [Homebrew](https://en.wikipedia.org/wiki/Homebrew_(package_management_software)) package manager by following these steps:
 
-Accept the confirmation as seen in Figure 4.
+    1. Launch the Terminal application and enter this command:
 
-{% include image.html file="wsl/4_accept_confirmation.PNG" alt="Developer mode confirmation" caption="Figure 4. Developer mode confirmation" %}
+        ```bash
+        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        ```
 
-Wait for the Developer Mode package to install as seen in Figure 5.
+    1. When it asks you to install [Xcode](https://en.wikipedia.org/wiki/Xcode) CommandLine Tools, say "yes".
 
-{% include image.html file="wsl/5_wait_for_install.PNG" alt="Searching for Developer Mode package" caption="Figure 5. Searching for Developer Mode package" %}
+## 3. VS Code
 
-When Developer mode has been enabled, you should see something like Figure 6.
+[Visual Studio Code (VS Code)](https://en.wikipedia.org/wiki/Visual_Studio_Code) will be the code editor of choice for these demos.
 
-{% include image.html file="wsl/6_developer_enabled.PNG" alt="Developer mode enabled" caption="Figure 6. Developer mode enabled" %}
+- {% include windows-linux-badge.html %} **⇨** Download and install the latest stable version from the VS Code website: <https://code.visualstudio.com/>.
 
-1. Open the Control Panel and click on Programs and Features as seen in Figure 7.
+- {% include macos-badge.html %} **⇨** Install using Homebrew by entering this command:
 
-{% include image.html file="wsl/7_control_panel.PNG" alt="Control Panel" caption="Figure 7. Programs and Features in Control Panel" %}
+    ```bash
+    brew cask install vscode
+    ```
 
-Notice that the view setting is `Small icons`. If you are using the default view `Category`, you can click `Programs` then `Turn Windows features on or off` and skip the next step.
+- {% include badge.html text="All" color="primary" %} **⇨** Once you have VS Code installed, add the following extensions:
+  - _Code Spell Checker_
+  - _Markdown PDF_
+  - _Markdown Preview Github Styling_
+  - _markdownlint_
+  - _Simple Ruby ERB_
+  - (Windows users only) _Remote - WSL_
 
-1. Click on `Turn Windows features on or off` as seen in Figure 8.
+## 4. pgAdmin 4
 
-{% include image.html file="wsl/8_turn_features_on_off.PNG" alt="Turn Windows features on or off" caption="Figure 8. Turn Windows features on or off" %}
+[pgAdmin 4](https://en.wikipedia.org/wiki/PostgreSQL#pgAdmin) is a database viewer and administration tool for PostgreSQL databases. This application will allow us to inspect our backend databases from a web browser.
 
-1. Scroll to the bottom and check the box for Windows Subsystem for Linux as seen in Figure 9.
+- {% include windows-linux-badge.html %} **⇨** Download and install the latest stable version from the pgAdmin website: <https://www.pgadmin.org/download/>).
 
-{% include image.html file="wsl/9_WSL.PNG" alt="Windows Subsystem for Linux checkbox" caption="Figure 9. Windows Subsystem for Linux checkbox" %}
+- {% include macos-badge.html %} **⇨** Install using Homebrew by entering this command:
 
-Click `Restart now` in the window that pops up as seen in Figure 10.
+    ```bash
+    brew cask install pgadmin4
+    ```
 
-{% include image.html file="wsl/10_reboot.PNG" alt="Restart confirmation" caption="Figure 10. Restart confirmation" %}
+- {% include badge.html text="All" color="primary" %} **⇨** Once you have installed pgAdmin 4, confirm that the install was successful by launching the pgAdmin 4 app. A pgAdmin page should open in your web browser. The first time you launch pgAdmin, you will be prompted to create a password. Don't forget it, because you will need it to run pgAdmin in the future!
 
-1. After your computer has restarted, open the Microsoft Store app and search for `Ubuntu`. When the results appear, select the "Ubuntu" app as seen in Figure 11. Do not install one of the versioned Ubuntu apps.
+## 5. Git
 
-{% include image.html file="wsl/11_ubuntu_on_store.png" alt="Find Ubuntu in Microsoft Store" caption="Figure 11. Find Ubuntu in Microsoft Store" %}
+Git will be used for version control and collaboration in these demos.
 
-1. Click on `Install` as seen in Figure 12.
+- {% include windows-linux-badge.html %} **⇨** Git may or may not already be installed. Check if the git package is installed by running this command:
 
-{% include image.html file="wsl/12_install_ubuntu.PNG" alt="Install Ubuntu" caption="Figure 12. Install Ubuntu" %}
-
-1. When the installation completes, click on `Launch` as seen in Figure 13.
-
-{% include image.html file="wsl/13_launch.PNG" alt="Launch Ubuntu" caption="Figure 13. Launch Ubuntu" %}
-
-1. In the terminal that opens, enter a username and then a password that you will remember as seen in Figure 14.
-
-{% include image.html file="wsl/15_setup_complete.PNG" alt="Ubuntu user setup" caption="Figure 14. Ubuntu root user setup" %}
-
-You may close the terminal window when you are finished. You may reopen this terminal by starting the Ubuntu app, or you can go on to install the new `Windows Terminal` app (recommended).
-
-1. In the Microsoft Store, search for the `Windows Terminal (Preview)` app, install it, and then launch it as seen in Figure 15.
-
-{% include image.html file="wsl/16_terminal_in_store.PNG" alt="Terminal app in Microsoft Store" caption="Figure 15. Launch Windows Terminal from Microsoft Store" %}
-
-1. Open a new WSL Ubuntu terminal by clicking the dropdown and selecting Ubuntu as seen in Figure 16.
-
-{% include image.html file="wsl/17_terminal_ubuntu.PNG" alt="Open new Ubuntu terminal tab" caption="Figure 16. Open a new Ubuntu terminal tab" %}
-
-You can also open other types of terminals like Powershell and the older Command Prompt.
-
-## 2. Install Additional Software
-
-1. Install the _Visual Studio Code_ (VS Code) editor (<https://code.visualstudio.com/>). VS Code will be the code editor of choice for these demos. Use the latest stable version.
-
-1. Additionally, within VS Code, install the following five extensions: (1) _Code Spell Checker_, (2) _Markdown PDF_, (3) _Markdown Preview Github Styling_, (4) _markdownlint_, (5) _Simple Ruby ERB_, and for Windows users only (6) _Remote - WSL_.
-
-1. Download and install _pgAdmin_ 4 (<https://www.pgadmin.org/download/>), a database viewer and administration tool for PostgreSQL databases. This application will allow you to view the database running on your VM from a web browser on your host.
-
-    Confirm that the install was successful by launching the pgAdmin 4 app on your host OS. A pgAdmin page should open in your web browser.
-
-    The first time you launch pgAdmin, you will be prompted to create a password. Don't forget it, because you will need it to run pgAdmin in the future!
-
-## 3. Setup Github Account and Credentials
-
-1. Register an account at <https://github.com/> (if you don't already have one). Git and GitHub will be used for version control and collaboration in these demos. Be sure not to lose your GitHub username and password.
-
-1. Check that you have the git package installed by running:
-
-    ```console
+    ```bash
     git --version
     ```
 
     If Git is not installed (resulting in an error message instead of a version number), install it by running:
 
-    ```console
+    ```bash
     sudo apt install git
     ```
 
-1. Set your global Git configuration settings by creating a `.gitconfig` file by running:
+- {% include macos-badge.html %} **⇨** Git should already be installed, because macOS ships with it.
 
-    ```console
-    vi ~/.gitconfig
-    ```
+- {% include badge.html text="All" color="primary" %} **⇨** Once you have confirmed that Git is installed, set your user Git configuration settings by creating a `.gitconfig` file as follows:
 
-    The contents of the file should look something like Figure x, containing your name, the email you used to register your Github account, and a couple other options that are quality of life improvements for this class. For example, mine is:
+    1. Create an empty `.gitconfig` file in your home directory by running this command:
 
-    ```ini
-    # This is Git's per-user configuration file.
-    [user]
-            name = Katie Bridson
-            email = kbridson@memphis.edu
+        ```bash
+        touch ~/.gitconfig
+        ```
 
-    [core]
-            autocrlf = false
-    [color]
-            ui = true
-    ```
+    1. Open this file in VS Code by entering the this command:
 
-    Save the file (by hitting ESC and typing `:x` if using the Vim editor).
+        ```bash
+        code ~/.gitconfig
+        ```
 
-1. Setup SSH authentication with your Github account by generating a new SSH key with the following:
+    1. Edit the contents of the file as follows, only using your name and email:
 
-    ```console
-    ssh-keygen -t rsa -b 4096 -C "kbridson@memphis.edu"
-    ```
+        ```ini
+        # This is Git's per-user configuration file.
+        [user]
+                name = Homer Simpson
+                email = homer@email.com
 
-    Make sure to use the email associated with your Github account. Also, you should accept all the default options for that command by hitting ENTER without entering anything.
+        [core]
+                autocrlf = false
+        [color]
+                ui = true
+        ```
 
-1. Add the key you just generated to your Github account by copying the output of the following command:
+        Don't forget to save the file!
 
-    ```console
-    cat ~/.ssh/id_rsa.pub
-    ```
+## 6. GitHub
 
-    Then, go to `<https://github.com/settings/keys>` in your browser. Make sure you are logged into Github. Click the button "New SSH key", enter a title, and paste the output of the command in the key field. Click "Add SSH key".
+- {% include badge.html text="All" color="primary" %} **⇨** Set up your GitHub account by following these steps.
 
-1. Check the SSH key has been setup correctly by running:
+    1. Register an account at <https://github.com/> (if you don't already have).
 
-    ```console
-    ssh -T git@github.com
-    ```
+        **Caution!** Be sure that your GitHub account is set up with the same email address that you use in your `.gitconfig` file. The emails must match in order for GitHub to associate your commits with your GitHub user profile.
 
-    You should get a message like:
+        Also, be sure not to lose your GitHub username and password.
 
-    ```console
-    Hi kbridson! You've successfully authenticated, but GitHub does not provide shell access.
-    ```
+    1. To setup SSH authentication with your Github account, first, generate a new SSH key using this command (replacing the email address with your own one):
 
-## 4. Install Ruby and Rails
+        ```bash
+        ssh-keygen -t rsa -b 4096 -C "homer@email.com"
+        ```
 
-1. Install the Node.js and Yarn repositories by running each of the following commands:
+        Again, be sure to use the email associated with your Github account. Also, you should accept all the default options for that command by hitting ENTER without entering anything.
 
-    ```console
+    1. Add the key you just generated to your Github account by copying the output of the following command:
+
+        ```bash
+        cat ~/.ssh/id_rsa.pub
+        ```
+
+        Then, go to <https://github.com/settings/keys> in your browser. Make sure you are logged into Github. Click the button "New SSH key", enter a title, and paste the output of the command in the key field. Click "Add SSH key".
+
+    1. Check the SSH key has been setup correctly by entering this command:
+
+        ```bash
+        ssh -T git@github.com
+        ```
+
+        You should get a message like:
+
+        ```text
+        Hi homer! You've successfully authenticated, but GitHub does not provide shell access.
+        ```
+
+## 7. Node.js and Yarn
+
+- {% include windows-linux-badge.html %} **⇨** Install Node.js and Yarn by running the following commands:
+
+    ```bash
     sudo apt install curl
     curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
@@ -170,18 +162,40 @@ You can also open other types of terminals like Powershell and the older Command
     sudo apt-get install zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libffi-dev nodejs yarn
     ```
 
-1. Install RVM by running each of the following commands:
+- {% include macos-badge.html %} **⇨** Install Node.js and Yarn by running the following commands:
 
-    ```console
+    ```bash
+    brew install node
+    brew install yarn
+    ```
+
+## 8. RVM
+
+- {% include windows-linux-badge.html %} **⇨** First, install several of RVM's dependencies by entering this command:
+
+    ```bash
     sudo apt-get install libgdbm-dev libncurses5-dev automake libtool bison libffi-dev
+    ```
+
+- {% include macos-badge.html %} **⇨** First, install several of RVM's dependencies by entering this command:
+
+    ```bash
+    brew install gnupg
+    ```
+
+- {% include badge.html text="All" color="primary" %} **⇨** Install RVM by running each of the following commands:
+
+    ```bash
     gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
     curl -sSL https://get.rvm.io | bash -s stable
     source ~/.rvm/scripts/rvm
     ```
 
-1. Install the latest version of Ruby by running each of the following commands:
+## 9. Ruby
 
-    ```console
+- {% include badge.html text="All" color="primary" %} **⇨** Install the latest version of Ruby by running each of the following commands:
+
+    ```bash
     rvm install 2.6.5
     rvm use 2.6.5 --default
     ruby -v
@@ -189,25 +203,27 @@ You can also open other types of terminals like Powershell and the older Command
 
     If Ruby has successfully installed, the output of `ruby -v` should be something like:
 
-    ```console
+    ```text
     ruby 2.6.5p114 (2019-10-01 revision 67812) [x86_64-linux]
     ```
 
-1. Globally install the Bundler gem to manage project gemsets by running:
+## 10. Ruby on Rails
 
-    ```console
+- {% include badge.html text="All" color="primary" %} **⇨** First, globally install the Bundler gem to manage project gemsets by running this command:
+
+    ```bash
     rvm @global do gem install bundler
     ```
 
-    If this command times out because you cannot connect to rubygems.org, you may need to try restarting your computer or following the below steps on WSL:
+- {% include windows-badge.html %} **⇨** If the previous command times out because RVM cannot connect to <rubygems.org>, try restarting the computer and rerunning the command. If it still doesn't work, the problem may be with IPv6 connections to <rubygems.org>. Force IPv4 connections to <rubygems.org> by following these steps and then trying the command again:
 
     1. Edit the /etc/gai.conf file by running:
 
-        ```console
-        sudo vi /etc/gai.conf
+        ```bash
+        sudo nano /etc/gai.conf
         ```
 
-    2. Uncomment lines to match the following:
+    1. Uncomment lines to match the following:
 
         ```conf
         #For sites which prefer IPv4 connections change the last line to
@@ -223,192 +239,93 @@ You can also open other types of terminals like Powershell and the older Command
         scopev4 ::ffff:0.0.0.0/96       14
         ```
 
-1. Globally install Rails by running:
+    1. Enter Ctrl-X to save and exit.
 
-    ```console
+- {% include badge.html text="All" color="primary" %} **⇨** Globally install Rails by running this command:
+
+    ```bash
     rvm @global do gem install rails
     ```
 
-    If Rails has installed correctly, running `rails -v` should show version 6.0.2.1.
-
-## 5. Install Postgres
-
-1. Install the Postgres packages by running:
-
-    ```console
-    sudo apt -y install postgresql-12 postgresql-client-12
-    ```
-
-    If the postgresql-12 package cannot be found, you will need to do some additional steps then try the above command again:
-
-    1. Add the repository by running:
-
-    ```console
-    sudo tee /etc/apt/sources.list.d/pgdg.list <<END
-    deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
-    END
-    ```
-
-    1. Get the signing key and import it by running:
-
-    ```console
-    wget https://www.postgresql.org/media/keys/ACCC4CF8.asc
-    sudo apt-key add ACCC4CF8.asc
-    ```
-
-    1. Fetch the metadata from the new repo by running:
-
-    ```console
-    sudo apt-get update
-    ```
-
-1. Start the Postgres service by running:
-
-    ```console
-    sudo service postgresql start
-    ```
-
-    For WSL users, you will need to run this command every time you restart your Ubuntu terminal.
-
-1. Setup a postgres user with permission to create databases (which must have the same name as your Ubuntu user) by running:
-
-    ```console
-    sudo -u postgres createuser kbridson -s -d
-    ```
-
-1. Set a password for your postgres username by running:
-
-    ```console
-    sudo -u postgres psql
-    ```
-
-    At the new prompt enter the following command substituting your username and password:
-
-    ```console
-    ALTER USER kbridson WITH PASSWORD 'password1';
-    ```
-
-    Use `\q` to exit the postgres prompt.
-
-
-## 6. Running a Rails App
-
-1. From your terminal application, create a folder `workspace` in your home directory by running:
-
-    ```console
-    mkdir ~/workspace
-    ```
-
-    This folder is where all the Rails projects in these demos will go.
-
-1. Change directory to your `workspace` folder by running:
-
-    ```console
-    cd ~/workspace
-    ```
-
-1. Use Git to download an example project by running:
-
-    ```console
-    git clone https://github.com/memphis-cs/rails-6-test-app.git
-    ```
-
-    Run the command `ll` to see a new `rails-6-test-app` folder should be visible inside the `workspace` folder.
-
-1. Change directory (using the `cd` command) to the `rails-6-test-app` folder. When you run this command, RVM should print a message like the following, which lets you know it's working. Note that this message appears only after the _first_ time you `cd` into the project.
-
-    ```text
-    ruby-2.6.3 - #gemset created /home/vagrant/.rvm/gems/ruby-2.6.3@quiz-maker
-    ruby-2.6.3 - #generating quiz-maker wrappers.........
-    ```
-
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails3-5" role="button" aria-expanded="false" aria-controls="moreDetails3-5">Troubleshoot: no messages appear...▼</a></small></span>
-
-    <div class="collapse" id="moreDetails3-5">
-    <p class="text-muted mr-3 ml-3">
-    If no messages from RVM appears, then something is wrong. A common problem is that the terminal application is not configured to run as a "login" shell. This issue seems to come up the most for Linux users, or users of more exotic terminal applications. Typically, the solution can be found in the terminal application's settings. Restarting the terminal application after fixing the setting will likely be necessary.
-    </p>
-    </div>
-
-1. Download and install the gems (Ruby libraries) for this Rails project by entering the following command:
+    Verify that Rails was installed successfully by running this command:
 
     ```bash
-    bundle install
+    rails -v
     ```
 
-1. Download and install all the JavaScript dependencies for this Rails project by entering the following command:
+    It should display version 6.0.2.1.
 
-    ```bash
-    yarn install
-    ```
+## 11. Postgres
 
-1. Open the `rails-6-test-app` in VSCode by running the following command in the `rails-6-test-app` directory:
+- {% include windows-linux-badge.html %} **⇨** Install Postgres by following these steps:
 
-    ```bash
-    code .
-    ```
+    1. Install the Postgres packages by running:
 
-1. From VSCode, create a copy of the `.env.sample` file named `.env`. Edit the `.env` file to use your username and password. This will need to be set correctly for every Rails project you work on. This file should look something like:
+        ```bash
+        sudo apt -y install postgresql-12 postgresql-client-12
+        ```
 
-    ```text
-    export DB_USERNAME=kbridson
-    export DB_PASSWORD=password1
-    ```
+        If the `postgresql-12` package cannot be found, follow these additional steps, and then try the above command again:
 
-1. Wipe and reset the database to be used by this Rails app by entering the following command:
+        1. Add the repository by running:
 
-    ```bash
-    rails db:reset
-    ```
+            ```bash
+            sudo tee /etc/apt/sources.list.d/pgdg.list <<END
+            deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
+            END
+            ```
 
-1. The project comes with some automated tests. Run them by entering the following command:
+        1. Get the signing key and import it by running:
 
-    ```bash
-    rails test
-    ```
+            ```bash
+            wget https://www.postgresql.org/media/keys/ACCC4CF8.asc
+            sudo apt-key add ACCC4CF8.asc
+            ```
 
-    You should see that all the tests passed.
+        1. Fetch the metadata from the new repo by running:
 
-1. Start up the Rails web app server by entering the following command (those are zeros):
+            ```bash
+            sudo apt-get update
+            ```
 
-    ```bash
-    rails s -b 0.0.0.0
-    ```
+    1. Start the Postgres service by running:
 
-    You should see that the server has started without error. Note that this command will not "return" like other commands—that is, the command prompt will not reappear until you halt the server process (covered below).
+        ```bash
+        sudo service postgresql start
+        ```
 
-1. Now open the URL <http://localhost:3000> in a web browser. You should see a "Welcome to Quiz Maker" web page with a list of quizzes.
+        For Windows/WSL users, you will need to run this command every time you restart your WSL/Ubuntu terminal.
 
-1. Verify that the Postgres DBMS running on the server is accessible and that the app's database is configured as expected.
+    1. Set up a `postgres` user with permission to create databases (which must have the same name as your Ubuntu user) by running the following command (replacing `homer` with your Ubuntu username):
 
-    1. Add a Server with the following configuration:
+        ```bash
+        sudo -u postgres createuser homer -s -d
+        ```
 
-        - Name: `SoftwareEng`
+    1. Set a password for your Postgres username by running:
 
-        - Hostname/address: `localhost`
+        ```bash
+        sudo -u postgres psql
+        ```
 
-        - Port: `5432`
+        At the new prompt enter the following command (substituting your username and password):
 
-        - User: `kbridson`
+        ```bash
+        ALTER USER homer WITH PASSWORD 'password1';
+        ```
 
-        - Password: `password1`
+        Enter `\q` to exit the `postgres` prompt.
 
-        The user and password must match your Postgres and Ubuntu user.
+- {% include macos-badge.html %} **⇨** Install Postgres by following these steps:
 
-    1. In the left sidebar, go navigate as follows:
+    1. Install the Postgres packages using Homebrew by running this command:
 
-        `Servers` > `SoftwareEng` > `Databases` > `default_development` > `Schemas` > `public` > `Tables`
+        ```bash
+        brew install postgresql
+        ```
 
-        Right click on `quizzes` and go to `View/Edit Data` > `All Rows`.
+    1. Start the Postgres service by running:
 
-        You should see the Data Output panel in the bottom right corner of the screen showing information about all the quizzes in the application.
-
-1. Further test out the web app by logging in and creating a quiz:
-
-    1. Follow the `Sign In` link at the top right and log in with the email `alice@email.com` and the password `password`.
-
-    1. Click the `Create New Quiz` link and enter a title and description for a quiz.
-
-    1. In your pgAdmin browser window, you can see the new quiz in the database by hitting the refresh button (F5 or the lightning bolt button).
-
-    1. Add questions to the quiz by clicking to `Edit Quiz` link.
+        ```bash
+        brew services start postgresql
+        ```
