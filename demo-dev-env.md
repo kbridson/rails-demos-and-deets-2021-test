@@ -40,7 +40,7 @@ In this demonstration, I will show you how to setup the development environment 
     brew cask install vscode
     ```
 
-- {% include badge.html text="All" color="primary" %} **⇨** Once you have VS Code installed, add the following extensions:
+- {% include all-badge.html %} **⇨** Once you have VS Code installed, add the following extensions:
   - _Code Spell Checker_
   - _Markdown PDF_
   - _Markdown Preview Github Styling_
@@ -60,7 +60,7 @@ In this demonstration, I will show you how to setup the development environment 
     brew cask install pgadmin4
     ```
 
-- {% include badge.html text="All" color="primary" %} **⇨** Once you have installed pgAdmin 4, confirm that the install was successful by launching the pgAdmin 4 app. A pgAdmin page should open in your web browser. The first time you launch pgAdmin, you will be prompted to create a password. Don't forget it, because you will need it to run pgAdmin in the future!
+- {% include all-badge.html %} **⇨** Once you have installed pgAdmin 4, confirm that the install was successful by launching the pgAdmin 4 app. A pgAdmin page should open in your web browser. The first time you launch pgAdmin, you will be prompted to create a password. Don't forget it, because you will need it to run pgAdmin in the future!
 
 ## 5. Git
 
@@ -80,7 +80,7 @@ Git will be used for version control and collaboration in these demos.
 
 - {% include macos-badge.html %} **⇨** Git should already be installed, because macOS ships with it.
 
-- {% include badge.html text="All" color="primary" %} **⇨** Once you have confirmed that Git is installed, set your user Git configuration settings by creating a `.gitconfig` file as follows:
+- {% include all-badge.html %} **⇨** Once you have confirmed that Git is installed, set your user Git configuration settings by creating a `.gitconfig` file as follows:
 
     1. Create an empty `.gitconfig` file in your home directory by running this command:
 
@@ -112,7 +112,7 @@ Git will be used for version control and collaboration in these demos.
 
 ## 6. GitHub
 
-- {% include badge.html text="All" color="primary" %} **⇨** Set up your GitHub account by following these steps.
+- {% include all-badge.html %} **⇨** Set up your GitHub account by following these steps.
 
     1. Register an account at <https://github.com/> (if you don't already have).
 
@@ -183,7 +183,7 @@ Git will be used for version control and collaboration in these demos.
     brew install gnupg
     ```
 
-- {% include badge.html text="All" color="primary" %} **⇨** Install RVM by running each of the following commands:
+- {% include all-badge.html %} **⇨** Install RVM by running each of the following commands:
 
     ```bash
     gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
@@ -193,7 +193,7 @@ Git will be used for version control and collaboration in these demos.
 
 ## 9. Ruby
 
-- {% include badge.html text="All" color="primary" %} **⇨** Install the latest version of Ruby by running each of the following commands:
+- {% include all-badge.html %} **⇨** Install the latest version of Ruby by running each of the following commands:
 
     ```bash
     rvm install 2.6.5
@@ -209,7 +209,7 @@ Git will be used for version control and collaboration in these demos.
 
 ## 10. Ruby on Rails
 
-- {% include badge.html text="All" color="primary" %} **⇨** First, globally install the Bundler gem to manage project gemsets by running this command:
+- {% include all-badge.html %} **⇨** First, globally install the Bundler gem to manage project gemsets by running this command:
 
     ```bash
     rvm @global do gem install bundler
@@ -241,7 +241,7 @@ Git will be used for version control and collaboration in these demos.
 
     1. Enter Ctrl-X to save and exit.
 
-- {% include badge.html text="All" color="primary" %} **⇨** Globally install Rails by running this command:
+- {% include all-badge.html %} **⇨** Globally install Rails by running this command:
 
     ```bash
     rvm @global do gem install rails
