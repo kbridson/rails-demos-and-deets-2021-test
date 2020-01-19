@@ -44,6 +44,8 @@ Modern full-stack development platforms have numerous library and tool dependenc
 
 [Visual Studio Code (VS Code)](https://en.wikipedia.org/wiki/Visual_Studio_Code) will be the code editor of choice for these demos. It should look and work essentially the same on all OSs; however, the installation instructions vary somewhat by OS.
 
+### 3.1. VS Code Installation
+
 - {% include windows-linux-badge.html %} Download and install the latest stable version from the VS Code website: <https://code.visualstudio.com/>.
 
 - {% include macos-badge.html %} Install using Homebrew by entering this command:
@@ -51,6 +53,8 @@ Modern full-stack development platforms have numerous library and tool dependenc
     ```bash
     brew cask install vscode
     ```
+
+### 3.2. VS Code Extensions
 
 - {% include all-badge.html %} Once you have VS Code installed, add the following extensions:
   - _Code Spell Checker_
