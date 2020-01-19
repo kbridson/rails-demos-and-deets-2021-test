@@ -82,6 +82,8 @@ Modern full-stack development platforms have numerous library and tool dependenc
 
 [Git](https://en.wikipedia.org/wiki/Git) is a version-control system that we will use to manage different versions of the demo project as it evolves.
 
+### 5.1. Git Installation
+
 - {% include windows-linux-badge.html %} Git may or may not already be installed. Check if the git package is installed by running this command:
 
     ```bash
@@ -95,6 +97,8 @@ Modern full-stack development platforms have numerous library and tool dependenc
     ```
 
 - {% include macos-badge.html %} Git should already be installed, because macOS ships with it.
+
+### 5.2. Git Configuration
 
 - {% include all-badge.html %} Once you have confirmed that Git is installed, set your user Git configuration settings by creating a `.gitconfig` file as follows:
 
