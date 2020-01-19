@@ -114,7 +114,7 @@ Modern full-stack development platforms have numerous library and tool dependenc
         code ~/.gitconfig
         ```
 
-    1. Edit the contents of the file as follows, only using your name and email:
+    1. Edit the contents of the file as follows, except using your own name and email:
 
         ```ini
         # This is Git's per-user configuration file.
