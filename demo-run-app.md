@@ -1,10 +1,34 @@
 ---
 title: 'Running a Rails App'
 ---
+<style>
+    .highlighter-rouge {
+        white-space: nowrap;
+    }
+
+    th {
+        white-space: nowrap;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+        padding: 0.25rem 0.75rem;
+    }
+</style>
 
 # {{ page.title }}
 
-1. From your terminal application, create a folder `workspace` in your home directory by running:
+In this demo, I will show how to download, configure, and run an existing Rails web app hosted on GitHub ([Rails 6 Test App](https://github.com/memphis-cs/rails-6-test-app)). This demo will also serve as a good test of whether our development environment was set up correctly.
+
+## 1. Downloading the Project
+
+First, we will create a workspace for our Rails projects and download the test app.
+
+1. Using your terminal application, create a folder `workspace` in your home directory by entering this command:
 
     ```bash
     mkdir ~/workspace
@@ -12,25 +36,41 @@ title: 'Running a Rails App'
 
     This folder is where all the Rails projects in these demos will go.
 
-1. Change directory to your `workspace` folder by running:
+1. Change directory to your `workspace` folder by entering this command:
 
     ```bash
     cd ~/workspace
     ```
 
-1. Use Git to download an example project by running:
+1. Use Git to download the test-app project by entering this command:
 
     ```bash
     git clone https://github.com/memphis-cs/rails-6-test-app.git
     ```
 
-    Run the command `ll` to see a new `rails-6-test-app` folder should be visible inside the `workspace` folder.
+1. Verify that the download was successful by entering the following command:
 
-1. Change directory (using the `cd` command) to the `rails-6-test-app` folder. When you run this command, RVM should print a message like the following, which lets you know it's working. Note that this message appears only after the _first_ time you `cd` into the project.
+    ```bash
+    ls -l
+    ```
+
+    You should see that a new `rails-6-test-app` directory has been added to the `workspace` directory.
+
+## 2. Installing Project Dependencies
+
+Next, we will install the Ruby and JS package dependencies for the project.
+
+1. Change the working directory to the `rails-6-test-app` directory by entering this command:
+
+    ```bash
+    cd rails-6-test-app
+    ```
+
+    When you run this command, RVM should print a message like the following, which lets you know it's working. Note that this message appears only after the _first_ time you `cd` into a new project.
 
     ```text
-    ruby-2.6.3 - #gemset created /home/vagrant/.rvm/gems/ruby-2.6.3@quiz-maker
-    ruby-2.6.3 - #generating quiz-maker wrappers.........
+    ruby-2.6.5 - #gemset created /home/vagrant/.rvm/gems/ruby-2.6.5@quiz-maker
+    ruby-2.6.5 - #generating quiz-maker wrappers.........
     ```
 
     <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails3-5" role="button" aria-expanded="false" aria-controls="moreDetails3-5">Troubleshoot: no messages appear...▼</a></small></span>
@@ -47,11 +87,15 @@ title: 'Running a Rails App'
     bundle install
     ```
 
-1. Download and install all the JavaScript dependencies for this Rails project by entering the following command:
+1. Download and install all the JS packages for this Rails project by entering the following command:
 
     ```bash
     yarn install
     ```
+
+## 3. Setting Up the Database Back End
+
+Next, we will add the configuration necessary to enable the test app to use our Postgres database, and we will initialize the database for the project.
 
 1. Open the `rails-6-test-app` in VSCode by running the following command in the `rails-6-test-app` directory:
 
@@ -72,6 +116,10 @@ title: 'Running a Rails App'
     rails db:reset
     ```
 
+## 4. Running the Project
+
+We should now be able to run the project. We will first run the project's automated tests. If the tests are working correctly, we will then launch the web server and open the web app in a browser.
+
 1. The project comes with some automated tests. Run them by entering the following command:
 
     ```bash
@@ -90,30 +138,6 @@ title: 'Running a Rails App'
 
 1. Now open the URL <http://localhost:3000> in a web browser. You should see a "Welcome to Quiz Maker" web page with a list of quizzes.
 
-1. Verify that the Postgres DBMS running on the server is accessible and that the app's database is configured as expected.
-
-    1. Add a Server with the following configuration:
-
-        - Name: `SoftwareEng`
-
-        - Hostname/address: `localhost`
-
-        - Port: `5432`
-
-        - User: `kbridson`
-
-        - Password: `password1`
-
-        The user and password must match your Postgres and Ubuntu user.
-
-    1. In the left sidebar, go navigate as follows:
-
-        `Servers` > `SoftwareEng` > `Databases` > `default_development` > `Schemas` > `public` > `Tables`
-
-        Right click on `quizzes` and go to `View/Edit Data` > `All Rows`.
-
-        You should see the Data Output panel in the bottom right corner of the screen showing information about all the quizzes in the application.
-
 1. Further test out the web app by logging in and creating a quiz:
 
     1. Follow the `Sign In` link at the top right and log in with the email `alice@email.com` and the password `password`.
@@ -123,3 +147,28 @@ title: 'Running a Rails App'
     1. In your pgAdmin browser window, you can see the new quiz in the database by hitting the refresh button (F5 or the lightning bolt button).
 
     1. Add questions to the quiz by clicking to `Edit Quiz` link.
+
+## 5. Inspecting the Database
+
+Verify that the Postgres DBMS running on the server is accessible and that the app's database is configured as expected.
+
+1. Add a Server with the following configuration:
+
+    | OS | Field | Value | Explanation |
+    | ----- | ----- | ----- | ----- |
+    | {% include all-badge.html %} | Name | `SoftwareEng` | Just a made-up name for this Postgres database. |
+    | {% include all-badge.html %} | Hostname/address | `localhost` | Tells pgAdmin that the database is running on this machine. |
+    | {% include all-badge.html %} | Port | `5432` | The port on which Postgres listens. |
+    | {% include all-badge.html %} | User | `homer` | Replace with your username on the system. |
+    | {% include windows-linux-badge.html %} | Password | `password1` | Replace with your password on the system. |
+    | {% include macos-badge.html %} | Password | | Leave blank on macOS. |
+
+    &nbsp; 
+
+1. In the left sidebar, go navigate as follows:
+
+    `Servers` > `SoftwareEng` > `Databases` > `default_development` > `Schemas` > `public` > `Tables`
+
+    Right click on `quizzes` and go to `View/Edit Data` > `All Rows`.
+
+    You should see the Data Output panel in the bottom right corner of the screen showing information about all the quizzes in the application.
