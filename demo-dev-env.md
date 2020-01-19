@@ -4,21 +4,33 @@ title: 'Setting Up the Development Environment'
 
 # {{ page.title }}
 
-In this demonstration, I will show you how to setup the development environment used in the rest of the demos. Some of the setup will be different based on your computer's operating system (OS). In particular, Windows users will be using Ubuntu via the Windows Subsytem for Linux (WSL). Once that part of their setup is complete, Windows and Linux users will have the same command line steps to follow.
+In this demonstration, I will show how to set up the development environment used throughout the demos. We will use a [Unix-like](https://en.wikipedia.org/wiki/Unix-like) environment, regardless of the operating system being run. As a consequence, some of the setup will be different based on your computer's operating system (OS):
+
+- {% include windows-badge.html %} As Windows is not a Unix-based OS, we will use the [Windows Subsystem for Linux (WSL)](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux) to provide an [Ubuntu Linux](https://en.wikipedia.org/wiki/Ubuntu) environment (which is Unix-like).
+
+- {% include macOS-badge.html %} As [macOS](https://en.wikipedia.org/wiki/MacOS) is already a Unix-based OS, we will simply use it as-is.
+
+- {% include linux-badge.html %} Although Linux is already a Unix-like OS, there are numerous different distros, which can complicate things. The demos were written with [Ubuntu Linux](https://en.wikipedia.org/wiki/Ubuntu) in mind; however, other [Debian](https://en.wikipedia.org/wiki/Debian)-based distros may also work.
+
+In the text below, we use badges similar to the ones above to denote which instructions apply to which OS. Following this initial setup demo, OS-specific instructions will be much fewer are farther between.
 
 ## 1. Unix-Like Environment and Terminal App
 
-- {% include windows-badge.html %} **⇨** Set up the [Windows Subsystem for Linux (WSL)](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux) and install the [Windows Terminal](https://en.wikipedia.org/wiki/Windows_Terminal) app. To do so, follow the steps in this [demo on setting up WSL and Windows Terminal]({{ '/demo-wsl/' | relative_url }}).
+As mentioned above, the demos will use a Unix-like development environment, although the exact environment will vary by OS. The main interface for such environments are [terminal applications](https://en.wikipedia.org/wiki/Terminal_emulator), which will similarly vary by OS.
 
-- {% include macos-badge.html %} **⇨** No action needed. macOS is Unix based and ships with a [Terminal](https://en.wikipedia.org/wiki/Terminal_(macOS)) app by default.
+- {% include windows-badge.html %} Set up the [Windows Subsystem for Linux (WSL)](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux) and install the [Windows Terminal](https://en.wikipedia.org/wiki/Windows_Terminal) app. To do so, follow the steps in this demo: [{% include page_title.html page_name='demo-wsl.md' %}]({% include page_url.html page_name='demo-wsl.md' %}).
 
-- {% include linux-badge.html %} **⇨** No action needed. Linux is Unix based and generally comes with a terminal app (with many more to choose from). We recommend [GNOME Terminal](https://en.wikipedia.org/wiki/GNOME_Terminal), because we have tested and which worked well for the demos.
+- {% include macos-badge.html %} No action needed. macOS is Unix based and ships with a [Terminal](https://en.wikipedia.org/wiki/Terminal_(macOS)) app by default.
+
+- {% include linux-badge.html %} No action needed. Linux is Unix based and generally comes with a terminal app (with many more to choose from). We recommend [GNOME Terminal](https://en.wikipedia.org/wiki/GNOME_Terminal), because we have tested and which worked well for the demos.
 
 ## 2. Package Manager
 
-- {% include windows-linux-badge.html %} **⇨** No action needed. Ubuntu ships with the [APT](https://en.wikipedia.org/wiki/APT_(software)) package manager by default.
+Modern full-stack development platforms have numerous library and tool dependencies. To manage these dependencies, we will use a [package management system](https://en.wikipedia.org/wiki/List_of_software_package_management_systems), which will vary by OS.
 
-- {% include macos-badge.html %} **⇨** Install the [Homebrew](https://en.wikipedia.org/wiki/Homebrew_(package_management_software)) package manager by following these steps:
+- {% include windows-linux-badge.html %} No action needed. Ubuntu ships with the [APT](https://en.wikipedia.org/wiki/APT_(software)) package manager by default.
+
+- {% include macos-badge.html %} Install the [Homebrew](https://en.wikipedia.org/wiki/Homebrew_(package_management_software)) package manager by following these steps:
 
     1. Launch the Terminal application and enter this command:
 
@@ -30,17 +42,17 @@ In this demonstration, I will show you how to setup the development environment 
 
 ## 3. VS Code
 
-[Visual Studio Code (VS Code)](https://en.wikipedia.org/wiki/Visual_Studio_Code) will be the code editor of choice for these demos.
+[Visual Studio Code (VS Code)](https://en.wikipedia.org/wiki/Visual_Studio_Code) will be the code editor of choice for these demos. It should look and work essentially the same on all OSs; however, the installation instructions vary somewhat by OS.
 
-- {% include windows-linux-badge.html %} **⇨** Download and install the latest stable version from the VS Code website: <https://code.visualstudio.com/>.
+- {% include windows-linux-badge.html %} Download and install the latest stable version from the VS Code website: <https://code.visualstudio.com/>.
 
-- {% include macos-badge.html %} **⇨** Install using Homebrew by entering this command:
+- {% include macos-badge.html %} Install using Homebrew by entering this command:
 
     ```bash
     brew cask install vscode
     ```
 
-- {% include all-badge.html %} **⇨** Once you have VS Code installed, add the following extensions:
+- {% include all-badge.html %} Once you have VS Code installed, add the following extensions:
   - _Code Spell Checker_
   - _Markdown PDF_
   - _Markdown Preview Github Styling_
@@ -52,21 +64,21 @@ In this demonstration, I will show you how to setup the development environment 
 
 [pgAdmin 4](https://en.wikipedia.org/wiki/PostgreSQL#pgAdmin) is a database viewer and administration tool for PostgreSQL databases. This application will allow us to inspect our backend databases from a web browser.
 
-- {% include windows-linux-badge.html %} **⇨** Download and install the latest stable version from the pgAdmin website: <https://www.pgadmin.org/download/>).
+- {% include windows-linux-badge.html %} Download and install the latest stable version from the pgAdmin website: <https://www.pgadmin.org/download/>).
 
-- {% include macos-badge.html %} **⇨** Install using Homebrew by entering this command:
+- {% include macos-badge.html %} Install using Homebrew by entering this command:
 
     ```bash
     brew cask install pgadmin4
     ```
 
-- {% include all-badge.html %} **⇨** Once you have installed pgAdmin 4, confirm that the install was successful by launching the pgAdmin 4 app. A pgAdmin page should open in your web browser. The first time you launch pgAdmin, you will be prompted to create a password. Don't forget it, because you will need it to run pgAdmin in the future!
+- {% include all-badge.html %} Once you have installed pgAdmin 4, confirm that the install was successful by launching the pgAdmin 4 app. A pgAdmin page should open in your web browser. The first time you launch pgAdmin, you will be prompted to create a password. Don't forget it, because you will need it to run pgAdmin in the future!
 
 ## 5. Git
 
-Git will be used for version control and collaboration in these demos.
+[Git](https://en.wikipedia.org/wiki/Git) is a version-control system that we will use to manage different versions of the demo project as it evolves.
 
-- {% include windows-linux-badge.html %} **⇨** Git may or may not already be installed. Check if the git package is installed by running this command:
+- {% include windows-linux-badge.html %} Git may or may not already be installed. Check if the git package is installed by running this command:
 
     ```bash
     git --version
@@ -78,9 +90,9 @@ Git will be used for version control and collaboration in these demos.
     sudo apt install git
     ```
 
-- {% include macos-badge.html %} **⇨** Git should already be installed, because macOS ships with it.
+- {% include macos-badge.html %} Git should already be installed, because macOS ships with it.
 
-- {% include all-badge.html %} **⇨** Once you have confirmed that Git is installed, set your user Git configuration settings by creating a `.gitconfig` file as follows:
+- {% include all-badge.html %} Once you have confirmed that Git is installed, set your user Git configuration settings by creating a `.gitconfig` file as follows:
 
     1. Create an empty `.gitconfig` file in your home directory by running this command:
 
@@ -112,7 +124,13 @@ Git will be used for version control and collaboration in these demos.
 
 ## 6. GitHub
 
-- {% include all-badge.html %} **⇨** Set up your GitHub account by following these steps.
+[GitHub](https://en.wikipedia.org/wiki/GitHub) is a web-based Git repository hosting service. We will use it (in conjunction with Git) to distribute different versions of the demo project as it evolves.
+
+### 6.1. GitHub Account Registration
+
+Since GitHub is a web-based service, we will need to register an account via GitHub's web interface.
+
+- {% include all-badge.html %} Set up your GitHub account by following these steps.
 
     1. Register an account at <https://github.com/> (if you don't already have).
 
@@ -120,7 +138,13 @@ Git will be used for version control and collaboration in these demos.
 
         Also, be sure not to lose your GitHub username and password.
 
-    1. To setup SSH authentication with your Github account, first, generate a new SSH key using this command (replacing the email address with your own one):
+### 6.2. Key-Based Authentication
+
+Since GitHub will require us to authenticate every time we upload changes to our project, and we upload changes frequently, entering our password every time can be a hassle. [SSH key authentication](https://help.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh) enables Git to automatically authenticate us using secure cryptographic keys in lieu of our password.
+
+- {% include all-badge.html %} Set up SSH key-based authentication with your Github account by following these steps.
+
+    1. Generate a new SSH key using this command (replacing the email address with your own):
 
         ```bash
         ssh-keygen -t rsa -b 4096 -C "homer@email.com"
@@ -150,7 +174,9 @@ Git will be used for version control and collaboration in these demos.
 
 ## 7. Node.js and Yarn
 
-- {% include windows-linux-badge.html %} **⇨** Install Node.js and Yarn by running the following commands:
+Modern web [front-end](https://en.wikipedia.org/wiki/Front_and_back_ends) code makes heavy use of [JavaScript (JS)](https://en.wikipedia.org/wiki/JavaScript), and as a consequence, there are numerous commonly used JS libraries and packages. [Node.js](https://en.wikipedia.org/wiki/Node.js) and [Yarn](https://en.wikipedia.org/wiki/Yarn_(software)) provide tools for managing JS packages
+
+- {% include windows-linux-badge.html %} Install Node.js and Yarn by running the following commands:
 
     ```bash
     sudo apt install curl
@@ -162,7 +188,7 @@ Git will be used for version control and collaboration in these demos.
     sudo apt-get install zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libffi-dev nodejs yarn
     ```
 
-- {% include macos-badge.html %} **⇨** Install Node.js and Yarn by running the following commands:
+- {% include macos-badge.html %} Install Node.js and Yarn by running the following commands:
 
     ```bash
     brew install node
@@ -171,19 +197,25 @@ Git will be used for version control and collaboration in these demos.
 
 ## 8. RVM
 
-- {% include windows-linux-badge.html %} **⇨** First, install several of RVM's dependencies by entering this command:
+[Ruby Version Manager (RVM)](https://en.wikipedia.org/wiki/Ruby_Version_Manager) is a tool for managing different versions of the [Ruby Programming Language](https://en.wikipedia.org/wiki/Ruby_(programming_language)) and different Ruby gemsets. A gemset is the collection of [Ruby gems](https://en.wikipedia.org/wiki/RubyGems) (i.e., Ruby libraries and toolkits) used by a Ruby-based software project. We will use RVM to carefully control the version of Ruby and the associated Ruby gems that the demo project uses.
+
+### 8.1. RVM Dependencies
+
+- {% include windows-linux-badge.html %} First, install several of RVM's dependencies by entering this command:
 
     ```bash
     sudo apt-get install libgdbm-dev libncurses5-dev automake libtool bison libffi-dev
     ```
 
-- {% include macos-badge.html %} **⇨** First, install several of RVM's dependencies by entering this command:
+- {% include macos-badge.html %} First, install an RVM installer dependency by entering this command:
 
     ```bash
     brew install gnupg
     ```
 
-- {% include all-badge.html %} **⇨** Install RVM by running each of the following commands:
+### 8.2. RVM Installation
+
+- {% include all-badge.html %} Install RVM by running the following commands:
 
     ```bash
     gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
@@ -191,9 +223,15 @@ Git will be used for version control and collaboration in these demos.
     source ~/.rvm/scripts/rvm
     ```
 
-## 9. Ruby
+## 9. Ruby on Rails
 
-- {% include all-badge.html %} **⇨** Install the latest version of Ruby by running each of the following commands:
+[Ruby on Rails (aka Rails)](https://en.wikipedia.org/wiki/Ruby_on_Rails) is a popular web-development framework and toolkit. It will provide the main platform upon which we construct the demo app.
+
+### 9.1. Ruby
+
+As the name suggests, Rails is built using the [Ruby Programming Language](https://en.wikipedia.org/wiki/Ruby_(programming_language)). Thus, Rails requires a Ruby interpreter to be installed.
+
+- {% include all-badge.html %} Install the latest version of Ruby by running each of the following commands:
 
     ```bash
     rvm install 2.6.5
@@ -207,15 +245,17 @@ Git will be used for version control and collaboration in these demos.
     ruby 2.6.5p114 (2019-10-01 revision 67812) [x86_64-linux]
     ```
 
-## 10. Ruby on Rails
+### 9.2. Bundler Gem
 
-- {% include all-badge.html %} **⇨** First, globally install the Bundler gem to manage project gemsets by running this command:
+[Bundler](https://bundler.io/) is a Ruby gem management tool (which is itself a gem) that Rails projects use to manage their gem dependencies.
+
+- {% include all-badge.html %} Globally install the Bundler gem by running this command:
 
     ```bash
     rvm @global do gem install bundler
     ```
 
-- {% include windows-badge.html %} **⇨** If the previous command times out because RVM cannot connect to <rubygems.org>, try restarting the computer and rerunning the command. If it still doesn't work, the problem may be with IPv6 connections to <rubygems.org>. Force IPv4 connections to <rubygems.org> by following these steps and then trying the command again:
+- {% include windows-badge.html %} If the previous command times out because RVM cannot connect to <rubygems.org>, try restarting the computer and rerunning the command. If it still doesn't work, the problem may be with IPv6 connections to <rubygems.org>. Force IPv4 connections to <rubygems.org> by following these steps and then trying the command again:
 
     1. Edit the /etc/gai.conf file by running:
 
@@ -241,7 +281,11 @@ Git will be used for version control and collaboration in these demos.
 
     1. Enter Ctrl-X to save and exit.
 
-- {% include all-badge.html %} **⇨** Globally install Rails by running this command:
+### 9.3. Rails Gem
+
+Rails is packaged as a gem that must be installed in order to create, run, etc. Rails projects.
+
+- {% include all-badge.html %} Globally install Rails by running this command:
 
     ```bash
     rvm @global do gem install rails
@@ -255,9 +299,11 @@ Git will be used for version control and collaboration in these demos.
 
     It should display version 6.0.2.1.
 
-## 11. Postgres
+## 10. Postgres
 
-- {% include windows-linux-badge.html %} **⇨** Install Postgres by following these steps:
+[Postgres](https://en.wikipedia.org/wiki/PostgreSQL) is a popular database management system. The demo Rails project will use Postgres as its database [back end](https://en.wikipedia.org/wiki/Front_and_back_ends).
+
+- {% include windows-linux-badge.html %} Install Postgres by following these steps:
 
     1. Install the Postgres packages by running:
 
@@ -316,7 +362,7 @@ Git will be used for version control and collaboration in these demos.
 
         Enter `\q` to exit the `postgres` prompt.
 
-- {% include macos-badge.html %} **⇨** Install Postgres by following these steps:
+- {% include macos-badge.html %} Install Postgres by following these steps:
 
     1. Install the Postgres packages using Homebrew by running this command:
 
@@ -329,3 +375,7 @@ Git will be used for version control and collaboration in these demos.
         ```bash
         brew services start postgresql
         ```
+
+## 11. Conclusion
+
+Having completed all of the above development environment setup, the next step will be to test that it's all working by running an existing Rails-based web app.

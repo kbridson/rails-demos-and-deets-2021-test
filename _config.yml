@@ -23,7 +23,7 @@ permalink: "/:title/"
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: scottdflem
 github_username:  sdflem
-copyright_notice: '&copy; <a href="/about/">The Authors</a> 2019'
+copyright_notice: '&copy; <a href="/about/">The Authors</a> 2020'
 
 # Build settings
 markdown: kramdown
