@@ -263,7 +263,7 @@ As the name suggests, Rails is built using the [Ruby Programming Language](https
     rvm @global do gem install bundler
     ```
 
-- {% include windows-badge.html %} If the previous command times out because RVM cannot connect to <rubygems.org>, try restarting the computer and rerunning the command. If it still doesn't work, the problem may be with IPv6 connections to <rubygems.org>. Force IPv4 connections to <rubygems.org> by following these steps and then trying the command again:
+- {% include windows-badge.html %} If the previous command times out because RVM cannot connect to `rubygems.org`, try restarting the computer and rerunning the command. If it still doesn't work, the problem may be with IPv6 connections to `rubygems.org`. Force IPv4 connections to `rubygems.org` by following these steps and then trying the command again:
 
     1. Edit the /etc/gai.conf file by running:
 
