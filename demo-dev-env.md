@@ -348,7 +348,11 @@ Rails is packaged as a gem that must be installed in order to create, run, etc. 
         sudo service postgresql start
         ```
 
-        For Windows/WSL users, you will need to run this command every time you restart your WSL/Ubuntu terminal.
+        For Windows/WSL users, the `postgresql` service will generally stay on, but you may sometimes discover that it has been halted. (We're not always sure why this happens.) To restart the service, simply rerun the above command. If in doubt, you can check the status of the service by running this command:
+
+        ```bash
+        sudo service postgresql status
+        ```
 
     1. Set up a `postgres` user with permission to create databases (which must have the same name as your Ubuntu user) by running the following command (replacing `homer` with your Ubuntu username):
 
