@@ -11,12 +11,7 @@
 
 ### Dev Env Setup
 
-- Native dev env setup instructions (maybe VM as fallback, but not with fsnotify)
-  - MAYBE Look into container for Postgres
 - Switch to Z Shell and oh-my-zsh and Scott's custom theme
-- Latest Rails and Ruby versions
-- Require Chrome or Firefox browser
-- Make sure VS Code extensions are all there (also WSL ones)
 - See if Postgres setup can use login credentials that are not OS user name (use `dotenv` gem w/ `.env` file and `.gitignore`)
 - Add `--skip-bundle` (and `--skip-webpack-install`?) when creating new Rails project
 - Switch to `rails db:migrate:reset db:seed`

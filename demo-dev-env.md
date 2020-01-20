@@ -40,11 +40,23 @@ Modern full-stack development platforms have numerous library and tool dependenc
 
     1. When it asks you to install [Xcode](https://en.wikipedia.org/wiki/Xcode) CommandLine Tools, say "yes".
 
-## 3. VS Code
+## 3. Chrome
 
-[Visual Studio Code (VS Code)](https://en.wikipedia.org/wiki/Visual_Studio_Code) will be the code editor of choice for these demos. It should look and work essentially the same on all OSs; however, the installation instructions vary somewhat by OS.
+[Google Chrome](https://en.wikipedia.org/wiki/Google_Chrome) will be the web browser of choice for the demos. Although the demo web app should be compatible with any modern web browser, Chrome has certain development features that we will use and that are not necessarily common to all browsers.
 
-### 3.1. VS Code Installation
+- {% include windows-linux-badge.html %} Download and install the latest stable version from the Google Chrome website: <https://www.google.com/chrome/>.
+
+- {% include macos-badge.html %} Install using Homebrew by entering this command:
+
+    ```bash
+    brew cask install google-chrome
+    ```
+
+## 4. VS Code
+
+[Visual Studio Code (VS Code)](https://en.wikipedia.org/wiki/Visual_Studio_Code) will be the code editor of choice for the demos. It should look and work essentially the same on all OSs; however, the installation instructions vary somewhat by OS. (Note that VS Code is **not** the same thing as the [Microsoft Visual Studio](https://en.wikipedia.org/wiki/Microsoft_Visual_Studio) IDE.)
+
+### 4.1. VS Code Installation
 
 - {% include windows-linux-badge.html %} Download and install the latest stable version from the VS Code website: <https://code.visualstudio.com/>.
 
@@ -54,7 +66,7 @@ Modern full-stack development platforms have numerous library and tool dependenc
     brew cask install vscode
     ```
 
-### 3.2. VS Code Extensions
+### 4.2. VS Code Extensions
 
 - {% include all-badge.html %} Once you have VS Code installed, add the following extensions:
   - _Code Spell Checker_
@@ -64,7 +76,77 @@ Modern full-stack development platforms have numerous library and tool dependenc
   - _Simple Ruby ERB_
   - (Windows users only) _Remote - WSL_
 
-## 4. pgAdmin 4
+## 5. Z Shell
+
+[Z Shell](https://en.wikipedia.org/wiki/Z_shell) is the Unix shell of choice for the demos. It has a number of productivity features not found in other shells. We will use the [Oh My Zsh](https://en.wikipedia.org/wiki/Z_shell#Oh_My_Zsh) Z Shell configuration manager, which provides a plugin and theme infrastructure for Z Shell. In addition to the features Oh My Zsh provides by default, we will also add a custom theme.
+
+### 5.1. Install Z Shell
+
+- {% include windows-linux-badge.html %} Install Z Shell using APT by entering the following commands:
+
+    ```bash
+    sudo apt-get update
+    sudo apt-get install zsh
+    ```
+
+- {% include macos-badge.html %} Install Z Shell using Homebrew by entering the following command:
+
+    ```bash
+    brew install zsh
+    ```
+
+### 5.2. Make Z Shell the Default
+
+- {% include all-badge.html %} Make Z Shell the default shell by following these steps.
+
+    1. Set Z Shell as the default shell by entering the following command, except replacing `homer` with your username:
+
+        ```bash
+        sudo chsh homer -s /usr/bin/zsh
+        ```
+
+    1. Quit and relaunch the terminal app to make the new settings take effect.
+
+### 5.3. Install Oh My Zsh
+
+- {% include all-badge.html %} Install Oh My Zsh by entering the following command:
+
+    ```bash
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    ```
+
+### 5.4. Add Custom Theme
+
+- {% include all-badge.html %} Add our custom Z Shell theme by following these steps.
+
+    1. Download the custom theme by entering this command:
+
+        ```bash
+        curl --fail --silent --show-error --location --output ~/.oh-my-zsh/custom/themes/sdflem.zsh-theme {{ '/resources/sdflem.zsh-theme' | absolute_url }}
+        ```
+
+    1. Open the Z Shell configuration file `.zshrc` in VS Code by entering this command:
+
+        ```bash
+        code ~/.zshrc
+        ```
+
+    1. Configure Z Shell to use the custom theme by locating the `ZSH_THEME` setting in the `.zshrc` file and editing the setting as follows:
+
+        ```text
+        ZSH_THEME="sdflem"
+        ```
+
+        Don't forget to save the file!
+
+    1. Quit and relaunch the terminal app to make the new settings take effect. You should now see a command prompt that looks similar to this (only with your username and hostname):
+
+        ```text
+        [homer@springfield:~/]
+        % ▊
+        ```
+
+## 6. pgAdmin 4
 
 [pgAdmin 4](https://en.wikipedia.org/wiki/PostgreSQL#pgAdmin) is a database viewer and administration tool for PostgreSQL databases. This application will allow us to inspect our backend databases from a web browser.
 
@@ -78,11 +160,11 @@ Modern full-stack development platforms have numerous library and tool dependenc
 
 - {% include all-badge.html %} Once you have installed pgAdmin 4, confirm that the install was successful by launching the pgAdmin 4 app. A pgAdmin page should open in your web browser. The first time you launch pgAdmin, you will be prompted to create a password. Don't forget it, because you will need it to run pgAdmin in the future!
 
-## 5. Git
+## 7. Git
 
 [Git](https://en.wikipedia.org/wiki/Git) is a version-control system that we will use to manage different versions of the demo project as it evolves.
 
-### 5.1. Git Installation
+### 7.1. Git Installation
 
 - {% include windows-linux-badge.html %} Git may or may not already be installed. Check if the git package is installed by running this command:
 
@@ -98,7 +180,7 @@ Modern full-stack development platforms have numerous library and tool dependenc
 
 - {% include macos-badge.html %} Git should already be installed, because macOS ships with it.
 
-### 5.2. Git Configuration
+### 7.2. Git Configuration
 
 - {% include all-badge.html %} Once you have confirmed that Git is installed, set your user Git configuration settings by creating a `.gitconfig` file as follows:
 
@@ -130,11 +212,11 @@ Modern full-stack development platforms have numerous library and tool dependenc
 
         Don't forget to save the file!
 
-## 6. GitHub
+## 8. GitHub
 
 [GitHub](https://en.wikipedia.org/wiki/GitHub) is a web-based Git repository hosting service. We will use it (in conjunction with Git) to distribute different versions of the demo project as it evolves.
 
-### 6.1. GitHub Account Registration
+### 8.1. GitHub Account Registration
 
 Since GitHub is a web-based service, we will need to register an account via GitHub's web interface.
 
@@ -146,7 +228,7 @@ Since GitHub is a web-based service, we will need to register an account via Git
 
         Also, be sure not to lose your GitHub username and password.
 
-### 6.2. Key-Based Authentication
+### 8.2. Key-Based Authentication
 
 Since GitHub will require us to authenticate every time we upload changes to our project, and we upload changes frequently, entering our password every time can be a hassle. [SSH key authentication](https://help.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh) enables Git to automatically authenticate us using secure cryptographic keys in lieu of our password.
 
@@ -180,7 +262,7 @@ Since GitHub will require us to authenticate every time we upload changes to our
         Hi homer! You've successfully authenticated, but GitHub does not provide shell access.
         ```
 
-## 7. Node.js and Yarn
+## 9. Node.js and Yarn
 
 Modern web [front-end](https://en.wikipedia.org/wiki/Front_and_back_ends) code makes heavy use of [JavaScript (JS)](https://en.wikipedia.org/wiki/JavaScript), and as a consequence, there are numerous commonly used JS libraries and packages. [Node.js](https://en.wikipedia.org/wiki/Node.js) and [Yarn](https://en.wikipedia.org/wiki/Yarn_(software)) provide tools for managing JS packages
 
@@ -203,11 +285,11 @@ Modern web [front-end](https://en.wikipedia.org/wiki/Front_and_back_ends) code m
     brew install yarn
     ```
 
-## 8. RVM
+## 10. RVM
 
 [Ruby Version Manager (RVM)](https://en.wikipedia.org/wiki/Ruby_Version_Manager) is a tool for managing different versions of the [Ruby Programming Language](https://en.wikipedia.org/wiki/Ruby_(programming_language)) and different Ruby gemsets. A gemset is the collection of [Ruby gems](https://en.wikipedia.org/wiki/RubyGems) (i.e., Ruby libraries and toolkits) used by a Ruby-based software project. We will use RVM to carefully control the version of Ruby and the associated Ruby gems that the demo project uses.
 
-### 8.1. RVM Dependencies
+### 10.1. RVM Dependencies
 
 - {% include windows-linux-badge.html %} First, install several of RVM's dependencies by entering this command:
 
@@ -221,7 +303,7 @@ Modern web [front-end](https://en.wikipedia.org/wiki/Front_and_back_ends) code m
     brew install gnupg
     ```
 
-### 8.2. RVM Installation
+### 10.2. RVM Installation
 
 - {% include all-badge.html %} Install RVM by running the following commands:
 
@@ -231,11 +313,11 @@ Modern web [front-end](https://en.wikipedia.org/wiki/Front_and_back_ends) code m
     source ~/.rvm/scripts/rvm
     ```
 
-## 9. Ruby on Rails
+## 11. Ruby on Rails
 
 [Ruby on Rails (aka Rails)](https://en.wikipedia.org/wiki/Ruby_on_Rails) is a popular web-development framework and toolkit. It will provide the main platform upon which we construct the demo app.
 
-### 9.1. Ruby
+### 11.1. Ruby
 
 As the name suggests, Rails is built using the [Ruby Programming Language](https://en.wikipedia.org/wiki/Ruby_(programming_language)). Thus, Rails requires a Ruby interpreter to be installed.
 
@@ -253,7 +335,7 @@ As the name suggests, Rails is built using the [Ruby Programming Language](https
     ruby 2.6.5p114 (2019-10-01 revision 67812) [x86_64-linux]
     ```
 
-### 9.2. Bundler Gem
+### 11.2. Bundler Gem
 
 [Bundler](https://bundler.io/) is a Ruby gem management tool (which is itself a gem) that Rails projects use to manage their gem dependencies.
 
@@ -289,7 +371,7 @@ As the name suggests, Rails is built using the [Ruby Programming Language](https
 
     1. Enter Ctrl-X to save and exit.
 
-### 9.3. Rails Gem
+### 11.3. Rails Gem
 
 Rails is packaged as a gem that must be installed in order to create, run, etc. Rails projects.
 
@@ -307,7 +389,7 @@ Rails is packaged as a gem that must be installed in order to create, run, etc. 
 
     It should display version 6.0.2.1.
 
-## 10. Postgres
+## 12. Postgres
 
 [Postgres](https://en.wikipedia.org/wiki/PostgreSQL) is a popular database management system. The demo Rails project will use Postgres as its database [back end](https://en.wikipedia.org/wiki/Front_and_back_ends).
 
@@ -388,6 +470,6 @@ Rails is packaged as a gem that must be installed in order to create, run, etc. 
         brew services start postgresql
         ```
 
-## 11. Conclusion
+## 13. Conclusion
 
 Having completed all of the above development environment setup, the next step will be to test that it's all working by running an existing Rails-based web app.
