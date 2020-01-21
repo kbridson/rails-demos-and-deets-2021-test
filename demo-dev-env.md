@@ -97,12 +97,22 @@ Modern full-stack development platforms have numerous library and tool dependenc
 
 ### 5.2. Make Z Shell the Default
 
-- {% include all-badge.html %} Make Z Shell the default shell by following these steps.
+- {% include windows-linux-badge.html %} Make Z Shell the default shell by following these steps.
 
     1. Set Z Shell as the default shell by entering the following command, except replacing `homer` with your username:
 
         ```bash
         sudo chsh homer -s /usr/bin/zsh
+        ```
+
+    1. Quit and relaunch the terminal app to make the new settings take effect.
+
+- {% include macos-badge.html %} Make Z Shell the default shell by following these steps.
+
+    1. Set Z Shell as the default shell by entering the following command, except replacing `homer` with your username:
+
+        ```bash
+        sudo chpass -s /usr/local/bin/zsh homer
         ```
 
     1. Quit and relaunch the terminal app to make the new settings take effect.
