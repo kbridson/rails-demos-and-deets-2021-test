@@ -146,6 +146,8 @@ Modern full-stack development platforms have numerous library and tool dependenc
         % ▊
         ```
 
+        Note that, for convenience, the prompt includes our Unix username (`homer`), the hostname of our machine (`springfield`), and the current working directory (`~/`).
+
 ## 6. pgAdmin 4
 
 [pgAdmin 4](https://en.wikipedia.org/wiki/PostgreSQL#pgAdmin) is a database viewer and administration tool for PostgreSQL databases. This application will allow us to inspect our backend databases from a web browser.
@@ -158,7 +160,9 @@ Modern full-stack development platforms have numerous library and tool dependenc
     brew cask install pgadmin4
     ```
 
-- {% include all-badge.html %} Once you have installed pgAdmin 4, confirm that the install was successful by launching the pgAdmin 4 app. A pgAdmin page should open in your web browser. The first time you launch pgAdmin, you will be prompted to create a password. Don't forget it, because you will need it to run pgAdmin in the future!
+- {% include all-badge.html %} Once you have installed pgAdmin 4, confirm that the install was successful by launching the pgAdmin 4 app. A pgAdmin page should open in your web browser. The first time you launch pgAdmin, you will be prompted to create a password.
+
+    **Caution!** Don't forget your pgAdmin password, because you will need it to run pgAdmin in the future.
 
 ## 7. Git
 
@@ -264,7 +268,7 @@ Since GitHub will require us to authenticate every time we upload changes to our
 
 ## 9. Node.js and Yarn
 
-Modern web [front-end](https://en.wikipedia.org/wiki/Front_and_back_ends) code makes heavy use of [JavaScript (JS)](https://en.wikipedia.org/wiki/JavaScript), and as a consequence, there are numerous commonly used JS libraries and packages. [Node.js](https://en.wikipedia.org/wiki/Node.js) and [Yarn](https://en.wikipedia.org/wiki/Yarn_(software)) provide tools for managing JS packages
+Modern web [frontend](https://en.wikipedia.org/wiki/Front_and_back_ends) code makes heavy use of [JavaScript (JS)](https://en.wikipedia.org/wiki/JavaScript), and as a consequence, there are numerous commonly used JS libraries and packages. [Node.js](https://en.wikipedia.org/wiki/Node.js) and [Yarn](https://en.wikipedia.org/wiki/Yarn_(software)) provide tools for managing JS packages
 
 - {% include windows-linux-badge.html %} Install Node.js and Yarn by running the following commands:
 
@@ -436,7 +440,15 @@ Rails is packaged as a gem that must be installed in order to create, run, etc. 
         sudo service postgresql status
         ```
 
-    1. Set up a `postgres` user with permission to create databases (which must have the same name as your Ubuntu user) by running the following command (replacing `homer` with your Ubuntu username):
+        Additionally, you can halt the service by running this command:
+
+        ```bash
+        sudo service postgresql stop
+        ```
+
+    1. Set up a `postgres` user with permission to create databases (which must have the same name as your Ubuntu user) by running the following command (replacing `homer` with your Unix username).
+
+        **Important!** The username must match your Unix username exactly.
 
         ```bash
         sudo -u postgres createuser homer -s -d
@@ -448,13 +460,15 @@ Rails is packaged as a gem that must be installed in order to create, run, etc. 
         sudo -u postgres psql
         ```
 
-        At the new prompt enter the following command (substituting your username and password):
+        This command will launch a `postgres` command prompt. At the prompt, enter the following command (substituting `homer` with your Unix username and `password1` with a password of your choosing):
 
         ```bash
         ALTER USER homer WITH PASSWORD 'password1';
         ```
 
-        Enter `\q` to exit the `postgres` prompt.
+        **Caution!** Don't forget the semicolon on the end, or the command will fail silently.
+
+    1. Enter `\q` to exit the `postgres` prompt.
 
 - {% include macos-badge.html %} Install Postgres by following these steps:
 
@@ -470,6 +484,32 @@ Rails is packaged as a gem that must be installed in order to create, run, etc. 
         brew services start postgresql
         ```
 
+        The service will now generally stay on, even after reboots. If you ever need to halt the service, you can run this command:
+
+        ```bash
+        brew services stop postgresql
+        ```
+
+    1. Set a password for your Postgres username by running:
+
+        ```bash
+        psql postgres
+        ```
+
+        This command will launch a `postgres` command prompt. At the prompt, enter the following command (substituting `homer` with your Unix username and `password1` with a password of your choosing):
+
+        ```bash
+        ALTER USER homer WITH PASSWORD 'password1';
+        ```
+
+        **Caution!** Don't forget the semicolon on the end, or the command will fail silently.
+
+    1. Enter `\q` to exit the `postgres` prompt.
+
+- {% include all-badge.html %} **Caution!** Don't forget the password you entered for your Postgres user. You will need it later to access the database using pgAdmin.
+
 ## 13. Conclusion
 
 Having completed all of the above development environment setup, the next step will be to test that it's all working by running an existing Rails-based web app.
+
+{% include pagination.html next_page='demo-run-app.md' %}

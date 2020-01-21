@@ -22,7 +22,7 @@ title: 'Running a Rails App'
 
 # {{ page.title }}
 
-In this demo, I will show how to download, configure, and run an existing Rails web app hosted on GitHub ([Rails 6 Test App](https://github.com/memphis-cs/rails-6-test-app)). This demo will also serve as a good test of whether our development environment was set up correctly.
+In this demo, I will show how to download, configure, and run an existing Rails web app hosted on GitHub ([Rails 6 Test App](https://github.com/human-se/rails-6-test-app-2020)). This demo will also serve as a good test of whether our development environment was set up correctly.
 
 ## 1. Downloading the Project
 
@@ -34,7 +34,7 @@ First, we will create a workspace for our Rails projects and download the test a
     mkdir ~/workspace
     ```
 
-    This folder is where all the Rails projects in these demos will go.
+    This folder is where all our Rails projects will go.
 
 1. Change directory to your `workspace` folder by entering this command:
 
@@ -45,7 +45,7 @@ First, we will create a workspace for our Rails projects and download the test a
 1. Use Git to download the test-app project by entering this command:
 
     ```bash
-    git clone https://github.com/memphis-cs/rails-6-test-app.git
+    git clone https://github.com/human-se/rails-6-test-app-2020.git
     ```
 
 1. Verify that the download was successful by entering the following command:
@@ -54,16 +54,16 @@ First, we will create a workspace for our Rails projects and download the test a
     ls -l
     ```
 
-    You should see that a new `rails-6-test-app` directory has been added to the `workspace` directory.
+    You should see that a new `rails-6-test-app-2020` directory has been added to the `workspace` directory.
 
 ## 2. Installing Project Dependencies
 
 Next, we will install the Ruby and JS package dependencies for the project.
 
-1. Change the working directory to the `rails-6-test-app` directory by entering this command:
+1. Change the working directory to the `rails-6-test-app-2020` directory by entering this command:
 
     ```bash
-    cd rails-6-test-app
+    cd rails-6-test-app-2020
     ```
 
     When you run this command, RVM should print a message like the following, which lets you know it's working. Note that this message appears only after the _first_ time you `cd` into a new project.
@@ -95,25 +95,12 @@ Next, we will install the Ruby and JS package dependencies for the project.
 
 ## 3. Setting Up the Database Backend
 
-Next, we will add the configuration necessary to enable the test app to use our Postgres database, and we will initialize the database for the project.
-
-1. Open the `rails-6-test-app` in VSCode by running the following command in the `rails-6-test-app` directory:
-
-    ```bash
-    code .
-    ```
-
-1. From VSCode, create a copy of the `.env.sample` file named `.env`. Edit the `.env` file to use your username and password. This will need to be set correctly for every Rails project you work on. This file should look something like:
-
-    ```text
-    export DB_USERNAME=kbridson
-    export DB_PASSWORD=password1
-    ```
+Next, we will initialize the database for the project.
 
 1. Wipe and reset the database to be used by this Rails app by entering the following command:
 
     ```bash
-    rails db:reset
+    rails db:migrate:reset db:seed
     ```
 
 ## 4. Running the Project
@@ -148,27 +135,36 @@ We should now be able to run the project. We will first run the project's automa
 
     1. Add questions to the quiz by clicking to `Edit Quiz` link.
 
-## 5. Inspecting the Database
+## 5. Inspecting the Database with pgAdmin
 
 Verify that the Postgres DBMS running on the server is accessible and that the app's database is configured as expected.
 
-1. Add a Server with the following configuration:
+1. Launch pgAdmin 4, entering your pgAdmin password when prompted.
 
-    | OS | Field | Value | Explanation |
-    | ----- | ----- | ----- | ----- |
-    | {% include all-badge.html %} | Name | `SoftwareEng` | Just a made-up name for this Postgres database. |
-    | {% include all-badge.html %} | Hostname/address | `localhost` | Tells pgAdmin that the database is running on this machine. |
-    | {% include all-badge.html %} | Port | `5432` | The port on which Postgres listens. |
-    | {% include all-badge.html %} | User | `homer` | Replace with your username on the system. |
-    | {% include windows-linux-badge.html %} | Password | `password1` | Replace with your password on the system. |
-    | {% include macos-badge.html %} | Password | | Leave blank on macOS. |
+1. Add a new Server by first making the following selection:
 
-    &nbsp; 
+    `Object` > `Create` > `Server...`
 
-1. In the left sidebar, go navigate as follows:
+1. Next, set the following configuration fields for the new server:
+
+    | Field | Value | Explanation |
+    | ----- | ----- | ----- |
+    | Name | `SoftwareEng` | Just a made-up name for this Postgres database. |
+    | Hostname/address | `localhost` | Tells pgAdmin that the database service is running on this machine. |
+    | Port | `5432` | The port on which the Postgres service listens. |
+    | User | `homer` | Your Unix username on the system. Replace `homer` with your actual username. |
+    | Password | `password1` | The Postgres password for your username. Replace `password1` with the password you entered when configuring Postgres in the [previous demo]({% include page_url.html page_name='demo-dev-env.md' %}). |
+
+    Once you've entered these data, click `Save`.
+
+1. Inspect the demo web app's databases by performing the following steps. In the left sidebar, navigate as follows:
 
     `Servers` > `SoftwareEng` > `Databases` > `default_development` > `Schemas` > `public` > `Tables`
 
     Right click on `quizzes` and go to `View/Edit Data` > `All Rows`.
 
     You should see the Data Output panel in the bottom right corner of the screen showing information about all the quizzes in the application.
+
+As we begin developing the demo app, using pgAdmin in this way can be very useful for verifying that our app databases are being configured properly and for debugging problems.
+
+{% include pagination.html prev_page='demo-dev-env.md' next_page='demo-new-rails-project.md' %}
