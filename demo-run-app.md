@@ -93,7 +93,7 @@ Next, we will install the Ruby and JS package dependencies for the project.
     yarn install
     ```
 
-## 3. Setting Up the Database Back End
+## 3. Setting Up the Database Backend
 
 Next, we will add the configuration necessary to enable the test app to use our Postgres database, and we will initialize the database for the project.
 
