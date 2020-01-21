@@ -122,7 +122,7 @@ Modern full-stack development platforms have numerous library and tool dependenc
     1. Download the custom theme by entering this command:
 
         ```bash
-        curl --fail --silent --show-error --location --output ~/.oh-my-zsh/custom/themes/sdflem.zsh-theme https://human-se.github.io/rails-demos-n-deets-2020/resources/sdflem.zsh-theme
+        curl -fsSL --output ~/.oh-my-zsh/custom/themes/sdflem.zsh-theme https://human-se.github.io/rails-demos-n-deets-2020/resources/sdflem.zsh-theme
         ```
 
     1. Open the Z Shell configuration file `.zshrc` in VS Code by entering this command:
@@ -478,6 +478,12 @@ Rails is packaged as a gem that must be installed in order to create, run, etc. 
         brew install postgresql
         ```
 
+    1. Update the Postgres security settings by running the following command:
+
+        ```bash
+        curl -fsSL --output /usr/local/var/postgres/pg_hba.conf https://human-se.github.io/rails-demos-n-deets-2020/resources/pg_hba.conf
+        ```
+
     1. Start the Postgres service by running:
 
         ```bash
@@ -490,7 +496,7 @@ Rails is packaged as a gem that must be installed in order to create, run, etc. 
         brew services stop postgresql
         ```
 
-    1. Set a password for your Postgres username by running:
+    1. Set a password for your Postgres username (same as your Unix username) by running:
 
         ```bash
         psql postgres
