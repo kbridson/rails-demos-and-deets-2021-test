@@ -133,7 +133,7 @@
   <li>
     <p><span class="badge badge-info" style="font-size: 1rem">macOS ⇨</span> Install using Homebrew by entering this command:</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  brew cask <span class="nb">install </span>vscode
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  brew cask <span class="nb">install </span>visual-studio-code
 </code></pre></div>    </div>
   </li>
 </ul>
@@ -179,13 +179,28 @@
 
 <ul>
   <li>
-    <p><span class="badge badge-primary" style="font-size: 1rem">All ⇨</span> Make Z Shell the default shell by following these steps.</p>
+    <p><span class="badge badge-success" style="font-size: 1rem">Windows/Linux ⇨</span> Make Z Shell the default shell by following these steps.</p>
 
     <ol>
       <li>
         <p>Set Z Shell as the default shell by entering the following command, except replacing <code class="highlighter-rouge">homer</code> with your username:</p>
 
         <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>chsh homer <span class="nt">-s</span> /usr/bin/zsh
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>Quit and relaunch the terminal app to make the new settings take effect.</p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><span class="badge badge-info" style="font-size: 1rem">macOS ⇨</span> Make Z Shell the default shell by following these steps.</p>
+
+    <ol>
+      <li>
+        <p>Set Z Shell as the default shell by entering the following command, except replacing <code class="highlighter-rouge">homer</code> with your username:</p>
+
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>chpass <span class="nt">-s</span> /usr/local/bin/zsh homer
 </code></pre></div>        </div>
       </li>
       <li>
@@ -446,7 +461,7 @@
   <li>
     <p><span class="badge badge-primary" style="font-size: 1rem">All ⇨</span> Install RVM by running the following commands:</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  gpg <span class="nt">--keyserver</span> hkp://keys.gnupg.net <span class="nt">--recv-keys</span> 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  gpg <span class="nt">--keyserver</span> hkp://pool.sks-keyservers.net <span class="nt">--recv-keys</span> 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
   curl <span class="nt">-sSL</span> https://get.rvm.io | bash <span class="nt">-s</span> stable
   <span class="nb">source</span> ~/.rvm/scripts/rvm
 </code></pre></div>    </div>
@@ -489,7 +504,7 @@
 </code></pre></div>    </div>
   </li>
   <li>
-    <p><span class="badge badge-success" style="font-size: 1rem">Windows ⇨</span> If the previous command times out because RVM cannot connect to <code class="highlighter-rouge">rubygems.org</code>, try restarting the computer and rerunning the command. If it still doesn’t work, the problem may be with IPv6 connections to <code class="highlighter-rouge">rubygems.org</code>. Force IPv4 connections to <code class="highlighter-rouge">rubygems.org</code> by following these steps and then trying the command again:</p>
+    <p><span class="badge badge-success" style="font-size: 1rem">Windows ⇨</span> If the previous command times out because RVM cannot connect to <code class="highlighter-rouge">rubygems.org</code>, try restarting the computer and rerunning the command. If it still doesn’t work, the problem may be with IPv6 connections to <code class="highlighter-rouge">rubygems.org</code>. Force IPv4 connections to <code class="highlighter-rouge">rubygems.org</code> by following these steps <strong>and then trying the command again</strong>:</p>
 
     <ol>
       <li>
@@ -553,10 +568,10 @@
       <li>
         <p>Install the Postgres packages by running:</p>
 
-        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>apt <span class="nt">-y</span> <span class="nb">install </span>postgresql-12 postgresql-client-12
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>apt <span class="nt">-y</span> <span class="nb">install </span>postgresql-12 postgresql-client-12 libpq-dev
 </code></pre></div>        </div>
 
-        <p>If the <code class="highlighter-rouge">postgresql-12</code> package cannot be found, follow these additional steps, and then try the above command again:</p>
+        <p>If the <code class="highlighter-rouge">postgresql-12</code> package cannot be found, follow these additional steps, <strong>and then try the above command again</strong>:</p>
 
         <ol>
           <li>
@@ -566,6 +581,8 @@
  deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
 </span><span class="no"> END
 </span></code></pre></div>            </div>
+
+            <p>Be careful when you copy and paste the above command that you do not get an extra space before the <code class="highlighter-rouge">END</code> line.</p>
           </li>
           <li>
             <p>Get the signing key and import it by running:</p>
