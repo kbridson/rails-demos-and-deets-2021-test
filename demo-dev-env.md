@@ -8,7 +8,7 @@ In this demonstration, I will show how to set up the development environment use
 
 - {% include windows-badge.html %} As Windows is not a Unix-based OS, we will use the [Windows Subsystem for Linux (WSL)](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux) to provide an [Ubuntu Linux](https://en.wikipedia.org/wiki/Ubuntu) environment (which is Unix-like).
 
-- {% include macOS-badge.html %} As [macOS](https://en.wikipedia.org/wiki/MacOS) is already a Unix-based OS, we will simply use it as-is.
+- {% include macos-badge.html %} As [macOS](https://en.wikipedia.org/wiki/MacOS) is already a Unix-based OS, we will simply use it as-is.
 
 - {% include linux-badge.html %} Although Linux is already a Unix-like OS, there are numerous different distros, which can complicate things. The demos were written with [Ubuntu Linux](https://en.wikipedia.org/wiki/Ubuntu) in mind; however, other [Debian](https://en.wikipedia.org/wiki/Debian)-based distros may also work.
 
@@ -312,7 +312,7 @@ Modern web [frontend](https://en.wikipedia.org/wiki/Front_and_back_ends) code ma
 - {% include all-badge.html %} Install RVM by running the following commands:
 
     ```bash
-    gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+    gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
     curl -sSL https://get.rvm.io | bash -s stable
     source ~/.rvm/scripts/rvm
     ```

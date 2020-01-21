@@ -4,43 +4,21 @@ title: 'Setting Up a New Rails Project'
 
 # {{ page.title }}
 
-In this demonstration, I will show you how to create and setup a new Rails 6 project. The application I will create in these tutorials is QuizMe, a quizzing application similar to [Quizlet](https://quizlet.com/), but with multiple choice and fill in the blank questions.
+In this demonstration, I will show you how to create and setup a new Rails 6 project. The application I will create in these tutorials is QuizMe, a quizzing application similar to [Quizlet](https://quizlet.com/).
 
-This and all future demos will assume you are starting in the `workspace` folder on your Linux VM.
+This and all future demos will assume you are starting in the `workspace` directory.
 
 ## 1. Creating a New Rails Project
 
-<div class="video-container">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/vIMQ2FpUJV0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+{% include video.html url="https://www.youtube.com/embed/vIMQ2FpUJV0" %}
 
-1. Set up RVM to use Ruby version 2.6.3 as the default version by running the following command:
+1. Check that RVM is set up to use the correct Ruby version by running the following command:
 
-    ```bash
-    rvm use ruby-2.6.3 --default
-    ```
-
-    You can check that this has worked correctly by running the following command:
-  
     ```bash
     rvm list
     ```
   
-    Verify that `=*` appears next to version 2.6.3, indicating that it is both the current and default version of Ruby.
-
-1. Install the Rails 6 gem using the following command:
-
-    ```bash
-    gem install rails
-    ```
-
-    Verify that the correct version was installed by running the following command:
-
-    ```bash
-    rails -v
-    ```
-
-    Verify that the output is `Rails 6.0.0`.
+    The `=*` should appear next to version 2.6.5, indicating that it is both the current and default version of Ruby.
 
 1. Create a new Rails project backed by a PostgreSQL database by entering the following command:
 
@@ -65,12 +43,12 @@ This and all future demos will assume you are starting in the `workspace` folder
     </p>
     </div>
 
-1. Open the `quiz-me` project folder in VS Code and familiarize yourself with the directory structure.
+1. Open the `quiz-me` project folder in VS Code (using the command `code quiz-me`) and familiarize yourself with the Rails project directory structure.
 
-1. Change directory into the `quiz-me` folder (`cd quiz-me`), and create a new project-specific gemset by running the following command:
+1. In the terminal, change directory into the `quiz-me` folder (`cd quiz-me`), and create a new project-specific gemset by running the following command:
 
     ```bash
-    rvm use ruby-2.6.3@quiz-me --ruby-version --create
+    rvm use ruby-2.6.5@quiz-me --ruby-version --create
     ```
 
     This command will create two files, `.ruby-gemset` and `.ruby-version`, if they do not already exist to store the Ruby version and gemset information for RVM.
@@ -96,66 +74,26 @@ This and all future demos will assume you are starting in the `workspace` folder
     bundle install
     ```
 
-## 2. Creating a PostgreSQL Database for the New Rails Project
+## 2. Configuring PostgreSQL Databases for the New Rails Project
 
-<div class="video-container">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/JKc52mCNok8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+{% include video.html url="https://www.youtube.com/embed/JKc52mCNok8" %}
 
 1. Open the file `config/database.yml`. This file contains the connection information for the project's three PostgreSQL databases. Rails uses three environments (development, test, and production), each with their own separate databases.
 
-1. Create the three PostgreSQL databases with the names specified in the `database.yml` file by running the following commands:
+1. Comment out the preset username and password on the production database to match the following:
 
-    ```bash
-    sudo -i -u postgres psql -c "CREATE DATABASE quiz_me_development OWNER vagrant;"
-    sudo -i -u postgres psql -c "CREATE DATABASE quiz_me_test OWNER vagrant;"
-    sudo -i -u postgres psql -c "CREATE DATABASE quiz_me_production OWNER vagrant;"
+    ```yaml
+    production:
+    <<: *default
+    database: quiz_me_production
+    # username: quiz_me
+    # password: <%= ENV['QUIZ_ME_DATABASE_PASSWORD'] %>
     ```
-
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails2-2" role="button" aria-expanded="false" aria-controls="moreDetails2-2">More details...▼</a></small></span>
-
-    <div class="collapse" id="moreDetails2-2">
-    <p class="text-muted mr-3 ml-3">
-    The above commands can be adapted for any project by following the below template and changing the values of the variable <code>PG_DB_ROOT</code> with the appropriate information for the project. The first two psql commands only need to be run once on a system:
-
-    <code class="d-block pl-3 pr-3 bg-light">PG_USER="vagrant"</code>
-    <code class="d-block pl-3 pr-3 bg-light">PG_PSWD="password1"</code>
-    <code class="d-block pl-3 pr-3 bg-light">PG_DB_ROOT="default"</code>
-    <code class="d-block pl-3 pr-3 bg-light">sudo -i -u postgres psql -c "CREATE USER $PG_USER WITH PASSWORD '$PG_PSWD';"</code>
-    <code class="d-block pl-3 pr-3 bg-light">sudo -i -u postgres psql -c "ALTER USER $PG_USER WITH SUPERUSER CREATEDB;"</code>
-    <code class="d-block pl-3 pr-3 bg-light">sudo -i -u postgres psql -c "CREATE DATABASE ${PG_DB_ROOT}_development OWNER $PG_USER;"</code>
-    <code class="d-block pl-3 pr-3 bg-light">sudo -i -u postgres psql -c "CREATE DATABASE ${PG_DB_ROOT}_test OWNER $PG_USER;"</code>
-    <code class="d-block pl-3 pr-3 bg-light">sudo -i -u postgres psql -c "CREATE DATABASE ${PG_DB_ROOT}_production OWNER $PG_USER;"</code>
-    </p>
-    </div>
-
-1. Make the following changes to the `database.yml` file:
-    - Add username and password to the default configuration to match the following:
-
-      ```yaml
-      default: &default
-        adapter: postgresql
-        encoding: unicode
-        # For details on connection pooling, see Rails configuration guide
-        # https://guides.rubyonrails.org/configuring.html#database-pooling
-        pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-        username: vagrant
-        password: password1
-      ```
-
-    - Comment out the preset username and password on the production database to match the following:
-
-      ```yaml
-      production:
-        <<: *default
-        database: quiz_me_production
-        # username: quiz_me
-        # password: <%= ENV['QUIZ_ME_DATABASE_PASSWORD'] %>
-      ```
 
 1. Confirm the database configuration is correct by running the following commands:
 
     ```bash
-    rails db:migrate
-    rails db:reset
+    rails db:migrate:reset
     ```
+
+    It should complete without errors. Possible issues might be the postgresql service is not running, or the Postgres user role was not set up correctly.
