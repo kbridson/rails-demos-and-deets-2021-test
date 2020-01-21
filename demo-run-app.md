@@ -115,15 +115,21 @@ We should now be able to run the project. We will first run the project's automa
 
     You should see that all the tests passed.
 
-1. Start up the Rails web app server by entering the following command (those are zeros):
+1. Start up the Rails web app server by entering the following command:
 
     ```bash
-    rails s -b 0.0.0.0
+    rails s
     ```
 
     You should see that the server has started without error. Note that this command will not "return" like other commands—that is, the command prompt will not reappear until you halt the server process (covered below).
 
-1. Now open the URL <http://localhost:3000> in a web browser. You should see a "Welcome to Quiz Maker" web page with a list of quizzes.
+    Note that the `s` in the above command is short for `server`, and the command can alternatively be entered as follows:
+
+    ```bash
+    rails server
+    ```
+
+1. Open the URL <http://localhost:3000> in a web browser. You should see a "QuizMaker" web app with a list of quizzes.
 
 1. Further test out the web app by logging in and creating a quiz:
 
