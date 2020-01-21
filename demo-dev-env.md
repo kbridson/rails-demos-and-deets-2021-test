@@ -63,7 +63,7 @@ Modern full-stack development platforms have numerous library and tool dependenc
 - {% include macos-badge.html %} Install using Homebrew by entering this command:
 
     ```bash
-    brew cask install vscode
+    brew cask install visual-studio-code
     ```
 
 ### 4.2. VS Code Extensions
