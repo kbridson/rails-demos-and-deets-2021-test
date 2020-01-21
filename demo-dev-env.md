@@ -122,7 +122,7 @@ Modern full-stack development platforms have numerous library and tool dependenc
     1. Download the custom theme by entering this command:
 
         ```bash
-        curl --fail --silent --show-error --location --output ~/.oh-my-zsh/custom/themes/sdflem.zsh-theme {{ '/resources/sdflem.zsh-theme' | absolute_url }}
+        curl --fail --silent --show-error --location --output ~/.oh-my-zsh/custom/themes/sdflem.zsh-theme https://human-se.github.io/rails-demos-n-deets-2020/resources/sdflem.zsh-theme
         ```
 
     1. Open the Z Shell configuration file `.zshrc` in VS Code by entering this command:
