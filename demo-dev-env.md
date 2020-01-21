@@ -349,7 +349,7 @@ As the name suggests, Rails is built using the [Ruby Programming Language](https
     rvm @global do gem install bundler
     ```
 
-- {% include windows-badge.html %} If the previous command times out because RVM cannot connect to `rubygems.org`, try restarting the computer and rerunning the command. If it still doesn't work, the problem may be with IPv6 connections to `rubygems.org`. Force IPv4 connections to `rubygems.org` by following these steps and then trying the command again:
+- {% include windows-badge.html %} If the previous command times out because RVM cannot connect to `rubygems.org`, try restarting the computer and rerunning the command. If it still doesn't work, the problem may be with IPv6 connections to `rubygems.org`. Force IPv4 connections to `rubygems.org` by following these steps **and then trying the command again**:
 
     1. Edit the /etc/gai.conf file by running:
 
@@ -402,10 +402,10 @@ Rails is packaged as a gem that must be installed in order to create, run, etc. 
     1. Install the Postgres packages by running:
 
         ```bash
-        sudo apt -y install postgresql-12 postgresql-client-12
+        sudo apt -y install postgresql-12 postgresql-client-12 libpq-dev
         ```
 
-        If the `postgresql-12` package cannot be found, follow these additional steps, and then try the above command again:
+        If the `postgresql-12` package cannot be found, follow these additional steps, **and then try the above command again**:
 
         1. Add the repository by running:
 
@@ -414,6 +414,8 @@ Rails is packaged as a gem that must be installed in order to create, run, etc. 
             deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
             END
             ```
+
+            Be careful when you copy and paste the above command that you do not get an extra space before the `END` line.
 
         1. Get the signing key and import it by running:
 
