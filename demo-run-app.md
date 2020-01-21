@@ -137,8 +137,6 @@ We should now be able to run the project. We will first run the project's automa
 
     1. Click the `Create New Quiz` link and enter a title and description for a quiz.
 
-    1. In your pgAdmin browser window, you can see the new quiz in the database by hitting the refresh button (F5 or the lightning bolt button).
-
     1. Add questions to the quiz by clicking to `Edit Quiz` link.
 
 ## 5. Inspecting the Database with pgAdmin
