@@ -85,8 +85,8 @@ Modern full-stack development platforms have numerous library and tool dependenc
 - {% include windows-linux-badge.html %} Install Z Shell using APT by entering the following commands:
 
     ```bash
-    sudo apt-get update
-    sudo apt-get install zsh
+    sudo apt update
+    sudo apt install zsh
     ```
 
 - {% include macos-badge.html %} Install Z Shell using Homebrew by entering the following command:
@@ -274,8 +274,8 @@ Modern web [front-end](https://en.wikipedia.org/wiki/Front_and_back_ends) code m
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 
-    sudo apt-get update
-    sudo apt-get install zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libffi-dev nodejs yarn
+    sudo apt update
+    sudo apt install zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libffi-dev nodejs yarn
     ```
 
 - {% include macos-badge.html %} Install Node.js and Yarn by running the following commands:
@@ -294,7 +294,7 @@ Modern web [front-end](https://en.wikipedia.org/wiki/Front_and_back_ends) code m
 - {% include windows-linux-badge.html %} First, install several of RVM's dependencies by entering this command:
 
     ```bash
-    sudo apt-get install libgdbm-dev libncurses5-dev automake libtool bison libffi-dev
+    sudo apt install libgdbm-dev libncurses5-dev automake libtool bison libffi-dev
     ```
 
 - {% include macos-badge.html %} First, install an RVM installer dependency by entering this command:
@@ -391,7 +391,7 @@ Rails is packaged as a gem that must be installed in order to create, run, etc. 
 
 ## 12. Postgres
 
-[Postgres](https://en.wikipedia.org/wiki/PostgreSQL) is a popular database management system. The demo Rails project will use Postgres as its database [back end](https://en.wikipedia.org/wiki/Front_and_back_ends).
+[Postgres](https://en.wikipedia.org/wiki/PostgreSQL) is a popular database management system. The demo Rails project will use Postgres as its database [backend](https://en.wikipedia.org/wiki/Front_and_back_ends).
 
 - {% include windows-linux-badge.html %} Install Postgres by following these steps:
 
@@ -421,7 +421,7 @@ Rails is packaged as a gem that must be installed in order to create, run, etc. 
         1. Fetch the metadata from the new repo by running:
 
             ```bash
-            sudo apt-get update
+            sudo apt update
             ```
 
     1. Start the Postgres service by running:
@@ -430,7 +430,7 @@ Rails is packaged as a gem that must be installed in order to create, run, etc. 
         sudo service postgresql start
         ```
 
-        For Windows/WSL users, the `postgresql` service will generally stay on, but you may sometimes discover that it has been halted. (We're not always sure why this happens.) To restart the service, simply rerun the above command. If in doubt, you can check the status of the service by running this command:
+        For Windows/WSL users, the `postgresql` service will generally stay on, but you may sometimes discover that it has been halted (e.g., rebooting Windows may cause the service to halt). To restart the service, simply rerun the above command. If in doubt, you can check the status of the service by running this command:
 
         ```bash
         sudo service postgresql status
