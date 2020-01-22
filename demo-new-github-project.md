@@ -53,4 +53,6 @@ In this demonstration, I will show you how to create and upload an existing proj
 
 1. Verify that the push was successful by refreshing the Github project page, which should now display the project file structure.
 
+The project repository is now hosted on GitHub!
+
 {% include pagination.html prev_page='demo-new-rails-project.md' %}
