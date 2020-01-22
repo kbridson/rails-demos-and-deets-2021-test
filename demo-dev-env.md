@@ -339,7 +339,7 @@ As the name suggests, Rails is built using the [Ruby Programming Language](https
 
     ```bash
     rvm install 2.6.5
-    rvm use 2.6.5@global --default --create
+    rvm use 2.6.5 --default
     ruby -v
     ```
 
