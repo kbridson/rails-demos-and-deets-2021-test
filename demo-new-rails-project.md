@@ -100,5 +100,20 @@ This and all future demos will assume you are starting in the `workspace` direct
 
     It should complete without errors. Possible issues might be the postgresql service is not running, or the Postgres user role was not set up correctly.
 
+## 3. Run the App
+
+1. Start the development web server by running this command:
+
+    ```bash
+    rails s
+    ```
+
+1. Open the web app in a browser by opening this URL: <http://localhost:3000/>
+
+    You should see a "Yay! You’re on Rails!" default page.
+
+    The basic Rails project skeleton is now up and running!
+
+1. To halt the development web server, enter Ctrl-C in the terminal.
 
 {% include pagination.html prev_page='demo-run-app.md' next_page='demo-new-github-project.md' %}

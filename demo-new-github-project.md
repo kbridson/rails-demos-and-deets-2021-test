@@ -6,22 +6,11 @@ title: 'Setting Up a New Github Project Repository'
 
 In this demonstration, I will show you how to create and upload an existing project to a new Github repository.
 
-<div class="video-container">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/9mViBwYb8HI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
-
 1. Log in to Github (<https://www.github.com/>) with the username and password you previously created.
 
 1. From the homepage, click on `New` under the Repositories heading in the left sidebar panel.
 
 1. In the `Create a new repository` form, enter a repository name. Usually this will be the same as the project folder name. For this project, the repository name should be "`quiz-me`". Then, click the `Create repository` button, and you will be taken to the main page for your new empty repository.
-
-1. Set up your Github account information globally for your VM by entering the following commands, replacing the variables (beginning with `$`) with your information:
-
-    ```bash
-    git config --global user.name "$FIRST_NAME $LAST_NAME"
-    git config --global user.email "$GITHUB_EMAIL"
-    ```
 
 1. Create an initial project commit (a snapshot of the current project state) by entering the following commands:
 
@@ -62,5 +51,6 @@ In this demonstration, I will show you how to create and upload an existing proj
     </p>
     </div>
 
-
 1. Verify that the push was successful by refreshing the Github project page, which should now display the project file structure.
+
+{% include pagination.html prev_page='demo-new-rails-project.md' %}
