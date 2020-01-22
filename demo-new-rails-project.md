@@ -10,8 +10,6 @@ This and all future demos will assume you are starting in the `workspace` direct
 
 ## 1. Creating a New Rails Project
 
-{% include video.html url="https://www.youtube.com/embed/vIMQ2FpUJV0" %}
-
 1. Check that RVM is set up to use the correct Ruby version by running the following command:
 
     ```bash
@@ -82,8 +80,6 @@ This and all future demos will assume you are starting in the `workspace` direct
 
 ## 2. Configuring PostgreSQL Databases for the New Rails Project
 
-{% include video.html url="https://www.youtube.com/embed/JKc52mCNok8" %}
-
 1. Open the file `config/database.yml`. This file contains the connection information for the project's three PostgreSQL databases. Rails uses three environments (development, test, and production), each with their own separate databases.
 
 1. Comment out the preset username and password on the production database to match the following:
@@ -103,3 +99,6 @@ This and all future demos will assume you are starting in the `workspace` direct
     ```
 
     It should complete without errors. Possible issues might be the postgresql service is not running, or the Postgres user role was not set up correctly.
+
+
+{% include pagination.html prev_page='demo-run-app.md' next_page='demo-new-github-project.md' %}
