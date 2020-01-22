@@ -53,6 +53,12 @@ This and all future demos will assume you are starting in the `workspace` direct
 
     This command will create two files, `.ruby-gemset` and `.ruby-version`, if they do not already exist to store the Ruby version and gemset information for RVM.
 
+1. The previous command also creates a backup file that looks similar to this: `.ruby-version.01.22.2020-09:48:07`. This file should be removed, because the colons in the filename can cause problems on some OSs. To remove the file, run this command:
+
+    ```bash
+    rm ./.ruby-version.*
+    ```
+
 1. Open the file `Gemfile` in the top level of the `quiz-me` folder. This file declares all the gems required for the project. Another package is needed to ensure that PosgreSQL works correctly as the project's database backend. To add the package insert the following code lines at the end of the file:
 
     ```ruby
