@@ -55,4 +55,4 @@ In this demonstration, I will show you how to create and upload an existing proj
 
 The project repository is now hosted on GitHub!
 
-{% include pagination.html prev_page='demo-new-rails-project.md' %}
+{% include pagination.html prev_page='demo-new-rails-project.md' next_page='demo-static-pages.md' %}

@@ -8,6 +8,8 @@ demos_sections:
   - heading: Creating Simple Web Pages and Forms
     links:
       - demo-static-pages.md
+      - demo-images.md
+      - demo-links.md
       - demo-rendering-data.md
       - demo-simple-forms.md
   - heading: Storing and Retrieving Data via the Model

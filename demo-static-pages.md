@@ -1,25 +1,16 @@
 ---
-title: 'Adding (Mostly Static) View Pages in Rails'
+title: 'Adding (Mostly Static) Webpages'
 ---
 
 # {{ page.title }}
 
-In this demonstration, I will show how to create mostly static webpages in Rails. I will continue to work on the _QuizMe_ project from the previous demos.
+In this demonstration, I will show how to create mostly static webpages in Rails. We will continue to build upon the _QuizMe_ project from the previous demos.
 
-## 1. Adding a New Page
+## 1. Adding a Welcome Page
 
-<div class="video-container">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/T5TcOyo4ocs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+We will start by making the welcome page depicted in Figure 1.
 
-We will start by making the welcome page depicted in Fig. 1.
-
-<div class="figure-container mx-auto my-4" style="max-width: 960px;">
-<figure class="figure">
-<img src="{{ site.baseurl }}/resources/welcome-page.png" class="figure-img img-fluid rounded" alt="A web page that welcomes users to the QuizMe application.">
-<figcaption class="figure-caption">Fig 1. The QuizMe welcome page.</figcaption>
-</figure>
-</div>
+{% include image.html file="welcome-page.png" alt=" web page that welcomes users to the QuizMe application" caption="Figure 1. The QuizMe welcome page." %}
 
 Based on the Rails MVC model, there are three things needed to set up a page in a Rails project. You need (1) a controller action (a public method inside a controller class) which renders (2) an `html.erb` view file containing the html code for the page. You also need (3) a route in the `routes.rb` file which links the URL for the page with the controller action.
 
@@ -49,7 +40,7 @@ Based on the Rails MVC model, there are three things needed to set up a page in 
     </p>
     </div>
 
-1. Looking at the `app/config/routes.rb` file, a GET (as in HTTP GET request) route to `'static_pages/welcome'` has been created, meaning the URL for the page would be <http://localhost:3000/static_pages/welcome>. Instead, make the route point to <http://localhost:3000/welcome> by editing it as follows:
+1. Looking at the `app/config/routes.rb` file, a `get` (as in HTTP GET request) route to `'static_pages/welcome'` has been created, meaning the URL for the page would be <http://localhost:3000/static_pages/welcome>. Instead, make the route point to <http://localhost:3000/welcome> by editing it as follows:
 
     ```ruby
     get 'welcome', to: 'static_pages#welcome', as: 'welcome'
@@ -69,7 +60,7 @@ Based on the Rails MVC model, there are three things needed to set up a page in 
     </p>
     </div>
 
-1. Verify that he page displays properly by starting the Rails server (`rails s -b 0.0.0.0`) and navigating to <http://localhost:3000/welcome>. You should see some automatically generated text telling you what controller, controller action, and view file were used.
+1. Verify that he page displays properly by starting the Rails server (`rails s`) and navigating to <http://localhost:3000/welcome>. You should see some automatically generated text telling you what controller, controller action, and view file were used.
 
     As we begin customizing the this text, you can keep the Rails server running, reloading the page to view changes as you make them.
 
@@ -134,45 +125,7 @@ Based on the Rails MVC model, there are three things needed to set up a page in 
     </p>
     </div>
 
-## 2. Adding an Image to a View Using Rails Helpers
-
-<div class="video-container">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/aPuB7UZaB7E" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
-
-Webpages with only unstyled text are not very nice to look at, so for now, we will add a little color with the [quiz graphic]({{ site.baseurl }}/resources/quiz-bubble.png) depicted in Fig. 2. We will add additional style formatting to the app later.
-
-<div class="figure-container mx-auto my-4" style="max-width: 698px;">
-<figure class="figure">
-<img src="{{ site.baseurl }}/resources/quiz-bubble.png" class="figure-img img-fluid rounded" alt="A colorful graphic of the word quiz.">
-<figcaption class="figure-caption">Fig 2. A quiz graphic.</figcaption>
-</figure>
-</div>
-
-1. Start by downloading the image file using the link above and save it to the project's `app/assets/images` folder. All files in the `assets` directory get compiled by the server and require Rails helper methods to reference the correct file.
-
-1. Add the image to the page using the `image_tag` helper method by adding the following code to the top of the `welcome.html.erb` file:
-
-    ```erb
-    <%= image_tag "quiz-bubble.png", height: 300 %>
-    ```
-
-    <span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails2-2" role="button" aria-expanded="false" aria-controls="moreDetails2-2">More details about this code...▼</a></small></span>
-
-    <div class="collapse" id="moreDetails2-2">
-    <p class="text-muted mr-3 ml-3">
-    The original size of the image is about 700x480px. You can scale it down but keep the original aspect ratio by setting only the height or the width argument. The values are in pixels.
-    </p>
-    <p class="text-muted mr-3 ml-3">
-    The `html.erb` file is used to render plain old HTML code to be sent in HTTP responses. To render the response HTML, each line in the `html.erb` is written into the response. The <code>&lt;% %&gt;</code> and <code>&lt;%= %&gt;</code> tags are exceptions. Both contain Ruby code. Rather than writing these tags and their Ruby code to the response, the Ruby code is instead executed when the line would have otherwise been written. This capability is useful, for example, for conditionally generating HTML code to be written to the response. The <code>&lt;%= %&gt;</code> tag additionally writes the value returned by the Ruby code into the HTML response.
-    </p>
-    </div>
-
-## 3. Adding Another Page
-
-<div class="video-container">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/eHxwNgmzfwA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+## 2. Adding an About Page
 
 Before we begin adding hyperlinks, we will add an additional _About_ page (to which we can link).
 
@@ -204,58 +157,4 @@ Before we begin adding hyperlinks, we will add an additional _About_ page (to wh
 
     Navigate to the new page using the URL and make sure it displays correctly.
 
-## 4. Adding Links to a View Using Rails Helpers
-
-<div class="video-container">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/-rJTIkqEkEs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
-
-Instead of using the anchor (`<a>`) HTML tags for links, Rails provides the `link_to` helper to add links. Remember, Ruby code in the views must be enclosed in a `<% %>` or a `<%= %>` tag.
-
-We will first add a link to an external website and then add one to another page within the web app.
-
-1. Using the `link_to` helper, add a hyperlink on the word "Quizlet" to the Quizlet homepage by editing the QuizMe app description in `welcome.html.erb` as follows:
-
-    ```erb
-    <p>
-      QuizMe is a free <%= link_to "Quizlet", "https://quizlet.com", target: "_blank" %> style quizzing application that helps you learn by taking quizzes and trying to improve your scores.
-    </p>
-    ```
-
-    The `link_to` helper takes as arguments the text you want to display, the link destination, and any additional HTML attributes you want to add.
-
-1. Now that we have more than one page in the app, we will add links between the pages, so users aren't forced to enter the URL every time they want to switch pages. Add the links by using the named route helpers (recall the `as` route arguments) in combination with the `link_to` helper as follows:
-
-    - Add a link to the About page at the bottom of the Welcome page by adding this code to `welcome.html.erb`:
-
-      ```erb
-      <p><%= link_to "About", about_path %></p>
-      ```
-
-    - Add a link to the Welcome page at the bottom of the About page by adding this code to `about.html.erb`:
-
-      ```erb
-      <p><%= link_to 'Welcome', welcome_path %></p>
-      ```
-
-    Reload the page and confirm the links on both pages work correctly.
-
-## 5. Adding a Root Route
-
-<div class="video-container">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/jRKjzQqAA8Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
-
-If you navigate to the site's root (<http://localhost:3000>), you'll notice that it still has the old default Rails project page. We probably want this to be something more useful for our app, like the Welcome page. We can change what root routes to by adding the following code at the top of the `config/routes.rb` file:
-
-```ruby
-root to: redirect('/welcome', status: 302)
-```
-
-<span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails5-0" role="button" aria-expanded="false" aria-controls="moreDetails5-0">More details about this code...▼</a></small></span>
-
-<div class="collapse" id="moreDetails5-0">
-<p class="text-muted mr-3 ml-3">
-This statement means that whenever someone tries to go to <code>http://localhost:3000</code> they are automatically redirected to the Welcome page URL via the route we previously made. If you didn't want to have a separate URL for the Welcome page, you could point root directly to the controller action with <code>root to: 'static_pages#welcome'</code> and remove original welcome route. Then, in the <code>link_to</code> statement, you would use the <code>root_path</code> helper instead of <code>welcome_path</code>.
-</p>
-</div>
+{% include pagination.html prev_page='demo-new-github-project.md' next_page='demo-images.md' %}
