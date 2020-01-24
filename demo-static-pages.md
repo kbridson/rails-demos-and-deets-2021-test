@@ -8,9 +8,9 @@ In this demonstration, I will show how to create mostly static webpages in Rails
 
 ## 1. Adding a Welcome Page
 
-We will start by making the welcome page depicted in Figure 1.
+We will start by making the Welcome page depicted in Figure 1.
 
-{% include image.html file="welcome-page.png" alt=" web page that welcomes users to the QuizMe application" caption="Figure 1. The QuizMe welcome page." %}
+{% include image.html file="welcome-page.png" alt="A web page that welcomes users to the QuizMe application" caption="Figure 1. The QuizMe Welcome page." %}
 
 Based on the Rails MVC model, there are three things needed to set up a page in a Rails project. You need (1) a controller action (a public method inside a controller class) which renders (2) an `html.erb` view file containing the html code for the page. You also need (3) a route in the `routes.rb` file which links the URL for the page with the controller action.
 
@@ -64,7 +64,7 @@ Based on the Rails MVC model, there are three things needed to set up a page in 
 
     As we begin customizing the this text, you can keep the Rails server running, reloading the page to view changes as you make them.
 
-1. Start by replacing the generated text with a large heading that says "Welcome to QuizMe!", using the following code:
+1. Start by replacing the generated text in `app/views/static_pages/welcome.html.erb` with a large heading that says "Welcome to QuizMe!", using the following code:
 
     ```html
     <h1>Welcome to QuizMe!</h1>
@@ -125,9 +125,15 @@ Based on the Rails MVC model, there are three things needed to set up a page in 
     </p>
     </div>
 
+    The Welcome page should now look like Figure 1.
+
+**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/71ee066ad47e5e1ca04482786cdfae53ffde4e42)**
+
 ## 2. Adding an About Page
 
-Before we begin adding hyperlinks, we will add an additional _About_ page (to which we can link).
+We will now add an additional _About_ page (to which we can link in later demo), as depicted in Figure 2.
+
+{% include image.html file="about-page.png" alt="A web page that tells users about the authors of the QuizMe application" caption="Figure 2. The QuizMe About page." %}
 
 1. Set the route to point to an `about` method in the `StaticPagesController` and to have the URL be <http://localhost:3000/about> by adding the following code to `config/routes.rb`:
 
@@ -155,6 +161,10 @@ Before we begin adding hyperlinks, we will add an additional _About_ page (to wh
     <p>This site was created by Scott Fleming and Katie Bridson.</p>
     ```
 
-    Navigate to the new page using the URL and make sure it displays correctly.
+    Verify that the About page appears as in Figure 2 by opening <http://localhost:3000/about> in the browser.
+
+We now have a couple simple pages to work with! Next, let's see how to add images to pages.
+
+**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/6a6fe395caa7089e4a791d7bab67358d2f6503cf)**
 
 {% include pagination.html prev_page='demo-new-github-project.md' next_page='demo-images.md' %}
