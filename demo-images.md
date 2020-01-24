@@ -29,6 +29,6 @@ Webpages with only unstyled text are not very nice to look at, so for now, we wi
     </p>
     </div>
 
-Reload the Welcome page to confirm that the image now appears.
+    Reload the Welcome page to confirm that the image now appears.
 
 {% include pagination.html prev_page='demo-static-pages.md' next_page='demo-links.md' %}
