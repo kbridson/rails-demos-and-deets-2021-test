@@ -4,11 +4,13 @@ title: 'Rendering Data from Controllers'
 
 # {{ page.title }}
 
-In this demonstration, I will demonstrate how to pass data from a controller action to a view and how to render the view using ruby functions. I will continue to work on the _QuizMe_ project from the previous demos.
+In this demonstration, I will demonstrate how to pass data from a controller action to a view and how to render the view using ruby functions. We will continue to build upon the _QuizMe_ project from the previous demos.
 
 Following Rails' MVC architecture, the models (and to some extent the controllers) should be responsible for storing and processing a website's data. The views should only format and display that data. Central to mastering Rails is understanding the ways that data can be passed between the models, views, and controllers.
 
-The _QuizMe_ site does not have much data so far; however, for demonstration purposes, we would like to extract the list of features (i.e., some data) currently in the welcome page view, and instead, encode them as an array of strings in the controller. That way, the array of feature-list items can be rendered using a loop in the view. Such a setup would make adding new feature-list items much easier than inserting them (along with all their accompanying HTML code) manually into the view. The following steps can be performed to make this change.
+The _QuizMe_ site does not have much data so far; however, recall the list of features on the Welcome page (depicted in Figure 1). For demonstration purposes, we would like to extract this list of features (i.e., some data) currently encoded in the `welcome.html.erb` view, and instead, encode them as an array of strings in the controller. That way, the array of feature-list items can be rendered using a loop in the view. Such a setup would make adding new feature-list items much easier than inserting them (along with all their accompanying HTML code) manually into the view. The following steps can be performed to make this change.
+
+{% include image.html file="welcome-page-features-list.png" alt="The Welcome page, including a the list of app features" caption="Figure 1. The QuizMe Welcome page with its list of features." %}
 
 1. Copy the feature strings from `app/views/static/welcome.html.erb` and reformat them into a ruby array in the `app/controllers/static_pages_controller.rb`'s `welcome` action above the `respond_to` block. The resulting array should look like this:
 
@@ -20,7 +22,7 @@ The _QuizMe_ site does not have much data so far; however, for demonstration pur
     ]
     ```
 
-    Review the ruby array syntax if you are unfamiliar with it.
+    Review the [Ruby array syntax](https://ruby-doc.org/core-2.6.5/Array.html) if you are unfamiliar with it.
 
 1. Include the `features` array in the data passed to the render call in the `respond_to` block by adding it as a local variable with the same name in the view. The render statement should match:
 
@@ -53,5 +55,9 @@ The _QuizMe_ site does not have much data so far; however, for demonstration pur
     </div>
 
 1. Navigate to <http://localhost:3000/welcome> to see that the view looks exactly the same after the changes since the HTML rendered after the ERB is processed is the same as before. You can inspect the source HTML code in the browser with right-click > `Inspect` (element) and confirm that it is the same.
+
+We have now successfully passed data from the controller to the view to be rendered!
+
+**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/370ec758a1ce78ac62482591d8d5b42614bb4a3b)**
 
 {% include pagination.html prev_page='demo-root-route.md' next_page='demo-simple-forms.md' %}
