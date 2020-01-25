@@ -4,40 +4,39 @@ title: 'Passing Data from View to Controller with Simple Forms'
 
 # {{ page.title }}
 
-In this demonstration, I will show how to pass data collected with a form in the view to the controller action for processing. I will continue to work on the _QuizMe_ project from the previous demos.
+In this demonstration, I will show how to pass data collected with a form in the view to the controller action for processing. We will continue to build upon the _QuizMe_ project from the previous demos.
 
-In particular, the form will appear within a _Contact_ page, and it will be used to collect feedback on the app (see Fig. 1).
+In particular, the form will appear within a Contact page, as depicted in Figure 1, that will be used to collect user feedback on the app.
 
-<div class="figure-container mx-auto my-4" style="max-width: 960px;">
-<figure class="figure">
-<img src="{{ site.baseurl }}/resources/feedback-form.png" class="figure-img img-fluid rounded" alt="A web page with a form for providing feedback on the QuizMe application.">
-<figcaption class="figure-caption">Fig 1. The <i>Contact</i> page with feedback form.</figcaption>
-</figure>
-</div>
+{% include image.html file="feedback-form.png" alt="The Contact page, including a feedback form" caption="Figure 1. The Contact page with the feedback form." %}
 
-## 1. Adding the New Page to Hold the Form
+## 1. Adding the Contact Page to Hold the Feedback Form
 
-In this part, I will create the new _Contact_ page that will later hold the form. Since this part involves only tasks that have already been covered in a [previous demo]({{ site.baseurl }}/demo-04-rails-static-pages/), I give only a brief description of the steps.
+In this part, we will create the new Contact page that will later hold the form. This part involves only tasks that have already been covered in a [previous demo]({% include page_url.html page_name='demo-static-pages.md' %}).
 
-1. Add a new contact page to house form _QuizMe_ users can use to send feedback to the developers. The contact page should have the URL <http://localhost:3000/contact>. The contact view should start with the following base content:
+Add a new Contact page to house form QuizMe users can use to send feedback to the developers. The Contact page should have the URL <http://localhost:3000/contact>. Creating the page involves adding a new route, a new controller action (`contact`), and a new view (`contact.html.erb`). The `contact.html.erb` view should start with the following base content:
 
-    ```erb
-    <h1>Contact Us</h1>
+```erb
+<h1>Contact Us</h1>
 
-    <p>We welcome your feedback. Please submit the form below to let us know what you think or alert us to any problems you are having with QuizMe.</p>
+<p>We welcome your feedback. Please submit the form below to let us know what you think or alert us to any problems you are having with QuizMe.</p>
 
-    <h2>Feedback</h2>
+<h2>Feedback</h2>
 
-    <!-- Feedback form will go here -->
+<!-- Feedback form will go here -->
 
-    <p><%= link_to 'Welcome', welcome_path %></p>
-    ```
+<p><%= link_to 'Welcome', welcome_path %></p>
+```
 
-1. Add a link to the _Contact_ page to the bottom of the _Welcome_ page.
+Additionally, add a link to the Contact page to the bottom of the Welcome page, so users can get to the Contact page.
 
-## 2. Collecting Form Data from the User
+**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/9000e6552afc2c7e64601de05f6b900b0d52f992)**
 
-In this part, I will be building the form depicted in Fig. 1. The form will collect a users' name, email, whether someone from _QuizMe_ is allowed to contact them at the provided email, the kind of feedback they want to leave, and their message. For now, users will be able to fill out and submit the form, but the app will not yet process the input data submitted. I will cover input processing in the next part of the demo.
+## 2. Rendering the Feedback Form
+
+In this part, we will build the form depicted in Figure 1. The form will collect a users' name, email, whether someone from QuizMe is allowed to contact them at the provided email, the kind of feedback they want to leave, and their message. For now, users will be able to fill out the form, as depicted in Figure 2, but the app will not yet handle submissions of the form.
+
+{% include image.html file="feedback-form-filled.png" alt="The Contact page, including a feedback form that has data entered into it" caption="Figure 2. The Contact page with the feedback form filled in with data." %}
 
 1. Create a new POST route for the URL <http://localhost:3000/contact> that points to a new `leave_feedback` action in the `StaticPagesController` class, and name the new route `'leave_feedback'`. The new route should look like this:
 
@@ -150,11 +149,17 @@ In this part, I will be building the form depicted in Fig. 1. The form will coll
 
         The main `submit_tag` argument is the text that the button will display (`"Send Feedback"`).
 
+        Reload the Contact page and confirm that the form appears as depicted in Figure 1.
+
+**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/e75793b1aa6f95fd7d0abc499deff7efcf324ebe)**
+
 ## 3. Processing User-Submitted Form Data in the Controller
 
-In this part, I will make the `leave_feedback` controller action process the user data submitted via a form. All form fields will be required to accept a submission. Submitting the form will reload the _Contact_ page with a status message that tells the user if the submission was valid or if they missed any fields.
+In this part, we will make the `leave_feedback` controller action process the user data submitted via a form. All form fields will be required to accept a submission. Submitting the form will reload the Contact page with a status message that tells the user if the submission was valid, as depicted in Figure 3, or if they missed any fields.
 
-Form-input data is sent to the controller via the `params` hash. In Ruby, a _hash_ is a key-value data structure (similar to a dictionary in Python). You can set values for all the keys in the hash using code like `options = { font_size: 10, font_family: "Arial" }`, or you can set or access a single value using code like `options[:font_size]`. When a form is submitted the field ID (key) and value of each form field is added to the `params` hash. Also, the params hash only uses string values, so even if the field takes an integer or a boolean it will be converted to a string. You need to be aware of this if you are doing comparisons in the controller.
+{% include image.html file="feedback-form-submitted.png" alt="The Contact page, including a feedback form that displays a success status message" caption="Figure 3. The Contact page with the feedback form that has been successfully submitted." %}
+
+Form-input data is sent to the controller via the `params` hash. In Ruby, a _hash_ is a key-value data structure (similar to a dictionary in Python). You can set values for all the keys in the hash using code like `options = { font_size: 10, font_family: "Arial" }`, or you can set or access a single value using code like `options[:font_size]`. When a form is submitted the field ID (key) and value of each form field is added to the `params` hash. Also, the `params` hash only uses string values, so even if the field takes an integer or a boolean it will be converted to a string. You need to be aware of this if you are doing comparisons in the controller.
 
 The controller action should check if all required fields have a value other than `nil` or a blank string (i.e., one that is `""` or contains only whitespace characters). If all fields have data, the user should be notified that their feedback has been accepted. If not, they should be told to fill out the remaining fields.
 
@@ -260,5 +265,7 @@ The controller action should check if all required fields have a value other tha
         ```
 
 We should now have a working form that users can use to easily enter their feedback and see if it has been accepted. We will see in the next few demos how to further improve this form by using remote form submission (to stop the page from reloading every time the form is submitted) and using so-called _flash_ messages (to display a more dynamic status message). Of course, at this point, a big omission to the feedback form feature is having it actually do something useful with the submitted data, like saving the data. Upcoming demos will also cover a variety of ways to save and process such form data.
+
+**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/b8cfaca17c9e3bf76e679afa6a08816a094178c7)**
 
 {% include pagination.html prev_page='demo-rendering-data.md' %}
