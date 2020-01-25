@@ -6,9 +6,9 @@ title: 'Adding a Root Route'
 
 In this demonstration, I will show how to make a page the "root" page—that is, the default page that is displayed if no resource path is added to the URL. We will continue to build upon the _QuizMe_ project from the previous demos.
 
-If you navigate to the QuizMe app's root (<http://localhost:3000>), you'll notice that it still has the old default Rails project page. We probably want this to be something more useful for our app, like the Welcome page.
+If you navigate to the QuizMe app's root (<http://localhost:3000>), you'll notice that it still has the old “Yay! You’re on Rails!”default page. We'd like this to be something more useful for our app, like the Welcome page.
 
-We can change what root routes to by adding the following code to the top of the block in the `config/routes.rb` file:
+Change what page the app's root URL goes to by adding the following root route to the top of the block in the `config/routes.rb` file:
 
 ```ruby
 root to: redirect('/welcome', status: 302)
@@ -22,6 +22,8 @@ This statement means that whenever someone tries to go to <code>http://localhost
 </p>
 </div>
 
-If you open the QuizMe app's root page now, the browser will be redirected to the Welcome page.
+Open the QuizMe app's root URL, and confirm that the browser is redirected to the Welcome page.
+
+**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/536d99975a52ccce5b1e9fa7b02a793e8a879724)**
 
 {% include pagination.html prev_page='demo-links.md' next_page='demo-rendering-data.md' %}
