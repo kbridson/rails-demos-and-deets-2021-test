@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2020/assets/img/favicon.png">
+
+<title>Adding Hyperlinks between Pages | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2020/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2020/"><img src="/rails-demos-n-deets-2020/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="adding-hyperlinks-between-pages">Adding Hyperlinks between Pages</h1>
+
+<p>In this demonstration, I will show how to add hyperlinks between pages. We will continue to build upon the <em>QuizMe</em> project from the previous demos.</p>
+
+<p>Instead of using the anchor (<code class="highlighter-rouge">&lt;a&gt;</code>) HTML tags for links, Rails provides the <code class="highlighter-rouge">link_to</code> helper to add links. Remember, Ruby code in the views must be enclosed in a <code class="highlighter-rouge">&lt;% %&gt;</code> or a <code class="highlighter-rouge">&lt;%= %&gt;</code> tag.</p>
+
+<h2 id="1-adding-hyperlinks-to-external-websites">1. Adding Hyperlinks to External Websites</h2>
+
+<p>We will first add a link to the external website, <a href="https://quizlet.com">https://quizlet.com</a>, to the Welcome page, as depicted in Figure 1.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-n-deets-2020/resources/welcome-page-external-link.png" class="figure-img img-fluid rounded border" alt="The Welcome page, including a hyperlink to an external website" /><figcaption class="figure-caption">Figure 1. The QuizMe Welcome page with an external hyperlink to the Quizlet website.</figcaption></figure></div>
+
+<p>Using the <code class="highlighter-rouge">link_to</code> helper, add a hyperlink on the word “Quizlet” to the Quizlet homepage by editing the QuizMe app description in <code class="highlighter-rouge">welcome.html.erb</code> as follows:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;p&gt;</span>
+  QuizMe is a free <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Quizlet"</span><span class="p">,</span> <span class="s2">"https://quizlet.com"</span><span class="p">,</span> <span class="ss">target: </span><span class="s2">"_blank"</span> <span class="cp">%&gt;</span> style quizzing application that helps you learn by taking quizzes and trying to improve your scores.
+<span class="nt">&lt;/p&gt;</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">link_to</code> helper takes as arguments the text you want to display, the link destination, and any additional HTML attributes you want to add.</p>
+
+<p>Confirm that the hyperlink works by refreshing the Welcome page in the browser.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/0867a44fb45c385fd7ce3005abe2d9f264c386ab">➥ Code changeset for this part</a></strong></p>
+
+<h2 id="2-adding-hyperlinks-between-pages-within-the-app">2. Adding Hyperlinks between Pages within the App</h2>
+
+<p>Next, we will add hyperlinks between the Welcome and About pages within the web app, as depicted in Figure 2 and Figure 3, so users aren’t forced to manually enter the URL every time they want to switch pages.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-n-deets-2020/resources/welcome-page-internal-link.png" class="figure-img img-fluid rounded border" alt="The Welcome page, including a hyperlink to an internal page" /><figcaption class="figure-caption">Figure 2. The QuizMe Welcome page with an internal hyperlink to the About page.</figcaption></figure></div>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-n-deets-2020/resources/about-page-internal-link.png" class="figure-img img-fluid rounded border" alt="The Welcome page, including a hyperlink to an internal page" /><figcaption class="figure-caption">Figure 3. The QuizMe About page with an internal hyperlink to the Welcome page.</figcaption></figure></div>
+
+<p>Add the links by using the named route helpers (recall the <code class="highlighter-rouge">as</code> route arguments) in combination with the <code class="highlighter-rouge">link_to</code> helper as follows.</p>
+
+<p>Add a link to the About page at the bottom of the Welcome page by adding this code to <code class="highlighter-rouge">welcome.html.erb</code>:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"About"</span><span class="p">,</span> <span class="n">about_path</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</code></pre></div></div>
+
+<p>Add a link to the Welcome page at the bottom of the About page by adding this code to <code class="highlighter-rouge">about.html.erb</code>:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Welcome'</span><span class="p">,</span> <span class="n">welcome_path</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</code></pre></div></div>
+
+<p>Reload the Welcome page and confirm the links on both pages work correctly.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/13424f3ed23dc590a2d06f7b89d33d051c16aeff">➥ Code changeset for this part</a></strong></p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-images/">⇦ Previous: Adding Images to Pages</a></li>
+        
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-root-route/">⇨ Next: Adding a Root Route</a></li>
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2020
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
