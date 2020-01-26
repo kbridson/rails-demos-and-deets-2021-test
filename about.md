@@ -11,3 +11,7 @@ title: About
 
 - Kathryn Bridson
   - Updated and expanded the demos for the 2019 edition.
+
+## Acknowledgements
+
+- UML diagrams were created using [GenMyModel](https://www.genmymodel.com).

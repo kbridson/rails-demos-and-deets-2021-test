@@ -5,16 +5,22 @@ demos_sections:
       - demo-run-app.md
       - demo-new-rails-project.md
       - demo-new-github-project.md
-  - heading: Creating Simple Web Pages and Forms
+  - heading: Simple Web Pages and Forms
     links:
       - demo-static-pages.md
       - demo-images.md
       - demo-links.md
       - demo-rendering-data.md
       - demo-simple-forms.md
-  - heading: Storing and Retrieving Data via the Model
+  - heading: Model Basics
     links:
-      - demo-simple-models.md
+      - demo-model-classes.md
+      - demo-annotate.md
+      - demo-db-seeds.md
+      - demo-model-index.md
+      - demo-model-show.md
+  - heading: Model Validations and Tests
+    links:
       - demo-model-validations.md
       - demo-new-create.md
       - demo-edit-update.md

@@ -268,4 +268,4 @@ We should now have a working form that users can use to easily enter their feedb
 
 **[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/b8cfaca17c9e3bf76e679afa6a08816a094178c7)**
 
-{% include pagination.html prev_page='demo-rendering-data.md' %}
+{% include pagination.html prev_page='demo-rendering-data.md' next_page='demo-model-classes.md' %}
