@@ -4,28 +4,59 @@ title: 'Seeding the Database'
 
 # {{ page.title }}
 
+In this demonstration, I will show how to add seed data to the app's database. We will continue to build upon the [QuizMe project](https://github.com/human-se/quiz-me-2020) from the previous demos.
 
-1. Add a couple sample questions in the `db/seeds.rb` file as follows:
+In particular, we will update the QuizMe app such that the database can be initially seeded with three sample multiple-choice questions. Having such seed data available is useful for manually testing the app during development.
 
-    ```ruby
-    q1 = McQuestion.create!(question: 'What does the M in MVC stand for?', 
-      answer: 'Model', distractor_1: 'Media', distractor_2: 'Mode')
+## 1. Adding Seed Multiple-Choice Questions to the Database
 
-    q2 = McQuestion.create!(question: 'What does the V in MVC stand for?', 
-      answer: 'View', distractor_1: 'Verify', distractor_2: 'Validate')
+First, declare a few sample questions in the `db/seeds.rb` file, like this:
 
-    q3 = McQuestion.create!(question: 'What does the C in MVC stand for?', 
-      answer: 'Controller', distractor_1: 'Create', distractor_2: 'Code')
-    ```
+```ruby
+q1 = McQuestion.create!(
+    question: 'What does the M in MVC stand for?',
+    answer: 'Model',
+    distractor_1: 'Media',
+    distractor_2: 'Mode'
+)
 
-    Note that we use the `create!` method (with a bang `!`) to create new database records in the `seeds.rb` file. The reason is that the bang version of `create` (i.e., `create!`) throws an exception if something goes wrong, which will, among other things, produce an error message. If the plain old `create` (with no `!`) method was used, the command will fail silently, which can be awfully confusing.
+q2 = McQuestion.create!(
+    question: 'What does the V in MVC stand for?',
+    answer: 'View',
+    distractor_1: 'Verify',
+    distractor_2: 'Validate'
+)
 
-1. Run the following command to execute the `seeds.rb` file, adding the sample records to the database.
+q3 = McQuestion.create!(
+    question: 'What does the C in MVC stand for?',
+    answer: 'Controller',
+    distractor_1: 'Create',
+    distractor_2: 'Code'
+)
+```
 
-    ```bash
-    rails db:seed
-    ```
+The `create!` method is part of the Rails model API, and when executed, it has the effect of creating the corresponding model object (in this case `McQuestion` objects) and saving the object to the database.
 
-    Observe the new records in pgAdmin.
+The Rails API actually offers both a [`create` (with no `!`)](https://api.rubyonrails.org/v6.0.0/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-create) version and a [`create!` (with a `!`)](https://api.rubyonrails.org/v6.0.0/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-create-21) version of the method. These two versions are essentially the same, except they behave differently when saving to the database fails. In particular, the `create!` version throws an exception if saving fails, whereas the `create` version does not.
 
+**Caution!** The reason that we use the exception-throwing `create!` version in the `seeds.rb` script is so that we will see an error message if a record fails to save to the database. In contrast, if we were to use the `create` (with no `!`) version of the method, the script would fail silently, and that can create a lot of confusion for us regarding why certain records are mysteriously missing from the database.
 
+Next, execute the `seeds.rb` script by running this command:
+
+```bash
+rails db:seed
+```
+
+Finally, verify that the records were added to the database by using pgAdmin to navigate as follows, starting from the sidebar:
+
+`Servers` > `SoftwareEng` > `Databases` > `quiz_me_development` > `Schemas` > `public` > `Tables` > (right-click) `mc_questions` > `View/Edit Data` > `All Rows`
+
+You should see the three seed records, as depicted in Figure 1.
+
+{% include image.html file="pgadmin-seed-mc-questions.png" alt="A table of data from the database that contains the three seeded multiple-choice question records" caption="Figure 1. The seeded multiple-choice questions, as visualized in pgAdmin." %}
+
+We have now set up our app such that we can add seed data whenever we reset the database. As we evolve our model in future demos, we will continue to add new seed data, so when we manually test the app, we won't have to manually enter in all our test data every time.
+
+**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/4094ae4b0e7278565430ac5fa8494e16676e1f7c)**
+
+{% include pagination.html prev_page='demo-annotate.md' next_page='demo-model-index.md' %}

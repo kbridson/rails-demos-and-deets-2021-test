@@ -4,90 +4,110 @@ title: 'Displaying All Model Records'
 
 # {{ page.title }}
 
+In this demonstration, I will show how create a so-called `index` page that displays all the model records from a particular database table on a webpage. We will continue to build upon the [QuizMe project](https://github.com/human-se/quiz-me-2020) from the previous demos.
 
-## 2. Retrieving and Viewing Records from the Database
+In particular, we will add an `index` page to the QuizMe app that displays all the `McQuestion` records stored in the database, as depicted in Figure 1.
 
-In the first part of this demo, we stored a few questions in the database, so in this part, we will demonstrate how to retrieve and display the questions. In particular, we will demonstrate how to display a single question using a `show` action and how to display all the questions using an `index` action. These two actions are semi-standard read (as in the R in CRUD) actions in Rails. There are also semi-standard `create`, `update`, and `destroy` actions that we will cover in future demos.
+{% include image.html file="mc-question-index-page.png" alt="A web page with a table listing three multiple-choice question records" caption="Figure 1. The `index` page for `McQuestion` records." %}
 
-<div class="video-container">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/QxIifPWWNKA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+Adding this `index` page will involve several key steps:
 
-1. Create a controller for `McQuestion` objects by running the `rails generate controller ...` command as follows:
+1. Creating a controller class for `McQuestion` records. This controller will contain actions for displaying and manipulating `McQuestion` records. Although this demo will focus only on the `index` action, we will add more actions to the controller in future demos.
+1. Adding an `index` route for `McQuestion` records that translates HTTP requests for the `index` page into invocations of the appropriate controller action.
+1. Adding an `index` controller action for `McQuestion` records that, when invoked, will retrieve all the `McQuestion` records from the database and will render the appropriate view, passing in the retrieved records for the view to display.
+1. Adding an `index` view for `McQuestion` records that will render a webpage containing a table of whatever `McQuestion` records are passed to the view.
 
-    ```bash
-    rails g controller McQuestions index show
-    ```
+## 1. Creating a Controller for `McQuestion` Records
 
-    Note that this command generates the file `app/controllers/mc_questions_controller.rb`, which contains the class `McQuestionsController`. This controller class has two actions (public methods), `index` and `show`. The command also inserted into the `routes.rb` file a new route for each of these controller actions, and it created two new view files, `app/views/mc_questions/index.html.erb` and `app/views/mc_questions/show.html.erb`.
+Generate a controller for `McQuestion` objects by running the following command:
 
-1. Replace the generated routes with standard resources routes for the `McQuestionsController`'s `index` action as follows:
+```bash
+rails g controller McQuestions
+```
 
-    ```ruby
-    get 'mc_questions', to: 'mc_questions#index', as: 'mc_questions' # index
-    ```
+This command generates the file `app/controllers/mc_questions_controller.rb`, which contains the class `McQuestionsController`.
 
-1. Add the standard `respond_to` blocks to the `index` action.
+**Caution!** A controller that corresponds to a model class always has a name that is the **plural** form of the model class name. Thus, the `McQuestion` model class has a corresponding `McQuestionsController`. Also, note that the `Controller` part of the controller class name is omitted in the above Rails command. Rails will automatically fill in the `Controller` part of the name.
 
-1. We will also need to add the object(s) to display to the controller actions by using the [ActiveRecord query methods](https://guides.rubyonrails.org/active_record_querying.html#retrieving-a-single-object) for our `McQuestion` model class.
+**Note!** The `g` in the above command is short for `generate`. The `rails` command accepts both `g` and `generate`, and moving forward, we will favor the `g` version for brevity.
 
-    For the `index` action, which displays all the records from that table, we use the `all` method as follows:
+**[➥ Code changeset for this part](xxx)**
 
-    ```ruby
-    questions = McQuestion.all
-    ```
+## 2. Adding an `index` Route for `McQuestion` Records
 
-    You will also need to pass those variables into the `locals` hash, so they will be available in the view.
+Replace the generated routes with standard resources routes for the `McQuestionsController`'s `index` action as follows:
 
+```ruby
+get 'mc_questions', to: 'mc_questions#index', as: 'mc_questions' # index
+```
 
+**[➥ Code changeset for this part](xxx)**
 
-1. The `index` action should display some data for each of the records in the associated database table. Often, `index` actions will display the database table in an HTML `table` element, with a row for each record and a column for each of the record attributes; however, I will direct you to pgAdmin's show-all-records feature for that. In this demo, we will simply display all the `McQuestion` objects on one page in the same way that they were displayed individually by the `show` action. However, each question will be wrapped in its own HTML `div` element with a unique `id` attribute generated by the `dom_id` helper.
+## 3. Adding an `index` Controller Action for `McQuestion` Records
 
-    1. Create a heading for the page as follows:
+Add the standard `respond_to` blocks to the `index` action.
 
-        ```erb
-        <h1>Multiple Choice Questions</h1>
-        ```
+We will also need to add the object(s) to display to the controller actions by using the [ActiveRecord query methods](https://guides.rubyonrails.org/active_record_querying.html#retrieving-a-single-object) for our `McQuestion` model class.
 
-    1. Recall that we added a local `questions` variable to the `index` action that contains all the `McQuestion` objects in the database. Add code that loops through each question and creates an empty `div` element (for now) with a unique `id` for each question using the `dom_id` helper as follows:
+For the `index` action, which displays all the records from that table, we use the `all` method as follows:
 
-        ```erb
-        <% questions.each do |question| %>
-          <div id="<%= dom_id(question) %>">
-          </div>
-        <% end %>
-        ```
+```ruby
+questions = McQuestion.all
+```
 
-        Navigating to the index page now shows that three `div` elements have been created that look like `<div id="mc_question_1">` where the number is the record `id`.
+You will also need to pass those variables into the `locals` hash, so they will be available in the view.
 
-    1. Each question should be displayed the same as on the `show` page, so we copy the `show` page code into the empty `div` we have, like this:
+**[➥ Code changeset for this part](xxx)**
 
-        ```erb
-        <% questions.each do |question| %>
-          <div id="<%= dom_id(question) %>">
-            <p><%= question.question %></p>
+## 4. Adding an `index` View for `McQuestion` Records
 
-            <%
-            choices = [question.answer, question.distractor_1, question.distractor_2]
-            choices.each do |c|
-            %>
-              <div>
-                <%= radio_button_tag "guess", c, checked = c == question.answer, disabled: true %>
-                <%= label_tag "guess_#{c}", c %>
-              </div>
+The `index` action should display some data for each of the records in the associated database table. Often, `index` actions will display the database table in an HTML `table` element, with a row for each record and a column for each of the record attributes; however, I will direct you to pgAdmin's show-all-records feature for that. In this demo, we will simply display all the `McQuestion` objects on one page in the same way that they were displayed individually by the `show` action. However, each question will be wrapped in its own HTML `div` element with a unique `id` attribute generated by the `dom_id` helper.
 
-            <% end %>
-          </div>
-        <% end %>
-        ```
+Create a heading for the page as follows:
 
-    1. If we reload the `index` page now, we can see that all the questions are displayed, but only one radio button is checked on the entire page. Looking at the code we copied from the `show` page, the radio button tag `id` is "guess" for all the radio buttons. This was fine for the `show` page, but it now means that the radio buttons for all the questions belong to the same group, and only one can ever be checked at a time. We fix this problem by generating a unique radio button group ID for each question, like this:
+```erb
+<h1>Multiple Choice Questions</h1>
+```
 
-        ```erb
-        <%= radio_button_tag "guess_#{question.id}", c, checked = c == question.answer, disabled: true %>
-        <%= label_tag "guess_#{question.id}_#{c}", c %>
-        ```
+Recall that we added a local `questions` variable to the `index` action that contains all the `McQuestion` objects in the database. Add code that loops through each question and creates an empty `div` element (for now) with a unique `id` for each question using the `dom_id` helper as follows:
 
-        Now, the group ID should be unique for each question. I also changed the `label` tag `id` for consistency.
+```erb
+<% questions.each do |question| %>
+    <div id="<%= dom_id(question) %>">
+    </div>
+<% end %>
+```
+
+Navigating to the index page now shows that three `div` elements have been created that look like `<div id="mc_question_1">` where the number is the record `id`.
+
+Each question should be displayed the same as on the `show` page, so we copy the `show` page code into the empty `div` we have, like this:
+
+```erb
+<% questions.each do |question| %>
+    <div id="<%= dom_id(question) %>">
+    <p><%= question.question %></p>
+
+    <%
+    choices = [question.answer, question.distractor_1, question.distractor_2]
+    choices.each do |c|
+    %>
+        <div>
+        <%= radio_button_tag "guess", c, checked = c == question.answer, disabled: true %>
+        <%= label_tag "guess_#{c}", c %>
+        </div>
+
+    <% end %>
+    </div>
+<% end %>
+```
+
+If we reload the `index` page now, we can see that all the questions are displayed, but only one radio button is checked on the entire page. Looking at the code we copied from the `show` page, the radio button tag `id` is "guess" for all the radio buttons. This was fine for the `show` page, but it now means that the radio buttons for all the questions belong to the same group, and only one can ever be checked at a time. We fix this problem by generating a unique radio button group ID for each question, like this:
+
+```erb
+<%= radio_button_tag "guess_#{question.id}", c, checked = c == question.answer, disabled: true %>
+<%= label_tag "guess_#{question.id}_#{c}", c %>
+```
+
+Now, the group ID should be unique for each question. I also changed the `label` tag `id` for consistency.
 
 The QuizMe app now provides a way to view an individual multiple-choice question (`show`) and a way to view all the multiple-choice questions on a single page (`index`).

@@ -4,7 +4,7 @@ title: 'Automatically Annotating Model Code'
 
 # {{ page.title }}
 
-In this demonstration, I will show how to set up the [Annotate](https://github.com/ctran/annotate_models) gem to automatically add comments Rails model classes and other related files. We will continue to build upon the [QuizMe project](https://github.com/human-se/quiz-me-2020) from the previous demos.
+In this demonstration, I will show how to set up the [Annotate](https://github.com/ctran/annotate_models) gem to automatically add comments to Rails model classes and other related files. We will continue to build upon the [QuizMe project](https://github.com/human-se/quiz-me-2020) from the previous demos.
 
 Something that is inconvenient about Rails model classes is that their class attributes are not defined (or otherwise visible) in their class definitions. For example, if you inspect the `McQuestion` model class in `app/models/mc_question.rb`, you will find only the following:
 
