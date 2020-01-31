@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2020/assets/img/favicon.png">
+
+<title>Displaying a Single Model Record | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2020/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2020/"><img src="/rails-demos-n-deets-2020/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <div class="d-block text-center">
+    <p class="display-4 mb-0">
+        &#128679;&nbsp;Under Construction&nbsp;&#128679;
+    </p>
+    <p class="mt-0">
+        Sorry! This page isn't quite ready yet.
+    </p>
+</div>
+
+<h1 id="displaying-a-single-model-record">Displaying a Single Model Record</h1>
+
+<ol>
+  <li>
+    <p>Replace the generated routes with standard resources routes for the <code class="highlighter-rouge">McQuestionsController</code>’s <code class="highlighter-rouge">show</code> actions as follows:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">get</span> <span class="s1">'mc_questions/:id'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'mc_questions#show'</span><span class="p">,</span> <span class="ss">as: </span><span class="s1">'mc_question'</span> <span class="c1"># show</span>
+</code></pre></div>    </div>
+
+    <p>Previously, we saw parameters passed to the Rails server via POST requests (recall the <code class="highlighter-rouge">params</code> hash); however, parameters can also be passed via GET requests. In particular, the <code class="highlighter-rouge">show</code> route has as part of its URI pattern an <code class="highlighter-rouge">:id</code> request parameter that becomes part of the URL (e.g., <a href="http://localhost:3000/mc_questions/125">http://localhost:3000/mc_questions/125</a>). The <code class="highlighter-rouge">:id</code> value for a given request can be retrieved from <code class="highlighter-rouge">params[:id]</code>.</p>
+
+    <p>Additionally, it is possible to pass even more parameters, if needed, by appending them to the end of the URL, as in this example: <a href="http://localhost:3000/somepath?keyword1=value1&amp;keyword2=value2&amp;keyword3=value3">http://localhost:3000/somepath?keyword1=value1&amp;keyword2=value2&amp;keyword3=value3</a>.</p>
+  </li>
+  <li>
+    <p>Add the standard <code class="highlighter-rouge">respond_to</code> blocks to the <code class="highlighter-rouge">show</code> and <code class="highlighter-rouge">index</code> actions.</p>
+  </li>
+  <li>
+    <p>We will also need to add the object(s) to display to the controller actions by using the <a href="https://guides.rubyonrails.org/active_record_querying.html#retrieving-a-single-object" target="_blank">ActiveRecord query methods</a> for our <code class="highlighter-rouge">McQuestion</code> model class. For the <code class="highlighter-rouge">show</code> action, which displays only one object, we use the <code class="highlighter-rouge">find</code> method with an <code class="highlighter-rouge">id</code> parameter as follows:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">question</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+</code></pre></div>    </div>
+
+    <p>You will also need to pass those variables into the <code class="highlighter-rouge">locals</code> hash, so they will be available in the view.</p>
+  </li>
+  <li>
+    <p>The <code class="highlighter-rouge">show</code> action should display all the <em>important</em> attributes of the <code class="highlighter-rouge">mc_question</code> object (i.e., not the timestamps and not the <code class="highlighter-rouge">id</code> because that is shown in the URL). We could simply set up something like <code class="highlighter-rouge">&lt;p&gt;Answer: &lt;%= answer %&gt;&lt;/p&gt;</code> for each attribute, but let’s make it a little more interesting by showing the question and a set of disabled radio buttons for all the answer choices (the correct answer and distractor(s)). Note that the radio buttons are just for show in this case, and will not be part of a working form.</p>
+
+    <ol>
+      <li>
+        <p>Create a <code class="highlighter-rouge">&lt;p&gt;</code> block for the question text as follows:</p>
+
+        <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">question</span><span class="p">.</span><span class="nf">question</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>Now we need to create the radio button group with all the answers. Let’s make three radio button tags as follows:</p>
+
+        <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;div&gt;</span>
+   <span class="cp">&lt;%=</span> <span class="n">radio_button_tag</span> <span class="s2">"guess"</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">answer</span><span class="p">,</span> <span class="n">checked</span> <span class="o">=</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">disabled: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+   <span class="cp">&lt;%=</span> <span class="n">label_tag</span> <span class="s2">"guess_</span><span class="si">#{</span><span class="n">question</span><span class="p">.</span><span class="nf">answer</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">answer</span> <span class="cp">%&gt;</span>
+ <span class="nt">&lt;/div&gt;</span>
+ <span class="nt">&lt;div&gt;</span>
+   <span class="cp">&lt;%=</span> <span class="n">radio_button_tag</span> <span class="s2">"guess"</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">distractor_1</span><span class="p">,</span> <span class="n">checked</span> <span class="o">=</span> <span class="kp">false</span><span class="p">,</span> <span class="ss">disabled: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+   <span class="cp">&lt;%=</span> <span class="n">label_tag</span> <span class="s2">"guess_</span><span class="si">#{</span><span class="n">question</span><span class="p">.</span><span class="nf">distractor_1</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">distractor_1</span> <span class="cp">%&gt;</span>
+ <span class="nt">&lt;/div&gt;</span>
+ <span class="nt">&lt;div&gt;</span>
+   <span class="cp">&lt;%=</span> <span class="n">radio_button_tag</span> <span class="s2">"guess"</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">distractor_2</span><span class="p">,</span> <span class="n">checked</span> <span class="o">=</span> <span class="kp">false</span><span class="p">,</span> <span class="ss">disabled: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+   <span class="cp">&lt;%=</span> <span class="n">label_tag</span> <span class="s2">"guess_</span><span class="si">#{</span><span class="n">question</span><span class="p">.</span><span class="nf">distractor_2</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">distractor_2</span> <span class="cp">%&gt;</span>
+ <span class="nt">&lt;/div&gt;</span>
+</code></pre></div>        </div>
+
+        <p>In the <code class="highlighter-rouge">radio_button_tag</code> options, we need to make sure the buttons are all disabled by adding <code class="highlighter-rouge">disabled: true</code>. We also need to be sure that only the correct answer is checked by setting the <code class="highlighter-rouge">checked</code> option to be true only for the answer radio button. For the unique label tag IDs, we use string interpolation to execute some ruby code and put it inside the string (e.g. <code class="highlighter-rouge">#{question.answer}</code>).</p>
+      </li>
+      <li>
+        <p>Coding each radio button, like we did above, works, but it results in a lot of duplicate code. Instead, we can programmatically generate the radio buttons by looping through an array that contains all the choices and creating the radio button inside the loop.</p>
+
+        <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="cp">&lt;%</span>
+ <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="n">question</span><span class="p">.</span><span class="nf">answer</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">distractor_1</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">distractor_2</span><span class="p">]</span>
+ <span class="n">choices</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+ <span class="cp">%&gt;</span>
+   <span class="nt">&lt;div&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">radio_button_tag</span> <span class="s2">"guess"</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">checked</span> <span class="o">=</span> <span class="n">c</span> <span class="o">==</span> <span class="n">question</span><span class="p">.</span><span class="nf">answer</span><span class="p">,</span> <span class="ss">disabled: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">label_tag</span> <span class="s2">"guess_</span><span class="si">#{</span><span class="n">c</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">c</span> <span class="cp">%&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+
+ <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div>        </div>
+
+        <p>Setting most of the options is straightforward based on the <code class="highlighter-rouge">c</code> value but determining which radio button to check is more complicated. We know the <code class="highlighter-rouge">checked</code> option should be true only if <code class="highlighter-rouge">c</code> is <code class="highlighter-rouge">question.answer</code>, so we can actually set <code class="highlighter-rouge">checked</code> equal to the the result of determining if <code class="highlighter-rouge">c</code> is equal to <code class="highlighter-rouge">question.answer</code>.</p>
+      </li>
+      <li>
+        <p>Try going to <a href="http://localhost:3000/mc_questions/1">http://localhost:3000/mc_questions/1</a> to see the show page for one of the questions we added to the database.</p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2020
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
