@@ -70,13 +70,15 @@
     <p>Review the <a href="https://ruby-doc.org/core-2.6.5/Array.html">Ruby array syntax</a> if you are unfamiliar with it.</p>
   </li>
   <li>
-    <p>Include the <code class="highlighter-rouge">features</code> array in the data passed to the render call in the <code class="highlighter-rouge">respond_to</code> block by adding it as a local variable with the same name in the view. The render statement should match:</p>
+    <p>Include the <code class="highlighter-rouge">features</code> array in the data passed to the render call in the <code class="highlighter-rouge">respond_to</code> block by adding it as a local variable with the same name in the view. The render statement should be <strong>updated</strong> to match:</p>
 
     <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:welcome</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">features: </span><span class="n">features</span> <span class="p">}</span> <span class="p">}</span>
 </code></pre></div>    </div>
+
+    <p><strong>Make sure you do not end up with more than one render statement.</strong></p>
   </li>
   <li>
-    <p>Replace the raw HTML unordered list in <code class="highlighter-rouge">app/views/static/welcome.html.erb</code> with ruby code that loops over the <code class="highlighter-rouge">features</code> array and wraps each string in the correct html elements. Recall that Ruby code in ERB files should be enclosed in <code class="highlighter-rouge">&lt;% %&gt;</code> or <code class="highlighter-rouge">&lt;%= %&gt;</code> blocks and that the difference between them is that the result of the code in a <code class="highlighter-rouge">&lt;%= %&gt;</code> block is additionally rendered on the page. The structure of the loop should match:</p>
+    <p><strong>Replace</strong> the raw HTML unordered list in <code class="highlighter-rouge">app/views/static/welcome.html.erb</code> with ruby code that loops over the <code class="highlighter-rouge">features</code> array and wraps each string in the correct html elements. Recall that Ruby code in ERB files should be enclosed in <code class="highlighter-rouge">&lt;% %&gt;</code> or <code class="highlighter-rouge">&lt;%= %&gt;</code> blocks and that the difference between them is that the result of the code in a <code class="highlighter-rouge">&lt;%= %&gt;</code> block is additionally rendered on the page. The structure of the loop should match:</p>
 
     <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;ul&gt;</span>
    <span class="cp">&lt;%</span> <span class="n">features</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span>

@@ -24,13 +24,15 @@ The _QuizMe_ site does not have much data so far; however, recall the list of fe
 
     Review the [Ruby array syntax](https://ruby-doc.org/core-2.6.5/Array.html) if you are unfamiliar with it.
 
-1. Include the `features` array in the data passed to the render call in the `respond_to` block by adding it as a local variable with the same name in the view. The render statement should match:
+1. Include the `features` array in the data passed to the render call in the `respond_to` block by adding it as a local variable with the same name in the view. The render statement should be **updated** to match:
 
     ```ruby
     format.html { render :welcome, locals: { features: features } }
     ```
 
-1. Replace the raw HTML unordered list in `app/views/static/welcome.html.erb` with ruby code that loops over the `features` array and wraps each string in the correct html elements. Recall that Ruby code in ERB files should be enclosed in `<% %>` or `<%= %>` blocks and that the difference between them is that the result of the code in a `<%= %>` block is additionally rendered on the page. The structure of the loop should match:
+    **Make sure you do not end up with more than one render statement.**
+
+1. **Replace** the raw HTML unordered list in `app/views/static/welcome.html.erb` with ruby code that loops over the `features` array and wraps each string in the correct html elements. Recall that Ruby code in ERB files should be enclosed in `<% %>` or `<%= %>` blocks and that the difference between them is that the result of the code in a `<%= %>` block is additionally rendered on the page. The structure of the loop should match:
 
     ```erb
     <ul>
