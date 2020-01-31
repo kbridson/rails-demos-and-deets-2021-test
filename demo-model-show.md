@@ -2,8 +2,9 @@
 title: 'Displaying a Single Model Record'
 ---
 
-# {{ page.title }}
+{% include under-construction.html %}
 
+# {{ page.title }}
 
 
 1. Replace the generated routes with standard resources routes for the `McQuestionsController`'s `show` actions as follows:
@@ -18,7 +19,7 @@ title: 'Displaying a Single Model Record'
 
 1. Add the standard `respond_to` blocks to the `show` and `index` actions.
 
-1. We will also need to add the object(s) to display to the controller actions by using the [ActiveRecord query methods](https://guides.rubyonrails.org/active_record_querying.html#retrieving-a-single-object) for our `McQuestion` model class. For the `show` action, which displays only one object, we use the `find` method with an `id` parameter as follows:
+1. We will also need to add the object(s) to display to the controller actions by using the [ActiveRecord query methods](https://guides.rubyonrails.org/active_record_querying.html#retrieving-a-single-object){:target="_blank"} for our `McQuestion` model class. For the `show` action, which displays only one object, we use the `find` method with an `id` parameter as follows:
 
     ```ruby
     question = McQuestion.find(params[:id])

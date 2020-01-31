@@ -18,13 +18,13 @@
 
 ### Changes to App and Demos
 
+- Drop/redo the demo that prints an array (b/c it doesn't seem realistic).
+- Drop/redo the simple forms demo because there is too much accidental complexity in it. Also, it doesn't actually do anything.
 - Should do a pages controller or should we do a home controller, about controller, etc.? (I've been seeing the latter mentioned)
 - Should we use only `resource` for routes and then `rails routes` to see exactly what's there?
 - Should we have a home page that has only a root route like this: `root to: 'home#index'`?
 - Should we have only RESTful/resource routes/actions/etc.?
-- Should we drop/redo the demo that prints an array (b/c it doesn't seem realistic)?
 - Should we introduce styling earlier? For example, we might interleave, adding a new form/feature and then styling the feature.
-- Should we actually do something useful with the feedback form? Or drop it?
 - Should we do models earlier? (Might enable more interesting frontend features)
 - Should we have functional tests earlier?
 - We should add requirements/design artifacts.
