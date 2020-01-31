@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2020/assets/img/favicon.png">
+
+<title>Model Validations and Tests | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2020/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2020/"><img src="/rails-demos-n-deets-2020/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="model-validations-and-tests">Model Validations and Tests</h1>
+
+<p>In this demonstration, I will show how to add model validations and verify that the validations were set up correctly by creating automated unit tests. I will continue to work on the <em>QuizMe</em> project from the previous demos.</p>
+
+<p><a href="https://guides.rubyonrails.org/active_record_validations.html">Rails model validations</a> aim to prevent invalid data from being saved to the database. For example, recall the model class we created for multiple-choice questions (Fig. 1). There are a number of possible ways that the attributes could be set to make an invalid <code class="highlighter-rouge">McQuestion</code> object. For example, the <code class="highlighter-rouge">question</code>, <code class="highlighter-rouge">answer</code>, and <code class="highlighter-rouge">distractor_1</code> attributes should all have a value (note that only one distractor is required). If any of those attributes were set to <code class="highlighter-rouge">nil</code> or to an empty string (<code class="highlighter-rouge">""</code> or one composed only of whitespace characters), we would consider that an invalid <code class="highlighter-rouge">McQuestion</code> object. Furthermore, the <code class="highlighter-rouge">question</code> for each <code class="highlighter-rouge">McQuestion</code> object stored in the database should be unique (i.e., no duplicate questions), and all the possible-answer values for a <code class="highlighter-rouge">McQuestion</code> object (i.e., <code class="highlighter-rouge">answer</code>, <code class="highlighter-rouge">distractor_1</code>, and <code class="highlighter-rouge">distractor_2</code>) should be different from each other. To prevent such invalid records from being saved to the database, we will customize our model class with appropriate validations.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;">
+<figure class="figure">
+<img src="/rails-demos-n-deets-2020/resources/class-diagram.png" class="figure-img img-fluid rounded" alt="Class diagram for McQuestion model." />
+<figcaption class="figure-caption">Fig 1. Class diagram for McQuestion model. (Diagram created using <a href="https://www.genmymodel.com">GenMyModel</a>.)</figcaption>
+</figure>
+</div>
+
+<p>You can find a complete list of all validations Rails includes <a href="https://guides.rubyonrails.org/active_record_validations.html">here</a>.</p>
+
+<p><a href="https://en.wikipedia.org/wiki/Unit_testing">Unit tests</a> aim to verify that individual “units” of code (e.g., classes and methods) work correctly. Rails includes a <a href="https://en.wikipedia.org/wiki/Test_harness">test harness</a> that provides automation to help developers to write tests for various units of Rails application code (e.g., model classes) and to run those test in batches. In this demo, we will use the Rails test harness to test the model validations we create to verify that we have written them correctly.</p>
+
+<h2 id="1-prerequisite-setup-removing-generated-controller-tests">1. Prerequisite Setup: Removing Generated Controller Tests</h2>
+
+<p>When <code class="highlighter-rouge">rails</code> is used to generate a controller class (like we did in the previous demos), it also generates some default tests for the controller class, including some “controller tests”; however, the controller tests assume the default routes generated by <code class="highlighter-rouge">rails</code>. When we customize the routes (as we are apt to do), it breaks these controller tests. Thus, to solve this problem, we commonly just comment out the generated controller tests initially, and later update them to fit for our particular app.</p>
+
+<p>To remove the generated controller tests, open the Ruby files in <code class="highlighter-rouge">test/controllers</code>, and comment out any tests there you did not write (all of them at this stage). In a later demo, we will write controller tests specifically designed for the QuizMe project.</p>
+
+<h2 id="2-creating-valid-fixtures">2. Creating Valid Fixtures</h2>
+
+<p>Before I begin adding model validations, I will do some initial preparation of the test code that will eventually be used to test the validations. In particular, I will first create some valid model objects to be used in the tests. Such test objects are called <em>fixtures</em>. In Rails, the fixtures for each model are stored in a <a href="https://en.wikipedia.org/wiki/YAML">YAML</a> (<code class="highlighter-rouge">.yml</code>) file in the <code class="highlighter-rouge">test/fixtures</code> directory. Looking at the <code class="highlighter-rouge">mc_questions.yml</code> file, we can see a couple of default fixtures have been made, <code class="highlighter-rouge">one</code> and <code class="highlighter-rouge">two</code>. We will replace those fixtures with appropriate valid examples of multiple-choice questions.</p>
+
+<ol>
+  <li>
+    <p>Replace fixture <code class="highlighter-rouge">one</code> with the following:</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="na">one</span><span class="pi">:</span>
+   <span class="na">question</span><span class="pi">:</span> <span class="s">By default, every Rails model is a subclass of which superclass?</span>
+   <span class="na">answer</span><span class="pi">:</span> <span class="s">ApplicationRecord</span>
+   <span class="na">distractor_1</span><span class="pi">:</span> <span class="s">Object</span>
+   <span class="na">distractor_2</span><span class="pi">:</span> <span class="s">ActiveModel</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>True/false questions are another kind of multiple-choice question. Replace fixture <code class="highlighter-rouge">two</code> with the following:</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="na">two</span><span class="pi">:</span>
+   <span class="na">question</span><span class="pi">:</span> <span class="s">The command rails db:migrate updates the schema.rb file.</span>
+   <span class="na">answer</span><span class="pi">:</span> <span class="no">true</span>
+   <span class="na">distractor_1</span><span class="pi">:</span> <span class="no">false</span>
+   <span class="na">distractor_2</span><span class="pi">:</span> <span class="c1"># blank loads as nil</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>Once the above changes are completed, every <code class="highlighter-rouge">McQuestion</code> model test will be able to retrieve these fixtures for use in their test code.</p>
+
+<h2 id="3-testing-valid-fixtures">3. Testing Valid Fixtures</h2>
+
+<p>Now that we have some fixtures, which are all supposed to be valid with respect to our current validations, we will write a test that checks the fixtures to make sure the app also sees them as valid. If the test reports that any of them are invalid, then we either made a mistake in the fixture or in the validations, and we will have to locate and fix the bug.</p>
+
+<p>When we used <code class="highlighter-rouge">rails</code> to generate the <code class="highlighter-rouge">McQuestion</code> model, <code class="highlighter-rouge">rails</code> also generated a test file <code class="highlighter-rouge">test/models/mc_question_test.rb</code>. That test file is where we should put any model validation tests we write for this class.</p>
+
+<p>Rails model tests usually follow three basic steps:</p>
+
+<ol>
+  <li>First, the test retrieves one or more fixtures (i.e., valid model objects for testing).</li>
+  <li>Next, the test may (or may not, depending on what it’s testing) set the attribute values of the fixture objects, commonly to make them invalid.</li>
+  <li>Finally, the test makes one or more <em>assertions</em> about the fixtures. Each assertion aims to check that some condition is true. If all of a test’s assertions are true, then the test passes; however, if an assertion is discovered to be false, then the test fails.</li>
+</ol>
+
+<p>Rails model tests are considered a kind of unit test, so they should be small and focus on testing only one thing. However, you can check multiple details about that one thing by adding multiple assertions to the same test.</p>
+
+<h3 id="31-creating-a-test-for-a-single-valid-fixture">3.1. Creating a Test for a Single Valid Fixture</h3>
+
+<p>First, I will write a test that tests fixture <code class="highlighter-rouge">one</code> to verify that the system considers it valid.</p>
+
+<ol>
+  <li>
+    <p>Create a test with the name “<code class="highlighter-rouge">fixtures are valid</code>” that first retrieves the test fixture <code class="highlighter-rouge">one</code> object and then asserts that the object is valid. If it’s not valid, then the test will print validation error messages. Note that, for this test, we skip step 2 mentioned above (setting fixture attributes), because this test doesn’t need to change any of the fixture’s attribute values. The test code should be as follows:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">test</span> <span class="s2">"fixtures are valid"</span> <span class="k">do</span>
+   <span class="n">q</span> <span class="o">=</span> <span class="n">mc_questions</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+   <span class="n">assert</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span><span class="p">,</span> <span class="n">q</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">full_messages</span><span class="p">.</span><span class="nf">inspect</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>To run the test to make sure it passes, enter the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails <span class="nb">test</span>
+</code></pre></div>    </div>
+
+    <p>You should see a message that looks like this:</p>
+
+    <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Finished in 0.194760s, 5.1345 runs/s, 10.2690 assertions/s.
+ 1 runs, 2 assertions, 0 failures, 0 errors, 0 skips
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="32-updating-the-test-to-cover-all-the-valid-fixtures">3.2. Updating the Test to Cover All the Valid Fixtures</h3>
+
+<p>Now that I have a test to verify that fixture <code class="highlighter-rouge">one</code> is valid, what I would really like to do is to test that all of the fixtures are valid. To do so, we could copy/paste/modify the code we already have to add a second assertion for fixture <code class="highlighter-rouge">two</code>, but then we’re setting ourselves up to do a copy/paste/modify for every fixture we want to test. Right now, there are only two fixtures, but we might add more later. To save us from tedious and error-prone copy/paste/modify edits, we will instead simply iterate through all the fixtures and assert that each one is valid. Thus, I will update the above test code as follows:</p>
+
+<ol>
+  <li>
+    <p>Have the test iterate through all the fixtures by updating the above test code as follows:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">test</span> <span class="s2">"fixtures are valid"</span> <span class="k">do</span>
+   <span class="n">mc_questions</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">q</span><span class="o">|</span>
+     <span class="n">assert</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span><span class="p">,</span> <span class="n">q</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">full_messages</span><span class="p">.</span><span class="nf">inspect</span>
+   <span class="k">end</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Verify that the test passes by running the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails <span class="nb">test</span>
+</code></pre></div>    </div>
+
+    <p>You should see a message that looks like this:</p>
+
+    <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Finished in 0.194760s, 5.1345 runs/s, 10.2690 assertions/s.
+ 1 runs, 2 assertions, 0 failures, 0 errors, 0 skips
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="2-creating-presence-validations">2. Creating Presence Validations</h2>
+
+<p>Now that we have some valid fixtures, we can add some validations to the model. In the case of multiple-choice questions, it would be wrong to have a question without any question text, answer options, or a correct answer. We can use Rails <code class="highlighter-rouge">presence</code> validations on attributes to ensure that the attributes are not <code class="highlighter-rouge">nil</code> or a blank string before the model object is saved to the database.</p>
+
+<ol>
+  <li>
+    <p>In <code class="highlighter-rouge">mc_question.rb</code>, add <code class="highlighter-rouge">presence</code> validations, like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">validates</span> <span class="ss">:question</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+ <span class="n">validates</span> <span class="ss">:answer</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+ <span class="n">validates</span> <span class="ss">:distractor_1</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+</code></pre></div>    </div>
+
+    <p>You can also combine validations of the same type on one line, like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">validates</span> <span class="ss">:question</span><span class="p">,</span> <span class="ss">:answer</span><span class="p">,</span> <span class="ss">:distractor_1</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+</code></pre></div>    </div>
+
+    <p>Note we did not add a presence validation to <code class="highlighter-rouge">distractor_2</code>. Such a validation would flag all true/false questions as invalid, which we don’t want.</p>
+  </li>
+  <li>
+    <p>Now, we need to add tests to verify that we declared the <code class="highlighter-rouge">presence</code> validations correctly. It is considered a best practice that each test cover at most one validation for a single attribute. Thus, we will next write a test to verify the <code class="highlighter-rouge">presence</code> validation for the <code class="highlighter-rouge">question</code> attribute. Since the <code class="highlighter-rouge">presence</code> validation catches both <code class="highlighter-rouge">nil</code> and empty string values, we can check both in the same test, like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">test</span> <span class="s2">"question presence not valid"</span> <span class="k">do</span>
+   <span class="n">q</span> <span class="o">=</span> <span class="n">mc_questions</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+   <span class="n">q</span><span class="p">.</span><span class="nf">question</span> <span class="o">=</span> <span class="kp">nil</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+   <span class="n">q</span><span class="p">.</span><span class="nf">question</span> <span class="o">=</span> <span class="s2">""</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+
+    <p>Note that this test follows the three basic steps mentioned above: (1) it retrieves a valid fixture; (2) it does some setting of fixture attributes (specifically, to make the <code class="highlighter-rouge">question</code> attribute invalid); and (3) it makes some assertions about the state of the model object (specifically, it asserts that the model object is not valid).</p>
+  </li>
+  <li>
+    <p>Check that the test runs as expected by entering the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails <span class="nb">test</span>
+</code></pre></div>    </div>
+
+    <p>If everything was correct, the test should produce output like this:</p>
+
+    <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Finished in 0.211335s, 7.0493 runs/s, 14.3192 assertions/s.
+ 2 runs, 4 assertions, 0 failures, 0 errors, 0 skips
+</code></pre></div>    </div>
+
+    <p>If the test fails, then there is a bug, most likely in either the model validation code, the fixture code, or the test code.</p>
+  </li>
+  <li>
+    <p>Similar to the above, add two more tests for the <code class="highlighter-rouge">presence</code> validations, one for the <code class="highlighter-rouge">answer</code> attribute and one for the <code class="highlighter-rouge">distractor_1</code> attribute. Run <code class="highlighter-rouge">rails test</code> after you add each test to confirm that it works.</p>
+  </li>
+</ol>
+
+<h2 id="3-creating-uniqueness-validations">3. Creating Uniqueness Validations</h2>
+
+<p>We can also add other types of validations. For example, it’s probably not acceptable to have two questions with exactly the same <code class="highlighter-rouge">question</code> text in the database. To ensure that such duplicates will not be saved to the database, we add a <code class="highlighter-rouge">uniqueness</code> validation to the <code class="highlighter-rouge">question</code> attribute, as follows:</p>
+
+<ol>
+  <li>
+    <p>Add the validation to the model file, like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">validates</span> <span class="ss">:question</span><span class="p">,</span> <span class="ss">uniqueness: </span><span class="kp">true</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add a test to verify that we declared the <code class="highlighter-rouge">uniqueness</code> validation correctly. First, the test will invoke the <code class="highlighter-rouge">dup</code> method on a fixture object to create a new object with the same attribute values as the fixture object. Then, the test will assert that the duplicate object is not valid, like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">test</span> <span class="s2">"question uniqueness not valid"</span> <span class="k">do</span>
+   <span class="n">q</span> <span class="o">=</span> <span class="n">mc_questions</span><span class="p">(</span><span class="ss">:one</span><span class="p">).</span><span class="nf">dup</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Check that the test runs as expected by entering the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails <span class="nb">test</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="4-creating-custom-validations">4. Creating Custom Validations</h2>
+
+<p>Sometimes you will need to validate a property for which Rails does not provide a validation helper. In that situation, you will need to write a custom validation.</p>
+
+<p>In the case of multiple choice questions, all the choices should be unique for a single question. The <code class="highlighter-rouge">uniqueness</code> validation won’t help here, because it checks that an attribute’s value is unique over all the records in the database, not uniqueness of attribute values within an individual model object. Thus, we will create a custom validation that checks for three possible cases (<code class="highlighter-rouge">answer == distractor_1</code>, <code class="highlighter-rouge">distractor_1 == distractor_2</code> and <code class="highlighter-rouge">answer == distractor_2</code>) and adds appropriate validation-error messages if they any of the cases are true, like this:</p>
+
+<ol>
+  <li>
+    <p>Add to the <code class="highlighter-rouge">McQuestion</code> class the skeleton for a custom validation based on a new <code class="highlighter-rouge">choices_cannot_be_duplicate</code> method. This step involves two parts:</p>
+
+    <ol>
+      <li>
+        <p>Add a <code class="highlighter-rouge">validate</code> (singular) declaration for the new validation method, like this:</p>
+
+        <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">validate</span> <span class="ss">:choices_cannot_be_duplicate</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>Declare the new validation method, like this:</p>
+
+        <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">def</span> <span class="nf">choices_cannot_be_duplicate</span>
+   <span class="c1"># check cases</span>
+ <span class="k">end</span>
+</code></pre></div>        </div>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>Add to the custom method the cases to check, like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">def</span> <span class="nf">choices_cannot_be_duplicate</span>
+   <span class="k">if</span> <span class="n">answer</span> <span class="o">==</span> <span class="n">distractor_1</span>
+     <span class="n">errors</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="ss">:distractor_1</span><span class="p">,</span> <span class="s2">"can't be the same as any other choice"</span><span class="p">)</span>
+   <span class="k">end</span>
+   <span class="k">if</span> <span class="n">distractor_1</span> <span class="o">==</span> <span class="n">distractor_2</span>
+     <span class="n">errors</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="ss">:distractor_2</span><span class="p">,</span> <span class="s2">"can't be the same as any other choice"</span><span class="p">)</span>
+   <span class="k">end</span>
+   <span class="k">if</span> <span class="n">answer</span> <span class="o">==</span> <span class="n">distractor_2</span>
+     <span class="n">errors</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="ss">:distractor_2</span><span class="p">,</span> <span class="s2">"can't be the same as any other choice"</span><span class="p">)</span>
+   <span class="k">end</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+
+    <p>Note that the method reports validation errors using the <code class="highlighter-rouge">errors</code> object. In particular, it invokes <code class="highlighter-rouge">add</code> on the <code class="highlighter-rouge">errors</code> object, passing a symbol for the attribute and an error-message string.</p>
+  </li>
+  <li>
+    <p>Add a test to verify that we implemented the custom validation correctly. In particular, for each duplication case, the test will retrieve a fixture object, set the object’s attributes to create the duplication, and assert that the object is not valid, like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">test</span> <span class="s2">"choices cannot be duplicate not valid"</span> <span class="k">do</span>
+   <span class="n">q</span> <span class="o">=</span> <span class="n">mc_questions</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+   <span class="n">q</span><span class="p">.</span><span class="nf">distractor_1</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="nf">answer</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span><span class="p">,</span> <span class="n">q</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">full_messages</span><span class="p">.</span><span class="nf">inspect</span>
+   <span class="n">q</span> <span class="o">=</span> <span class="n">mc_questions</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+   <span class="n">q</span><span class="p">.</span><span class="nf">distractor_1</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="nf">distractor_2</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span><span class="p">,</span> <span class="n">q</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">full_messages</span><span class="p">.</span><span class="nf">inspect</span>
+   <span class="n">q</span> <span class="o">=</span> <span class="n">mc_questions</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+   <span class="n">q</span><span class="p">.</span><span class="nf">distractor_2</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="nf">answer</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span><span class="p">,</span> <span class="n">q</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">full_messages</span><span class="p">.</span><span class="nf">inspect</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+
+    <p>Note that the fixture needs to be retrieved anew for each case to reset its attributes.</p>
+  </li>
+</ol>
+
+<p>Above, we introduced a few common validation scenarios to name a few. For a complete list of validation helpers, see the <a href="https://guides.rubyonrails.org/active_record_validations.html">Rails Guides Active Record Validations documentation</a>.</p>
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2020
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
