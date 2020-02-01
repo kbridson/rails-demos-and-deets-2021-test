@@ -35,7 +35,7 @@ This command generates the file `app/controllers/mc_questions_controller.rb`, wh
 
 ## 2. Adding an `index` Route for `McQuestion` Records
 
-In `routes.rb`, add a standard resources route for the `index` action of the `McQuestionsController` class, like this:
+In `routes.rb`, add a [standard resource route](https://guides.rubyonrails.org/v6.0.0/routing.html#crud-verbs-and-actions){:target="_blank"} for the `index` action of the `McQuestionsController` class, like this:
 
 ```ruby
 get 'mc_questions', to: 'mc_questions#index', as: 'mc_questions' # index
@@ -50,11 +50,11 @@ In this part, we will add an `index` action to the `McQuestionsController` class
 To begin with, add the `index` action, including a `respond_to` block, like we've seen in [previous demos]({% include page_url.html page_name='demo-static-pages.md' %}){:target="_blank"}:
 
 ```ruby
-  def index
+def index
     respond_to do |format|
-      format.html { render :index }
+        format.html { render :index }
     end
-  end
+end
 ```
 
 Unlike the previous controller actions we've seen, this one will also need to retrieve model objects from the database and pass those objects to the view for rendering as HTML.
@@ -62,7 +62,7 @@ Unlike the previous controller actions we've seen, this one will also need to re
 Retrieve all the `McQuestion` objects stored in the database by inserting this line before the `respond_to` block in the `index` action:
 
 ```ruby
-    questions = McQuestion.all
+questions = McQuestion.all
 ```
 
 The [`all` method](https://api.rubyonrails.org/v6.0.0/classes/ActiveRecord/Scoping/Named/ClassMethods.html#method-i-all){:target="_blank"} is one of the model methods provided by Rails, and it retrieves all the saved records of the designated model type (in this case, all the `McQuestion` records).
@@ -72,7 +72,7 @@ Once the `McQuestion` objects have been retrieved, they will need to be passed t
 Add the `locals` hash as an argument to the call to `render` (like we've done in a [previous demo]({% include page_url.html page_name='demo-rendering-data.md' %}){:target="_blank"}) to pass the retrieved `McQuestion` objects to the view, like this:
 
 ```ruby
-      format.html { render :index, locals: { questions: questions } }
+format.html { render :index, locals: { questions: questions } }
 ```
 
 **[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/ccc09baf49bc99dd36c6934a4c326c1790be8c2d){:target="_blank"}**
@@ -130,7 +130,11 @@ Display the answer options as radio buttons by updating the `each` loop, like th
 <% end %>
 ```
 
-There are several things to note here. First, we wrapped the whole question and answer options in a `div` element with a unique `id`. This `div` with `id` is to enable JavaScript code for processing answer selections that we will add in subsequent demos. Second, we put all the answer options into a single `choices` array, and then iterated through that array, printing a radio button option for each possible answer. The rationale for putting the answers into an array is that it will make it convenient later to shuffle the answers. Third, we wrapped each radio button option in a `div` element to achieve a vertical layout. Fourth, note how we have applied the [`radio_button_tag` API](https://api.rubyonrails.org/v6.0.0/classes/ActionView/Helpers/FormTagHelper.html#method-i-radio_button_tag){:target="_blank"} to specify what values would be sent back to the server if a selection was submitted and to set the radio button options to be disabled (since we are not ready to worry about submitting answers to questions yet).
+There are several things to note here. First, we wrapped the whole question and answer options in a `div` element with a unique `id`. This `div` with `id` is to enable JavaScript code for processing answer selections that we will add in subsequent demos. Second, we put all the answer options into a single `choices` array, and then iterated through that array, printing a radio button option for each possible answer. The rationale for putting the answers into an array is that it will make it convenient later to shuffle the answers. Third, we wrapped each radio button option in a `div` element to achieve a vertical layout. Finally, note how we have applied the [`radio_button_tag` API](https://api.rubyonrails.org/v6.0.0/classes/ActionView/Helpers/FormTagHelper.html#method-i-radio_button_tag){:target="_blank"}:
+
+- We need to make sure the buttons are all disabled, since we are not ready to worry about submitting answers to questions yet. To disable each option, we used `disabled: true` true argument to `radio_button_tag`.
+- We need to be sure that only the correct answer is checked by setting the `checked` option to be true only for the radio button selection that has the correct answer. We know the `checked` option should be true only if `c` is `question.answer`, so we can actually set `checked` equal to the the boolean result of the conditional expression `c == question.answer`.
+- To specify what values would be sent back to the server if a selection were to be submitted, we must assign some identifying IDs. For the unique `radio_button_tag` and `label_tag` IDs, we use [string interpolation](https://docs.ruby-lang.org/en/2.6.0/syntax/literals_rdoc.html#label-Strings){:target="_blank"} to execute some ruby code and put it inside the string (e.g. `guess_#{question.answer}`).
 
 The QuizMe app now provides a page that displays all the multiple-choice questions (`index`) at the URL <http://localhost:3000/mc_questions>, as depicted in Figure 1. Next, we will see how to add pages such that each page displays an individual multiple-choice question (`show`).
 

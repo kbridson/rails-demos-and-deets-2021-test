@@ -34,7 +34,9 @@ rails db:migrate
 Finally, confirm that the database was set up correctly by
 
 - inspecting the `db/schema.rb` file to see that the `mc_questions` table is defined correctly, and
-- inspecting the Postgres database `quiz_me_development` with pgAdmin to see that `mc_questions` table is present and that its columns are correct.
+- inspecting the Postgres database `quiz_me_development` with pgAdmin to see that `mc_questions` table is present and that its columns are correct by navigating as follows, starting from the pgAdmin sidebar:
+
+  `Servers` > `SoftwareEng` > `Databases` > `quiz_me_development` > `Schemas` > `public` > `Tables` > (right-click) `mc_questions` > `View/Edit Data` > `All Rows`
 
 We have now created our first model class and corresponding database table; however, we have not yet saved any `McQuestion` records in the database—that will be coming soon!
 

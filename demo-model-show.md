@@ -2,77 +2,96 @@
 title: 'Displaying a Single Model Record'
 ---
 
-{% include under-construction.html %}
-
 # {{ page.title }}
 
+In this demonstration, I will show how create a so-called `show` page that displays one specific model record on a webpage. We will continue to build upon the [QuizMe project](https://github.com/human-se/quiz-me-2020){:target="_blank"} from the previous demos.
 
-1. Replace the generated routes with standard resources routes for the `McQuestionsController`'s `show` actions as follows:
+In particular, we will add a `show` page to the QuizMe app that displays a `McQuestion` record stored in the database, as depicted in Figure 1.
 
-    ```ruby
-    get 'mc_questions/:id', to: 'mc_questions#show', as: 'mc_question' # show
-    ```
+{% include image.html file="mc-question-show-page.png" alt="A web page displaying one multiple-choice question records" caption="Figure 1. The `show` page for a `McQuestion` record." %}
 
-    Previously, we saw parameters passed to the Rails server via POST requests (recall the `params` hash); however, parameters can also be passed via GET requests. In particular, the `show` route has as part of its URI pattern an `:id` request parameter that becomes part of the URL (e.g., <http://localhost:3000/mc_questions/125>). The `:id` value for a given request can be retrieved from `params[:id]`.
+Adding this `show` page will involve several key steps:
 
-    Additionally, it is possible to pass even more parameters, if needed, by appending them to the end of the URL, as in this example: <http://localhost:3000/somepath?keyword1=value1&keyword2=value2&keyword3=value3>.
+1. Adding a `show` route for `McQuestion` records that translates HTTP requests for the `show` page into invocations of the appropriate controller action.
+1. Adding a `show` controller action to the `McQuestionsController` class created [last demo]({% include page_url.html page_name='demo-model-index.md' %}){:target="_blank"} that, when invoked, will retrieve the appropriate `McQuestion` record from the database and will render the appropriate view, passing in the retrieved record for the view to display.
+1. Adding a `show` view for `McQuestion` records that will render a webpage containing whatever `McQuestion` record is passed to the view.
 
-1. Add the standard `respond_to` blocks to the `show` and `index` actions.
+## 1. Adding a `show` Route for `McQuestion` Records
 
-1. We will also need to add the object(s) to display to the controller actions by using the [ActiveRecord query methods](https://guides.rubyonrails.org/active_record_querying.html#retrieving-a-single-object){:target="_blank"} for our `McQuestion` model class. For the `show` action, which displays only one object, we use the `find` method with an `id` parameter as follows:
+In `routes.rb`, insert after the `index` route a [standard resource route](https://guides.rubyonrails.org/v6.0.0/routing.html#crud-verbs-and-actions){:target="_blank"} for the `show` action of the `McQuestionsController` class, like this:
 
-    ```ruby
-    question = McQuestion.find(params[:id])
-    ```
+```ruby
+get 'mc_questions/:id', to: 'mc_questions#show', as: 'mc_question' # show
+```
 
-    You will also need to pass those variables into the `locals` hash, so they will be available in the view.
+In a [previous demo]({% include page_url.html page_name='demo-simple-forms.md' %}){:target="_blank"}, we passed user data (i.e., _parameters_) from a webpage to the Rails server via POST requests (recall the `params` hash); however, parameters can also be passed via GET requests. One such way is illustrated in the above `show` route. In particular, this `show` route's URI pattern includes an `:id` request parameter that becomes part of the URL (e.g., <http://localhost:3000/mc_questions/125>). When the Rails web server receives a GET request that matches that `show` route, the invoked controller action can retrieve the `:id` value (e.g., `125`) via the `params` hash—specifically, using `params[:id]`.
 
+**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/f1c9ca2ade1bda8f2da3c8130611ad9453202e94){:target="_blank"}**
 
+## 2. Adding a `show` Controller Action for `McQuestion` Records
 
+In this part, we will add a `show` action to the `McQuestionsController` class. This is the "`to:`" action specified in the above `show` route and will be called whenever an incoming HTTP request matches that route.
 
+To begin with, add the `show` action, including a `respond_to` block, like we've seen in [previous demos]({% include page_url.html page_name='demo-static-pages.md' %}){:target="_blank"}:
 
-1. The `show` action should display all the _important_ attributes of the `mc_question` object (i.e., not the timestamps and not the `id` because that is shown in the URL). We could simply set up something like `<p>Answer: <%= answer %></p>` for each attribute, but let's make it a little more interesting by showing the question and a set of disabled radio buttons for all the answer choices (the correct answer and distractor(s)). Note that the radio buttons are just for show in this case, and will not be part of a working form.
+```ruby
+def show
+    respond_to do |format|
+        format.html { render :show }
+    end
+end
+```
 
-    1. Create a `<p>` block for the question text as follows:
+Similar to the `index` action, this one will also need to do some retrieving of model objects; however, in the case of the `show` action, we will just be retrieving one model object based on the `id` in the request URL.
 
-        ```erb
-        <p><%= question.question %></p>
-        ```
+Retrieve the appropriate `McQuestion` record by inserting this line before the `respond_to` block in the `show` action:
 
-    1. Now we need to create the radio button group with all the answers. Let's make three radio button tags as follows:
+```ruby
+question = McQuestion.find(params[:id])
+```
 
-        ```erb
-        <div>
-          <%= radio_button_tag "guess", question.answer, checked = true, disabled: true %>
-          <%= label_tag "guess_#{question.answer}", question.answer %>
-        </div>
-        <div>
-          <%= radio_button_tag "guess", question.distractor_1, checked = false, disabled: true %>
-          <%= label_tag "guess_#{question.distractor_1}", question.distractor_1 %>
-        </div>
-        <div>
-          <%= radio_button_tag "guess", question.distractor_2, checked = false, disabled: true %>
-          <%= label_tag "guess_#{question.distractor_2}", question.distractor_2 %>
-        </div>
-        ```
+The [`find` method](https://api.rubyonrails.org/v6.0.0/classes/ActiveRecord/FinderMethods.html#method-i-find){:target="_blank"} is yet another model method provided by Rails. In the above usage, it retrieves the saved `McQuestion` record with the specified `id`.
 
-        In the `radio_button_tag` options, we need to make sure the buttons are all disabled by adding `disabled: true`. We also need to be sure that only the correct answer is checked by setting the `checked` option to be true only for the answer radio button. For the unique label tag IDs, we use string interpolation to execute some ruby code and put it inside the string (e.g. `#{question.answer}`).
+Once the `McQuestion` object have been retrieved, it will need to be passed to the view for rendering.
 
-    1. Coding each radio button, like we did above, works, but it results in a lot of duplicate code. Instead, we can programmatically generate the radio buttons by looping through an array that contains all the choices and creating the radio button inside the loop.
+Similar to the [last demo]({% include page_url.html page_name='demo-model-index.md' %}){:target="_blank"}, we will add the `locals` hash as an argument to the call to `render` to pass the retrieved `McQuestion` object to the view, like this:
 
-        ```erb
-        <%
-        choices = [question.answer, question.distractor_1, question.distractor_2]
-        choices.each do |c|
-        %>
-          <div>
-            <%= radio_button_tag "guess", c, checked = c == question.answer, disabled: true %>
-            <%= label_tag "guess_#{c}", c %>
-          </div>
+```ruby
+format.html { render :show, locals: { question: question } }
+```
 
-        <% end %>
-        ```
+**Note!** In the `index` action, we had multiple `McQuestion` records, so we used the variable name `questions` (plural); however, in the `show` action, we have only one `McQuestion` record, so we use the variable name `question` (singular).
 
-        Setting most of the options is straightforward based on the `c` value but determining which radio button to check is more complicated. We know the `checked` option should be true only if `c` is `question.answer`, so we can actually set `checked` equal to the the result of determining if `c` is equal to `question.answer`.
+**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/547fa4dc0991b85710f5d47aea715cb573df6c9c){:target="_blank"}**
 
-    1. Try going to <http://localhost:3000/mc_questions/1> to see the show page for one of the questions we added to the database.
+## 3. Adding a `show` View for `McQuestion` Records
+
+The `show` action should display all the _important_ attributes of the `mc_question` object (i.e., not the timestamps and not the `id`, because that is shown in the URL). Similar to the `index` view, we will display the question text followed by a radio button with the answer choices, as depicted in Figure 1.
+
+To start with, create a file `app/views/mc_questions/show.html.erb` for the view.
+
+Display the question text by inserting a `<p>` block for the question text at the top of view, like this:
+
+```erb
+<p><%= question.question %></p>
+```
+
+Display answer choices as a radio button (using similar code to that which was used in the `index` view) by inserting this code after the question text:
+
+```erb
+<% choices = [question.answer, question.distractor_1, question.distractor_2] %>
+<% choices.each do |c| %>
+    <div>
+        <%= radio_button_tag "guess", c, checked = c == question.answer, disabled: true %>
+        <%= label_tag "guess_#{c}", c %>
+    </div>
+<% end %>
+```
+
+The QuizMe app now provides pages for displaying individual multiple-choice questions (`show` pages). For example, opening the URL <http://localhost:3000/mc_questions/1> should display a page like the on depicted in Figure 1. Similarly, the URLs <http://localhost:3000/mc_questions/2> and <http://localhost:3000/mc_questions/3> should display `show` pages for the other two questions in the database. Clearly, it isn't very convenient entering URLs manually to show these records, and in future demos, we will add hyperlinks to make navigating to these pages more convenient.
+
+The QuizMe app now has `index` and `show` pages that cover the R ("Read") functionality in [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete){:target="_blank"}. In upcoming demos, we will add C ("Create"), U ("Update"), and D ("Delete") functionality to complete the app's CRUD capabilities.
+
+**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/785e79a43a817269a4e0887184a6d1c1bd509674){:target="_blank"}**
+
+{% include pagination.html prev_page='demo-model-index.md' %}
