@@ -40,7 +40,7 @@ Based on the Rails MVC model, there are three things needed to set up a page in 
     </p>
     </div>
 
-1. Looking at the `app/config/routes.rb` file, a `get` (as in HTTP GET request) route to `'static_pages/welcome'` has been created, meaning the URL for the page would be <http://localhost:3000/static_pages/welcome>. Instead, make the route point to <http://localhost:3000/welcome> by editing it as follows:
+1. Looking at the `config/routes.rb` file, a `get` (as in HTTP GET request) route to `'static_pages/welcome'` has been created, meaning the URL for the page would be <http://localhost:3000/static_pages/welcome>. Instead, make the route point to <http://localhost:3000/welcome> by editing it as follows:
 
     ```ruby
     get 'welcome', to: 'static_pages#welcome', as: 'welcome'
