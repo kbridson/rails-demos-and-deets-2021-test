@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2020/assets/img/favicon.png">
+
+<title>Seeding the Database | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2020/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2020/"><img src="/rails-demos-n-deets-2020/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="seeding-the-database">Seeding the Database</h1>
+
+<p>In this demonstration, I will show how to add seed data to the app’s database. We will continue to build upon the <a href="https://github.com/human-se/quiz-me-2020" target="_blank">QuizMe project</a> from the previous demos.</p>
+
+<p>In particular, we will update the QuizMe app such that the database can be initially seeded with three sample multiple-choice questions. Having such seed data available is useful for manually testing the app during development.</p>
+
+<h2 id="1-adding-seed-multiple-choice-questions-to-the-database">1. Adding Seed Multiple-Choice Questions to the Database</h2>
+
+<p>First, declare a few sample questions in the <code class="highlighter-rouge">db/seeds.rb</code> file, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">q1</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span>
+    <span class="ss">question: </span><span class="s1">'What does the M in MVC stand for?'</span><span class="p">,</span>
+    <span class="ss">answer: </span><span class="s1">'Model'</span><span class="p">,</span>
+    <span class="ss">distractor_1: </span><span class="s1">'Media'</span><span class="p">,</span>
+    <span class="ss">distractor_2: </span><span class="s1">'Mode'</span>
+<span class="p">)</span>
+
+<span class="n">q2</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span>
+    <span class="ss">question: </span><span class="s1">'What does the V in MVC stand for?'</span><span class="p">,</span>
+    <span class="ss">answer: </span><span class="s1">'View'</span><span class="p">,</span>
+    <span class="ss">distractor_1: </span><span class="s1">'Verify'</span><span class="p">,</span>
+    <span class="ss">distractor_2: </span><span class="s1">'Validate'</span>
+<span class="p">)</span>
+
+<span class="n">q3</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span>
+    <span class="ss">question: </span><span class="s1">'What does the C in MVC stand for?'</span><span class="p">,</span>
+    <span class="ss">answer: </span><span class="s1">'Controller'</span><span class="p">,</span>
+    <span class="ss">distractor_1: </span><span class="s1">'Create'</span><span class="p">,</span>
+    <span class="ss">distractor_2: </span><span class="s1">'Code'</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">create!</code> method is part of the Rails model API, and when executed, it has the effect of creating the corresponding model object (in this case <code class="highlighter-rouge">McQuestion</code> objects) and saving the object to the database.</p>
+
+<p>The Rails API actually offers both a <a href="https://api.rubyonrails.org/v6.0.0/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-create" target="_blank"><code class="highlighter-rouge">create</code> (with no <code class="highlighter-rouge">!</code>)</a> version and a <a href="https://api.rubyonrails.org/v6.0.0/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-create-21" target="_blank"><code class="highlighter-rouge">create!</code> (with a <code class="highlighter-rouge">!</code>)</a> version of the method. These two versions are essentially the same, except they behave differently when saving to the database fails. In particular, the <code class="highlighter-rouge">create!</code> version throws an exception if saving fails, whereas the <code class="highlighter-rouge">create</code> version does not.</p>
+
+<p><strong>Caution!</strong> The reason that we use the exception-throwing <code class="highlighter-rouge">create!</code> version in the <code class="highlighter-rouge">seeds.rb</code> script is so that we will see an error message if a record fails to save to the database. In contrast, if we were to use the <code class="highlighter-rouge">create</code> (with no <code class="highlighter-rouge">!</code>) version of the method, the script would fail silently, and that can create a lot of confusion for us regarding why certain records are mysteriously missing from the database.</p>
+
+<p>Next, execute the <code class="highlighter-rouge">seeds.rb</code> script by running this command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails db:seed
+</code></pre></div></div>
+
+<p>Finally, verify that the records were added to the database by using pgAdmin to navigate as follows, starting from the sidebar:</p>
+
+<p><code class="highlighter-rouge">Servers</code> &gt; <code class="highlighter-rouge">SoftwareEng</code> &gt; <code class="highlighter-rouge">Databases</code> &gt; <code class="highlighter-rouge">quiz_me_development</code> &gt; <code class="highlighter-rouge">Schemas</code> &gt; <code class="highlighter-rouge">public</code> &gt; <code class="highlighter-rouge">Tables</code> &gt; (right-click) <code class="highlighter-rouge">mc_questions</code> &gt; <code class="highlighter-rouge">View/Edit Data</code> &gt; <code class="highlighter-rouge">All Rows</code></p>
+
+<p>You should see the three seed records, as depicted in Figure 1.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-n-deets-2020/resources/pgadmin-seed-mc-questions.png" class="figure-img img-fluid rounded border" alt="A table of data from the database that contains the three seeded multiple-choice question records" /><figcaption class="figure-caption"><p>Figure 1. The seeded multiple-choice questions, as visualized in pgAdmin.</p>
+</figcaption></figure></div>
+
+<p>We have now set up our app such that we can add seed data whenever we reset the database. As we evolve our model in future demos, we will continue to add new seed data, so when we manually test the app, we won’t have to manually enter in all our test data every time.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/4094ae4b0e7278565430ac5fa8494e16676e1f7c" target="_blank">➥ Code changeset for this part</a></strong></p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-annotate/">⇦ Previous: Automatically Annotating Model Code</a></li>
+        
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-model-index/">⇨ Next: Displaying All Model Records</a></li>
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2020
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
