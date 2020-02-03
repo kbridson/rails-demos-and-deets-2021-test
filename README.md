@@ -1,37 +1,42 @@
 # Web Development with Ruby on Rails Tutorial 2019
 
-- URL: <https://memphis-cs.github.io/rails-tutorial-2019/>
+- URL: <https://memphis-cs.github.io/rails-demos-n-deets-2020/>
 
 ## TODO
 
-### HOTFIX
+### About/Global
 
-- Annotate annotations are wrong in Demo 8
-- Forms in Demo 15 should not have `<br>` after labels
-
-### Dev Env Setup
-
-- Switch to Z Shell and oh-my-zsh and Scott's custom theme
-- See if Postgres setup can use login credentials that are not OS user name (use `dotenv` gem w/ `.env` file and `.gitignore`)
-- Add `--skip-bundle` (and `--skip-webpack-install`?) when creating new Rails project
-- Switch to `rails db:migrate:reset db:seed`
-
-### Changes to App and Demos
-
-- Drop/redo the demo that prints an array (b/c it doesn't seem realistic).
-- Drop/redo the simple forms demo because there is too much accidental complexity in it. Also, it doesn't actually do anything.
-- Should do a pages controller or should we do a home controller, about controller, etc.? (I've been seeing the latter mentioned)
-- Should we use only `resource` for routes and then `rails routes` to see exactly what's there?
-- Should we have a home page that has only a root route like this: `root to: 'home#index'`?
-- Should we have only RESTful/resource routes/actions/etc.?
-- Should we introduce styling earlier? For example, we might interleave, adding a new form/feature and then styling the feature.
-- Should we do models earlier? (Might enable more interesting frontend features)
-- Should we have functional tests earlier?
+- List design principles
+- Principle of explicit args for learning
+- Should we have only RESTful/resource routes/actions/etc.? If so, could possibly use only `resource` routes?
+  - Should we quit using the useless RESTful pages (e.g., `show` often seems unnecessary)? Maybe we could just say everything is a RESTFUL route/action, so you just have to pick the controller and the RESTful action depending on what you need?
 - We should add requirements/design artifacts.
-- Should we use `locals` for all arg passing to views or is it too weird?
-- May need to have CSS-to-fix-the-style/layout mini pieces within a demo. Might be a good way to explain all those wee little tweaks we do to the CSS.
-- Should we quit using the useless RESTful pages (e.g., `show` often seems unnecessary)? Maybe we could just say everything is a RESTFUL route/action, so you just have to pick the controller and the RESTful action depending on what you need?
-- Should we do Quizzes before Questions?
+- Principle: Lead with goals of demo.
+- Principle: Shorter demos and more high-level structure
+- Principle?: Codify lists of steps for common tasks that can be named and referred back to when used over and over
+- In general, need worked example general steps to be somehow clearer. Also, need to separate new topics from stuff that just needs built but uses only previously covered topics. Maybe what is needed is a list of tasks that are just what is needed to build the app and a mapping from topics to tasks that makes it easy to distinguish when a new topic is covered vs when the task involves only previously covered material.
+
+### Getting Started
+
+- Windows terminal starts in non-home directory? Need instructions about running `cd` to get to home directory.
+- Add instructions about pgAdmin 127.0.0.1 thing? localhost doesn't work for some Windows users.
+- Add `--skip-bundle` (and `--skip-webpack-install`?) when creating new Rails project
+
+### Simple Web Pages and Forms
+
+- Should do a pages controller or should we do a home controller, about controller, etc.? (I've been seeing the latter mentioned)
+- Add some HTML tag specific demos, like `table`? Or maybe just have deets page on all the HTML we use in the demos?
+- Add `title` demo in mostly static pages
+- Should we have a home page that has only a root route like this: `root to: 'home#index'`?
+- Drop/redo the demo that prints an array (b/c it doesn't seem realistic). Maybe instead make it pass something random?
+- Drop/redo the simple forms demo because there is too much accidental complexity in it. Also, it doesn't actually do anything.
+- Delay simple forms until after models?
+- Should we introduce styling earlier? For example, we might interleave, adding a new form/feature and then styling the feature.
+- Should we have functional tests earlier?
+
+### Model Basics
+
+- Reduce form complexity in index and show demo
 
 ### Missing topics
 
@@ -46,19 +51,4 @@
 - Deploying to Heroku demo
 - Bug deets-type pages?
 - Deets on Ruby/Rails naming conventions
-
-### Global
-
-- No number unless somehow auto-numbered.
-- Lead with goals in earlier demos.
-- Shorter demos and more high-level structure
-- Look to codify lists of steps for common tasks that can be named and referred back to when used over and over
-- Need links to next and previous demos
-
-### Other
-
-- Manage static strings using Rails Internationalization (I18n) API
-
-- Make creating `Quiz` model class and its basic CRUD pages to a separate prereq-type demo
-
-- In general, need worked example general steps to be somehow clearer. Also, need to separate new topics from stuff that just needs built but uses only previously covered topics. Maybe what is needed is a list of tasks that are just what is needed to build the app and a mapping from topics to tasks that makes it easy to distinguish when a new topic is covered vs when the task involves only previously covered material.
+- Internationalization: Manage static strings using Rails Internationalization (I18n) API?
