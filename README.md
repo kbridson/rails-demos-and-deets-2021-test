@@ -19,6 +19,7 @@
 ### Getting Started
 
 - Windows terminal starts in non-home directory? Need instructions about running `cd` to get to home directory.
+- Set tabs to 2 spaces in vscode.
 - Add instructions about pgAdmin 127.0.0.1 thing? localhost doesn't work for some Windows users.
 - Add `--skip-bundle` (and `--skip-webpack-install`?) when creating new Rails project
 
