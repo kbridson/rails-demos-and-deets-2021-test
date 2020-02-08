@@ -19,9 +19,14 @@ demos_sections:
       - demo-db-seeds.md
       - demo-model-index.md
       - demo-model-show.md
-  - heading: Model Validations and Tests
+  - heading: Model Tests and Validations
     links:
-      - demo-model-validations.md
+      - demo-test-fixtures.md
+      - demo-presence-validations.md
+      - demo-uniqueness-validations.md
+      - demo-custom-validations.md
+  - heading: Resource Creation, Updating, and Deletion
+    links:
       - demo-new-create.md
       - demo-edit-update.md
   - heading: Linking Model Objects with Associations

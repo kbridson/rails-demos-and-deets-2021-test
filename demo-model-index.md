@@ -4,7 +4,7 @@ title: 'Displaying All Model Records'
 
 # {{ page.title }}
 
-In this demonstration, I will show how create a so-called `index` page that displays all the model records from a particular database table on a webpage. We will continue to build upon the [QuizMe project](https://github.com/human-se/quiz-me-2020){:target="_blank"} from the previous demos.
+In this demonstration, I will show how to create a so-called `index` page that displays all the model records from a particular database table on a webpage. We will continue to build upon the [QuizMe project](https://github.com/human-se/quiz-me-2020){:target="_blank"} from the previous demos.
 
 In particular, we will add an `index` page to the QuizMe app that displays all the `McQuestion` records stored in the database, as depicted in Figure 1.
 

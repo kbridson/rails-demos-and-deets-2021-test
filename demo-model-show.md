@@ -4,7 +4,7 @@ title: 'Displaying a Single Model Record'
 
 # {{ page.title }}
 
-In this demonstration, I will show how create a so-called `show` page that displays one specific model record on a webpage. We will continue to build upon the [QuizMe project](https://github.com/human-se/quiz-me-2020){:target="_blank"} from the previous demos.
+In this demonstration, I will show how to create a so-called `show` page that displays one specific model record on a webpage. We will continue to build upon the [QuizMe project](https://github.com/human-se/quiz-me-2020){:target="_blank"} from the previous demos.
 
 In particular, we will add a `show` page to the QuizMe app that displays a `McQuestion` record stored in the database, as depicted in Figure 1.
 
@@ -94,4 +94,4 @@ The QuizMe app now has `index` and `show` pages that cover the R ("Read") functi
 
 **[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/785e79a43a817269a4e0887184a6d1c1bd509674){:target="_blank"}**
 
-{% include pagination.html prev_page='demo-model-index.md' %}
+{% include pagination.html prev_page='demo-model-index.md' next_page='demo-test-fixtures.md' %}
