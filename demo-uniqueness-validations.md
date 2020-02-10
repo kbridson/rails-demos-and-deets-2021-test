@@ -8,6 +8,9 @@ title: 'Creating and Testing Uniqueness Validations'
 
 In this demonstration, I will show how to XXX. We will continue to build upon the [QuizMe project](https://github.com/human-se/quiz-me-2020){:target="_blank"} from the previous demos.
 
+Furthermore, the `question` for each `McQuestion` object stored in the database should be unique (i.e., no duplicate questions).
+
+
 ## Creating Uniqueness Validations
 
 We can also add other types of validations. For example, it's probably not acceptable to have two questions with exactly the same `question` text in the database. To ensure that such duplicates will not be saved to the database, we add a `uniqueness` validation to the `question` attribute, as follows:

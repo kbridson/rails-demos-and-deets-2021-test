@@ -8,6 +8,8 @@ title: 'Creating and Testing Custom Validations'
 
 In this demonstration, I will show how to XXX. We will continue to build upon the [QuizMe project](https://github.com/human-se/quiz-me-2020){:target="_blank"} from the previous demos.
 
+All the possible-answer values for a `McQuestion` object (i.e., `answer`, `distractor_1`, and `distractor_2`) should be different from each other
+
 ## Creating Custom Validations
 
 Sometimes you will need to validate a property for which Rails does not provide a validation helper. In that situation, you will need to write a custom validation.
