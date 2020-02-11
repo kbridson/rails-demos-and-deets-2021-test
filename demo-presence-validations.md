@@ -22,9 +22,9 @@ validates :answer, presence: true
 validates :distractor_1, presence: true
 ```
 
-Note we did not add a presence validation to `distractor_2`. Such a validation would inadvertently flag all true/false questions as invalid, which is not what we want.
+Note that we did not add a `presence` validation to `distractor_2`. Such a validation would inadvertently flag all true/false questions as invalid, which is not what we want.
 
-Verify that you didn't accidentally introduce a syntax error into the model class by running the valid `McQuestion` fixture tests from [last demo]({% include page_url.html page_name='demo-test-fixtures.md' %}){:target="_blank"}, like this:
+Verify that we didn't accidentally introduce a syntax error into the model class by running the valid `McQuestion` fixture tests from [last demo]({% include page_url.html page_name='demo-test-fixtures.md' %}){:target="_blank"}, like this:
 
 ```bash
 rails test
