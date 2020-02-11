@@ -98,4 +98,4 @@ In the last few demos, we have introduced a few common validation scenarios. For
 
 **[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/c51903dbe2216b1b8b0dd9946127543b243ee055){:target="_blank"}**
 
-{% include pagination.html prev_page='demo-uniqueness-validations.md' %}
+{% include pagination.html prev_page='demo-uniqueness-validations.md' next_page='demo-flash.md' %}

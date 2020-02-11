@@ -25,10 +25,12 @@ demos_sections:
       - demo-presence-validations.md
       - demo-uniqueness-validations.md
       - demo-custom-validations.md
-  - heading: Resource Creation, Updating, and Deletion
+  - heading: RESTful Resources
     links:
+      - demo-flash.md
       - demo-new-create.md
       - demo-edit-update.md
+      - demo-destroy.md
   - heading: Linking Model Objects with Associations
     links:
       - demo-quiz-model.md

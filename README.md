@@ -6,6 +6,7 @@
 
 ### About/Global
 
+- Introduce functional testing early so that for every change made to the app it is possible to run tests to ensure no syntax errors (at the least).
 - List design principles
 - Principle of explicit args for learning
 - Should we have only RESTful/resource routes/actions/etc.? If so, could possibly use only `resource` routes?
