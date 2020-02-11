@@ -10,6 +10,7 @@ demos_sections:
       - demo-static-pages.md
       - demo-images.md
       - demo-links.md
+      - demo-root-route.md
       - demo-rendering-data.md
       - demo-simple-forms.md
   - heading: Model Basics
