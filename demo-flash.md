@@ -61,7 +61,7 @@ Display all flash messages (regardless of key) by editing the flash-message view
 <% end %>
 ```
 
-Again, test the app to confirm that the flash message is still working.
+Again, test the app to confirm that the flash message is still working. Note that the message now appears at the top of the page, which is where we want it to be moving forward.
 
 **[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/0cad1a21ca0a2a4e818edca684ff6008480f851c){:target="_blank"}**
 
