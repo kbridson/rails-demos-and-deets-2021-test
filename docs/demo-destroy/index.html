@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2020/assets/img/favicon.png">
+
+<title>Actions for Deleting Model Records | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2020/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2020/"><img src="/rails-demos-n-deets-2020/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <div class="d-block text-center">
+    <p class="display-4 mb-0">
+        &#128679;&nbsp;Under Construction&nbsp;&#128679;
+    </p>
+    <p class="mt-0">
+        Sorry! This page isn't quite finished yet.
+    </p>
+</div>
+
+<h1 id="actions-for-deleting-model-records">Actions for Deleting Model Records</h1>
+
+<p>In this demonstration, I will show how to add controller actions and views that allow users to delete database records. We will continue to build upon the <a href="https://github.com/human-se/quiz-me-2020" target="_blank">QuizMe project</a> from the previous demos.</p>
+
+<h2 id="1-deleting-records-with-the-destroy-action">1. Deleting Records with the <code class="highlighter-rouge">destroy</code> Action</h2>
+
+<p>Now that the QuizMe app has features to create, read (<code class="highlighter-rouge">index</code>/<code class="highlighter-rouge">show</code>), and update (CRU_) multiple-choice questions, the last thing to do is add the functionality for deleting questions. Unlike the <code class="highlighter-rouge">new</code>/<code class="highlighter-rouge">create</code> and <code class="highlighter-rouge">edit</code>/<code class="highlighter-rouge">update</code> features, deleting records will not involve a form. Thus, we will add only one new controller action (<code class="highlighter-rouge">destroy</code>), and we will add special hyperlinks to the <code class="highlighter-rouge">index</code> and <code class="highlighter-rouge">show</code> pages to invoke the <code class="highlighter-rouge">destroy</code> action.</p>
+
+<p>Add a standard resource route to map HTTP DELETE requests to the <code class="highlighter-rouge">McQuestionsController</code> action <code class="highlighter-rouge">destroy</code>, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># show route</span>
+<span class="n">delete</span> <span class="s1">'mc_questions/:id'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'mc_questions#destroy'</span> <span class="c1"># destroy route</span>
+</code></pre></div></div>
+
+<p>Add an empty <code class="highlighter-rouge">destroy</code> controller action. When finished, the action will first retrieve the object to be deleted based on the <code class="highlighter-rouge">id</code> in the request URL, then delete the object, then set a flash notification, and finally respond with an HTTP redirect to the <code class="highlighter-rouge">index</code> page. The psuedocode for this logic looks like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">destroy</span>
+  <span class="c1"># load existing object again from URL param</span>
+  <span class="c1"># destroy object</span>
+  <span class="c1"># respond_to block</span>
+    <span class="c1"># html format block</span>
+      <span class="c1"># success message</span>
+      <span class="c1"># redirect to index</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Add code to retrieve the object to be deleted using the <code class="highlighter-rouge">id</code> from the path in <code class="highlighter-rouge">params</code> hash, and then delete it using the model’s <code class="highlighter-rouge">destroy</code> method, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># load existing object again from URL param</span>
+<span class="n">question</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+<span class="c1"># destroy object</span>
+<span class="n">question</span><span class="p">.</span><span class="nf">destroy</span>
+</code></pre></div></div>
+
+<p>Complete the logic for the <code class="highlighter-rouge">respond_to</code> block by adding a success message to the <code class="highlighter-rouge">flash</code> has and an HTTP redirect to the <code class="highlighter-rouge">index</code> page, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># respond_to block</span>
+<span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+  <span class="c1"># html format block</span>
+  <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span>
+    <span class="c1"># success message</span>
+    <span class="n">flash</span><span class="p">[</span><span class="ss">:success</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Question removed successfully'</span>
+    <span class="c1"># redirect to index</span>
+    <span class="n">redirect_to</span> <span class="n">mc_questions_url</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Lastly, update the <code class="highlighter-rouge">index</code> page and the <code class="highlighter-rouge">show</code> page by adding a delete (🗑) link after the <code class="highlighter-rouge">edit</code> link for each multiple-choice question, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- edit link --&gt;</span>
+<span class="c">&lt;!-- delete link --&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'🗑'</span><span class="p">,</span> <span class="n">mc_question_path</span><span class="p">(</span><span class="n">question</span><span class="p">),</span> <span class="ss">method: :delete</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>User of the app should now be able to delete any multiple-choice question by clicking the <code class="highlighter-rouge">🗑</code> link for that question on the <code class="highlighter-rouge">index</code> page.</p>
+
+<p><strong><a href="xxx" target="_blank">➥ Code changeset for this part</a></strong></p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-edit-update/">⇦ Previous: Forms and Actions for Updating Model Records</a></li>
+        
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2020
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
