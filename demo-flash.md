@@ -65,4 +65,4 @@ Again, test the app to confirm that the flash message is still working. Note tha
 
 **[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/0cad1a21ca0a2a4e818edca684ff6008480f851c){:target="_blank"}**
 
-{% include pagination.html prev_page='demo-custom-validations.md' next_page='demo-new-create.md' %}
+{% include pagination.html prev_page='demo-custom-validations.md' next_page='demo-resource-create.md' %}

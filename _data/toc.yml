@@ -29,9 +29,9 @@ demos_sections:
   - heading: RESTful Resources
     links:
       - demo-flash.md
-      - demo-new-create.md
-      - demo-edit-update.md
-      - demo-destroy.md
+      - demo-resource-create.md
+      - demo-resource-update.md
+      - demo-resource-destroy.md
   - heading: Linking Model Objects with Associations
     links:
       - demo-quiz-model.md

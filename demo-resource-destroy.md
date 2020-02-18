@@ -8,6 +8,8 @@ title: 'Actions for Deleting Model Records'
 
 In this demonstration, I will show how to add controller actions and views that allow users to delete database records. We will continue to build upon the [QuizMe project](https://github.com/human-se/quiz-me-2020){:target="_blank"} from the previous demos.
 
+Finally, clicking the 🗑 link for a question on either the `index` or the `show` page will cause a `destroy` action to delete the question from the database and to redirect the browser to the `index` page, displaying a flash success notification. Figure 6 depicts the result of deleting a question.
+
 ## 1. Deleting Records with the `destroy` Action
 
 Now that the QuizMe app has features to create, read (`index`/`show`), and update (CRU_) multiple-choice questions, the last thing to do is add the functionality for deleting questions. Unlike the `new`/`create` and `edit`/`update` features, deleting records will not involve a form. Thus, we will add only one new controller action (`destroy`), and we will add special hyperlinks to the `index` and `show` pages to invoke the `destroy` action.
@@ -68,4 +70,4 @@ User of the app should now be able to delete any multiple-choice question by cli
 
 **[➥ Code changeset for this part](xxx){:target="_blank"}**
 
-{% include pagination.html prev_page='demo-edit-update.md' %}
+{% include pagination.html prev_page='demo-resource-update.md' %}

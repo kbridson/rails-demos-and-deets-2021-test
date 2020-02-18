@@ -248,4 +248,4 @@ The app now provides functionality for creating new multiple-choice questions! I
 
 **[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/2de3448c5951e7c2848c7d29a27a6bb0221280a7){:target="_blank"}**
 
-{% include pagination.html prev_page='demo-flash.md' next_page='demo-edit-update.md' %}
+{% include pagination.html prev_page='demo-flash.md' next_page='demo-resource-update.md' %}

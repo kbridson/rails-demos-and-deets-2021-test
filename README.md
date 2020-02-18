@@ -39,6 +39,8 @@
 
 ### Model Basics
 
+- Link to index from home page
+- Link from index to show page (current done in the resources part)
 - Reduce form complexity in index and show demo
 
 ### Missing topics
