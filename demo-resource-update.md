@@ -18,7 +18,11 @@ If the form submission fails (e.g., because a model validation fails), the `upda
 
 {% include image.html file="update_mc_question_error_edit_page.png" alt="Screenshot of browser page with form for updating existing multiple-choice questions, including error notification" caption="Figure 3. The `edit` form page after a failed submission of the form." %}
 
-The `edit`/`update` functionality will be similar to the `new`/`create` functionality from the previous demo, and like the previous demo, there will be three main parts to this demo:
+Additionally, to make the `edit` form more accessible to users, we will add hyperlinks to the `index` and `show` pages, as depicted in Figure 4.
+
+{% include image.html file="edit_mc_question_index_show_links.png" alt="Screenshots of index and show pages, with links to edit form circled on both" caption="Figure 4. The `index` and `show` pages, now with hyperlinks (🖋) to the `edit` form. Additionally, the `index` page now also has hyperlinks (🔎) to the `show` pages." %}
+
+The `edit`/`update` functionality described above will be similar to the `new`/`create` functionality from the previous demo, and like the previous demo, there will be three main parts to this demo:
 
 1. We will first implement the `edit` controller action and `edit.html.erb` view for displaying the form page from Figure 1 (however, the form will not yet be functional).
 1. Next, we will implement the `update` controller action for processing submissions of the form, and thus, make the form functional.
@@ -177,7 +181,7 @@ flash.now[:error] = 'Error: Question could not be updated'
 render :edit, locals: { question: question }
 ```
 
-Lastly, there is a CSS style issue that we must address. If a `label` for an model attribute in the view has an associated error (as per the model `errors` method), the `form_with` helper will automatically wrap the `label` in an HTML `div` element with CSS class `field_with_errors`. The default style for this class exhibits some strange line spacing, and as a consequence, doesn't look very nice.
+Lastly, there is a CSS style issue that we must address. If a model attribute has an associated error (as per the model `errors` method), then the `form_with` helper will automatically wrap that attribute's `label` in an HTML `div` element with the CSS class `field_with_errors`. The default style for this CSS class exhibits some strange line spacing, and as a consequence, doesn't look very nice.
 
 Fix this style issue by adding CSS code to `app/assets/stylesheets/application.css`, like this:
 
@@ -217,7 +221,9 @@ Add the `edit`-page link after the question text on the `show` page as well, lik
 </p>
 ```
 
-You should now be able to go to the `edit` page for any question by clicking the `🖋` link for that question on the `index` page or the `show` page.
+You should now be able to navigate to the `edit` page for any question by clicking the `🖋` link for that question on the `index` page or the `show` page.
+
+The QuizMe app now has functionality for creating and updating multiple-choice questions. In the next demo, we will complete the app's CRUD functionality by enabling users to delete records.
 
 **[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/32f6d2d8b0eeaa9ec370a38645fb089e52f837d9){:target="_blank"}**
 
