@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2020/assets/img/favicon.png">
+
+<title>Creating a New Model Class to Associate With | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2020/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2020/"><img src="/rails-demos-n-deets-2020/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="creating-a-new-model-class-to-associate-with">Creating a New Model Class to Associate With</h1>
+
+<p>In this demonstration, I will lay the groundwork for the upcoming association demos by creating a new model class to association with. The tasks in this demo are similar to the ones covered in the previous demos, and we will continue to build upon on the <em>QuizMe</em> project from the previous demos.</p>
+
+<p>In particular, we will be updating our model design by adding a new model class, <code class="highlighter-rouge">Quiz</code>, as depicted in Figure 1.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;">
+<figure class="figure">
+<img src="/rails-demos-n-deets-2020/resources/demo10b_fig01.svg" class="figure-img img-fluid rounded border" alt="Class diagram" />
+<figcaption class="figure-caption">Figure 1. Model class design diagram showing the new model class <code>Quiz</code>.</figcaption>
+</figure>
+</div>
+
+<p>Furthermore, we will be adding the standard CRUD resource pages for <code class="highlighter-rouge">Quiz</code>, depicted in Figures 2–5.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;">
+<figure class="figure">
+<img src="/rails-demos-n-deets-2020/resources/demo10b_fig02.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page" />
+<figcaption class="figure-caption">Figure 2. Example <code>index</code> page for <code>Quiz</code>. The "New Quiz" hyperlink goes to the <code>new</code> form for <code>Quiz</code>. The "🔎" hyperlink goes to the <code>show</code> page for the corresponding <code>Quiz</code> record. The "🖋" hyperlink goes to the <code>edit</code> page for the corresponding <code>Quiz</code> record. The "🗑" hyperlink deletes (via the <code>destroy</code> action) the corresponding <code>Quiz</code> record. Note that the description of each <code>Quiz</code> record is truncated such that only the first 75 characters are displayed.</figcaption>
+</figure>
+</div>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;">
+<figure class="figure">
+<img src="/rails-demos-n-deets-2020/resources/demo10b_fig03.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page" />
+<figcaption class="figure-caption">Figure 3. Example <code>show</code> page for <code>Quiz</code>.</figcaption>
+</figure>
+</div>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;">
+<figure class="figure">
+<img src="/rails-demos-n-deets-2020/resources/demo10b_fig04.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page" />
+<figcaption class="figure-caption">Figure 4. Example <code>new</code> form page for <code>Quiz</code>. Like the previous demo on forms for creating model records, submissions of the form are processed by a <code>create</code> controller action.</figcaption>
+</figure>
+</div>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;">
+<figure class="figure">
+<img src="/rails-demos-n-deets-2020/resources/demo10b_fig05.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page" />
+<figcaption class="figure-caption">Figure 5. Example <code>edit</code> form page for <code>Quiz</code>. Like the previous demo on forms for updating model records, submissions of the form are processed by a <code>update</code> controller action.</figcaption>
+</figure>
+</div>
+
+<p>We divide the implementation of these features into two tasks:</p>
+
+<ol>
+  <li>Creating the <code class="highlighter-rouge">Quiz</code> model class, including attribute validations.</li>
+  <li>Creating <code class="highlighter-rouge">Quiz</code> test fixtures and model tests.</li>
+  <li>Creating the CRUD resource pages and actions for <code class="highlighter-rouge">Quiz</code>.</li>
+</ol>
+
+<h2 id="1-creating-the-quiz-model-class">1. Creating the <code class="highlighter-rouge">Quiz</code> Model Class</h2>
+
+<p>For this part, we will perform the following steps to create the new model class, <code class="highlighter-rouge">Quiz</code>, along with corresponding model validations and tests.</p>
+
+<ol>
+  <li>
+    <p>Generate the <code class="highlighter-rouge">Quiz</code> model class along with a corresponding database migration, like this:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails g model Quiz title description:text
+</code></pre></div>    </div>
+
+    <p>In the above command, we did not need to specify the datatype for <code class="highlighter-rouge">title</code> above, because <code class="highlighter-rouge">string</code> is the default datatype for model attributes (and that’s what we wanted).</p>
+  </li>
+  <li>
+    <p>Run the newly generated migration to update the database schema by running the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails db:migrate
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>In the <code class="highlighter-rouge">Quiz</code> model class, add <code class="highlighter-rouge">presence</code> validations for <code class="highlighter-rouge">title</code> and <code class="highlighter-rouge">description</code>, like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">validates</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:description</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="2-creating-quiz-test-fixtures-and-model-tests">2. Creating <code class="highlighter-rouge">Quiz</code> Test Fixtures and Model Tests</h2>
+
+<ol>
+  <li>
+    <p>In <code class="highlighter-rouge">test/fixtures/quizzes.yml</code>, add a valid test fixture for the <code class="highlighter-rouge">Quiz</code> model, like this:</p>
+
+    <div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="na">one</span><span class="pi">:</span>
+   <span class="na">title</span><span class="pi">:</span> <span class="s">Rails Concepts</span>
+   <span class="na">description</span><span class="pi">:</span> <span class="s">This quiz covers basic Rails programming concepts.</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>In <code class="highlighter-rouge">test/models/quiz_test.rb</code>, add a test for all fixtures to verify that they are valid, like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">test</span> <span class="s2">"fixtures are valid"</span> <span class="k">do</span>
+   <span class="n">quizzes</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">q</span><span class="o">|</span>
+     <span class="n">assert</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span><span class="p">,</span> <span class="n">q</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">full_messages</span><span class="p">.</span><span class="nf">inspect</span>
+   <span class="k">end</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Also, add tests to verify that <code class="highlighter-rouge">title</code> and <code class="highlighter-rouge">description</code> must be present (not <code class="highlighter-rouge">nil</code>, not an empty string, and not a string containing only whitespace characters) in order for a <code class="highlighter-rouge">Quiz</code> object to be valid, like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">test</span> <span class="s2">"title presence not valid"</span> <span class="k">do</span>
+   <span class="n">q</span> <span class="o">=</span> <span class="n">quizzes</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+   <span class="n">q</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="kp">nil</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+   <span class="n">q</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">""</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+   <span class="n">q</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\t</span><span class="s2">"</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+ <span class="k">end</span>
+
+ <span class="nb">test</span> <span class="s2">"description presence not valid"</span> <span class="k">do</span>
+   <span class="n">q</span> <span class="o">=</span> <span class="n">quizzes</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+   <span class="n">q</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="kp">nil</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+   <span class="n">q</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">""</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+   <span class="n">q</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\t</span><span class="s2">"</span>
+   <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Confirm that the tests work and are passing by running the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails <span class="nb">test</span>
+</code></pre></div>    </div>
+
+    <p>You should see <code class="highlighter-rouge">0 failures</code> and <code class="highlighter-rouge">0 errors</code>. If you do see failures or errors, then there is a bug in the code that needs fixing.</p>
+  </li>
+</ol>
+
+<h2 id="3-creating-quiz-seed-data">3. Creating <code class="highlighter-rouge">Quiz</code> Seed Data</h2>
+
+<p>For this task, we will seed the database with example data using our newly created model class, as per the steps below.</p>
+
+<ol>
+  <li>
+    <p>Add a couple of <code class="highlighter-rouge">Quiz</code> seeds at the top of the <code class="highlighter-rouge">seeds.rb</code> file, like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">quiz1</span> <span class="o">=</span> <span class="no">Quiz</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">title: </span><span class="s1">'MVC Concepts'</span><span class="p">,</span> <span class="ss">description: </span><span class="s1">'This quiz covers concepts related to the Model-View-Controller web application architecture.'</span><span class="p">)</span>
+ <span class="n">quiz2</span> <span class="o">=</span> <span class="no">Quiz</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">title: </span><span class="s1">'Rails Concepts'</span><span class="p">,</span> <span class="ss">description: </span><span class="s1">'This quiz covers concepts related to web application development using the Ruby on Rails platform.'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Seed the database using the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails db:seed:replant
+</code></pre></div>    </div>
+
+    <p>Alternatively, this command would also work:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails db:migrate:reset db:seed
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>To confirm that the data was seeded correctly, use pgAdmin to inspect the database, or use the Rails console, for example, to run <code class="highlighter-rouge">Quiz.all</code> and inspect the output.</p>
+
+<h2 id="4-creating-basic-crud-pages-for-quiz">4. Creating Basic CRUD Pages for <code class="highlighter-rouge">Quiz</code></h2>
+
+<p>Now that we have seeded the database with <code class="highlighter-rouge">Quiz</code> records, we will now add the basic CRUD pages to enable users to view and manipulate <code class="highlighter-rouge">Quiz</code> records, as per the following steps.</p>
+
+<p>Although the text below won’t mention it, it is highly recommended that you test your code frequently as you’re creating it. In particular, after you implement each page, running the web server to try out the page is a very good idea. That way, your code will “fail fast”, helping you to catch bugs quickly and making it easier to correct them.</p>
+
+<ol>
+  <li>
+    <p>Create a <code class="highlighter-rouge">QuizzesController</code> by entering this command:</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails g controller Quizzes
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Create the standard RESTful routes (<code class="highlighter-rouge">index</code>, <code class="highlighter-rouge">show</code>, <code class="highlighter-rouge">new</code>/<code class="highlighter-rouge">create</code>, <code class="highlighter-rouge">edit</code>/<code class="highlighter-rouge">update</code>, and <code class="highlighter-rouge">destroy</code>) for the <code class="highlighter-rouge">Quiz</code> model class by adding the following code to the <code class="highlighter-rouge">routes.rb</code> file:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c1"># Quiz resources</span>
+ <span class="n">get</span> <span class="s1">'quizzes'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'quizzes#index'</span><span class="p">,</span> <span class="ss">as: </span><span class="s1">'quizzes'</span>               <span class="c1"># index</span>
+ <span class="n">get</span> <span class="s1">'quizzes/new'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'quizzes#new'</span><span class="p">,</span> <span class="ss">as: </span><span class="s1">'new_quiz'</span>            <span class="c1"># new</span>
+ <span class="n">post</span> <span class="s1">'quizzes'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'quizzes#create'</span>                            <span class="c1"># create</span>
+ <span class="n">get</span> <span class="s1">'quizzes/:id/edit'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'quizzes#edit'</span><span class="p">,</span> <span class="ss">as: </span><span class="s1">'edit_quiz'</span>     <span class="c1"># edit</span>
+ <span class="n">match</span> <span class="s1">'quizzes/:id'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'quizzes#update'</span><span class="p">,</span> <span class="ss">via: </span><span class="p">[</span><span class="ss">:put</span><span class="p">,</span> <span class="ss">:patch</span><span class="p">]</span>  <span class="c1"># update</span>
+ <span class="n">get</span> <span class="s1">'quizzes/:id'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'quizzes#show'</span><span class="p">,</span> <span class="ss">as: </span><span class="s1">'quiz'</span>               <span class="c1"># show</span>
+ <span class="n">delete</span> <span class="s1">'quizzes/:id'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'quizzes#destroy'</span>                     <span class="c1"># destroy</span>
+</code></pre></div>    </div>
+
+    <p>Using standard RESTful routes is a very common practice, so Rails provides a shortcut to these resource routes for any model object. If you are comfortable with the form of these routes, especially the URL parameters and named path helpers, you can replace the above code with:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">resources</span> <span class="ss">:quizzes</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Create the <code class="highlighter-rouge">index</code> controller action and view to display all quizzes.</p>
+
+    <p>The <code class="highlighter-rouge">index</code> controller action should look like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">def</span> <span class="nf">index</span>
+   <span class="c1"># get all quiz objects</span>
+   <span class="n">quizzes</span> <span class="o">=</span> <span class="no">Quiz</span><span class="p">.</span><span class="nf">all</span>
+   <span class="c1"># display index view</span>
+   <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+     <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:index</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">quizzes: </span><span class="n">quizzes</span> <span class="p">}</span> <span class="p">}</span>
+   <span class="k">end</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+
+    <p>The corresponding <code class="highlighter-rouge">index.html.erb</code> view should look like this:</p>
+
+    <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;h1&gt;</span>Quizzes<span class="nt">&lt;/h1&gt;</span>
+
+ <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'New Quiz'</span><span class="p">,</span> <span class="n">new_quiz_path</span> <span class="cp">%&gt;</span>
+
+ <span class="cp">&lt;%</span> <span class="n">quizzes</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">quiz</span><span class="o">|</span> <span class="cp">%&gt;</span>
+   <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">dom_id</span><span class="p">(</span><span class="n">quiz</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+     <span class="nt">&lt;br&gt;</span>
+     <span class="nt">&lt;p&gt;</span>
+       <span class="cp">&lt;%=</span> <span class="n">quiz</span><span class="p">.</span><span class="nf">title</span> <span class="cp">%&gt;</span>
+       <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'🔎'</span><span class="p">,</span> <span class="n">quiz_path</span><span class="p">(</span><span class="n">quiz</span><span class="p">)</span> <span class="cp">%&gt;</span>
+       <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'🖋'</span><span class="p">,</span> <span class="n">edit_quiz_path</span><span class="p">(</span><span class="n">quiz</span><span class="p">)</span> <span class="cp">%&gt;</span>
+       <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'🗑'</span><span class="p">,</span> <span class="n">quiz_path</span><span class="p">(</span><span class="n">quiz</span><span class="p">),</span> <span class="ss">method: :delete</span> <span class="cp">%&gt;</span>
+     <span class="nt">&lt;/p&gt;</span>
+     <span class="nt">&lt;p&gt;</span>
+       <span class="cp">&lt;%=</span> <span class="n">truncate</span> <span class="n">quiz</span><span class="p">.</span><span class="nf">description</span><span class="p">,</span> <span class="ss">length: </span><span class="mi">75</span><span class="p">,</span> <span class="ss">separator: </span><span class="s1">' '</span> <span class="cp">%&gt;</span>
+     <span class="nt">&lt;/p&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+ <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div>    </div>
+
+    <p>Note that the <code class="highlighter-rouge">truncate</code> method is a handy way to shorten a long string when you want only a brief summary. In particular, the method will return the first <code class="highlighter-rouge">length</code> characters of a string followed by an ellipsis (“<code class="highlighter-rouge">...</code>”).</p>
+  </li>
+  <li>
+    <p>Add a link to the <code class="highlighter-rouge">index</code> page for <code class="highlighter-rouge">Quiz</code> above the About and Contact links on the Home page, like this:</p>
+
+    <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Quizzes"</span><span class="p">,</span> <span class="n">quizzes_path</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Create the <code class="highlighter-rouge">show</code> controller action and view to display a single quiz.</p>
+
+    <p>The <code class="highlighter-rouge">show</code> controller action should look like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">def</span> <span class="nf">show</span>
+   <span class="c1"># find a particular object</span>
+   <span class="n">quiz</span> <span class="o">=</span> <span class="no">Quiz</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+   <span class="c1"># display the object</span>
+   <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+     <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:show</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">quiz: </span><span class="n">quiz</span> <span class="p">}</span> <span class="p">}</span>
+   <span class="k">end</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+
+    <p>The <code class="highlighter-rouge">show.html.erb</code> view should look like this:</p>
+
+    <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;h2&gt;</span><span class="cp">&lt;%=</span> <span class="n">quiz</span><span class="p">.</span><span class="nf">title</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h3&gt;</span>
+
+ <span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">quiz</span><span class="p">.</span><span class="nf">description</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Create the <code class="highlighter-rouge">new</code>/<code class="highlighter-rouge">create</code> pages and actions for <code class="highlighter-rouge">Quiz</code>.</p>
+
+    <p>The <code class="highlighter-rouge">new</code>/<code class="highlighter-rouge">create</code> controller actions should look like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">def</span> <span class="nf">new</span>
+   <span class="c1"># make empty quiz object</span>
+   <span class="n">quiz</span> <span class="o">=</span> <span class="no">Quiz</span><span class="p">.</span><span class="nf">new</span>
+   <span class="c1"># display new view</span>
+   <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+     <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">quiz: </span><span class="n">quiz</span> <span class="p">}</span> <span class="p">}</span>
+   <span class="k">end</span>
+ <span class="k">end</span>
+
+ <span class="k">def</span> <span class="nf">create</span>
+   <span class="c1"># new object from params</span>
+   <span class="n">quiz</span> <span class="o">=</span> <span class="no">Quiz</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:quiz</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:description</span><span class="p">))</span>
+   <span class="c1"># respond_to block</span>
+   <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+     <span class="c1"># html format block</span>
+     <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span>
+       <span class="k">if</span> <span class="n">quiz</span><span class="p">.</span><span class="nf">save</span>
+         <span class="c1"># success message</span>
+         <span class="n">flash</span><span class="p">[</span><span class="ss">:success</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Quiz saved successfully"</span>
+         <span class="c1"># redirect to index</span>
+         <span class="n">redirect_to</span> <span class="n">quizzes_url</span>
+       <span class="k">else</span>
+         <span class="c1"># error message</span>
+         <span class="n">flash</span><span class="p">.</span><span class="nf">now</span><span class="p">[</span><span class="ss">:error</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Error: Quiz could not be saved"</span>
+         <span class="c1"># render new</span>
+         <span class="n">render</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">quiz: </span><span class="n">quiz</span> <span class="p">}</span>
+       <span class="k">end</span>
+     <span class="p">}</span>
+   <span class="k">end</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+
+    <p>The <code class="highlighter-rouge">new.html.erb</code> view should look like this:</p>
+
+    <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;h1&gt;</span>New Quiz<span class="nt">&lt;/h1&gt;</span>
+
+ <span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="n">quiz</span><span class="p">,</span> <span class="ss">url: </span><span class="n">quizzes_path</span><span class="p">,</span> <span class="ss">method: :post</span><span class="p">,</span> <span class="ss">local: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">scope: :quiz</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+
+   <span class="nt">&lt;div&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:title</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:title</span> <span class="cp">%&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+
+   <span class="nt">&lt;div&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:description</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_area</span> <span class="ss">:description</span><span class="p">,</span> <span class="ss">size: </span><span class="s2">"27x7"</span> <span class="cp">%&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+
+   <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">submit</span> <span class="s2">"Add Quiz"</span> <span class="cp">%&gt;</span>
+
+ <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Create the <code class="highlighter-rouge">edit</code>/<code class="highlighter-rouge">update</code> pages and actions for <code class="highlighter-rouge">Quiz</code>.</p>
+
+    <p>The <code class="highlighter-rouge">edit</code>/<code class="highlighter-rouge">update</code> controller actions should look like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">def</span> <span class="nf">edit</span>
+   <span class="c1"># object to use in form</span>
+   <span class="n">quiz</span> <span class="o">=</span> <span class="no">Quiz</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+   <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+     <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">quiz: </span><span class="n">quiz</span> <span class="p">}</span> <span class="p">}</span>
+   <span class="k">end</span>
+ <span class="k">end</span>
+
+ <span class="k">def</span> <span class="nf">update</span>
+   <span class="c1"># load existing object again from URL param</span>
+   <span class="n">quiz</span> <span class="o">=</span> <span class="no">Quiz</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+   <span class="c1"># respond_to block</span>
+   <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+     <span class="c1"># html format block</span>
+     <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span>
+       <span class="c1"># if quiz updates with permitted params</span>
+       <span class="k">if</span> <span class="n">quiz</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:quiz</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:description</span><span class="p">))</span>
+         <span class="c1"># success message</span>
+         <span class="n">flash</span><span class="p">[</span><span class="ss">:success</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Quiz updated successfully'</span>
+         <span class="c1"># redirect to index</span>
+         <span class="n">redirect_to</span> <span class="n">quizzes_url</span>
+       <span class="k">else</span>
+         <span class="c1"># error message</span>
+         <span class="n">flash</span><span class="p">.</span><span class="nf">now</span><span class="p">[</span><span class="ss">:error</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Error: Quiz could not be updated'</span>
+         <span class="c1"># render edit</span>
+         <span class="n">render</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">quiz: </span><span class="n">quiz</span> <span class="p">}</span>
+       <span class="k">end</span>
+     <span class="p">}</span>
+   <span class="k">end</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+
+    <p>The <code class="highlighter-rouge">edit.html.erb</code> view should look like this:</p>
+
+    <div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;h1&gt;</span>Edit Quiz<span class="nt">&lt;/h1&gt;</span>
+
+ <span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="n">quiz</span><span class="p">,</span> <span class="ss">url: </span><span class="n">quiz_path</span><span class="p">,</span> <span class="ss">method: :patch</span><span class="p">,</span> <span class="ss">local: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">scope: :quiz</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+
+   <span class="nt">&lt;div&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:title</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:title</span> <span class="cp">%&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+
+   <span class="nt">&lt;div&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:description</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+     <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_area</span> <span class="ss">:description</span><span class="p">,</span> <span class="ss">size: </span><span class="s2">"27x7"</span> <span class="cp">%&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+
+   <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">submit</span> <span class="s2">"Update Quiz"</span> <span class="cp">%&gt;</span>
+
+ <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Create the <code class="highlighter-rouge">destroy</code> controller action for <code class="highlighter-rouge">Quiz</code>, like this:</p>
+
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">def</span> <span class="nf">destroy</span>
+   <span class="c1"># load existing object again from URL param</span>
+   <span class="n">quiz</span> <span class="o">=</span> <span class="no">Quiz</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+   <span class="c1"># destroy object</span>
+   <span class="n">quiz</span><span class="p">.</span><span class="nf">destroy</span>
+   <span class="c1"># respond_to block</span>
+   <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+     <span class="c1"># html format block</span>
+     <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span>
+       <span class="c1"># success message</span>
+       <span class="n">flash</span><span class="p">[</span><span class="ss">:success</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Quiz removed successfully'</span>
+       <span class="c1"># redirect to index</span>
+       <span class="n">redirect_to</span> <span class="n">quizzes_url</span>
+     <span class="p">}</span>
+   <span class="k">end</span>
+ <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>We now have a working <code class="highlighter-rouge">Quiz</code> model class and CRUD resource pages. In the next demo, we will make the application more interesting by giving each <code class="highlighter-rouge">Quiz</code> object an associated set of <code class="highlighter-rouge">McQuestion</code> model objects.</p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-resource-destroy/">⇦ Previous: Actions for Deleting Model Records</a></li>
+        
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-one-to-many/">⇨ Next: One-to-Many Model Associations</a></li>
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2020
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
