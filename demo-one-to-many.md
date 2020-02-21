@@ -168,3 +168,5 @@ As a final task, we will seed the database with example data using our newly cre
     ```
 
 To confirm that the data was seeded correctly, use pgAdmin to inspect the database, or use the Rails console, for example, to run `McQuestion.all` and inspect the output.
+
+{% include pagination.html prev_page='demo-quiz-model.md' next_page='demo-has-many-forms.md' %}

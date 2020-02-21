@@ -101,4 +101,4 @@ The QuizMe app now offers full CRUD functionality by providing the standard Rail
 
 **[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/265b720f7e1ec496743660904b576bbe7a586cf2){:target="_blank"}**
 
-{% include pagination.html prev_page='demo-resource-update.md' %}
+{% include pagination.html prev_page='demo-resource-update.md' next_page='demo-quiz-model.md' %}

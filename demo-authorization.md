@@ -311,3 +311,5 @@ Currently, it is possible for a signed-in user to edit and delete quizzes/questi
     ```
 
 With those steps completed, the QuizMe app should now be fully secured such that users are required to be authenticated in order to view most pages and the data that users create are protected against manipulation by other users.
+
+{% include pagination.html prev_page='demo-devise-auth.md' next_page='demo-bootstrap-styling.md' %}

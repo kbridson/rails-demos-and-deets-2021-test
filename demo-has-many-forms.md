@@ -194,3 +194,5 @@ As we perform the tasks below, don't forget, after you finish each page, to run 
     ```
 
 Having successfully completed the above tasks, the QuizMe app now provides users with a full set of features for CRUDing quizzes and questions.
+
+{% include pagination.html prev_page='demo-one-to-many.md' next_page='demo-devise-auth.md' %}

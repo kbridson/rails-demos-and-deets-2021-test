@@ -230,3 +230,5 @@ We can use the `before_action :authenticate_user!` helper from the Devise API in
     ```
 
 Try to view the pages of the app now without being signed in. The app should redirect you to the sign-in page when you try to view the restricted pages.
+
+{% include pagination.html prev_page='demo-has-many-forms.md' next_page='demo-authorization.md' %}

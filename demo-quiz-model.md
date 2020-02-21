@@ -392,3 +392,5 @@ Although the text below won't mention it, it is highly recommended that you test
     ```
 
 We now have a working `Quiz` model class and CRUD resource pages. In the next demo, we will make the application more interesting by giving each `Quiz` object an associated set of `McQuestion` model objects.
+
+{% include pagination.html prev_page='demo-resource-destroy.md' next_page='demo-one-to-many.md' %}
