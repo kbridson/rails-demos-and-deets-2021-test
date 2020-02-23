@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2020/assets/img/favicon.png">
+
+<title>One-to-Many Model Associations | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2020/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2020/"><img src="/rails-demos-n-deets-2020/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="one-to-many-model-associations">One-to-Many Model Associations</h1>
+
+<p>In this demonstration, I will show how to set up and use one-to-many model class associations. We will continue to build upon the <a href="https://github.com/human-se/quiz-me-2020" target="_blank">QuizMe project</a> from the previous demos.</p>
+
+<p>In particular, we will be updating our model design by adding a new one-to-many association between the <code class="highlighter-rouge">Quiz</code> and <code class="highlighter-rouge">McQuestion</code> model classes, as depicted in Figure 1.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-n-deets-2020/resources/one-to-many_class_assoc.svg" class="figure-img img-fluid rounded border" alt="A UML class diagram depicting the one-to-many association between the Quiz and McQuestion model classes" /><figcaption class="figure-caption"><p>Figure 1. Model class design diagram showing the one-to-many association between <code class="highlighter-rouge">Quiz</code> and <code class="highlighter-rouge">McQuestion</code>. As per the association, each <code class="highlighter-rouge">Quiz</code> object has many <code class="highlighter-rouge">McQuestion</code> objects, and each <code class="highlighter-rouge">McQuestion</code> object belongs to one <code class="highlighter-rouge">Quiz</code> object.</p>
+</figcaption></figure></div>
+
+<p>In order to implement this association, there are a series of high-level tasks we will perform:</p>
+
+<ol>
+  <li>Add a foreign key (FK) column to our existing <code class="highlighter-rouge">mc_questions</code> table by creating a new database migration. The purpose of this FK column will be to reference <code class="highlighter-rouge">Quiz</code> records. The FK column is necessary to satisfy the <a href="https://guides.rubyonrails.org/association_basics.html#the-has-many-association">Rails ORM for one-to-many associations</a>.</li>
+  <li>Add declarations to the <code class="highlighter-rouge">Quiz</code> and <code class="highlighter-rouge">McQuestion</code> model classes to set up the one-to-many association. In particular, <code class="highlighter-rouge">Quiz</code> will get a <code class="highlighter-rouge">has_many</code> declaration, and <code class="highlighter-rouge">McQuestion</code> will get a <code class="highlighter-rouge">belongs_to</code> declaration.</li>
+  <li>Update the model test fixtures to incorporate association links.</li>
+  <li>Create new seed data that include association links.</li>
+</ol>
+
+<h2 id="1-adding-a-foreign-key-column-to-the-mc_questions-database-table">1. Adding a Foreign Key Column to the <code class="highlighter-rouge">mc_questions</code> Database Table</h2>
+
+<p>In preparation for creating the model class association, we will perform the following steps to add a new foreign key column to the database table <code class="highlighter-rouge">mc_questions</code>. This FK column will reference <code class="highlighter-rouge">Quiz</code> records and satisfy the Rails ORM for setting up a one-to-many association between <code class="highlighter-rouge">Quiz</code> and <code class="highlighter-rouge">McQuestion</code>.</p>
+
+<p>Generate a new (empty) database migration by running the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails g migration AddQuizFkColToMcQuestions
+</code></pre></div></div>
+
+<p>This will generate a migration file <code class="highlighter-rouge">db/migrate/20191106225052_add_quiz_fk_col_to_mc_questions.rb</code> (with the timestamp being consistent with the time when you ran the command). Inspect this file, and note that it contains a class <code class="highlighter-rouge">AddQuizFkColToMcQuestions</code> with a single empty method <code class="highlighter-rouge">change</code>.</p>
+
+<p>Set up the migration to add a <code class="highlighter-rouge">quiz_id</code> FK column to the <code class="highlighter-rouge">mc_questions</code> table by inserting the following line in the <code class="highlighter-rouge">change</code> method:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">add_reference</span> <span class="ss">:mc_questions</span><span class="p">,</span> <span class="ss">:quiz</span><span class="p">,</span> <span class="ss">foreign_key: </span><span class="kp">true</span>
+</code></pre></div></div>
+
+<p>Note that the first argument (<code class="highlighter-rouge">:mc_questions</code>) indicates the table to add the column to; the second argument (<code class="highlighter-rouge">:quiz</code>) indicates the column name, which Rails automatically translates into <code class="highlighter-rouge">quiz_id</code> because it’s an FK, and the third argument (<code class="highlighter-rouge">foreign_key: true</code>) indicates that it’s a FK column.</p>
+
+<p>Update the database schema by running the migration with the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails db:migrate
+</code></pre></div></div>
+
+<p>Verify that the database schema was updated correctly by using pgAdmin to inspect the <code class="highlighter-rouge">mc_questions</code> database table. The table should have a new <code class="highlighter-rouge">quiz_id</code> column.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/08f44538608db6a60255448fe45e0bbf91276601" target="_blank">➥ Code changeset for this part</a></strong></p>
+
+<h2 id="2-creating-a-one-to-many-association-between-the-quiz-and-mcquestion-model-classes">2. Creating a One-to-Many Association between the <code class="highlighter-rouge">Quiz</code> and <code class="highlighter-rouge">McQuestion</code> Model Classes</h2>
+
+<p>Now that we have got the database tables set up, the other thing we need to do to set up the one-to-many association is to add <code class="highlighter-rouge">has_many</code> and <code class="highlighter-rouge">belongs_to</code> declarations to <code class="highlighter-rouge">Quiz</code> and <code class="highlighter-rouge">McQuestion</code>, respectively.</p>
+
+<p>Add the following <code class="highlighter-rouge">belongs_to</code> declaration to the <code class="highlighter-rouge">McQuestion</code> model class, as follows:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">belongs_to</span><span class="p">(</span>
+  <span class="ss">:quiz</span><span class="p">,</span> <span class="c1"># McQuestion attribute of with datatype Quiz</span>
+  <span class="ss">class_name: </span><span class="s1">'Quiz'</span><span class="p">,</span> <span class="c1"># datatype of attribute</span>
+  <span class="ss">foreign_key: </span><span class="s1">'quiz_id'</span><span class="p">,</span> <span class="c1"># name of column containing FK</span>
+  <span class="ss">inverse_of: :mc_questions</span> <span class="c1"># attribute on other side of association (array containing all McQuestion objects belonging to a quiz)</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>In the above <code class="highlighter-rouge">belongs_to</code> declaration, we explicitly set all the key options, <code class="highlighter-rouge">class_name</code>, <code class="highlighter-rouge">foreign_key</code>, and <code class="highlighter-rouge">inverse_of</code>, for purposes of instruction; however, it is worth mentioning that they weren’t strictly necessary in this example. If the attribute name (<code class="highlighter-rouge">quiz</code>) is the lowercase form of the class name (<code class="highlighter-rouge">Quiz</code>) and the column name (<code class="highlighter-rouge">quiz_id</code>) is the lowercase form of the class name (<code class="highlighter-rouge">Quiz</code>) with an “<code class="highlighter-rouge">_id</code>” on the end, then the <code class="highlighter-rouge">class_name</code>, <code class="highlighter-rouge">foreign_key</code> and <code class="highlighter-rouge">inverse_of</code> options do not need to be explicitly declared. Thus, the following <code class="highlighter-rouge">belongs_to</code> declaration would be equivalent to the one above:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">belongs_to</span> <span class="ss">:quiz</span>
+</code></pre></div></div>
+
+<p>Add the following <code class="highlighter-rouge">has_many</code> declaration to the <code class="highlighter-rouge">Quiz</code> model class, as follows:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">has_many</span><span class="p">(</span>
+  <span class="ss">:mc_questions</span><span class="p">,</span> <span class="c1"># Quiz attribute containing an array of McQuestion objects</span>
+  <span class="ss">class_name: </span><span class="s1">'McQuestion'</span><span class="p">,</span> <span class="c1"># datatype of attribute</span>
+  <span class="ss">foreign_key: </span><span class="s1">'quiz_id'</span><span class="p">,</span> <span class="c1"># name of column containing FK in other table</span>
+  <span class="ss">inverse_of: :quiz</span><span class="p">,</span> <span class="c1"># attribute on other side of association (parent Quiz object)</span>
+  <span class="ss">dependent: :destroy</span> <span class="c1"># if a quiz is destroyed, also destroy all of its questions</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Similar to the <code class="highlighter-rouge">belongs_to</code> declaration above, the <code class="highlighter-rouge">class_name</code>, <code class="highlighter-rouge">foreign_key</code>, and <code class="highlighter-rouge">inverse_of</code> options are included here for instructional purposes and are not actually required in this case. Thus, the following declaration could suffice:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">has_many</span> <span class="ss">:mc_questions</span><span class="p">,</span> <span class="ss">dependent: :destroy</span>
+</code></pre></div></div>
+
+<p>Confirm that the newly added code is working as expected by running the model tests; however, be aware that adding the model association has left our test fixtures invalid. For example, try running these commands:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails db:migrate:reset <span class="nv">RAILS_ENV</span><span class="o">=</span><span class="nb">test
+</span>rails <span class="nb">test</span>
+</code></pre></div></div>
+
+<p>The test checking that the fixtures are valid should fail with the following error message:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Failure:
+McQuestionTest#test_fixtures_are_valid [/Users/sdf/workspace/quiz-me/test/models/mc_question_test.rb:29]:
+["Quiz must exist"]
+</code></pre></div></div>
+
+<p>If we see any errors other than this one, then we have accidentally introduced bugs that need to be fixed.</p>
+
+<p>The association we created requires that each <code class="highlighter-rouge">McQuestion</code> object must belong to a <code class="highlighter-rouge">Quiz</code> object, and it creates an implicit validation that the <code class="highlighter-rouge">quiz</code> attribute must be present. This explains why we get a failure message like the following, stating “<code class="highlighter-rouge">Quiz must exist</code>”. In the subsequent steps, we will correct this failure by updating the fixtures so that all association links are present.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/92f89db1e7938ca75af164d4ba5973d3b330b0e5" target="_blank">➥ Code changeset for this part</a></strong></p>
+
+<h2 id="3-updating-the-mcquestion-model-test-fixtures-to-use-the-association">3. Updating the <code class="highlighter-rouge">McQuestion</code> Model Test Fixtures to Use the Association</h2>
+
+<p>Now that the one-to-many association has been set up, we will use it to create some linked <code class="highlighter-rouge">Quiz</code> and <code class="highlighter-rouge">McQuestion</code> objects in the app’s test fixtures.</p>
+
+<p>Note that the <code class="highlighter-rouge">Quiz</code> fixtures in <code class="highlighter-rouge">test/fixtures/quizzes.yml</code> do not need to be updated, because it is the <code class="highlighter-rouge">McQuestion</code> model class that has the foreign-key attribute.</p>
+
+<p>In <code class="highlighter-rouge">test/fixtures/mc_questions.yml</code>, add a <code class="highlighter-rouge">quiz</code> attribute to each <code class="highlighter-rouge">McQuestion</code> fixture that points to the <code class="highlighter-rouge">Quiz</code> fixture we just created in the previous step, like this:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">one</span><span class="pi">:</span>
+    <span class="na">question</span><span class="pi">:</span> <span class="s">By default, every Rails model is a subclass of which superclass?</span>
+    <span class="na">answer</span><span class="pi">:</span> <span class="s">ApplicationRecord</span>
+    <span class="na">distractor_1</span><span class="pi">:</span> <span class="s">Object</span>
+    <span class="na">distractor_2</span><span class="pi">:</span> <span class="s">ActiveModel</span>
+    <span class="na">quiz</span><span class="pi">:</span> <span class="s">one</span>
+
+<span class="na">two</span><span class="pi">:</span>
+    <span class="na">question</span><span class="pi">:</span> <span class="s">The command rails db:migrate updates the schema.rb file.</span>
+    <span class="na">answer</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">distractor_1</span><span class="pi">:</span> <span class="no">false</span>
+    <span class="na">distractor_2</span><span class="pi">:</span> <span class="c1"># blank loads as nil</span>
+    <span class="na">quiz</span><span class="pi">:</span> <span class="s">one</span>
+</code></pre></div></div>
+
+<p>In the above code, <code class="highlighter-rouge">quiz: one</code> refers to the <code class="highlighter-rouge">Quiz</code> fixture in <code class="highlighter-rouge">test/fixtures/quizzes.yml</code> named <code class="highlighter-rouge">one</code>.</p>
+
+<p>Run the following command to verify that the tests now pass:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails <span class="nb">test</span>
+</code></pre></div></div>
+
+<p>We should see <code class="highlighter-rouge">0 failures</code> and <code class="highlighter-rouge">0 errors</code>. If we do see failures or errors, then there is a bug in the code we added that needs fixing.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/0251b593f172926d60b296876ce0ba4651115a85" target="_blank">➥ Code changeset for this part</a></strong></p>
+
+<h2 id="4-updating-the-mcquestion-seed-data-to-use-the-association">4. Updating the <code class="highlighter-rouge">McQuestion</code> Seed Data to Use the Association</h2>
+
+<p>As a final task, we will seed the database with example data using our newly created model class association, as per the steps below. In a later demo, we will add pages to view and manipulate this seed data in the app.</p>
+
+<p>Add a three more <code class="highlighter-rouge">McQuestion</code> objects, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">q4</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span>
+    <span class="ss">question: </span><span class="s1">'Which hash is primarily used for one way message passing from the controller to the view?'</span><span class="p">,</span>
+    <span class="ss">answer: </span><span class="s1">'flash'</span><span class="p">,</span>
+    <span class="ss">distractor_1: </span><span class="s1">'session'</span><span class="p">,</span>
+    <span class="ss">distractor_2: </span><span class="s1">'params'</span>
+<span class="p">)</span>
+
+<span class="n">q5</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span>
+    <span class="ss">question: </span><span class="s1">'In which folder are image assets for the QuizMe app stored?'</span><span class="p">,</span>
+    <span class="ss">answer: </span><span class="s1">'quiz-me/app/assets/images'</span><span class="p">,</span>
+    <span class="ss">distractor_1: </span><span class="s1">'quiz-me'</span><span class="p">,</span>
+    <span class="ss">distractor_2: </span><span class="s1">'quiz-me/images'</span>
+<span class="p">)</span>
+
+<span class="n">q6</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span>
+    <span class="ss">question: </span><span class="s1">'Which standard RESTful controller action is used to remove records?'</span><span class="p">,</span>
+    <span class="ss">answer: </span><span class="s1">'destroy'</span><span class="p">,</span>
+    <span class="ss">distractor_1: </span><span class="s1">'delete'</span><span class="p">,</span>
+    <span class="ss">distractor_2: </span><span class="s1">'remove'</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Create association links between the <code class="highlighter-rouge">Quiz</code> and <code class="highlighter-rouge">McQuestion</code> objects by setting a <code class="highlighter-rouge">quiz</code> option in each call to <code class="highlighter-rouge">McQuestion.create!</code>, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">q1</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span>
+    <span class="ss">quiz: </span><span class="n">quiz1</span><span class="p">,</span>
+    <span class="ss">question: </span><span class="s1">'What does the M in MVC stand for?'</span><span class="p">,</span>
+    <span class="ss">answer: </span><span class="s1">'Model'</span><span class="p">,</span>
+    <span class="ss">distractor_1: </span><span class="s1">'Media'</span><span class="p">,</span>
+    <span class="ss">distractor_2: </span><span class="s1">'Mode'</span>
+<span class="p">)</span>
+
+<span class="n">q2</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span>
+    <span class="ss">quiz: </span><span class="n">quiz1</span><span class="p">,</span>
+    <span class="ss">question: </span><span class="s1">'What does the V in MVC stand for?'</span><span class="p">,</span>
+    <span class="ss">answer: </span><span class="s1">'View'</span><span class="p">,</span>
+    <span class="ss">distractor_1: </span><span class="s1">'Verify'</span><span class="p">,</span>
+    <span class="ss">distractor_2: </span><span class="s1">'Validate'</span>
+<span class="p">)</span>
+
+<span class="n">q3</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span>
+    <span class="ss">quiz: </span><span class="n">quiz1</span><span class="p">,</span>
+    <span class="ss">question: </span><span class="s1">'What does the C in MVC stand for?'</span><span class="p">,</span>
+    <span class="ss">answer: </span><span class="s1">'Controller'</span><span class="p">,</span>
+    <span class="ss">distractor_1: </span><span class="s1">'Create'</span><span class="p">,</span>
+    <span class="ss">distractor_2: </span><span class="s1">'Code'</span>
+<span class="p">)</span>
+
+<span class="n">q4</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span>
+    <span class="ss">quiz: </span><span class="n">quiz2</span><span class="p">,</span>
+    <span class="ss">question: </span><span class="s1">'Which hash is primarily used for one way message passing from the controller to the view?'</span><span class="p">,</span>
+    <span class="ss">answer: </span><span class="s1">'flash'</span><span class="p">,</span>
+    <span class="ss">distractor_1: </span><span class="s1">'session'</span><span class="p">,</span>
+    <span class="ss">distractor_2: </span><span class="s1">'params'</span>
+<span class="p">)</span>
+
+<span class="n">q5</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span>
+    <span class="ss">quiz: </span><span class="n">quiz2</span><span class="p">,</span>
+    <span class="ss">question: </span><span class="s1">'In which folder are image assets for the QuizMe app stored?'</span><span class="p">,</span>
+    <span class="ss">answer: </span><span class="s1">'quiz-me/app/assets/images'</span><span class="p">,</span>
+    <span class="ss">distractor_1: </span><span class="s1">'quiz-me'</span><span class="p">,</span>
+    <span class="ss">distractor_2: </span><span class="s1">'quiz-me/images'</span>
+<span class="p">)</span>
+
+<span class="n">q6</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span>
+    <span class="ss">quiz: </span><span class="n">quiz2</span><span class="p">,</span>
+    <span class="ss">question: </span><span class="s1">'Which standard RESTful controller action is used to remove records?'</span><span class="p">,</span>
+    <span class="ss">answer: </span><span class="s1">'destroy'</span><span class="p">,</span>
+    <span class="ss">distractor_1: </span><span class="s1">'delete'</span><span class="p">,</span>
+    <span class="ss">distractor_2: </span><span class="s1">'remove'</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Reset and seed the database using the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails db:migrate:reset db:seed
+</code></pre></div></div>
+
+<p>To confirm that the data was seeded correctly, use pgAdmin to inspect the database.</p>
+
+<p>Our model now includes association links between quizzes and the multiple-choice questions that belong to them. In the next demo, we will add features to our pages and forms for managing these association links.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/92b5014a3628b44730323e3d1eac130830eef14e" target="_blank">➥ Code changeset for this part</a></strong></p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-quiz-model/">⇦ Previous: Creating a New Model Class to Associate With</a></li>
+        
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-has-many-forms/">⇨ Next: Forms That Handle One-to-Many Associations</a></li>
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2020
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>

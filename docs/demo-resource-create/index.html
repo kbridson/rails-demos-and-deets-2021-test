@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2020/assets/img/favicon.png">
+
+<title>Forms for Creating New Model Records | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2020/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2020/"><img src="/rails-demos-n-deets-2020/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="forms-for-creating-new-model-records">Forms for Creating New Model Records</h1>
+
+<p>In this demonstration, I will show how to add controller actions and views that allow users to create new model records and save them to the database. We will continue to build upon the <a href="https://github.com/human-se/quiz-me-2020" target="_blank">QuizMe project</a> from the previous demos.</p>
+
+<p>Previously, we have created new <code class="highlighter-rouge">McQuestion</code> records in the database only by using the <code class="highlighter-rouge">seeds.rb</code> file; however, we also want users to be able to use the app to create, update, and delete records. In this demo, we will build a form for creating new multiple-choice questions, as shown in Figure 1.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-n-deets-2020/resources/new_mc_question_page.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page with form for creating new multiple-choice questions" /><figcaption class="figure-caption"><p>Figure 1. A <code class="highlighter-rouge">new</code> form page for creating new multiple-choice questions.</p>
+</figcaption></figure></div>
+
+<p><a href="/rails-demos-n-deets-2020/demo-simple-forms/" target="_blank">Recall</a> that a form page requires two controller actions: one to display the form and one to process the form submission. Following the <a href="https://en.wikipedia.org/wiki/Representational_state_transfer" target="_blank">RESTful</a> architectural style (considered a best practice), the two standard resource actions for creating new model records are <code class="highlighter-rouge">new</code> and <code class="highlighter-rouge">create</code>. The <code class="highlighter-rouge">new</code> action renders the page containing the form, and the <code class="highlighter-rouge">create</code> action processes the form submission, attempts to save the new object in the database, and performs error handling if the object cannot be saved.</p>
+
+<p>For the <code class="highlighter-rouge">new</code> form in Figure 1, a successful submission will result in saving the specified question to the database, redirecting the browser to the <code class="highlighter-rouge">index</code> page for multiple-choice questions, and displaying a success notification at the top of the <code class="highlighter-rouge">index</code> page. For example, Figure 2 illustrates the results of submitting a new “Who shot Mr Burns?” question. Note the “Question saved successfully” notification at the top of the page and the new multiple-choice question that has been added to the three seed-data questions. Additionally, note that the <code class="highlighter-rouge">index</code> page now has a “<code class="highlighter-rouge">New Question</code>” link to the <code class="highlighter-rouge">new</code> form page.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-n-deets-2020/resources/create_mc_question_result.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page with index page of multiple-choice questions and success notification message at the top" /><figcaption class="figure-caption"><p>Figure 2. The result of successfully submitting the form from Figure 1. In particular, (1) the new question will be saved to the database (see the “Who shot Mr Burns?” question); (2) the browser will be redirected to the <code class="highlighter-rouge">index</code> page for multiple-choice questions; and (3) a success notification will be displayed at the top of the <code class="highlighter-rouge">index</code> page (see the “Question saved successfully” message).</p>
+</figcaption></figure></div>
+
+<p>There will be three main parts to this demo:</p>
+
+<ol>
+  <li>We will first implement the <code class="highlighter-rouge">new</code> controller action and <code class="highlighter-rouge">new.html.erb</code> view for displaying the form page from Figure 1 (however, the form will not yet be functional).</li>
+  <li>Next, we will implement the <code class="highlighter-rouge">create</code> controller action for processing submissions of the form, and thus, make the form functional.</li>
+  <li>Finally, we will add to the <code class="highlighter-rouge">index</code> page the hyperlink to the <code class="highlighter-rouge">new</code> form page.</li>
+</ol>
+
+<h2 id="1-rendering-the-new-form-page-for-mcquestion-records">1. Rendering the <code class="highlighter-rouge">new</code> Form Page for <code class="highlighter-rouge">McQuestion</code> Records</h2>
+
+<p>To display the <code class="highlighter-rouge">new</code> form from Figure 1, we must (1) add a route to handle HTTP requests for the <code class="highlighter-rouge">new</code> form page, (2) add a <code class="highlighter-rouge">new</code> controller action to render the appropriate view for the form page, and (3) add a <code class="highlighter-rouge">new.html.erb</code> to define how the form page should appear.</p>
+
+<p>As a first step, add to <code class="highlighter-rouge">routes.rb</code> the standard resource route for the <code class="highlighter-rouge">new</code> action, inserting it in between the <code class="highlighter-rouge">index</code> and <code class="highlighter-rouge">show</code> routes, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">get</span> <span class="s1">'mc_questions/new'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'mc_questions#new'</span><span class="p">,</span> <span class="ss">as: </span><span class="s1">'new_mc_question'</span> <span class="c1"># new</span>
+</code></pre></div></div>
+
+<p><strong>Caution!</strong> You must pay close attention to the order of the routes. If the <code class="highlighter-rouge">new</code> route were to be inserted <em>after</em> the <code class="highlighter-rouge">show</code> route, requests to <a href="http://localhost:3000/mc_questions/new">http://localhost:3000/mc_questions/new</a> would incorrectly match with the <code class="highlighter-rouge">show</code> route, because the <code class="highlighter-rouge">show</code> route would think that the “<code class="highlighter-rouge">new</code>” part of the path is an <code class="highlighter-rouge">id</code>, which is wrong, of course, and would lead to lots of potentially confusing downstream errors.</p>
+
+<p>Next, add to the <code class="highlighter-rouge">McQuestionsController</code> a basic skeleton for the <code class="highlighter-rouge">new</code> action that will render the <code class="highlighter-rouge">new.html.erb</code> view, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">new</span>
+  <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+    <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:new</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Because this action will be rendering the form for creating a model record, we must additionally create an instance of the model class (using the <code class="highlighter-rouge">McQuestion.new</code> constructor) and pass the model object to the view, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">new</span>
+  <span class="n">question</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">new</span>
+  <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+    <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">question: </span><span class="n">question</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Note that the <code class="highlighter-rouge">McQuestion.new</code> constructor creates a <code class="highlighter-rouge">McQuestion</code> object that is essentially empty (all attribute values set to <code class="highlighter-rouge">nil</code>). Furthermore, the object it creates is not yet saved to the database (and thus, has an <code class="highlighter-rouge">id</code> value of <code class="highlighter-rouge">nil</code> as well).</p>
+
+<p>Lastly, we will build up the view for the <code class="highlighter-rouge">new</code> form page in stages.</p>
+
+<p>First, create a <code class="highlighter-rouge">new.html.erb</code> file in the <code class="highlighter-rouge">app/views/mc_questions</code> directory, and give it a heading, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;h1&gt;</span>New Question<span class="nt">&lt;/h1&gt;</span>
+</code></pre></div></div>
+
+<p>Next, insert below the heading an invocation of the <code class="highlighter-rouge">form_with</code> Rails form helper for generating forms, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">url: </span><span class="n">mc_questions_path</span><span class="p">,</span> <span class="ss">method: :post</span><span class="p">,</span> <span class="ss">local: </span><span class="kp">true</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+  # TODO: Add fields
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>The above options for the <code class="highlighter-rouge">form_with</code> helper should be familiar to you from the feedback form we <a href="/rails-demos-n-deets-2020/demo-simple-forms/" target="_blank">added previously</a>; however, unlike the feedback form, this form will use a model object. Rails provides some special options for <a href="https://guides.rubyonrails.org/v6.0.2.1/form_helpers.html#dealing-with-model-objects" target="_blank">forms that handle model objects</a>. In particular, we will also need to add a <code class="highlighter-rouge">model</code> option that specifies the object and a <code class="highlighter-rouge">scope</code> option that groups all the model form data under a single key in the <code class="highlighter-rouge">params</code> hash.</p>
+
+<p>Insert the <code class="highlighter-rouge">model</code> and <code class="highlighter-rouge">scope</code> options into the <code class="highlighter-rouge">form_with</code> invocation, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="n">question</span><span class="p">,</span> <span class="ss">url: </span><span class="n">mc_questions_path</span><span class="p">,</span> <span class="ss">method: :post</span><span class="p">,</span> <span class="ss">local: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">scope: :mc_question</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+  # TODO: Add fields
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>Note that the <code class="highlighter-rouge">model</code> option is set to the <code class="highlighter-rouge">question</code> variable we defined above in the <code class="highlighter-rouge">new</code> controller action and that the <code class="highlighter-rouge">scope</code> option is set to a symbol that is the <a href="https://en.wikipedia.org/wiki/Snake_case" target="_blank">snake_case</a> version of the <code class="highlighter-rouge">McQuestion</code> class name.</p>
+
+<p>Another change from the feedback form is that we will use the form field helpers differently. In particular, we will <a href="https://guides.rubyonrails.org/v6.0.2.1/form_helpers.html#binding-a-form-to-an-object" target="_blank">bind the form field helpers to the model object</a>. To use the helpers in this way, we need to add a local variable to the form block called <code class="highlighter-rouge">f</code> (short for “form”), like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="n">question</span><span class="p">,</span> <span class="ss">url: </span><span class="n">mc_questions_path</span><span class="p">,</span> <span class="ss">method: :post</span><span class="p">,</span> <span class="ss">local: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">scope: :mc_question</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  # TODO: Add fields
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>Now that we have the <code class="highlighter-rouge">form_with</code> invocation completed, we can add the code for rendering the fields.</p>
+
+<p>Insert into the body of the <code class="highlighter-rouge">form_with</code> block a text field for each of the <code class="highlighter-rouge">McQuestion</code> attributes, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:question</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:question</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;div&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:answer</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:answer</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;div&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:distractor_1</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:distractor_1</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;div&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:distractor_2</span> <span class="cp">%&gt;</span><span class="nt">&lt;br&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:distractor_2</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<p>Note how the form labels and fields are now being created by calls to methods of the form object <code class="highlighter-rouge">f</code>, instead of using, for example, the <code class="highlighter-rouge">label_tag</code> and <code class="highlighter-rouge">text_field_tag</code> helpers we had <a href="/rails-demos-n-deets-2020/demo-simple-forms/" target="_blank">used previously</a>.</p>
+
+<p>Finally, add a submit button to the:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">submit</span> <span class="s2">"Add Question"</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>Verify that the form is displaying correctly by running the app and opening the URL <a href="http://localhost:3000/mc_questions/new">http://localhost:3000/mc_questions/new</a> in the browser. The form will not yet be capable of handling submissions. We will tackle that functionality in the next part.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/b9ad0320445eb91fbe0b3b53f9bfc776bffc1b22" target="_blank">➥ Code changeset for this part</a></strong></p>
+
+<h2 id="2-adding-the-create-action-for-mcquestion-records">2. Adding the <code class="highlighter-rouge">create</code> Action for <code class="highlighter-rouge">McQuestion</code> Records</h2>
+
+<p>Now that we can render the <code class="highlighter-rouge">new</code> form, we will implement the logic to process submissions of the form. This part will involve two main steps: (1) add a route to handle the HTTP POST requests that result from submissions of the form and (2) implement the <code class="highlighter-rouge">create</code> controller action that is responsible for processing the form data.</p>
+
+<p>Add to <code class="highlighter-rouge">routes.rb</code> the standard resource route for the <code class="highlighter-rouge">create</code> action, inserting it in after the <code class="highlighter-rouge">new</code> route, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">post</span> <span class="s1">'mc_questions'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'mc_questions#create'</span> <span class="c1"># create</span>
+</code></pre></div></div>
+
+<p>Note where the <code class="highlighter-rouge">post 'mc_questions'</code> part of this route comes from with respect to the <code class="highlighter-rouge">form_with</code> call above:</p>
+
+<ul>
+  <li>The <code class="highlighter-rouge">form_with</code> option <code class="highlighter-rouge">method: :post</code> specifies that submitting the form will produce an HTTP POST request; thus, we use a <code class="highlighter-rouge">post</code> route here.</li>
+  <li>The <code class="highlighter-rouge">form_with</code> option <code class="highlighter-rouge">url: mc_questions_path</code> specifies the resource path to be used in the HTTP request. In this case, the route helper <code class="highlighter-rouge">mc_questions_path</code> was defined in our <code class="highlighter-rouge">index</code> route. The <code class="highlighter-rouge">as: 'mc_questions'</code> part of the <code class="highlighter-rouge">index</code> route caused the <code class="highlighter-rouge">mc_questions_path</code> route helper to be generated. The URI pattern in the <code class="highlighter-rouge">index</code> route was <code class="highlighter-rouge">'mc_questions'</code>, so that is what the <code class="highlighter-rouge">mc_questions_path</code> route helper returns. Because the <code class="highlighter-rouge">form_with</code> option <code class="highlighter-rouge">url: mc_questions_path</code> uses this route helper, the <code class="highlighter-rouge">post</code> route for <code class="highlighter-rouge">create</code> route will need to use the corresponding URI pattern (<code class="highlighter-rouge">'mc_questions'</code>).</li>
+</ul>
+
+<p>Also, note that no <code class="highlighter-rouge">as</code> option is needed for this <code class="highlighter-rouge">post</code> route, since the <code class="highlighter-rouge">index</code> route uses the same URI pattern and has already specified an <code class="highlighter-rouge">as</code> option.</p>
+
+<p>Now that we have declared the <code class="highlighter-rouge">create</code> route, we can define the controller action <code class="highlighter-rouge">create</code>. This action will need (1) to retrieve the form data for a question from the <code class="highlighter-rouge">params</code> hash, (2) to create a new <code class="highlighter-rouge">McQuestion</code> object based on the form data, and (3) to save the <code class="highlighter-rouge">McQuestion</code> object to the database. The action will send an HTTP redirect response if it saves the object successfully, but if saving is unsuccessful, the action will render the form again with an error message. For more on the rationale for sending an HTTP redirect after a successful save, see <a href="/rails-demos-n-deets-2020/deets-sessions/" target="_blank">this deets page</a>.</p>
+
+<p>In the body of the <code class="highlighter-rouge">McQuestionsController</code> class, insert a skeleton for the <code class="highlighter-rouge">create</code> action with psuedocode comments for the operations it will need to perform, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">create</span>
+  <span class="c1"># new object from params</span>
+  <span class="c1"># respond_to block</span>
+    <span class="c1"># if question saves</span>
+      <span class="c1"># success message</span>
+      <span class="c1"># redirect to index</span>
+    <span class="c1"># else</span>
+      <span class="c1"># error message</span>
+      <span class="c1"># render new</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>We will now fill in the body of the <code class="highlighter-rouge">create</code> action.</p>
+
+<p>Create a new <code class="highlighter-rouge">McQuestion</code> object based the <code class="highlighter-rouge">params</code> hash by inserting a call to the <code class="highlighter-rouge">McQuestion.new</code> constructor, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># new object from params</span>
+<span class="n">question</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:mc_question</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:question</span><span class="p">,</span> <span class="ss">:answer</span><span class="p">,</span> <span class="ss">:distractor_1</span><span class="p">,</span> <span class="ss">:distractor_2</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>Data from the <code class="highlighter-rouge">params</code> hash isn’t necessarily safe, so we have to use some special <code class="highlighter-rouge">params</code> methods to protect ourselves. Any data received from a POST request could have been tampered with or fabricated, and new keys could have been added that were not on the original form, all in an attempt to exploit latent bugs in the app. Since we know that the form should contain only <code class="highlighter-rouge">McQuestion</code> attribute data (i.e., <code class="highlighter-rouge">question</code>, <code class="highlighter-rouge">answer</code>, etc.) and that those data are scoped under the top-level <code class="highlighter-rouge">:mc_question</code> key (recall the <code class="highlighter-rouge">form_with</code> option <code class="highlighter-rouge">scope</code>), we use the <a href="https://api.rubyonrails.org/v6.0.2.1/classes/ActionController/Parameters.html#method-i-require" target="_blank"><code class="highlighter-rouge">require</code> method</a> to require that the <code class="highlighter-rouge">:mc_question</code> key must exist in the <code class="highlighter-rouge">params</code> hash; otherwise, an exception will be thrown. We further use the <a href="https://api.rubyonrails.org/v6.0.2.1/classes/ActionController/Parameters.html#method-i-require" target="_blank"><code class="highlighter-rouge">permit</code> method</a> to ensure that only the specified attributes are allowed and any others are filtered out. (Despite these precautions, we will still have to be careful, because malicious data may also have been inserted into the permitted attributes.)</p>
+
+<p>Next, fill in a basic skeleton for the call to <code class="highlighter-rouge">respond_to</code>, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># respond_to block</span>
+<span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+  <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="k">do</span>
+    <span class="c1"># if question saves</span>
+      <span class="c1"># success message</span>
+      <span class="c1"># redirect to index</span>
+    <span class="c1"># else</span>
+      <span class="c1"># error message</span>
+      <span class="c1"># render new</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Attempt to save the <code class="highlighter-rouge">McQuestion</code> object referenced by <code class="highlighter-rouge">question</code> by inserting into the body of the <code class="highlighter-rouge">format.html</code> block a call to the model <a href="https://api.rubyonrails.org/v6.0.2.1/classes/ActiveRecord/Persistence.html#method-i-save" target="_blank"><code class="highlighter-rouge">save</code> method</a> embedded in an <code class="highlighter-rouge">if</code>/<code class="highlighter-rouge">else</code> statement, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">question</span><span class="p">.</span><span class="nf">save</span>
+  <span class="c1"># success message</span>
+  <span class="c1"># redirect to index</span>
+<span class="k">else</span>
+  <span class="c1"># error message</span>
+  <span class="c1"># render new</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>The reason that we embed the call to <code class="highlighter-rouge">save</code> in an <code class="highlighter-rouge">if</code>/<code class="highlighter-rouge">else</code> is because saving may fail, for example, if a model validation fails. If saving is successful, the <code class="highlighter-rouge">save</code> method returns <code class="highlighter-rouge">true</code>, causing execution to enter the body of the <code class="highlighter-rouge">if</code> part; however, if saving is unsuccessful, the <code class="highlighter-rouge">save</code> method returns <code class="highlighter-rouge">false</code>, causing execution to enter the <code class="highlighter-rouge">else</code> part.</p>
+
+<p>To handle a successful save, add a success message to the <code class="highlighter-rouge">flash</code> hash and preform an HTTP redirect to the <code class="highlighter-rouge">index</code> page by inserting the code into the body of the <code class="highlighter-rouge">if</code> part, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># success message</span>
+<span class="n">flash</span><span class="p">[</span><span class="ss">:success</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Question saved successfully"</span>
+<span class="c1"># redirect to index</span>
+<span class="n">redirect_to</span> <span class="n">mc_questions_url</span>
+</code></pre></div></div>
+
+<p>Note that we use the <a href="https://api.rubyonrails.org/v6.0.2.1/classes/ActionController/Redirecting.html#method-i-redirect_to" target="_blank"><code class="highlighter-rouge">redirect_to</code> method</a> to make the controller to reply to the browser with an HTTP redirect response. The call to <code class="highlighter-rouge">redirect_to</code> generally takes a URL as its argument, and in these demos, it will generally be a URL returned from a <code class="highlighter-rouge">url</code> route helper, like <code class="highlighter-rouge">mc_questions_url</code> above. Note that the <code class="highlighter-rouge">url</code> route helper <code class="highlighter-rouge">mc_questions_url</code> returns a full URL (<a href="http://localhost:3000/mc_questions">http://localhost:3000/mc_questions</a>) and is different from the <code class="highlighter-rouge">path</code> route helper <code class="highlighter-rouge">mc_questions_path</code>, which returns only a relative path (<code class="highlighter-rouge">/mc_questions</code>). In our Rails app code, it is most common to use the <code class="highlighter-rouge">path</code> route helper; however, occasionally, like in the case of HTTP redirects, the <code class="highlighter-rouge">url</code> route helper is expected.</p>
+
+<p>To handle an unsuccessful save, add an error message to the <code class="highlighter-rouge">flash</code> hash using <code class="highlighter-rouge">flash.now</code>, and render the <code class="highlighter-rouge">new</code> form (so the user can correct their mistake and try again) by inserting code into the <code class="highlighter-rouge">else</code> part, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># error message</span>
+<span class="n">flash</span><span class="p">.</span><span class="nf">now</span><span class="p">[</span><span class="ss">:error</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Error: Question could not be saved"</span>
+<span class="c1"># render new</span>
+<span class="n">render</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">question: </span><span class="n">question</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>In short, the reason that we use <code class="highlighter-rouge">flash.now</code> above is because the controller action is going to render a view in response to the current HTTP request. The usual flash behavior would be for the error message to become available for the next HTTP request; however, in this case, we need it to appear in the response to the current HTTP request. For more on this usage of the <code class="highlighter-rouge">flash</code> hash, see <a href="/rails-demos-n-deets-2020/deets-sessions/" target="_blank">this deets page</a>.</p>
+
+<p>Verify that the form works now by running the app and testing out the <code class="highlighter-rouge">new</code> form page (<a href="http://localhost:3000/mc_questions/new">http://localhost:3000/mc_questions/new</a>).</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/60f657bf7d8e0ae1aa719155133ce044baec298f" target="_blank">➥ Code changeset for this part</a></strong></p>
+
+<h2 id="3-linking-to-the-new-form-from-the-index-page-for-mcquestion-records">3. Linking to the <code class="highlighter-rouge">new</code> Form from the <code class="highlighter-rouge">index</code> Page for <code class="highlighter-rouge">McQuestion</code> Records</h2>
+
+<p>As a final step for this demo, we will add a link to the <code class="highlighter-rouge">new</code> question page on the <code class="highlighter-rouge">index</code> page, so users will have a convenient way of getting to the form.</p>
+
+<p>Insert a hyperlink to the <code class="highlighter-rouge">new</code> form page by inserting a <code class="highlighter-rouge">link_to</code> call under the heading in <code class="highlighter-rouge">index.html.erb</code>, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'New Question'</span><span class="p">,</span> <span class="n">new_mc_question_path</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>Verify that the hyperlink works now by running the app and testing out link on the <code class="highlighter-rouge">index</code> page (&lt;http://localhost:3000/mc_questions).</p>
+
+<p>The app now provides functionality for creating new multiple-choice questions! In upcoming demos, we will add functionality for updating and deleting existing questions as well.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/2de3448c5951e7c2848c7d29a27a6bb0221280a7" target="_blank">➥ Code changeset for this part</a></strong></p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-flash/">⇦ Previous: Displaying Notification Messages Using the Flash</a></li>
+        
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-resource-update/">⇨ Next: Forms and Actions for Updating Model Records</a></li>
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2020
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
