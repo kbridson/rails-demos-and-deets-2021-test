@@ -70,7 +70,7 @@ Confirm that the tests work and are passing by running the following command:
 rails test
 ```
 
-You should see `0 failures` and `0 errors`. If you do see failures or errors, then there is a bug in the code that needs fixing.
+We should see `0 failures` and `0 errors`. If we do see failures or errors, then there is a bug in the code that needs fixing.
 
 **[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/c56f537386fcaf1b12b861c16f5cc93ba9d01d2c){:target="_blank"}**
 
@@ -111,7 +111,7 @@ Confirm that the tests work and are passing by running the following command:
 rails test
 ```
 
-You should see `0 failures` and `0 errors`. If you do see failures or errors, then there is a bug in the code that needs fixing.
+We should see `0 failures` and `0 errors`. If we do see failures or errors, then there is a bug in the code that needs fixing.
 
 **[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/5613f335b1ead8246b64bb683a1eb13a9d60de6d){:target="_blank"}**
 
@@ -196,7 +196,7 @@ Create a new `index` view in `app/views/quizzes/index.html.erb`, like this:
 <% end %>
 ```
 
-Note that the `truncate` method is a handy way to shorten a long string when you want only a brief summary. In particular, the method will return the first `length` characters of a string followed by an ellipsis ("`...`").
+Note that the `truncate` method is a handy way to shorten a long string when we want only a brief summary. In particular, the method will return the first `length` characters of a string followed by an ellipsis ("`...`").
 
 Add a link to the `index` page for `Quiz` on the app's home page by inserting a call to the `link_to` helper above the "`About`" and "`Contact`" links in the `welcome.html.erb` view, like this:
 
