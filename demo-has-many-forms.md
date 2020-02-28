@@ -92,7 +92,7 @@ def index
 end
 ```
 
-The `includes` method helps minimize the number of database queries by specifying the associations that need to be loaded (see the [N+1 Queries Problem](https://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations)).
+The `includes` method helps minimize the number of database queries by specifying the associations that need to be loaded (see the [N+1 Queries Problem](https://guides.rubyonrails.org/v6.0.2.1/active_record_querying.html#eager-loading-associations)).
 
 Move the `index.html.erb` view file from `app/views/mc_questions` to `app/views/quiz_mc_questions`.
 

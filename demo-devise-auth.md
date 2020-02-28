@@ -4,7 +4,7 @@ title: 'Adding Authentication with Devise'
 
 # {{ page.title }}
 
-In this demonstration, I will show how to add user authentication to a Rails web app using the [Devise gem](https://github.com/plataformatec/devise#readme). We will continue to build upon the _QuizMe_ project from the previous demos.
+In this demonstration, I will show how to add user authentication to a Rails web app using the [Devise gem](https://github.com/plataformatec/devise#readme){:target="_blank"}. We will continue to build upon the [QuizMe project](https://github.com/human-se/quiz-me-2020){:target="_blank"} from the previous demos.
 
 In particular, we will add sign-in and sign-up links at the top of all pages, as depicted in Figure 1.
 
