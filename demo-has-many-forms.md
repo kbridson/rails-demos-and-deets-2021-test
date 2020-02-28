@@ -52,7 +52,7 @@ On the `show` page for a `Quiz` object, display the questions associated with th
 
 Confirm that this code works correctly by running the app, opening the `index` page for `Quiz` records, and navigating to the `show` page for each `Quiz` record. The `show` pages should now include a "Questions" subsection, as depicted in Figure 2.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/f9c100b14267fccfa2fdbf1fed4629591dec9e05){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/f9c100b14267fccfa2fdbf1fed4629591dec9e05){:target="_blank"}**
 
 ## 2. Generating a `QuizMcQuestionsController` Class
 
@@ -66,7 +66,7 @@ We will use this controller class, `QuizMcQuestionsController`, to handle HTTP r
 
 Confirm that the file `app/controllers/quiz_mc_questions_controller.rb` was generated correctly.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/53d28bdd24948c4bcd96c3351f2f454fe3a6ed06){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/53d28bdd24948c4bcd96c3351f2f454fe3a6ed06){:target="_blank"}**
 
 ## 3. Moving the `index` Action from `McQuestionsController` to `QuizMcQuestionsController`
 
@@ -98,7 +98,7 @@ Move the `index.html.erb` view file from `app/views/mc_questions` to `app/views/
 
 Confirm that these changes work correctly by running the app and opening the URL <http://localhost:3000/quizzes/1/mc_questions> for the first `Quiz` record and <http://localhost:3000/quizzes/1/mc_questions> for the second `Quiz` record.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/8d7a430ccfa77486242cf44884011e5edc7e9912){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/8d7a430ccfa77486242cf44884011e5edc7e9912){:target="_blank"}**
 
 ## 4. Moving `new` and `create` Actions from `McQuestionsController` to `QuizMcQuestionsController`
 
@@ -172,7 +172,7 @@ Update the "`New Question`" link in `quiz_mc_questions/index.html.erb` and add a
 
 Confirm that these changes work correctly by resetting the database, running the app, navigating the various `show` pages for `Quiz` records, and using the "`New Question`" link to add new `McQuestion` records.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/1a4428e86ca05af35515a2c5d943d4768af3cb25){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/1a4428e86ca05af35515a2c5d943d4768af3cb25){:target="_blank"}**
 
 ## 5. Updating the `McQuestion` `update` and `destroy` Actions to Use the Parent `Quiz`
 
@@ -225,6 +225,6 @@ Confirm that these changes work correctly by resetting the database, running the
 
 Having successfully completed the above tasks, the QuizMe app now provides users with a full set of features for CRUDing quizzes and questions that properly handle the association links between quizzes and questions.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/1917e1b67d55bcd9b1e58457accb0407e4ae8373){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/1917e1b67d55bcd9b1e58457accb0407e4ae8373){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-one-to-many.md' next_page='demo-devise-auth.md' %}

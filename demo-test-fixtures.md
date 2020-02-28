@@ -20,7 +20,7 @@ When `rails` is used to generate a controller class (like we did in previous dem
 
 To remove the generated controller tests, use VS Code to edit the Ruby files in `test/controllers`, and comment out any tests there that you yourself did not write (all of them at this stage). In a later demo, we will write controller tests specifically designed for the QuizMe project.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/7bc4b6821d1a7a44ff3209c0e8d17bc8f35498ef){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/7bc4b6821d1a7a44ff3209c0e8d17bc8f35498ef){:target="_blank"}**
 
 ## 2. Creating Valid `McQuestion` Fixtures
 
@@ -48,7 +48,7 @@ two:
 
 Once the above changes are completed, every `McQuestion` model test will be able to retrieve these fixtures for use in their test code.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/e03cfff43eecd3e9fc7b8502c94e396fbd704ca6){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/e03cfff43eecd3e9fc7b8502c94e396fbd704ca6){:target="_blank"}**
 
 ## 3. Testing the Valid `McQuestion` Fixtures
 
@@ -115,7 +115,7 @@ Finished in 0.126389s, 7.9121 runs/s, 7.9121 assertions/s.
 
 The number of `runs` indicates how many `test` methods executed. The number of `assertions` indicates how many assertions ran within those `test` methods. The number of `failures` indicates many of those assertions were violated. The number of `errors` indicates how many `test` methods crashed (e.g., due to syntax errors or thrown exceptions in the code under test).
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/877c1ba88e9269b9f2e38f83220930962d959205){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/877c1ba88e9269b9f2e38f83220930962d959205){:target="_blank"}**
 
 ### 3.2. Updating the Test to Cover All the Valid `McQuestion` Fixtures
 
@@ -157,6 +157,6 @@ We now have an automated test that we can run again and again to ensure that we 
 
 For more information on fixtures, see the [Rails Guides page](https://guides.rubyonrails.org/v6.0.2.1/testing.html#the-low-down-on-fixtures){:target="_blank"} and [API documentation](https://api.rubyonrails.org/v6.0.2.1/classes/ActiveRecord/FixtureSet.html){:target="_blank"}.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/a52ca1153bb3e54bea122ab834653c06b2440762){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/a52ca1153bb3e54bea122ab834653c06b2440762){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-model-show.md' next_page='demo-presence-validations.md' %}

@@ -32,7 +32,7 @@ rails test
 
 If no syntax errors were made, the test should produce the same output as last time.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/91e2a798c84ac976da6f238a5dcb66fba8619f95){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/91e2a798c84ac976da6f238a5dcb66fba8619f95){:target="_blank"}**
 
 ## 2. Testing the `presence` Validations in the `McQuestion` Model Class
 
@@ -71,6 +71,6 @@ If the test fails, then there is a bug, most likely in either the model validati
 
 Following the same approach that was used to write the above test for the `presence` validation on the `question` attribute, add two more tests to `McQuestionTest` for the remaining `presence` validations, one for the `answer` attribute and one for the `distractor_1` attribute. After you add each test, run `rails test` to confirm that the test works.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/ee6b73ed20ab190ac6f291eccd3c0949360c60f7){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/ee6b73ed20ab190ac6f291eccd3c0949360c60f7){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-text-fixtures.md' next_page='demo-uniqueness-validations.md' %}

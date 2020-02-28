@@ -89,7 +89,7 @@ This code is largely the same as in `new.html.erb` from the [previous demo]({% i
 
 Verify that the form is displaying correctly by running the app and opening the URL <http://localhost:3000/mc_questions/1/edit> in the browser. The form should be displayed, filled with the data for the first `McQuestion` record. You can test the form with other records by changing the `1` in the URL to, for example, `2` or `3`. The form will not yet be capable of handling submissions. We will tackle that functionality in the next part.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/b14d7b3153d1ee9ed2aa9f3a37ff55c197777084){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/b14d7b3153d1ee9ed2aa9f3a37ff55c197777084){:target="_blank"}**
 
 ## 2. Processing Form Data with the `update` Action
 
@@ -196,7 +196,7 @@ Note that the `color` property in this CSS code sets the font color of the wrapp
 
 Verify that the form is works correctly by running the app and opening the URL <http://localhost:3000/mc_questions/1/edit> in the browser. The form should be displayed, filled with the data for the first `McQuestion` record. Submitting changes to the form fields should no update the record in the database. As before, you can test the form with other records by changing the `1` in the URL to, for example, `2` or `3`.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/8190bd3a04ceef91cfdf3f055d339a3e6cb46c17){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/8190bd3a04ceef91cfdf3f055d339a3e6cb46c17){:target="_blank"}**
 
 ## 3. Linking to the `edit` Form from the `index` and `show` Pages for `McQuestion` Records
 
@@ -225,6 +225,6 @@ You should now be able to navigate to the `edit` page for any question by clicki
 
 The QuizMe app now has functionality for creating and updating multiple-choice questions. In the next demo, we will complete the app's CRUD functionality by enabling users to delete records.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/32f6d2d8b0eeaa9ec370a38645fb089e52f837d9){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/32f6d2d8b0eeaa9ec370a38645fb089e52f837d9){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-resource-create.md' next_page='demo-resource-destroy.md' %}

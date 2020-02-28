@@ -71,7 +71,7 @@
 
 <p>In a <a href="/rails-demos-n-deets-2020/demo-simple-forms/" target="_blank">previous demo</a>, we passed user data (i.e., <em>parameters</em>) from a webpage to the Rails server via POST requests (recall the <code class="highlighter-rouge">params</code> hash); however, parameters can also be passed via GET requests. One such way is illustrated in the above <code class="highlighter-rouge">show</code> route. In particular, this <code class="highlighter-rouge">show</code> route’s URI pattern includes an <code class="highlighter-rouge">:id</code> request parameter that becomes part of the URL (e.g., <a href="http://localhost:3000/mc_questions/125">http://localhost:3000/mc_questions/125</a>). When the Rails web server receives a GET request that matches that <code class="highlighter-rouge">show</code> route, the invoked controller action can retrieve the <code class="highlighter-rouge">:id</code> value (e.g., <code class="highlighter-rouge">125</code>) via the <code class="highlighter-rouge">params</code> hash—specifically, using <code class="highlighter-rouge">params[:id]</code>.</p>
 
-<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/f1c9ca2ade1bda8f2da3c8130611ad9453202e94" target="_blank">➥ Code changeset for this part</a></strong></p>
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/f1c9ca2ade1bda8f2da3c8130611ad9453202e94" target="_blank">{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part</a></strong></p>
 
 <h2 id="2-adding-a-show-controller-action-for-mcquestion-records">2. Adding a <code class="highlighter-rouge">show</code> Controller Action for <code class="highlighter-rouge">McQuestion</code> Records</h2>
 
@@ -104,7 +104,7 @@
 
 <p><strong>Note!</strong> In the <code class="highlighter-rouge">index</code> action, we had multiple <code class="highlighter-rouge">McQuestion</code> records, so we used the variable name <code class="highlighter-rouge">questions</code> (plural); however, in the <code class="highlighter-rouge">show</code> action, we have only one <code class="highlighter-rouge">McQuestion</code> record, so we use the variable name <code class="highlighter-rouge">question</code> (singular).</p>
 
-<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/547fa4dc0991b85710f5d47aea715cb573df6c9c" target="_blank">➥ Code changeset for this part</a></strong></p>
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/547fa4dc0991b85710f5d47aea715cb573df6c9c" target="_blank">{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part</a></strong></p>
 
 <h2 id="3-adding-a-show-view-for-mcquestion-records">3. Adding a <code class="highlighter-rouge">show</code> View for <code class="highlighter-rouge">McQuestion</code> Records</h2>
 
@@ -132,7 +132,7 @@
 
 <p>The QuizMe app now has <code class="highlighter-rouge">index</code> and <code class="highlighter-rouge">show</code> pages that cover the R (“Read”) functionality in <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete" target="_blank">CRUD</a>. In upcoming demos, we will add C (“Create”), U (“Update”), and D (“Delete”) functionality to complete the app’s CRUD capabilities.</p>
 
-<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/785e79a43a817269a4e0887184a6d1c1bd509674" target="_blank">➥ Code changeset for this part</a></strong></p>
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/785e79a43a817269a4e0887184a6d1c1bd509674" target="_blank">{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part</a></strong></p>
 
 <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">

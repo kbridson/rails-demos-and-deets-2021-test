@@ -24,6 +24,6 @@ This statement means that whenever someone tries to go to <code>http://localhost
 
 Open the QuizMe app's root URL, and confirm that the browser is redirected to the Welcome page.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/536d99975a52ccce5b1e9fa7b02a793e8a879724)**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/536d99975a52ccce5b1e9fa7b02a793e8a879724)**
 
 {% include pagination.html prev_page='demo-links.md' next_page='demo-rendering-data.md' %}

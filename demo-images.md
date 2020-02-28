@@ -35,6 +35,6 @@ In particular, we will add the image to the Welcome page, as depicted in Figure 
 
     Reload the Welcome page to confirm that the image now appears as depicted in Figure 2.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/4321a3161871ddc504be4c6d1c02d2738dd6d368)**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/4321a3161871ddc504be4c6d1c02d2738dd6d368)**
 
 {% include pagination.html prev_page='demo-static-pages.md' next_page='demo-links.md' %}

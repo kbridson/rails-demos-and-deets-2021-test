@@ -26,7 +26,7 @@ The `link_to` helper takes as arguments the text you want to display, the link d
 
 Confirm that the hyperlink works by refreshing the Welcome page in the browser.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/0867a44fb45c385fd7ce3005abe2d9f264c386ab)**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/0867a44fb45c385fd7ce3005abe2d9f264c386ab)**
 
 ## 2. Adding Hyperlinks between Pages within the App
 
@@ -52,6 +52,6 @@ Add a link to the Welcome page at the bottom of the About page by adding this co
 
 Reload the Welcome page and confirm the links on both pages work correctly.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/13424f3ed23dc590a2d06f7b89d33d051c16aeff)**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/13424f3ed23dc590a2d06f7b89d33d051c16aeff)**
 
 {% include pagination.html prev_page='demo-images.md' next_page='demo-root-route.md' %}

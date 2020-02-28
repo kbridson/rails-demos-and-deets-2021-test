@@ -60,6 +60,6 @@ The _QuizMe_ site does not have much data so far; however, recall the list of fe
 
 We have now successfully passed data from the controller to the view to be rendered!
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/370ec758a1ce78ac62482591d8d5b42614bb4a3b)**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/370ec758a1ce78ac62482591d8d5b42614bb4a3b)**
 
 {% include pagination.html prev_page='demo-root-route.md' next_page='demo-simple-forms.md' %}

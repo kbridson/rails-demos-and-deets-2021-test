@@ -57,6 +57,6 @@ You should see the three seed records, as depicted in Figure 1.
 
 We have now set up our app such that we can add seed data whenever we reset the database. As we evolve our model in future demos, we will continue to add new seed data, so when we manually test the app, we won't have to manually enter in all our test data every time.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/4094ae4b0e7278565430ac5fa8494e16676e1f7c){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/4094ae4b0e7278565430ac5fa8494e16676e1f7c){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-annotate.md' next_page='demo-model-index.md' %}

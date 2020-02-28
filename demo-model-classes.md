@@ -40,6 +40,6 @@ Finally, confirm that the database was set up correctly by
 
 We have now created our first model class and corresponding database table; however, we have not yet saved any `McQuestion` records in the database—that will be coming soon!
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/f7319c1698e42d78473183705998df679d831ff0){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/f7319c1698e42d78473183705998df679d831ff0){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-simple-forms.md' next_page='demo-annotate.md' %}

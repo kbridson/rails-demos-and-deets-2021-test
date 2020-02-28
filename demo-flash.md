@@ -41,7 +41,7 @@ In the `contact.html.erb` view, replace the current code for displaying the stat
 
 Run the app, open the contact page (<http://localhost:3000/contact>), and submit the feedback form to verify that the new flash message working.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/0ccb580d65cb0f3ed617e3d4fcf016b60b5f6600){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/0ccb580d65cb0f3ed617e3d4fcf016b60b5f6600){:target="_blank"}**
 
 ## 2. Centralizing the Flash-Message View Code
 
@@ -63,6 +63,6 @@ Display all flash messages (regardless of key) by editing the flash-message view
 
 Again, test the app to confirm that the flash message is still working. Note that the message now appears at the top of the page, which is where we want it to be moving forward.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/0cad1a21ca0a2a4e818edca684ff6008480f851c){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/0cad1a21ca0a2a4e818edca684ff6008480f851c){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-custom-validations.md' next_page='demo-resource-create.md' %}

@@ -38,7 +38,7 @@ rails db:migrate
 
 Verify that the database schema was updated correctly by using pgAdmin to inspect the `quizzes` database table. The table should have no rows of data, but the table should be present, and the columns should be correct.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/fac270c4e4bf681a26a283bb5eebf94bc84be34c){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/fac270c4e4bf681a26a283bb5eebf94bc84be34c){:target="_blank"}**
 
 ## 2. Adding and Testing Valid Fixtures for the `Quiz` Model Class
 
@@ -72,7 +72,7 @@ rails test
 
 We should see `0 failures` and `0 errors`. If we do see failures or errors, then there is a bug in the code that needs fixing.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/c56f537386fcaf1b12b861c16f5cc93ba9d01d2c){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/c56f537386fcaf1b12b861c16f5cc93ba9d01d2c){:target="_blank"}**
 
 ## 3. Adding and Testing `presence` Validations for the `Quiz` Model Class
 
@@ -113,7 +113,7 @@ rails test
 
 We should see `0 failures` and `0 errors`. If we do see failures or errors, then there is a bug in the code that needs fixing.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/5613f335b1ead8246b64bb683a1eb13a9d60de6d){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/5613f335b1ead8246b64bb683a1eb13a9d60de6d){:target="_blank"}**
 
 ## 4. Seeding the Database with `Quiz` Records
 
@@ -141,7 +141,7 @@ rails db:migrate:reset db:seed
 
 Verify that the data was seeded correctly by using pgAdmin to inspect the `quizzes` database table.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/72ba549cc6a44fc1308788d3ae72554ef4249d45){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/72ba549cc6a44fc1308788d3ae72554ef4249d45){:target="_blank"}**
 
 ## 5. Creating a Controller for `Quiz` Records
 
@@ -153,7 +153,7 @@ Create a `QuizzesController` by entering this command:
 rails g controller Quizzes
 ```
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/016acc3460a8b84ec2b424c973a6a05db315f701){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/016acc3460a8b84ec2b424c973a6a05db315f701){:target="_blank"}**
 
 ## 6. Adding the `index` Resource Action for `Quiz` Records
 
@@ -206,7 +206,7 @@ Add a link to the `index` page for `Quiz` on the app's home page by inserting a 
 
 Verify that the newly added code works by running the app, opening the app's home page, and using the new hyperlink to navigate to the `index` page for `Quiz` records.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/2f922c52a5ac26847a8529598056975b41feabd3){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/2f922c52a5ac26847a8529598056975b41feabd3){:target="_blank"}**
 
 ## 7. Adding the `show` Resource Action for `Quiz` Records
 
@@ -252,7 +252,7 @@ Add links to the `show` pages for `Quiz` records on the `index` page for `Quiz` 
 
 Verify that the newly added code works by running the app, opening the app's `index` page for `Quiz` records, and using the new hyperlinks to navigate to the `show` pages for `Quiz` records.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/a948581280f587b09b62c935dda98220799fb78b){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/a948581280f587b09b62c935dda98220799fb78b){:target="_blank"}**
 
 ## 8. Adding the `new`/`create` Resource Actions for `Quiz` Records
 
@@ -331,7 +331,7 @@ Add a link to the `new` form page for `Quiz` records on the `index` page for `Qu
 
 Verify that the newly added code works by running the app, opening the app's `index` page for `Quiz` records, using the new hyperlink to navigate to the `new` form pages for `Quiz` records, and using the form to create some new `Quiz` records.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/90f5f1549b8b8322bf829c5339f3839351112027){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/90f5f1549b8b8322bf829c5339f3839351112027){:target="_blank"}**
 
 ## 9. Adding the `edit`/`update` Resource Actions for `Quiz` Records
 
@@ -412,7 +412,7 @@ Add links to the `edit` form pages for `Quiz` records on the `index` page for `Q
 
 Verify that the newly added code works by running the app, opening the app's `index` page for `Quiz` records, using the new hyperlink to navigate to the `edit` form pages for `Quiz` records, and using the form to update some existing `Quiz` records.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/eeed1f7b10d5ab1374f8d6e170081ea5a1e588a1){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/eeed1f7b10d5ab1374f8d6e170081ea5a1e588a1){:target="_blank"}**
 
 ## 10. Adding the `destroy` Resource Action for `Quiz` Records
 
@@ -459,6 +459,6 @@ Verify that the newly added code works by running the app, opening the app's `in
 
 We now have a working `Quiz` model class and CRUD resource pages. In the next demo, we will make the application more interesting by giving each `Quiz` object an associated set of `McQuestion` model objects.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/305fb49adaafea4b83933393b04b3c2d8ca314dc){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/305fb49adaafea4b83933393b04b3c2d8ca314dc){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-resource-destroy.md' next_page='demo-one-to-many.md' %}

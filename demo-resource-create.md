@@ -129,7 +129,7 @@ Finally, add a submit button to the:
 
 Verify that the form is displaying correctly by running the app and opening the URL <http://localhost:3000/mc_questions/new> in the browser. The form will not yet be capable of handling submissions. We will tackle that functionality in the next part.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/b9ad0320445eb91fbe0b3b53f9bfc776bffc1b22){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/b9ad0320445eb91fbe0b3b53f9bfc776bffc1b22){:target="_blank"}**
 
 ## 2. Adding the `create` Action for `McQuestion` Records
 
@@ -230,7 +230,7 @@ In short, the reason that we use `flash.now` above is because the controller act
 
 Verify that the form works now by running the app and testing out the `new` form page (<http://localhost:3000/mc_questions/new>).
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/60f657bf7d8e0ae1aa719155133ce044baec298f){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/60f657bf7d8e0ae1aa719155133ce044baec298f){:target="_blank"}**
 
 ## 3. Linking to the `new` Form from the `index` Page for `McQuestion` Records
 
@@ -246,6 +246,6 @@ Verify that the hyperlink works now by running the app and testing out link on t
 
 The app now provides functionality for creating new multiple-choice questions! In upcoming demos, we will add functionality for updating and deleting existing questions as well.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/2de3448c5951e7c2848c7d29a27a6bb0221280a7){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/2de3448c5951e7c2848c7d29a27a6bb0221280a7){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-flash.md' next_page='demo-resource-update.md' %}

@@ -76,7 +76,7 @@
 
 <p><strong>Note!</strong> The <code class="highlighter-rouge">g</code> in the above command is short for <code class="highlighter-rouge">generate</code>. The <code class="highlighter-rouge">rails</code> command accepts both <code class="highlighter-rouge">g</code> and <code class="highlighter-rouge">generate</code>, and moving forward, we will favor the <code class="highlighter-rouge">g</code> version for brevity.</p>
 
-<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/8e13792ed774dc70b134f253d9e5ef383fedc585" target="_blank">➥ Code changeset for this part</a></strong></p>
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/8e13792ed774dc70b134f253d9e5ef383fedc585" target="_blank">{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part</a></strong></p>
 
 <h2 id="2-adding-an-index-route-for-mcquestion-records">2. Adding an <code class="highlighter-rouge">index</code> Route for <code class="highlighter-rouge">McQuestion</code> Records</h2>
 
@@ -85,7 +85,7 @@
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">get</span> <span class="s1">'mc_questions'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'mc_questions#index'</span><span class="p">,</span> <span class="ss">as: </span><span class="s1">'mc_questions'</span> <span class="c1"># index</span>
 </code></pre></div></div>
 
-<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/a482fd2caf20383c3d1f2f419c4ce280ba771779" target="_blank">➥ Code changeset for this part</a></strong></p>
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/a482fd2caf20383c3d1f2f419c4ce280ba771779" target="_blank">{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part</a></strong></p>
 
 <h2 id="3-adding-an-index-controller-action-for-mcquestion-records">3. Adding an <code class="highlighter-rouge">index</code> Controller Action for <code class="highlighter-rouge">McQuestion</code> Records</h2>
 
@@ -116,7 +116,7 @@
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:index</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">questions: </span><span class="n">questions</span> <span class="p">}</span> <span class="p">}</span>
 </code></pre></div></div>
 
-<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/ccc09baf49bc99dd36c6934a4c326c1790be8c2d" target="_blank">➥ Code changeset for this part</a></strong></p>
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/ccc09baf49bc99dd36c6934a4c326c1790be8c2d" target="_blank">{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part</a></strong></p>
 
 <h2 id="4-adding-an-index-view-for-mcquestion-records">4. Adding an <code class="highlighter-rouge">index</code> View for <code class="highlighter-rouge">McQuestion</code> Records</h2>
 
@@ -177,7 +177,7 @@
 
 <p>The QuizMe app now provides a page that displays all the multiple-choice questions (<code class="highlighter-rouge">index</code>) at the URL <a href="http://localhost:3000/mc_questions">http://localhost:3000/mc_questions</a>, as depicted in Figure 1. Next, we will see how to add pages such that each page displays an individual multiple-choice question (<code class="highlighter-rouge">show</code>).</p>
 
-<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/0de2b324f4647802452da399445055cc8d23c186" target="_blank">➥ Code changeset for this part</a></strong></p>
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/0de2b324f4647802452da399445055cc8d23c186" target="_blank">{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part</a></strong></p>
 
 <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">

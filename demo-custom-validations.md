@@ -62,7 +62,7 @@ rails test
 
 If no syntax errors were made, the tests should run with no failures and no errors.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/180e3edd7ad9ebc887209ce9df7a4fe31e3ae7b6){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/180e3edd7ad9ebc887209ce9df7a4fe31e3ae7b6){:target="_blank"}**
 
 ## 2. Testing the Custom Validation in the `McQuestion` Model Class
 
@@ -96,6 +96,6 @@ If the custom validation works correctly, the tests should run with no failures 
 
 In the last few demos, we have introduced a few common validation scenarios. For a complete list of validation helpers and more, see the [Rails Guide on Active Record Validations](https://guides.rubyonrails.org/active_record_validations.html){:target="_blank"}.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/c51903dbe2216b1b8b0dd9946127543b243ee055){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/c51903dbe2216b1b8b0dd9946127543b243ee055){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-uniqueness-validations.md' next_page='demo-flash.md' %}

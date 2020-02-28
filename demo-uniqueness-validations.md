@@ -28,7 +28,7 @@ rails test
 
 If no syntax errors were made, the tests should run with no failures and no errors.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/84bfc049d89a765ae3044bf00b8a57d1165bba29){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/84bfc049d89a765ae3044bf00b8a57d1165bba29){:target="_blank"}**
 
 ## 2. Testing the `uniqueness` Validation in the `McQuestion` Model Class
 
@@ -53,6 +53,6 @@ rails test
 
 If the `uniqueness` validation works correctly, the tests should run with no failures and no errors.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/ac2fb6db1edf0454011d9e4ab408ab94f505cc33){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/ac2fb6db1edf0454011d9e4ab408ab94f505cc33){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-presence-validations.md' next_page='demo-custom-validations.md' %}

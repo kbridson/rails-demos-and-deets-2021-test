@@ -88,7 +88,7 @@
 
 <p>Verify that the database schema was updated correctly by using pgAdmin to inspect the <code class="highlighter-rouge">mc_questions</code> database table. The table should have a new <code class="highlighter-rouge">quiz_id</code> column.</p>
 
-<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/08f44538608db6a60255448fe45e0bbf91276601" target="_blank">➥ Code changeset for this part</a></strong></p>
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/08f44538608db6a60255448fe45e0bbf91276601" target="_blank">{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part</a></strong></p>
 
 <h2 id="2-creating-a-one-to-many-association-between-the-quiz-and-mcquestion-model-classes">2. Creating a One-to-Many Association between the <code class="highlighter-rouge">Quiz</code> and <code class="highlighter-rouge">McQuestion</code> Model Classes</h2>
 
@@ -142,7 +142,7 @@ McQuestionTest#test_fixtures_are_valid [/Users/sdf/workspace/quiz-me/test/models
 
 <p>The association we created requires that each <code class="highlighter-rouge">McQuestion</code> object must belong to a <code class="highlighter-rouge">Quiz</code> object, and it creates an implicit validation that the <code class="highlighter-rouge">quiz</code> attribute must be present. This explains why we get a failure message like the following, stating “<code class="highlighter-rouge">Quiz must exist</code>”. In the subsequent steps, we will correct this failure by updating the fixtures so that all association links are present.</p>
 
-<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/92f89db1e7938ca75af164d4ba5973d3b330b0e5" target="_blank">➥ Code changeset for this part</a></strong></p>
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/92f89db1e7938ca75af164d4ba5973d3b330b0e5" target="_blank">{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part</a></strong></p>
 
 <h2 id="3-updating-the-mcquestion-model-test-fixtures-to-use-the-association">3. Updating the <code class="highlighter-rouge">McQuestion</code> Model Test Fixtures to Use the Association</h2>
 
@@ -176,7 +176,7 @@ McQuestionTest#test_fixtures_are_valid [/Users/sdf/workspace/quiz-me/test/models
 
 <p>We should see <code class="highlighter-rouge">0 failures</code> and <code class="highlighter-rouge">0 errors</code>. If we do see failures or errors, then there is a bug in the code we added that needs fixing.</p>
 
-<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/0251b593f172926d60b296876ce0ba4651115a85" target="_blank">➥ Code changeset for this part</a></strong></p>
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/0251b593f172926d60b296876ce0ba4651115a85" target="_blank">{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part</a></strong></p>
 
 <h2 id="4-updating-the-mcquestion-seed-data-to-use-the-association">4. Updating the <code class="highlighter-rouge">McQuestion</code> Seed Data to Use the Association</h2>
 
@@ -266,7 +266,7 @@ McQuestionTest#test_fixtures_are_valid [/Users/sdf/workspace/quiz-me/test/models
 
 <p>Our model now includes association links between quizzes and the multiple-choice questions that belong to them. In the next demo, we will add features to our pages and forms for managing these association links.</p>
 
-<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/92b5014a3628b44730323e3d1eac130830eef14e" target="_blank">➥ Code changeset for this part</a></strong></p>
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/92b5014a3628b44730323e3d1eac130830eef14e" target="_blank">{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part</a></strong></p>
 
 <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">

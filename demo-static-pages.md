@@ -127,7 +127,7 @@ Based on the Rails MVC model, there are three things needed to set up a page in 
 
     The Welcome page should now look like Figure 1.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/71ee066ad47e5e1ca04482786cdfae53ffde4e42)**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/71ee066ad47e5e1ca04482786cdfae53ffde4e42)**
 
 ## 2. Adding an About Page
 
@@ -165,6 +165,6 @@ We will now add an additional _About_ page (to which we can link in later demo),
 
 We now have a couple simple pages to work with! Next, let's see how to add images to pages.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/6a6fe395caa7089e4a791d7bab67358d2f6503cf)**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/6a6fe395caa7089e4a791d7bab67358d2f6503cf)**
 
 {% include pagination.html prev_page='demo-new-github-project.md' next_page='demo-images.md' %}

@@ -26,7 +26,7 @@ get 'mc_questions/:id', to: 'mc_questions#show', as: 'mc_question' # show
 
 In a [previous demo]({% include page_url.html page_name='demo-simple-forms.md' %}){:target="_blank"}, we passed user data (i.e., _parameters_) from a webpage to the Rails server via POST requests (recall the `params` hash); however, parameters can also be passed via GET requests. One such way is illustrated in the above `show` route. In particular, this `show` route's URI pattern includes an `:id` request parameter that becomes part of the URL (e.g., <http://localhost:3000/mc_questions/125>). When the Rails web server receives a GET request that matches that `show` route, the invoked controller action can retrieve the `:id` value (e.g., `125`) via the `params` hash—specifically, using `params[:id]`.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/f1c9ca2ade1bda8f2da3c8130611ad9453202e94){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/f1c9ca2ade1bda8f2da3c8130611ad9453202e94){:target="_blank"}**
 
 ## 2. Adding a `show` Controller Action for `McQuestion` Records
 
@@ -62,7 +62,7 @@ format.html { render :show, locals: { question: question } }
 
 **Note!** In the `index` action, we had multiple `McQuestion` records, so we used the variable name `questions` (plural); however, in the `show` action, we have only one `McQuestion` record, so we use the variable name `question` (singular).
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/547fa4dc0991b85710f5d47aea715cb573df6c9c){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/547fa4dc0991b85710f5d47aea715cb573df6c9c){:target="_blank"}**
 
 ## 3. Adding a `show` View for `McQuestion` Records
 
@@ -92,6 +92,6 @@ The QuizMe app now provides pages for displaying individual multiple-choice ques
 
 The QuizMe app now has `index` and `show` pages that cover the R ("Read") functionality in [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete){:target="_blank"}. In upcoming demos, we will add C ("Create"), U ("Update"), and D ("Delete") functionality to complete the app's CRUD capabilities.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/785e79a43a817269a4e0887184a6d1c1bd509674){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/785e79a43a817269a4e0887184a6d1c1bd509674){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-model-index.md' next_page='demo-test-fixtures.md' %}

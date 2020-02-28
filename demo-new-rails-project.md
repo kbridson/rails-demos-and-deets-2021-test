@@ -78,7 +78,7 @@ This and all future demos will assume you are starting in the `workspace` direct
     bundle install
     ```
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/006d9aefca56a5ba121462c65be80f1eca1ab614)**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/006d9aefca56a5ba121462c65be80f1eca1ab614)**
 
 ## 2. Configuring PostgreSQL Databases for the New Rails Project
 
@@ -102,7 +102,7 @@ This and all future demos will assume you are starting in the `workspace` direct
 
     It should complete without errors. Possible issues might be the postgresql service is not running, or the Postgres user role was not set up correctly.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/1e756bcc643cdab0a104fd975e75a553ef5aefa4)**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/1e756bcc643cdab0a104fd975e75a553ef5aefa4)**
 
 ## 3. Run the App
 

@@ -30,7 +30,7 @@ Add a new Contact page to house form QuizMe users can use to send feedback to th
 
 Additionally, add a link to the Contact page to the bottom of the Welcome page, so users can get to the Contact page.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/9000e6552afc2c7e64601de05f6b900b0d52f992)**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/9000e6552afc2c7e64601de05f6b900b0d52f992)**
 
 ## 2. Rendering the Feedback Form
 
@@ -151,7 +151,7 @@ In this part, we will build the form depicted in Figure 1. The form will collect
 
         Reload the Contact page and confirm that the form appears as depicted in Figure 1.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/e75793b1aa6f95fd7d0abc499deff7efcf324ebe)**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/e75793b1aa6f95fd7d0abc499deff7efcf324ebe)**
 
 ## 3. Processing User-Submitted Form Data in the Controller
 
@@ -266,6 +266,6 @@ The controller action should check if all required fields have a value other tha
 
 We should now have a working form that users can use to easily enter their feedback and see if it has been accepted. We will see in the next few demos how to further improve this form by using remote form submission (to stop the page from reloading every time the form is submitted) and using so-called _flash_ messages (to display a more dynamic status message). Of course, at this point, a big omission to the feedback form feature is having it actually do something useful with the submitted data, like saving the data. Upcoming demos will also cover a variety of ways to save and process such form data.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/b8cfaca17c9e3bf76e679afa6a08816a094178c7)**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/b8cfaca17c9e3bf76e679afa6a08816a094178c7)**
 
 {% include pagination.html prev_page='demo-rendering-data.md' next_page='demo-model-classes.md' %}

@@ -55,6 +55,6 @@ In this demonstration, I will show you how to create and upload an existing proj
 
 The project repository is now hosted on GitHub!
 
-**[➥ Example QuizMe GitHub repo](https://github.com/human-se/quiz-me-2020)**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Example QuizMe GitHub repo](https://github.com/human-se/quiz-me-2020)**
 
 {% include pagination.html prev_page='demo-new-rails-project.md' next_page='demo-static-pages.md' %}

@@ -45,7 +45,7 @@ rails db:migrate
 
 Verify that the database schema was updated correctly by using pgAdmin to inspect the `mc_questions` database table. The table should have a new `quiz_id` column.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/08f44538608db6a60255448fe45e0bbf91276601){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/08f44538608db6a60255448fe45e0bbf91276601){:target="_blank"}**
 
 ## 2. Creating a One-to-Many Association between the `Quiz` and `McQuestion` Model Classes
 
@@ -105,7 +105,7 @@ If we see any errors other than this one, then we have accidentally introduced b
 
 The association we created requires that each `McQuestion` object must belong to a `Quiz` object, and it creates an implicit validation that the `quiz` attribute must be present. This explains why we get a failure message like the following, stating "`Quiz must exist`". In the subsequent steps, we will correct this failure by updating the fixtures so that all association links are present.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/92f89db1e7938ca75af164d4ba5973d3b330b0e5){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/92f89db1e7938ca75af164d4ba5973d3b330b0e5){:target="_blank"}**
 
 ## 3. Updating the `McQuestion` Model Test Fixtures to Use the Association
 
@@ -141,7 +141,7 @@ rails test
 
 We should see `0 failures` and `0 errors`. If we do see failures or errors, then there is a bug in the code we added that needs fixing.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/0251b593f172926d60b296876ce0ba4651115a85){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/0251b593f172926d60b296876ce0ba4651115a85){:target="_blank"}**
 
 ## 4. Updating the `McQuestion` Seed Data to Use the Association
 
@@ -234,6 +234,6 @@ To confirm that the data was seeded correctly, use pgAdmin to inspect the databa
 
 Our model now includes association links between quizzes and the multiple-choice questions that belong to them. In the next demo, we will add features to our pages and forms for managing these association links.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/92b5014a3628b44730323e3d1eac130830eef14e){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/92b5014a3628b44730323e3d1eac130830eef14e){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-quiz-model.md' next_page='demo-has-many-forms.md' %}

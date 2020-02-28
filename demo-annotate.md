@@ -60,7 +60,7 @@ rails g annotate:install
 
 Note that the Rake task that was generated, `lib/tasks/auto_annotate_models.rake`, contains a number of settings that you can customize; however, for our purposes, the default settings will suffice.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/114d2c22216769f649596e53b30ec4090567ef0d){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/114d2c22216769f649596e53b30ec4090567ef0d){:target="_blank"}**
 
 ## 2. Annotating the Existing Model Class
 
@@ -74,6 +74,6 @@ The above attribute comments should now have been added to the `mc_questions.rb`
 
 From now on, whenever we create new database migrations and run `rails db:migrate`, the Annotate gem will automatically insert comments into the relevant model class files—how convenient!
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/90b224f4d6edfacb0bf6202d2e9e13cb1213e5c2){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/90b224f4d6edfacb0bf6202d2e9e13cb1213e5c2){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-model-classes.md' next_page='demo-db-seeds.md' %}

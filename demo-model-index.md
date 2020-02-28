@@ -31,7 +31,7 @@ This command generates the file `app/controllers/mc_questions_controller.rb`, wh
 
 **Note!** The `g` in the above command is short for `generate`. The `rails` command accepts both `g` and `generate`, and moving forward, we will favor the `g` version for brevity.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/8e13792ed774dc70b134f253d9e5ef383fedc585){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/8e13792ed774dc70b134f253d9e5ef383fedc585){:target="_blank"}**
 
 ## 2. Adding an `index` Route for `McQuestion` Records
 
@@ -41,7 +41,7 @@ In `routes.rb`, add a [standard resource route](https://guides.rubyonrails.org/v
 get 'mc_questions', to: 'mc_questions#index', as: 'mc_questions' # index
 ```
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/a482fd2caf20383c3d1f2f419c4ce280ba771779){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/a482fd2caf20383c3d1f2f419c4ce280ba771779){:target="_blank"}**
 
 ## 3. Adding an `index` Controller Action for `McQuestion` Records
 
@@ -75,7 +75,7 @@ Add the `locals` hash as an argument to the call to `render` (like we've done in
 format.html { render :index, locals: { questions: questions } }
 ```
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/ccc09baf49bc99dd36c6934a4c326c1790be8c2d){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/ccc09baf49bc99dd36c6934a4c326c1790be8c2d){:target="_blank"}**
 
 ## 4. Adding an `index` View for `McQuestion` Records
 
@@ -138,6 +138,6 @@ There are several things to note here. First, we wrapped the whole question and 
 
 The QuizMe app now provides a page that displays all the multiple-choice questions (`index`) at the URL <http://localhost:3000/mc_questions>, as depicted in Figure 1. Next, we will see how to add pages such that each page displays an individual multiple-choice question (`show`).
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/0de2b324f4647802452da399445055cc8d23c186){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/0de2b324f4647802452da399445055cc8d23c186){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-db-seeds.md' next_page='demo-model-show.md' %}

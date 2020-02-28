@@ -68,7 +68,7 @@ end
 
 The web app should now be receptive to HTTP DELETE requests that delete specified multiple-choice questions from the database; however, we do not yet have a good way to test this functionality. For example, DELETE requests cannot be sent in the same way we send GET requests, by entering a URL into the browser's location bar. In the next part, we will add links to our existing pages to enable sending such HTTP DELETE requests.
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/45555d6effd47d94f75d574b4f443b533c61b0d4){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/45555d6effd47d94f75d574b4f443b533c61b0d4){:target="_blank"}**
 
 ## 2. Linking to the `destroy` action from the `index` and `show` Pages for `McQuestion` Records
 
@@ -99,6 +99,6 @@ Verify that the `destroy` hyperlinks work now by running the app and testing out
 
 The QuizMe app now offers full CRUD functionality by providing the standard Rails resource routes, actions, and views. In the upcoming demos, we will see how to use RESTful resources when the database design becomes more complex (e.g., by adding model class associations/foreign keys).
 
-**[➥ Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/265b720f7e1ec496743660904b576bbe7a586cf2){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/265b720f7e1ec496743660904b576bbe7a586cf2){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-resource-update.md' next_page='demo-quiz-model.md' %}
