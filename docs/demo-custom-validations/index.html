@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2020/assets/img/favicon.png">
+
+<title>Creating and Testing Custom Validations | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2020/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2020/"><img src="/rails-demos-n-deets-2020/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="creating-and-testing-custom-validations">Creating and Testing Custom Validations</h1>
+
+<p>In this demonstration, I will show how to create a custom model validation to cover conditions that are beyond what the Rails validation helpers can handle. We will continue to build upon the <a href="https://github.com/human-se/quiz-me-2020" target="_blank">QuizMe project</a> from the previous demos.</p>
+
+<p>In particular, we will create a <a href="https://guides.rubyonrails.org/v6.0.2.1/active_record_validations.html#custom-methods" target="_blank">custom validation</a> to enforce the condition that all the possible answer values for a <code class="highlighter-rouge">McQuestion</code> object (i.e., <code class="highlighter-rouge">answer</code>, <code class="highlighter-rouge">distractor_1</code>, and <code class="highlighter-rouge">distractor_2</code>) should be different from each other. In the case of multiple choice questions, all the choices should be unique for a single question. The <code class="highlighter-rouge">uniqueness</code> validation won’t help here, because it checks that an attribute’s value is unique over all the records in the database, not uniqueness of attribute values within an individual model object. Thus, we will create a custom validation that checks for three possible cases (<code class="highlighter-rouge">answer == distractor_1</code>, <code class="highlighter-rouge">distractor_1 == distractor_2</code> and <code class="highlighter-rouge">answer == distractor_2</code>) and adds appropriate validation-error messages if they any of the cases are true.</p>
+
+<h2 id="1-creating-a-custom-validation-for-the-mcquestion-model-class">1. Creating a Custom Validation for the <code class="highlighter-rouge">McQuestion</code> Model Class</h2>
+
+<p>As a first step, add a <code class="highlighter-rouge">validate</code> (singular) declaration for a new custom validation method, <code class="highlighter-rouge">choices_cannot_be_duplicate</code>, to the <code class="highlighter-rouge">McQuestion</code> model class, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">validate</span> <span class="ss">:choices_cannot_be_duplicate</span>
+</code></pre></div></div>
+
+<p>We will now need to implement the <code class="highlighter-rouge">choices_cannot_be_duplicate</code> method, which provides our custom validation logic.</p>
+
+<p>Add a new <code class="highlighter-rouge">choices_cannot_be_duplicate</code> method to the <code class="highlighter-rouge">McQuestion</code> class, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">choices_cannot_be_duplicate</span>
+  <span class="c1"># TODO: check cases</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>There are three cases that this method must check for.</p>
+
+<p>First, check that the <code class="highlighter-rouge">answer</code> is not the same as <code class="highlighter-rouge">distractor_1</code>, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">answer</span> <span class="o">==</span> <span class="n">distractor_1</span>
+  <span class="n">errors</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="ss">:distractor_1</span><span class="p">,</span> <span class="s2">"can't be the same as any other choice"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Note that if the <code class="highlighter-rouge">answer</code> and <code class="highlighter-rouge">distractor_1</code> attributes have the same value, then the <code class="highlighter-rouge">choices_cannot_be_duplicate</code> should set the <code class="highlighter-rouge">McQuestion</code> model object as invalid. To accomplish this, the method adds an error message to the model object’s <code class="highlighter-rouge">errors</code> hash. In particular, the error message specifies the attribute that it the subject of the error (<code class="highlighter-rouge">distractor_1</code>) and the human-readable description of the error (<code class="highlighter-rouge">"can't be the same as any other choice"</code>).</p>
+
+<p>Second, similarly to how we handled <code class="highlighter-rouge">distractor_1</code>, check that the <code class="highlighter-rouge">answer</code> is not the same as <code class="highlighter-rouge">distractor_2</code>, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">answer</span> <span class="o">==</span> <span class="n">distractor_2</span>
+  <span class="n">errors</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="ss">:distractor_2</span><span class="p">,</span> <span class="s2">"can't be the same as any other choice"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Third, check that the distractors are not the same, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">distractor_1</span> <span class="o">==</span> <span class="n">distractor_2</span>
+  <span class="n">errors</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="ss">:distractor_2</span><span class="p">,</span> <span class="s2">"can't be the same as any other choice"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Verify that we didn’t accidentally introduce a syntax error into the model class by running the valid <code class="highlighter-rouge">McQuestion</code> fixture tests, like this:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails <span class="nb">test</span>
+</code></pre></div></div>
+
+<p>If no syntax errors were made, the tests should run with no failures and no errors.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/180e3edd7ad9ebc887209ce9df7a4fe31e3ae7b6" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<h2 id="2-testing-the-custom-validation-in-the-mcquestion-model-class">2. Testing the Custom Validation in the <code class="highlighter-rouge">McQuestion</code> Model Class</h2>
+
+<p>Add a test to verify that we implemented the custom validation correctly. In particular, for each duplication case, the test will retrieve a fixture object, set the object’s attributes to create the duplication, and assert that the object is not valid, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">test</span> <span class="s2">"choices cannot be duplicate not valid"</span> <span class="k">do</span>
+  <span class="n">q</span> <span class="o">=</span> <span class="n">mc_questions</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+  <span class="n">q</span><span class="p">.</span><span class="nf">distractor_1</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="nf">answer</span>
+  <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+
+  <span class="n">q</span> <span class="o">=</span> <span class="n">mc_questions</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+  <span class="n">q</span><span class="p">.</span><span class="nf">distractor_2</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="nf">answer</span>
+  <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+
+  <span class="n">q</span> <span class="o">=</span> <span class="n">mc_questions</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+  <span class="n">q</span><span class="p">.</span><span class="nf">distractor_1</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="nf">distractor_2</span>
+  <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Note that the fixture needs to be retrieved anew for each case to reset its attributes.</p>
+
+<p>Check that the test runs as expected by entering the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails <span class="nb">test</span>
+</code></pre></div></div>
+
+<p>If the custom validation works correctly, the tests should run with no failures and no errors.</p>
+
+<p>In the last few demos, we have introduced a few common validation scenarios. For a complete list of validation helpers and more, see the <a href="https://guides.rubyonrails.org/active_record_validations.html" target="_blank">Rails Guide on Active Record Validations</a>.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/c51903dbe2216b1b8b0dd9946127543b243ee055" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-uniqueness-validations/">⇦ Previous: Creating and Testing Uniqueness Validations</a></li>
+        
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-flash/">⇨ Next: Displaying Notification Messages Using the Flash</a></li>
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2020
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>

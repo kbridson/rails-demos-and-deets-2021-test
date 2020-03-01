@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2020/assets/img/favicon.png">
+
+<title>Setting Up Bootstrap and Bootswatch Styling | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2020/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2020/"><img src="/rails-demos-n-deets-2020/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="setting-up-bootstrap-and-bootswatch-styling">Setting Up Bootstrap and Bootswatch Styling</h1>
+
+<p>In this demonstration, I will show how to set up the popular front-end component library, <a href="https://getbootstrap.com/docs/4.4/getting-started/introduction/" target="_blank">Bootstrap</a>, and the theme library, <a href="https://bootswatch.com/" target="_blank">Bootswatch</a>, for styling app pages. We will continue to build upon the <a href="https://github.com/human-se/quiz-me-2020" target="_blank">QuizMe project</a> from the previous demos.</p>
+
+<h2 id="1-installing-the-bootstrap-and-bootswatch-packages">1. Installing the Bootstrap and Bootswatch Packages</h2>
+
+<p>Add some Yarn packages to the project, including Bootstrap and its dependencies, by running the console command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yarn add bootstrap jquery popper.js expose-loader bootswatch jquery-ui autosize
+</code></pre></div></div>
+
+<p>In particular, the <code class="highlighter-rouge">bootstrap</code> library requires <a href="https://en.wikipedia.org/wiki/JQuery" target="_blank"><code class="highlighter-rouge">jquery</code></a> and <a href="https://popper.js.org/" target="_blank"><code class="highlighter-rouge">popper.js</code></a>. We are installing <code class="highlighter-rouge">bootswatch</code> to conveniently choose from a selection Bootstrap-based themes. <a href="https://webpack.js.org/loaders/expose-loader/" target="_blank"><code class="highlighter-rouge">expose-loader</code></a> enables the use of JQuery in views. <a href="https://en.wikipedia.org/wiki/JQuery_UI" target="_blank"><code class="highlighter-rouge">jquery-ui</code></a> has some nice features (e.g., <a href="https://jqueryui.com/position/" target="_blank">the <code class="highlighter-rouge">position</code> method</a>). <a href="https://www.jacklmoore.com/autosize/" target="_blank"><code class="highlighter-rouge">autosize</code></a> enables automatically scaling the height of a <code class="highlighter-rouge">textarea</code> to fit its content.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/685020692ce0b43a83ceb3b90fd0b07e0fc58c09" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<h2 id="2-configuring-the-app-to-use-bootstrap">2. Configuring the App to Use Bootstrap</h2>
+
+<p><a href="https://github.com/rails/webpacker" target="_blank">Webpacker</a> is a Rails subsystem for managing JavaScript in Rails. Configure Webpacker by inserting the following code on line 2 of the file, <code class="highlighter-rouge">config/webpack/environment.js</code>:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">webpack</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">webpack</span><span class="dl">"</span><span class="p">)</span>
+
+<span class="nx">environment</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="dl">"</span><span class="s2">Provide</span><span class="dl">"</span><span class="p">,</span> <span class="k">new</span> <span class="nx">webpack</span><span class="p">.</span><span class="nx">ProvidePlugin</span><span class="p">({</span>
+  <span class="na">$</span><span class="p">:</span> <span class="dl">'</span><span class="s1">jquery</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">jQuery</span><span class="p">:</span> <span class="dl">'</span><span class="s1">jquery</span><span class="dl">'</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">window.jQuery</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">jquery'</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">window.$</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">jquery</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">Popper</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">popper.js</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">default</span><span class="dl">'</span><span class="p">]</span>
+<span class="p">}))</span>
+
+<span class="nx">environment</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">merge</span><span class="p">({</span>
+  <span class="na">module</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">rules</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="na">test</span><span class="p">:</span> <span class="nx">require</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">jquery</span><span class="dl">'</span><span class="p">),</span>
+        <span class="na">use</span><span class="p">:</span> <span class="p">[{</span>
+          <span class="na">loader</span><span class="p">:</span> <span class="dl">'</span><span class="s1">expose-loader</span><span class="dl">'</span><span class="p">,</span>
+          <span class="na">options</span><span class="p">:</span> <span class="dl">'</span><span class="s1">$</span><span class="dl">'</span>
+        <span class="p">},</span> <span class="p">{</span>
+          <span class="na">loader</span><span class="p">:</span> <span class="dl">'</span><span class="s1">expose-loader</span><span class="dl">'</span><span class="p">,</span>
+          <span class="na">options</span><span class="p">:</span> <span class="dl">'</span><span class="s1">jQuery</span><span class="dl">'</span>
+        <span class="p">}]</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="na">test</span><span class="p">:</span> <span class="nx">require</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">@rails/ujs</span><span class="dl">'</span><span class="p">),</span>
+        <span class="na">use</span><span class="p">:</span> <span class="p">[{</span>
+          <span class="na">loader</span><span class="p">:</span> <span class="dl">'</span><span class="s1">expose-loader</span><span class="dl">'</span><span class="p">,</span>
+          <span class="na">options</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Rails</span><span class="dl">'</span>
+        <span class="p">}]</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p>Add the following to the bottom of <code class="highlighter-rouge">app/javascript/packs/application.js</code>:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="dl">'</span><span class="s1">bootstrap</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">autosize</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">autosize</span><span class="dl">'</span>
+
+<span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">turbolinks:load</span><span class="dl">"</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">(</span><span class="dl">'</span><span class="s1">[data-toggle="tooltip"]</span><span class="dl">'</span><span class="p">).</span><span class="nx">tooltip</span><span class="p">()</span>
+  <span class="nx">$</span><span class="p">(</span><span class="dl">'</span><span class="s1">[data-toggle="popover"]</span><span class="dl">'</span><span class="p">).</span><span class="nx">popover</span><span class="p">()</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p>Rename the file, <code class="highlighter-rouge">app/assets/stylesheets/application.css</code>, to be <code class="highlighter-rouge">application.scss</code> (note the extra <code class="highlighter-rouge">s</code> in the file extension).</p>
+
+<p>Import the Bootstrap CSS classes by adding the following to <code class="highlighter-rouge">application.scss</code>:</p>
+
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@import</span> <span class="s2">"../node_modules/bootstrap/scss/bootstrap"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Verify that these steps were performed successfully by running the app and opening it in a browser. You should see that the fonts have now changed.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/5729480812fe9d18a816fb0bdbc30eec861240b4" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<h2 id="3-adding-the-yeti-bootswatch-theme">3. Adding the Yeti Bootswatch Theme</h2>
+
+<p>Bootswatch themes override the default colors, font, sizing, and look of the default Bootstrap classes. You can find a list of the available themes (including examples) on the <a href="https://bootswatch.com/" target="_blank">Bootswatch website</a>. For the QuizMe project, we will use the <a href="https://bootswatch.com/yeti" target="_blank">Yeti theme</a>.</p>
+
+<p>Add the Yeti theme by importing the styles in <code class="highlighter-rouge">application.scss</code>, like this:</p>
+
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@import</span> <span class="s2">"../node_modules/bootswatch/dist/yeti/variables"</span><span class="p">;</span>
+<span class="k">@import</span> <span class="s2">"../node_modules/bootstrap/scss/bootstrap"</span><span class="p">;</span>
+<span class="k">@import</span> <span class="s2">"../node_modules/bootswatch/dist/yeti/bootswatch"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>You can change which theme is used by replacing “<code class="highlighter-rouge">yeti</code>” with the theme name you want.</p>
+
+<p>Once the theme has been added, you can reload the page to see the text styling has changed again.</p>
+
+<p>In the upcoming demos, we will use Bootstrap components (in combination with our Bootswatch theme) to customize the style (e.g., fonts, colors, text alignment, and layout) of our current pages and to add new UI components (e.g., a navigation bar and cards).</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/bb357d13c104c9c8672d7e861e90e8093f3c2c83" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-authorization/">⇦ Previous: Enforcing User Ownership of Resources</a></li>
+        
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-bootstrap-navbar/">⇨ Next: Adding a Navigation Bar</a></li>
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2020
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>

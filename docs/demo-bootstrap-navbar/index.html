@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2020/assets/img/favicon.png">
+
+<title>Adding a Navigation Bar | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2020/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2020/"><img src="/rails-demos-n-deets-2020/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="adding-a-navigation-bar">Adding a Navigation Bar</h1>
+
+<p>In this demonstration, I will show how to implement a navigation bar using the Bootstrap library. We will continue to build upon the <a href="https://github.com/human-se/quiz-me-2020" target="_blank">QuizMe project</a> from the previous demos.</p>
+
+<p>In particular, we will add a <a href="https://getbootstrap.com/docs/4.4/components/navbar/" target="_blank">Bootstrap navbar</a> (short for <em>navigation bar</em>) to the QuizMe app’s pages. The navbar will provide hyperlinks to the apps main pages (e.g., the Welcome and About pages) as well as the sign-in/sign-out links, as depicted in Figure 1.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-n-deets-2020/resources/bootstrap_navbar.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page" /><figcaption class="figure-caption"><p>Figure 1. The new navbar for the QuizMe app.</p>
+</figcaption></figure></div>
+
+<p>Adding the navbar will involve three main tasks:</p>
+
+<ol>
+  <li>Add a placeholder navbar by pasting in template code from the Yeti Bootswatch Theme website.</li>
+  <li>Customize the template navbar code to display hyperlinks to the QuizMe app’s pages.</li>
+  <li>Update the navbar to conditionally format the link to the currently displayed (or <em>active</em>) page so that the link to the active page looks different from the other links.</li>
+</ol>
+
+<h2 id="1-adding-a-template-navbar-to-the-app">1. Adding a Template Navbar to the App</h2>
+
+<p>Start by copying the example code for the blue navbar found on the <a href="https://bootswatch.com/yeti/#navbars">Yeti Bootswatch Theme webpage</a>){:target=”_blank”}. If you open the page in the Google Chrome browser, you can then open the HTML code for the page by clicking <code class="highlighter-rouge">View</code> &gt; <code class="highlighter-rouge">Developer</code> &gt; <code class="highlighter-rouge">View Source</code>. To locate the template navbar code, search for the string “<code class="highlighter-rouge">Navbars</code>” on the page (<code class="highlighter-rouge">Edit</code> &gt; <code class="highlighter-rouge">Find</code> &gt; <code class="highlighter-rouge">Find...</code>), which is a string found only in the heading for the Navbars section.</p>
+
+<p>Paste the Yeti navbar template code into the <code class="highlighter-rouge">app/views/layouts/application.html.erb</code> at the top of the <code class="highlighter-rouge">body</code> element, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">"navbar navbar-expand-md navbar-dark bg-primary"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"navbar-brand"</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Navbar<span class="nt">&lt;/a&gt;</span>
+  <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"navbar-toggler"</span> <span class="na">type=</span><span class="s">"button"</span> <span class="na">data-toggle=</span><span class="s">"collapse"</span> <span class="na">data-target=</span><span class="s">"#navbarColor01"</span> <span class="na">aria-controls=</span><span class="s">"navbarColor01"</span> <span class="na">aria-expanded=</span><span class="s">"false"</span> <span class="na">aria-label=</span><span class="s">"Toggle navigation"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"navbar-toggler-icon"</span><span class="nt">&gt;&lt;/span&gt;</span>
+  <span class="nt">&lt;/button&gt;</span>
+
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"collapse navbar-collapse"</span> <span class="na">id=</span><span class="s">"navbarColor01"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"navbar-nav mr-auto"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item active"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"nav-link"</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Home <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"sr-only"</span><span class="nt">&gt;</span>(current)<span class="nt">&lt;/span&gt;&lt;/a&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"nav-link"</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Features<span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"nav-link"</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Pricing<span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"nav-link"</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>About<span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;form</span> <span class="na">class=</span><span class="s">"form-inline my-2 my-lg-0"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">"form-control mr-sm-2"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">placeholder=</span><span class="s">"Search"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"btn btn-secondary my-2 my-sm-0"</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>Search<span class="nt">&lt;/button&gt;</span>
+    <span class="nt">&lt;/form&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/nav&gt;</span>
+</code></pre></div></div>
+
+<p>Verify that this code displays correctly by running the app and opening <a href="http://localhost:3000">http://localhost:3000</a> in the browser. The navbar should appear on all the app’s pages.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/5b4f3dcb5fef9f8ec0571295e55c87cbe6663925" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<h2 id="2-migrating-the-quizme-navigation-links-into-the-navbar">2. Migrating the QuizMe Navigation Links into the Navbar</h2>
+
+<p>For this task, we will migrate the existing list of links at the top of our pages (i.e., the ones in the <code class="highlighter-rouge">ul</code> element) into the newly added navbar.</p>
+
+<p>Change the <code class="highlighter-rouge">navbar-brand</code> <code class="highlighter-rouge">a</code> element to be a hyperlink to the QuizMe root page, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'QuizMe'</span><span class="p">,</span> <span class="n">root_path</span><span class="p">,</span> <span class="ss">class: </span><span class="s2">"navbar-brand"</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>Replace the links in the template’s <code class="highlighter-rouge">ul</code> element with our actual Home, About, etc. links, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"navbar-nav mr-auto"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item active"</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Home'</span><span class="p">,</span> <span class="n">root_path</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/li&gt;</span>
+  <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item"</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'About'</span><span class="p">,</span> <span class="n">about_path</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/li&gt;</span>
+  <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item"</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Contact'</span><span class="p">,</span> <span class="n">contact_path</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/li&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">user_signed_in?</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Quizzes'</span><span class="p">,</span> <span class="n">quizzes_path</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'My Quizzes'</span><span class="p">,</span> <span class="n">account_quizzes_path</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</code></pre></div></div>
+
+<p>Replace the template’s <code class="highlighter-rouge">form</code> element with another <code class="highlighter-rouge">ul</code> element that contains the Devise links, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"navbar-nav"</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">user_signed_in?</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="n">current_user</span><span class="p">.</span><span class="nf">email</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">edit_user_registration_path</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Sign Out'</span><span class="p">,</span> <span class="n">destroy_user_session_path</span><span class="p">,</span> <span class="ss">method: :delete</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Sign In'</span><span class="p">,</span> <span class="n">new_user_session_path</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Sign Up'</span><span class="p">,</span> <span class="n">new_user_registration_path</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</code></pre></div></div>
+
+<p>Delete the old navigation links in <code class="highlighter-rouge">app/views/static_pages/welcome.html.erb</code> and the old Devise links in <code class="highlighter-rouge">app/views/layouts/application.html.erb</code>.</p>
+
+<p>Verify that the above links display and work correctly by reloading the app and testing it out.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/718080ad149b9320717478ebaece67cc71b6ac13" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<h2 id="3-conditionally-highlighting-the-active-navigation-link">3. Conditionally Highlighting the Active Navigation Link</h2>
+
+<p>In the above code, the <code class="highlighter-rouge">nav-item</code> element for the Home link has an additional <code class="highlighter-rouge">active</code> class; however, this is incorrect and needs to be fixed. The intent of the <code class="highlighter-rouge">active</code> class is to highlight the nav link for the currently open page. However, to achieve this behavior, the <code class="highlighter-rouge">active</code> class must be applied to the <code class="highlighter-rouge">nav-item</code> element that corresponds to the current page. The above code is broken in that the Home <code class="highlighter-rouge">nav-item</code> element is always styled as <code class="highlighter-rouge">active</code> regardless of which page is actually open.</p>
+
+<p>To fix this problem, we will conditionally add the <code class="highlighter-rouge">active</code> class to the appropriate <code class="highlighter-rouge">nav-item</code> element for the current page by making the following changes.</p>
+
+<p>Add a helper method <code class="highlighter-rouge">active_class</code> to the <code class="highlighter-rouge">ApplicationHelper</code> module in <code class="highlighter-rouge">app/helpers/application_helper.rb</code> that returns the string <code class="highlighter-rouge">'active'</code> if the path of the current HTTP request matches a <code class="highlighter-rouge">path</code> parameter and that otherwise returns an empty string (<code class="highlighter-rouge">''</code>), like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">active_class</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">request</span><span class="p">.</span><span class="nf">path</span> <span class="o">==</span> <span class="n">path</span>
+    <span class="k">return</span> <span class="s1">'active'</span>
+  <span class="k">else</span>
+    <span class="k">return</span> <span class="s1">''</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Use this helper method in the navbar view code to add the <code class="highlighter-rouge">active</code> class to the appropriate <code class="highlighter-rouge">nav-item</code> element, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"navbar-nav mr-auto"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item </span><span class="cp">&lt;%=</span> <span class="n">active_class</span><span class="p">(</span><span class="n">welcome_path</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Home'</span><span class="p">,</span> <span class="n">welcome_path</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/li&gt;</span>
+  <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item </span><span class="cp">&lt;%=</span> <span class="n">active_class</span><span class="p">(</span><span class="n">about_path</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'About'</span><span class="p">,</span> <span class="n">about_path</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/li&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">user_signed_in?</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item </span><span class="cp">&lt;%=</span> <span class="n">active_class</span><span class="p">(</span><span class="n">contact_path</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Contact'</span><span class="p">,</span> <span class="n">contact_path</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item </span><span class="cp">&lt;%=</span> <span class="n">active_class</span><span class="p">(</span><span class="n">quizzes_path</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Quizzes'</span><span class="p">,</span> <span class="n">quizzes_path</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item </span><span class="cp">&lt;%=</span> <span class="n">active_class</span><span class="p">(</span><span class="n">account_quizzes_path</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'My Quizzes'</span><span class="p">,</span> <span class="n">account_quizzes_path</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"navbar-nav"</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">user_signed_in?</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item </span><span class="cp">&lt;%=</span> <span class="n">active_class</span><span class="p">(</span><span class="n">edit_user_registration_path</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="n">current_user</span><span class="p">.</span><span class="nf">email</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">edit_user_registration_path</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item </span><span class="cp">&lt;%=</span> <span class="n">active_class</span><span class="p">(</span><span class="n">destroy_user_session_path</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Sign Out'</span><span class="p">,</span> <span class="n">destroy_user_session_path</span><span class="p">,</span> <span class="ss">method: :delete</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item </span><span class="cp">&lt;%=</span> <span class="n">active_class</span><span class="p">(</span><span class="n">new_user_session_path</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Sign In'</span><span class="p">,</span> <span class="n">new_user_session_path</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-item </span><span class="cp">&lt;%=</span> <span class="n">active_class</span><span class="p">(</span><span class="n">new_user_registration_path</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Sign Up'</span><span class="p">,</span> <span class="n">new_user_registration_path</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'nav-link'</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</code></pre></div></div>
+
+<p>Note that, in the above code, we have added an embedded Ruby call to the <code class="highlighter-rouge">active_class</code> method in the <code class="highlighter-rouge">class</code> attribute string for each of the the <code class="highlighter-rouge">li</code> elements. The argument passed to each call of <code class="highlighter-rouge">active_class</code> is the <code class="highlighter-rouge">path</code> route helper for the corresponding link destination page.</p>
+
+<p>Verify that the above <code class="highlighter-rouge">active</code> formatting works correctly by reloading the app and testing out the links.</p>
+
+<p>The app now has a fully functioning navbar. In the upcoming demos, we will add additional UI elements and styling to the page bodies of the app.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/1d3a7894e96e5a0901e87ffad7a5592c24b2d51b" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-bootstrap-setup/">⇦ Previous: Setting Up Bootstrap and Bootswatch Styling</a></li>
+        
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-centering/">⇨ Next: Centering Page Content</a></li>
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2020
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
