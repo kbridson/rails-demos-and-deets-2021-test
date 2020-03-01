@@ -71,7 +71,7 @@ Replace the links in the template's `ul` element with our actual Home, About, et
 ```erb
 <ul class="navbar-nav mr-auto">
   <li class="nav-item active">
-    <%= link_to 'Home', root_path, class: 'nav-link' %>
+    <%= link_to 'Home', welcome_path, class: 'nav-link' %>
   </li>
   <li class="nav-item">
     <%= link_to 'About', about_path, class: 'nav-link' %>
