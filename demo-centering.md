@@ -2,9 +2,11 @@
 title: 'Centering Page Content'
 ---
 
+{% include under-construction.html %}
+
 # {{ page.title }}
 
-xxx
+TODO
 
 For this task, we will center several different types of elements on our pages.
 

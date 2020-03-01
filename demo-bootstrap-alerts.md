@@ -2,9 +2,11 @@
 title: 'Styling Flash Alert Messages'
 ---
 
+{% include under-construction.html %}
+
 # {{ page.title }}
 
-xxx
+TODO
 
 Finally, we will use [Bootstrap alerts](https://getbootstrap.com/docs/4.3/components/alerts/) to style our form notifications, and we will annotate form fields with error messages, as depicted in Figure 3.
 

@@ -2,9 +2,11 @@
 title: 'Formatting Data with Cards'
 ---
 
+{% include under-construction.html %}
+
 # {{ page.title }}
 
-xxx
+TODO
 
 We will also use [Bootstrap cards](https://getbootstrap.com/docs/4.3/components/card/) to display `Quiz` records, as depicted in Figure 2.
 
