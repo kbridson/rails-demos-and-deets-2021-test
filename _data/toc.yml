@@ -43,7 +43,12 @@ demos_sections:
       - demo-authorization.md
   - heading: Styling Pages with Bootstrap
     links:
-      - demo-bootstrap-styling.md
+      - demo-bootstrap-setup.md
+      - demo-bootstrap-navbar.md
+      - demo-centering.md
+      - demo-bootstrap-cards.md
+      - demo-bootstrap-alerts.md
+      - demo-form-errors.md
 
 deets_sections:
   - heading: Prerequisite Technologies

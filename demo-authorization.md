@@ -321,4 +321,4 @@ With those steps completed, the QuizMe app should now be fully secured such that
 
 **[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/f92a0e21ebc996ec45bd38811b59f7949422140d){:target="_blank"}**
 
-{% include pagination.html prev_page='demo-devise-auth.md' next_page='demo-bootstrap-styling.md' %}
+{% include pagination.html prev_page='demo-devise-auth.md' next_page='demo-bootstrap-setup.md' %}

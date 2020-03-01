@@ -30,6 +30,7 @@ markdown: kramdown
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-octicons
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
@@ -54,6 +55,3 @@ defaults:
       path: "" # an empty string here means all files in the project
     values:
       layout: "page"
-
-gems:
-  - jekyll-octicons
