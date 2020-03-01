@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2020/assets/img/favicon.png">
+
+<title>Centering Page Content | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2020/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2020/"><img src="/rails-demos-n-deets-2020/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <div class="d-block text-center">
+    <p class="display-4 mb-0">
+        &#128679;&nbsp;Under Construction&nbsp;&#128679;
+    </p>
+    <p class="mt-0">
+        Sorry! This page isn't quite finished yet.
+    </p>
+</div>
+
+<h1 id="centering-page-content">Centering Page Content</h1>
+
+<p>TODO</p>
+
+<p>For this task, we will center several different types of elements on our pages.</p>
+
+<h2 id="1-centering-a-text-element">1. Centering a Text Element</h2>
+
+<p>One element that we would like to center is the <code class="highlighter-rouge">h1</code> text-heading elements on all our pages.</p>
+
+<p>To center an individual <code class="highlighter-rouge">h1</code> element, we could add the Bootstrap <code class="highlighter-rouge">text-center</code> class, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;h1</span> <span class="na">class=</span><span class="s">"text-center"</span><span class="nt">&gt;</span>Welcome to QuizMe!<span class="nt">&lt;/h1&gt;</span>
+</code></pre></div></div>
+
+<p>However, this class must be applied to individual elements, which would not be a very <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a> way to apply the style, considering that we want to center all <code class="highlighter-rouge">h1</code> elements on all pages.</p>
+
+<p>Instead of individually styling each individual <code class="highlighter-rouge">h1</code> element with the <code class="highlighter-rouge">text-center</code> class, we will instead set a global <code class="highlighter-rouge">text-align</code> style for all <code class="highlighter-rouge">h1</code> elements by adding some CSS to <code class="highlighter-rouge">application.scss</code>, like this:</p>
+
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">h1</span> <span class="p">{</span>
+  <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This global style will center the heading text for all <code class="highlighter-rouge">h1</code> elements on every page in the app.</p>
+
+<h2 id="2-centering-an-element-with-margin">2. Centering an Element with Margin</h2>
+
+<p>Another element that we would like to center on the page is the QuizMe welcome-page image; however, we can’t use the <code class="highlighter-rouge">text-align</code> style like we did for the <code class="highlighter-rouge">h1</code> heading elements, because the style only works for text elements. To horizontally center elements that don’t contain text, we can use the Bootstrap <code class="highlighter-rouge">mx-auto</code> class. This class divides the empty whitespace around the element between the element’s left and right margins, centering the element within its parent element.</p>
+
+<p>Center the welcome-page image by making the <code class="highlighter-rouge">img</code> element a block-level element (using the Bootstrap <code class="highlighter-rouge">d-block</code> class) and by adding the <code class="highlighter-rouge">.mx-auto</code> class, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%=</span> <span class="n">image_tag</span> <span class="s2">"quiz-bubble.png"</span><span class="p">,</span> <span class="ss">width: </span><span class="mi">400</span><span class="p">,</span> <span class="ss">class: </span><span class="s1">'d-block mx-auto'</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<h2 id="3-centering-with-columns-and-justify-content">3. Centering with Columns and Justify Content</h2>
+
+<p>A final sort of element centering that we would like to do is to make the content of each page layout in a column such that the column is placed in the center (horizontally speaking) of the page. To accomplish this task, we will leverage <a href="https://getbootstrap.com/docs/4.3/layout/grid/">Bootstrap’s 12-column flexbox grid layout system</a>. For most of the pages in QuizMe, we don’t want multiple columns side-by-side, but we do want the content to be somewhat in the middle of the page with margins on both sides. We can achieve this by creating a single column that spans 8 of the 12 possible Bootstrap columns, and then, by centering the entire column on the page (leaving the width of 2 columns on each side).</p>
+
+<p>To achieve this layout, wrap the <code class="highlighter-rouge">yield</code> statement in <code class="highlighter-rouge">application.html.erb</code> in a 3-layer <code class="highlighter-rouge">div</code> wrapper with the outermost <code class="highlighter-rouge">div</code> having the Bootstrap <code class="highlighter-rouge">container-fluid</code> class, the second <code class="highlighter-rouge">div</code> having the Bootstrap <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">justify-content-center</code> classes, and the innermost <code class="highlighter-rouge">div</code> having the Bootstrap <code class="highlighter-rouge">col-8</code> class, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container-fluid"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"row justify-content-center"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col-8"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<p>xxx</p>
+
+<p><strong><a href="xxx" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-bootstrap-navbar/">⇦ Previous: Adding a Navigation Bar</a></li>
+        
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-bootstrap-cards/">⇨ Next: Formatting Data with Cards</a></li>
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2020
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
