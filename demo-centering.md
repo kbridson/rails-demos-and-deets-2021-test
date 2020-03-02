@@ -54,14 +54,14 @@ Verify that this code displays correctly by running the app and opening <http://
 
 ## 3. Presenting Page Content in a Column Centered on the Page
 
-A final sort of element centering that we would like to do is to make the content of each page layout in a column such that the column is placed in the center (horizontally speaking) of the page. To accomplish this task, we will leverage [Bootstrap's 12-column flexbox grid layout system](https://getbootstrap.com/docs/4.4/layout/grid/). For most of the pages in QuizMe, we don't want multiple columns side-by-side, but we do want the content to be somewhat in the middle of the page with margins on both sides. We can achieve this by creating a single column that spans 6 of the 12 possible Bootstrap columns, and then, by centering the entire column on the page (leaving the width of 2 columns on each side).
+A final sort of element centering that we would like to do is to make the content of each page layout in a column such that the column is placed in the center (horizontally speaking) of the page. To accomplish this task, we will leverage [Bootstrap's 12-column flexbox grid layout system](https://getbootstrap.com/docs/4.4/layout/grid/). For most of the pages in QuizMe, we don't want multiple columns side-by-side, but we do want the content to be somewhat in the middle of the page with margins on both sides. We can achieve this by creating a single column that spans 8 of the 12 possible Bootstrap columns, and then, by centering the entire column on the page (leaving the width of 2 columns on each side).
 
-To achieve this layout, wrap the `yield` statement in `application.html.erb` in a 3-layer `div` wrapper with the outermost `div` having the Bootstrap `container-fluid` class, the second `div` having the Bootstrap `row` and `justify-content-center` classes, and the innermost `div` having the Bootstrap `col-6` class, like this:
+To achieve this layout, wrap the `yield` statement in `application.html.erb` in a 3-layer `div` wrapper with the outermost `div` having the Bootstrap `container-fluid` class, the second `div` having the Bootstrap `row` and `justify-content-center` classes, and the innermost `div` having the Bootstrap `col-8` class, like this:
 
 ```erb
 <div class="container-fluid">
   <div class="row justify-content-center">
-    <div class="col-6">
+    <div class="col-8">
       <%= yield %>
     </div>
   </div>
@@ -70,6 +70,6 @@ To achieve this layout, wrap the `yield` statement in `application.html.erb` in 
 
 Verify that this code works correctly by running the app and opening the app's various pages in a browser. The content of the pages should now appear in a discernable column centered on the page.
 
-**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/3c1522579dedcb100544af3913ac5ed76f61168c){:target="_blank"}**
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/1ba6dc26991eee9a5fb8a7454052676a47347c87){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-bootstrap-navbar.md' next_page='demo-bootstrap-cards.md' %}
