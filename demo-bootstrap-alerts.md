@@ -1,29 +1,20 @@
 ---
-title: 'Styling Flash Alert Messages'
+title: 'Styling Flash Notification Messages'
 ---
-
-{% include under-construction.html %}
 
 # {{ page.title }}
 
-TODO
+In this demonstration, I will show how to style flash notification messages using Bootstrap. We will continue to build upon the [QuizMe project](https://github.com/human-se/quiz-me-2020){:target="_blank"} from the previous demos.
 
-Finally, we will use [Bootstrap alerts](https://getbootstrap.com/docs/4.3/components/alerts/) to style our form notifications, and we will annotate form fields with error messages, as depicted in Figure 3.
+In particular, we will use [Bootstrap alerts](https://getbootstrap.com/docs/4.4/components/alerts/){:target="_blank"} to style our flash notification messages, as depicted in Figure 1.
 
-<div class="figure-container mx-auto my-4" style="max-width: 960px;">
-<figure class="figure">
-<img src="{{ site.baseurl }}/resources/demo15_quiz_form_error.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page">
-<figcaption class="figure-caption">Figure 3. Updated form page for <code>Quiz</code> records that now uses Bootstrap to style notice/alert messages and now annotates form fields with error messages.</figcaption>
-</figure>
-</div>
+{% include image.html file="bootstrap_alert.png" alt="Screenshot of browser page" caption="Figure 1. Updated form page for `Quiz` records that now uses Bootstrap to style flash notification messages." %}
 
-xxx
+## 1. Styling the Flash Notification Messages with Bootstrap Alerts
 
-## 1. Adding Flash Key Colors
+Using [Bootstrap alerts](https://getbootstrap.com/docs/4.4/components/alerts/){:target="_blank"}, flash messages are typically styled with the CSS `alert` class along with one of the colored `alert-x` classes, such as `alert-success` (usually green) or `alert-danger` (usually red).
 
-In this task, we will apply a flashier Bootstrap style to our flash messages (as depicted in Figure 3). In Bootstrap, flash messages are typically styled with the `alert` class along with one of the colored `alert-x` classes, such as `alert-success` (usually green) or `alert-danger` (usually red).
-
-To automatically set the `alert` class based on the key used for the message, add a `flash_class` helper method that maps all flash key values used in the app to an appropriate `alert` class, like this:
+Define a helper to automatically set the `alert-x` class based on the key used for the message by adding to the `ApplicationHelper` module (in `app/helpers/application_helper.rb`) a `flash_class` helper method that maps all flash key values used in the app to an appropriate Bootstrap alert class, like this:
 
 ```ruby
 def flash_class(level)
@@ -38,7 +29,7 @@ def flash_class(level)
 end
 ```
 
-More keys can be added later if necessary. A list of all the `alert` classes can be found [here](https://getbootstrap.com/docs/4.3/components/alerts/). If a Bootswatch theme has been applied, the colors of each alert class will be different depending on the theme.
+More keys can be added later if necessary. A list of all the `alert` classes can be found [here](https://getbootstrap.com/docs/4.4/components/alerts/){:target="_blank"}. If a Bootswatch theme has been applied, the colors of each alert class will be different depending on the theme.
 
 In the view layout `layouts/application.html.erb`, update the existing flash message code to use the Bootstrap `alert` class and the `flash_class` helper method, like this:
 
@@ -53,7 +44,7 @@ In the view layout `layouts/application.html.erb`, update the existing flash mes
 <% end %>
 ```
 
-The above code has a little problem: the `alert` text is slightly off-center. Fix this by adding the following to `application.scss`:
+The above code has a little problem: the `alert` text is slightly off-center. Fix this problem by adding some SCSS code to `app/assets/stylesheets/application.scss`, like this:
 
 ```scss
 .alert-dismissible {
@@ -61,8 +52,12 @@ The above code has a little problem: the `alert` text is slightly off-center. Fi
 }
 ```
 
-These variables were declared in the Bootstrap files in the `node_modules` folder, but we can use them in our SCSS files after the `import` statement.
+The variables, `$close-font-size` and `$alert-padding-x`, were declared in the Bootstrap files in the `node_modules` folder, but we can use them in our SCSS files after the `@import` statements.
 
-**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](xxx){:target="_blank"}**
+Verify that the above code works correctly by running the app and testing out the features for creating, updating, and destroying `Quiz` and `McQuestion` records (i.e., the features that produce flash notification messages).
+
+Although our flash notification messages are now nicely styled, our form error messages still lack details about the nature of the errors, which could cause confusion for users. To address this issue, we will next add detailed error messages as annotations on our existing forms.
+
+**[{% octicon git-commit height:24 class:"right left" aria-label:hi %} Code changeset for this part](https://github.com/human-se/quiz-me-2020/commit/32c8512973ec31a18fa49408d6101330b119a4a4){:target="_blank"}**
 
 {% include pagination.html prev_page='demo-bootstrap-cards.md' next_page='demo-form-errors.md' %}

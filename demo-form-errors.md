@@ -8,6 +8,11 @@ title: 'Displaying Detailed Form Error Messages'
 
 TODO
 
+We will annotate form fields with error messages, as depicted in Figure 1.
+
+{% include image.html file="form_error_messages.png" alt="Screenshot of browser page" caption="Figure 1. Updated form page for `Quiz` records that now annotates form fields with error messages." %}
+
+
 ## 7. Styling Forms That Display Errors
 
 In this final task, we will use the [Bootstrap form classes](https://getbootstrap.com/docs/4.3/components/forms/) to make the app's form fields look nicer. Then, we will add attribute-specific error messages and coloring to the form fields to make it clearer to the user what errors they need to fix in their input (as depicted in Figure 3).
