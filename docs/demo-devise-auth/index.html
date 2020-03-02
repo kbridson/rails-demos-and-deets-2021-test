@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2020/assets/img/favicon.png">
+
+<title>Adding Authentication with Devise | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2020/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2020/"><img src="/rails-demos-n-deets-2020/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="adding-authentication-with-devise">Adding Authentication with Devise</h1>
+
+<p>In this demonstration, I will show how to add user authentication to a Rails web app using the <a href="https://github.com/plataformatec/devise#readme" target="_blank">Devise gem</a>. We will continue to build upon the <a href="https://github.com/human-se/quiz-me-2020" target="_blank">QuizMe project</a> from the previous demos.</p>
+
+<p>In particular, we will add sign-in and sign-up links at the top of all pages, as depicted in Figure 1.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-n-deets-2020/resources/devise_sign-in_links.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page" /><figcaption class="figure-caption"><p>Figure 1. Sign-in and sign-up hyperlinks that appear at the top of each page of the app when the user isn’t signed in.</p>
+</figcaption></figure></div>
+
+<p>Clicking the sign-up link will take the user to a sign-up form, as depicted in Figure 2.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-n-deets-2020/resources/devise_sign-up_page.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page" /><figcaption class="figure-caption"><p>Figure 2. Devise sign-up form page.</p>
+</figcaption></figure></div>
+
+<p>Clicking the sign-in link will take the user to a sign-in form, as depicted in Figure 3.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-n-deets-2020/resources/devise_sign-in_page.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page" /><figcaption class="figure-caption"><p>Figure 3. Devise sign-in form page.</p>
+</figcaption></figure></div>
+
+<p>If a user (e.g., with email <code class="highlighter-rouge">homer@email.com</code>) signs in successfully, the sign-in/sign-up links at the top of the page will be replaced with a welcome message and sign-out link, as depicted in Figure 4.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-n-deets-2020/resources/devise_sign-out_links.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page" /><figcaption class="figure-caption"><p>Figure 4. User-greeting and sign-out hyperlinks that appear at the top of each page of the app when the user isn’t signed in.</p>
+</figcaption></figure></div>
+
+<p>To implement this functionality, we will perform three main tasks:</p>
+
+<ol>
+  <li>Install and set up Devise, including generating a Devise <code class="highlighter-rouge">User</code> model class (as depicted in Figure 5) along with the sign-up and sign-in pages.</li>
+  <li>Create the sign-in/sign-out/sign-up hyperlinks.</li>
+  <li>Restrict access to controller actions to only users who are signed in.</li>
+</ol>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-n-deets-2020/resources/user_model_class.svg" class="figure-img img-fluid rounded border" alt="Class diagram" /><figcaption class="figure-caption"><p>Figure 5. Model class design diagram showing the new Devise <code class="highlighter-rouge">User</code> model class. (Note that the Devise <code class="highlighter-rouge">User</code> class actually contains a few additional attributes to support Devise’s inner workings; however, those attributes have been omitted here for clarity.)</p>
+</figcaption></figure></div>
+
+<h2 id="1-installing-and-setting-up-devise">1. Installing and Setting Up Devise</h2>
+
+<p>Add the Devise gem to the QuizMe project by adding the following to the end of the <code class="highlighter-rouge">Gemfile</code>:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Authentication</span>
+<span class="n">gem</span> <span class="s1">'devise'</span>
+</code></pre></div></div>
+
+<p>Install the Devise gem by running this now-familiar command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle <span class="nb">install</span>
+</code></pre></div></div>
+
+<p>Add Devise functionality to our project by running this command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails generate devise:install
+</code></pre></div></div>
+
+<p>After running this command, you should see this console message:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Some setup you must do manually if you haven't yet:
+
+  1. Ensure you have defined default url options in your environments files. Here
+    is an example of default_url_options appropriate for a development environment
+    in config/environments/development.rb:
+
+      config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+    In production, :host should be set to the actual host of your application.
+
+  2. Ensure you have defined root_url to *something* in your config/routes.rb.
+    For example:
+
+      root to: "home#index"
+
+  3. Ensure you have flash messages in app/views/layouts/application.html.erb.
+    For example:
+
+      &lt;p class="notice"&gt;&lt;%= notice %&gt;&lt;/p&gt;
+      &lt;p class="alert"&gt;&lt;%= alert %&gt;&lt;/p&gt;
+
+  4. You can copy Devise views (for customization) to your app by running:
+
+      rails g devise:views
+</code></pre></div></div>
+
+<p>We can ignore items 1–3. We aren’t going to be deploying the app, so we can skip item 1. We have already completed items 2 and 3 in previous demos, so they can be skipped as well. However, we will next want to perform item 4.</p>
+
+<p>Copy Devise view code (for purposes of customization) into our project by entering this command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails g devise:views
+</code></pre></div></div>
+
+<p>Note the generated view files. The most important ones are <code class="highlighter-rouge">devise/registrations/new.html.erb</code> (sign up) and <code class="highlighter-rouge">devise/sessions/new.html.erb</code> (sign in).</p>
+
+<p>Add a <code class="highlighter-rouge">User</code> class to work with Devise by running by entering this command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails generate devise User
+</code></pre></div></div>
+
+<p>The command should generate a new migration (something like <code class="highlighter-rouge">db/migrate/20191113155313_devise_create_users.rb</code>) and a new model class (<code class="highlighter-rouge">app/models/user.rb</code>), and it should add the following declaration to <code class="highlighter-rouge">routes.rb</code>:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">devise_for</span> <span class="ss">:users</span>
+</code></pre></div></div>
+
+<p>To see the complete list of routes, including the ones that this declaration generates, run this command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails routes
+</code></pre></div></div>
+
+<p>Of the Devise routes in the list, we will be using <code class="highlighter-rouge">new_user_session</code> (sign-in page), <code class="highlighter-rouge">destroy_user_session</code> (sign out), and <code class="highlighter-rouge">new_user_registration</code> (sign-up page).</p>
+
+<p>Update the database schema based on the generated Devise migration by running this command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails db:migrate
+</code></pre></div></div>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/3e141f0d5178dddc2ac01bd39764109f0a688080" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<h2 id="2-creating-the-sign-insign-outsign-up-links">2. Creating the Sign-In/Sign-Out/Sign-Up Links</h2>
+
+<p>In this task, we will add the sign-in/sign-up links that are shown for users who aren’t signed in (see Figure 1) and the greeting/sign-out links that are shown for signed-in users (see Figure 4). Most websites have some kind of navbar with links to commonly used actions, like sign in, sign up, and sign up (among other things). We don’t have a fancy <a href="https://getbootstrap.com/">Bootstrap</a>-style navbar yet, but we will add one in an upcoming demo. For now, we will simply add the links to <code class="highlighter-rouge">application.html.erb</code>, so that they appear at the top on all pages.</p>
+
+<p>As a first step, add the logic to conditionally display text depending on whether the user is signed in by adding the following code to the top of the <code class="highlighter-rouge">&lt;body&gt;</code> tag in <code class="highlighter-rouge">application.html.erb</code>:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ul&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">user_signed_in?</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;li&gt;</span>Hi, user<span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;li&gt;</span>Sign Out<span class="nt">&lt;/li&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;li&gt;</span>Sign In<span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;li&gt;</span>Sign Up<span class="nt">&lt;/li&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</code></pre></div></div>
+
+<p>In the above code, the Devise API provides the <code class="highlighter-rouge">user_signed_in?</code> helper method, which returns <code class="highlighter-rouge">true</code> if the current user is signed in and returns <code class="highlighter-rouge">false</code> otherwise.</p>
+
+<p>In the next steps, we replace the placeholders in the above code with the actual hyperlinks.</p>
+
+<p>Replace the “Hi, user” placeholder with logic that displays the signed-in user’s email address instead of “user”, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="n">current_user</span><span class="p">.</span><span class="nf">email</span><span class="si">}</span><span class="s2">"</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+</code></pre></div></div>
+
+<p>In the above code, the Devise API provides the <code class="highlighter-rouge">current_user</code> helper method, which returns a reference to the <code class="highlighter-rouge">User</code> object corresponding to the currently signed-in user.</p>
+
+<p>Wrap the placeholder text with hyperlinks to the appropriate Devise page.</p>
+
+<p>This code handles the links for signed-in users:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="n">current_user</span><span class="p">.</span><span class="nf">email</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">edit_user_registration_path</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Sign Out'</span><span class="p">,</span> <span class="n">destroy_user_session_path</span><span class="p">,</span> <span class="ss">method: :delete</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+</code></pre></div></div>
+
+<p>Note that the <code class="highlighter-rouge">edit_user_registration_path</code> and <code class="highlighter-rouge">destroy_user_session_path</code> methods come from the route <code class="highlighter-rouge">devise_for :users</code>. The <code class="highlighter-rouge">edit_user_registration_path</code> goes to a Devise page for editing the user’s email and changing their password. The sign-out hyperlink is handled like the <code class="highlighter-rouge">destroy</code> action in previous demos (i.e., it sends an HTTP DELETE request instead of the usual GET request).</p>
+
+<p>This code handles the links for anonymous (i.e., not-signed-in) users:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Sign In'</span><span class="p">,</span> <span class="n">new_user_session_path</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Sign Up'</span><span class="p">,</span> <span class="n">new_user_registration_path</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+</code></pre></div></div>
+
+<p>Similar to above, the <code class="highlighter-rouge">new_user_session_path</code> and <code class="highlighter-rouge">new_user_registration_path</code> methods come from the <code class="highlighter-rouge">devise_for :users</code> route and return paths to Devise sign-in and sign-up pages, respectively.</p>
+
+<p>Try using the new links you added by signing up with an email and password, seeing how the links change once you are logged in, and logging out and back in.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/770db830f6c08c5f63f22543a7ae072db30c6de9" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<h2 id="3-restricting-access-to-controller-actions-to-signed-in-users-only">3. Restricting Access to Controller Actions to Signed-In Users Only</h2>
+
+<p>Now that users have the ability to sign into the app, we can start restricting functionality of the app to only signed-in users. Specifically, the only pages we want people to view without logging in are the <code class="highlighter-rouge">home</code> page and the <code class="highlighter-rouge">about</code> page.</p>
+
+<p>We can use the <code class="highlighter-rouge">before_action :authenticate_user!</code> helper from the Devise API in our controllers to require that a user is signed in before they can use the actions we specify.</p>
+
+<p>Restrict access to all actions in the <code class="highlighter-rouge">StaticPagesController</code> class, except <code class="highlighter-rouge">welcome</code> and <code class="highlighter-rouge">about</code> by inserting this declaration before the first method in the class definition:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">before_action</span> <span class="ss">:authenticate_user!</span><span class="p">,</span> <span class="ss">except: </span><span class="p">[</span><span class="ss">:welcome</span><span class="p">,</span> <span class="ss">:about</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>Restrict all actions in the other controllers by adding the following declaration before the first method of each controller class definition:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">before_action</span> <span class="ss">:authenticate_user!</span>
+</code></pre></div></div>
+
+<p>Try to view the pages of the app now without being signed in. The app should redirect you to the sign-in page when you try to view the restricted pages.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/db0c329fdfed90c691c15a27a98b99dc0a233937" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-has-many-forms/">⇦ Previous: Forms That Handle One-to-Many Associations</a></li>
+        
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-authorization/">⇨ Next: Enforcing User Ownership of Resources</a></li>
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2020
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
