@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2020/assets/img/favicon.png">
+
+<title>Displaying Detailed Form Error Messages | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2020/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2020/"><img src="/rails-demos-n-deets-2020/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2020/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="displaying-detailed-form-error-messages">Displaying Detailed Form Error Messages</h1>
+
+<p>In this demonstration, I will show how to add annotations to form fields that display detailed form error messages. We will continue to build upon the <a href="https://github.com/human-se/quiz-me-2020" target="_blank">QuizMe project</a> from the previous demos.</p>
+
+<p>In particular, we will update the <code class="highlighter-rouge">new</code> form for <code class="highlighter-rouge">Quiz</code> records such that the form will now annotate form fields with error messages, as depicted in Figure 1.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-n-deets-2020/resources/form_error_messages.png" class="figure-img img-fluid rounded border" alt="Screenshot of browser page" /><figcaption class="figure-caption"><p>Figure 1. Updated form page for <code class="highlighter-rouge">Quiz</code> records that now annotates form fields with error messages.</p>
+</figcaption></figure></div>
+
+<p>Making this change will involve two main tasks:</p>
+
+<ol>
+  <li>We will use the <a href="https://getbootstrap.com/docs/4.4/components/forms/" target="_blank">Bootstrap form classes</a> to improve the look of the app’s form fields.</li>
+  <li>We will add attribute-specific error messages and coloring to the form fields to make it clearer to the user what errors they need to fix in their input.</li>
+</ol>
+
+<h2 id="1-styling-the-new-form-for-quiz-records-with-bootstrap-form-classes">1. Styling the <code class="highlighter-rouge">new</code> Form for <code class="highlighter-rouge">Quiz</code> Records with Bootstrap Form Classes</h2>
+
+<p>Styling forms using the Bootstrap form classes can be accomplished as follows. Each <code class="highlighter-rouge">div</code> that contains a <code class="highlighter-rouge">label</code> and a field element should have the <code class="highlighter-rouge">form-group</code> class. Each field element should have the <code class="highlighter-rouge">form-control</code> class. The <code class="highlighter-rouge">submit</code> button should have the <code class="highlighter-rouge">btn</code> class, and probably one or more of the special button-styling classes, such as <code class="highlighter-rouge">btn-primary</code> for color or <code class="highlighter-rouge">btn-block</code> for a full-width button.</p>
+
+<p>Add the appropriate Bootstrap <code class="highlighter-rouge">form</code> classes to the <code class="highlighter-rouge">account_quizzes/new.html.erb</code> view, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:title</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">class: </span><span class="s2">"form-control"</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:description</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_area</span> <span class="ss">:description</span><span class="p">,</span> <span class="ss">size: </span><span class="s2">"27x7"</span><span class="p">,</span> <span class="ss">class: </span><span class="s2">"form-control"</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">submit</span> <span class="s2">"Add Quiz"</span><span class="p">,</span> <span class="ss">class: </span><span class="s2">"btn btn-block btn-primary"</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>Notice that we no longer need the <code class="highlighter-rouge">br</code> elements between the labels and fields.</p>
+
+<p>Verify that the above code works correctly by running the app and opening the URL <a href="http://localhost:3000/account_quizzes/new">http://localhost:3000/account_quizzes/new</a> in the browser. The new, improved style of the form fields should now be apparent.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/824621161ad9201d6363935fa0552af235a798a9" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<h2 id="2-annotating-the-new-form-for-quiz-records-with-field-specific-error-messages">2. Annotating the <code class="highlighter-rouge">new</code> Form for <code class="highlighter-rouge">Quiz</code> Records with Field-Specific Error Messages</h2>
+
+<p>When a Rails model validation fails, Rails adds a description of the error to an <code class="highlighter-rouge">errors</code> hash that is part of the model object. We can determine if an object is invalid (i.e., has any validation errors) by checking if the <code class="highlighter-rouge">errors</code> hash is empty. We can also retrieve the error messages for a particular attribute using a key-based lookup in the <code class="highlighter-rouge">errors</code> hash.</p>
+
+<p>Before each <code class="highlighter-rouge">div</code> with CSS class <code class="highlighter-rouge">form-group</code>, add a <code class="highlighter-rouge">boolean</code> variable that holds whether there are errors for the corresponding attribute, like this code for the <code class="highlighter-rouge">title</code> attribute:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%</span> <span class="n">invalid</span> <span class="o">=</span> <span class="n">quiz</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>Use the <code class="highlighter-rouge">invalid</code> variable to conditionally add the <code class="highlighter-rouge">is-invalid</code> class to the field element if there are any errors for the attribute, like this code for the <code class="highlighter-rouge">title</code> attribute:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">class: </span><span class="s2">"form-control </span><span class="si">#{</span><span class="s1">'is-invalid'</span> <span class="k">if</span> <span class="n">invalid</span><span class="si">}</span><span class="s2">"</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>Display the error messages for the attribute (if there are any) by conditionally inserting a <code class="highlighter-rouge">div</code> with the error message after the field element, like this code for the <code class="highlighter-rouge">title</code> attribute:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">invalid</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"invalid-feedback d-block"</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;%</span> <span class="n">quiz</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">full_messages_for</span><span class="p">(</span><span class="ss">:title</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">error_message</span><span class="o">|</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">error_message</span> <span class="cp">%&gt;</span>.
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>The preceding steps should be followed for each form field such that, in the end, each one looks similar to the <code class="highlighter-rouge">title</code> field:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%</span> <span class="n">invalid</span> <span class="o">=</span> <span class="n">quiz</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">label</span> <span class="ss">:title</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="p">.</span><span class="nf">text_field</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">class: </span><span class="s2">"form-control </span><span class="si">#{</span><span class="s1">'is-invalid'</span> <span class="k">if</span> <span class="n">invalid</span><span class="si">}</span><span class="s2">"</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">invalid</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"invalid-feedback d-block"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%</span> <span class="n">quiz</span><span class="p">.</span><span class="nf">errors</span><span class="p">.</span><span class="nf">full_messages_for</span><span class="p">(</span><span class="ss">:title</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">error_message</span><span class="o">|</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">error_message</span> <span class="cp">%&gt;</span>.
+      <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<p>Verify that the above code works correctly by running the app, opening the URL <a href="http://localhost:3000/account_quizzes/new">http://localhost:3000/account_quizzes/new</a> in the browser, and submitting the form with invalid data. The new field-specific error messages should be displayed after each failed submission of the form.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/7016da9b7f25d95a795cfa38ce66fd7712d60b9c" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2020/demo-bootstrap-alerts/">⇦ Previous: Styling Flash Notification Messages</a></li>
+        
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2020
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
