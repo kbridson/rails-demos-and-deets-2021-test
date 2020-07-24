@@ -16,6 +16,7 @@
 - Principle: Shorter demos and more high-level structure
 - Principle?: Codify lists of steps for common tasks that can be named and referred back to when used over and over
 - In general, need worked example general steps to be somehow clearer. Also, need to separate new topics from stuff that just needs built but uses only previously covered topics. Maybe what is needed is a list of tasks that are just what is needed to build the app and a mapping from topics to tasks that makes it easy to distinguish when a new topic is covered vs when the task involves only previously covered material.
+- Add [StimulusReflex](https://docs.stimulusreflex.com/) to the demos?
 
 ### Getting Started
 
