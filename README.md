@@ -1,6 +1,6 @@
 # Ruby on Rails Demos 'n' Deets, Spring 2021 Edition
 
-- URL: <https://memphis-cs.github.io/rails-demos-n-deets-2021/>
+- URL: <https://human-se.github.io/rails-demos-n-deets-2021/>
 
 ## TODO
 
