@@ -1,6 +1,6 @@
-# Web Development with Ruby on Rails Tutorial 2019
+# Ruby on Rails Demos 'n' Deets, Spring 2021 Edition
 
-- URL: <https://memphis-cs.github.io/rails-demos-n-deets-2020/>
+- URL: <https://memphis-cs.github.io/rails-demos-n-deets-2021/>
 
 ## TODO
 
