@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2021/assets/img/favicon.png">
+
+<title>Sessions and the Flash | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2021/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2021/"><img src="/rails-demos-n-deets-2021/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2021/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2021/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="sessions-and-the-flash">Sessions and the Flash</h1>
+
+<p>A single web server may, at any given time, be engaged in separate “conversations” with many different users. By <em>conversation</em>, we mean that a given user on a given browser is interacting with a website being served up by the server. The interaction produces a series of related HTTP request/response cycles between the browser and server. For example, Figure 1 illustrates a conversation between a user, Alice, who is navigating a website, and a web server that is serving up the web pages, images, etc.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;">
+<figure class="figure">
+<img src="/rails-demos-n-deets-2021/resources/conversation-browser-server.svg" class="figure-img img-fluid rounded border" alt="Sequence diagram." />
+<figcaption class="figure-caption">Figure 1. Example of a conversation between a web browser user (Alice) who navigating a website and a web server. The figure uses <a href="https://en.wikipedia.org/wiki/Sequence_diagram">UML sequence diagram</a> notation. It depicts the scenario of interaction between Alice's browser and the web server, with the order of events going from top to bottom. As Alice navigates the website, her browser makes the necessary HTTP requests to retrieve HTML, images, etc. We refer this sort of interaction between a particular browser and a web server as a <i>conversation</i> between the browser and the web server.</figcaption>
+</figure>
+</div>
+
+<p>Although conversations like this seem pretty intuitive to a human, they create a problem for servers. At its core, the HTTP protocol is stateless, providing no specific support for keeping track of which requests go with which conversations. Thus, each time an HTTP request the comes in, the server is not necessarily aware that this request is part of an ongoing conversation. This situation causes problems⁠—for example, should a user have to re-authenticate every time their browser sends an HTTP request? That would get very annoying very quickly.</p>
+
+<h2 id="1-sessions">1. Sessions</h2>
+
+<p>Servers commonly use <em>sessions</em> to store <em>conversational state</em> (i.e., data specific to a particular conversation). That is, the server reserves some memory for each conversation that is currently active. The server keeps track of which session goes with which browser using <em>cookies</em>. In short, cookies are some data that ride along in HTTP requests and responses passed between browsers and servers. To enable sessions, a conversing server and browser include in all their HTTP messages a cookie that contains a unique session ID. Figure 2 illustrates an HTTP request that includes a session cookie (see the “<code class="highlighter-rouge">Set-Cookie: ...</code>” bit). When the server receives an HTTP request with a session cookie, it can use the session ID to look up the session data it saved for that particular conversation.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;">
+<figure class="figure">
+<img src="/rails-demos-n-deets-2021/resources/http-request-session-cookie.png" class="figure-img img-fluid rounded border w-100" style="max-width: 960px" alt="Sample HTTP request." />
+<figcaption class="figure-caption">Figure 2. Example of an HTTP GET request with a cookie that holds a session ID.</figcaption>
+</figure>
+</div>
+
+<p>In Rails, controller methods can store and retrieve session data using an instance method <code class="highlighter-rouge">session</code> (which behaves like a hash when you use it). For example, here is a line of controller code that would save the ID of the current user in the session under the key <code class="highlighter-rouge">:current_use_id</code>.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">session</span><span class="p">[</span><span class="ss">:current_user_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">user</span><span class="p">.</span><span class="nf">id</span>
+</code></pre></div></div>
+
+<p>In subsequent requests, a controller method could use the session to look up the current user, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">current_user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">session</span><span class="p">[</span><span class="ss">:current_user_id</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>In practice, I don’t write code that directly uses the <code class="highlighter-rouge">session</code> very often. However, authentication Gems, like <a href="https://github.com/plataformatec/devise">Devise</a>, make use of it under the hood, for example, to store the identity of the currently authenticated user.</p>
+
+<h2 id="2-the-flash">2. The Flash</h2>
+
+<p><em>The flash</em> is a special part of the session that helps solve a key problem in the development of web apps. To understand the problem, consider Figure 3. The figure depicts the HTTP requests and responses that typically result from a user opening a web form page and submitting data via the form. In particular, this interaction involves three requests and responses. The first request is to load the page containing the form. The second request happens when the user has entered data into the form and pressed submit. The response to the second request requires a little explanation.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;">
+<figure class="figure">
+<img src="/rails-demos-n-deets-2021/resources/form-submission-seq-dia.svg" class="figure-img img-fluid rounded border w-100" alt="Sequence diagram." />
+<figcaption class="figure-caption">Figure 3. Example of the HTTP requests and responses that typically happen when a form page is loaded, filled out, and submitted by a user. The first request (GET) retrieves the form. The second request (POST) sends the form data that the user submitted to the server. The reply to the POST request is an HTTP redirect to a different page (instead of the HTML for an actual page). Following the redirect instruction, browser makes a third request (GET) to retrieve the page specified by the redirect.</figcaption>
+</figure>
+</div>
+
+<p>It is a best practice in the design of web apps to respond to state-affecting operations (like POST, PATCH, and DELETE requests) with an HTTP redirect, instead of the HTML for a page. The rationale for this design decision stems from the reload button common to all web browsers. The way the reload button works is that, when pressed, the browser re-sends the last HTTP request it sent to the server. Thus, if the response to a POST request was an HTML page, and the user then reloaded that page, the browser would resubmit the form data, which is probably not what the user intended and could potentially result in erroneous duplicate data being stored in the database. Responding to POST requests with an HTTP redirect solves this problem, because the redirect causes the browser to send another HTTP GET request to retrieve a page specified by the redirect (the third request in Figure 3). Thus, if the user hit the reload button in this case, the browser would simply re-send the GET request for the redirected page, and it would not cause a resubmission of the form data.</p>
+
+<p>The problem that the flash solves is that it is common to display a notification after a form is submitted (e.g., to indicate that the submission succeeded or failed). However, a controller action would process the form data during the second request/response cycle, but the notification would need to be rendered by a different controller action responding to the third request. So how does the third controller action know to render a notification that was the result of the second controller action?</p>
+
+<p><em>The flash</em> is a special kind of session storage designed to solve this problem. In particular, a notification message can be stored in the flash under a particular key. For example, a controller action might store an alert message in the flash, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">flash</span><span class="p">[</span><span class="ss">:alert</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Error: Unable to save data"</span>
+</code></pre></div></div>
+
+<p>What makes the flash special is that this message will only be available during the processing of the next request of the session. Thus, it’s common to have code similar to this for displaying flash messages near the top of the <code class="highlighter-rouge">body</code> element of the <code class="highlighter-rouge">application.html.erb</code> file:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&lt;</span><span class="sx">% if </span><span class="n">flash</span><span class="p">[</span><span class="ss">:alert</span><span class="p">]</span> <span class="o">%&gt;</span>
+    <span class="o">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="o">=</span><span class="s2">"alert"</span><span class="o">&gt;&lt;</span><span class="sx">%= flash[:alert] %&gt;&lt;/div&gt;
+&lt;% end %&gt;
+</span></code></pre></div></div>
+
+<p>Note that the <code class="highlighter-rouge">if</code> part of this HTML.ERB code makes it so that the view will render an alert-message <code class="highlighter-rouge">div</code> only if an alert message was set by the previous action of the session. If no alert message was set, then the <code class="highlighter-rouge">div</code> will not be rendered.</p>
+
+<h3 id="21-but-what-if-you-need-to-render-the-flash-notification-in-the-same-request-that-set-it">2.1. But What If You Need to Render the Flash Notification in the Same Request That Set It?</h3>
+
+<p>Although the above scenario is perhaps the most common in practice, it is sometimes the case that a controller action needs a notification to appear on a page that the controller action itself is rendering (and thus, the controller action does not want the notification to be rendered by the next controller action to run in the session). For example, Figure 4 depicts the HTTP requests that would result from this case. Note how they differ from the ones in Figure 3.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;">
+<figure class="figure">
+<img src="/rails-demos-n-deets-2021/resources/form-submission-alt-seq-dia.svg" class="figure-img img-fluid rounded border w-100" alt="Sequence diagram." />
+<figcaption class="figure-caption">Figure 4. Alternative example of the HTTP requests and responses that might happen when a form page is loaded, filled out, and submitted by a user. As in Figure 3, first request (GET) retrieves the form, and the second request (POST) sends the form data that the user submitted to the server. However, in this case, the reply to the POST request is an HTML page to be displayed by the browser. All else being equal, this design would be susceptible to the reload-button issue described above; however, there are sometimes valid reasons to do things this way such that it won't cause problems.</figcaption>
+</figure>
+</div>
+
+<p>If the flash hash were used in the typical way for the example in Figure 4, there would be a problem: the flash notification would not appear in the second response (where we want it to). Instead, it would be available only to whatever request comes after the second one, but that’s not when we want it.</p>
+
+<p>To solve this problem, there is a <code class="highlighter-rouge">flash.now</code> method that can be used to change the flash’s behavior. In particular, it causes the flash messages to be instantly available (and to be destroyed after the current request completes). Here is an example of how controller action code using <code class="highlighter-rouge">flash.now</code> might look:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">flash</span><span class="p">.</span><span class="nf">now</span><span class="p">[</span><span class="ss">:alert</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Error: Unable to save data"</span>
+</code></pre></div></div>
+
+<p>Thus, if this controller action were to subsequently render an HTML page, the alert message would appear in that page.</p>
+
+<h2 id="3-further-reading">3. Further Reading</h2>
+
+<p>For more info on sessions and the flash, see the Rails Guides: <a href="https://guides.rubyonrails.org/action_controller_overview.html#session">https://guides.rubyonrails.org/action_controller_overview.html#session</a></p>
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2021
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>

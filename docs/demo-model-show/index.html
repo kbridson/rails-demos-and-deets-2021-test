@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2021/assets/img/favicon.png">
+
+<title>Displaying a Single Model Record | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2021/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2021/"><img src="/rails-demos-n-deets-2021/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2021/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2021/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="displaying-a-single-model-record">Displaying a Single Model Record</h1>
+
+<p>In this demonstration, I will show how to create a so-called <code class="highlighter-rouge">show</code> page that displays one specific model record on a webpage. We will continue to build upon the <a href="https://github.com/human-se/quiz-me-2020" target="_blank">QuizMe project</a> from the previous demos.</p>
+
+<p>In particular, we will add a <code class="highlighter-rouge">show</code> page to the QuizMe app that displays a <code class="highlighter-rouge">McQuestion</code> record stored in the database, as depicted in Figure 1.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-n-deets-2021/resources/mc-question-show-page.png" class="figure-img img-fluid rounded border" alt="A web page displaying one multiple-choice question records" /><figcaption class="figure-caption"><p>Figure 1. The <code class="highlighter-rouge">show</code> page for a <code class="highlighter-rouge">McQuestion</code> record.</p>
+</figcaption></figure></div>
+
+<p>Adding this <code class="highlighter-rouge">show</code> page will involve several key steps:</p>
+
+<ol>
+  <li>Adding a <code class="highlighter-rouge">show</code> route for <code class="highlighter-rouge">McQuestion</code> records that translates HTTP requests for the <code class="highlighter-rouge">show</code> page into invocations of the appropriate controller action.</li>
+  <li>Adding a <code class="highlighter-rouge">show</code> controller action to the <code class="highlighter-rouge">McQuestionsController</code> class created <a href="/rails-demos-n-deets-2021/demo-model-index/" target="_blank">last demo</a> that, when invoked, will retrieve the appropriate <code class="highlighter-rouge">McQuestion</code> record from the database and will render the appropriate view, passing in the retrieved record for the view to display.</li>
+  <li>Adding a <code class="highlighter-rouge">show</code> view for <code class="highlighter-rouge">McQuestion</code> records that will render a webpage containing whatever <code class="highlighter-rouge">McQuestion</code> record is passed to the view.</li>
+</ol>
+
+<h2 id="1-adding-a-show-route-for-mcquestion-records">1. Adding a <code class="highlighter-rouge">show</code> Route for <code class="highlighter-rouge">McQuestion</code> Records</h2>
+
+<p>In <code class="highlighter-rouge">routes.rb</code>, insert after the <code class="highlighter-rouge">index</code> route a <a href="https://guides.rubyonrails.org/v6.0.0/routing.html#crud-verbs-and-actions" target="_blank">standard resource route</a> for the <code class="highlighter-rouge">show</code> action of the <code class="highlighter-rouge">McQuestionsController</code> class, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">get</span> <span class="s1">'mc_questions/:id'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'mc_questions#show'</span><span class="p">,</span> <span class="ss">as: </span><span class="s1">'mc_question'</span> <span class="c1"># show</span>
+</code></pre></div></div>
+
+<p>In a <a href="/rails-demos-n-deets-2021/demo-simple-forms/" target="_blank">previous demo</a>, we passed user data (i.e., <em>parameters</em>) from a webpage to the Rails server via POST requests (recall the <code class="highlighter-rouge">params</code> hash); however, parameters can also be passed via GET requests. One such way is illustrated in the above <code class="highlighter-rouge">show</code> route. In particular, this <code class="highlighter-rouge">show</code> route’s URI pattern includes an <code class="highlighter-rouge">:id</code> request parameter that becomes part of the URL (e.g., <a href="http://localhost:3000/mc_questions/125">http://localhost:3000/mc_questions/125</a>). When the Rails web server receives a GET request that matches that <code class="highlighter-rouge">show</code> route, the invoked controller action can retrieve the <code class="highlighter-rouge">:id</code> value (e.g., <code class="highlighter-rouge">125</code>) via the <code class="highlighter-rouge">params</code> hash—specifically, using <code class="highlighter-rouge">params[:id]</code>.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/f1c9ca2ade1bda8f2da3c8130611ad9453202e94" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<h2 id="2-adding-a-show-controller-action-for-mcquestion-records">2. Adding a <code class="highlighter-rouge">show</code> Controller Action for <code class="highlighter-rouge">McQuestion</code> Records</h2>
+
+<p>In this part, we will add a <code class="highlighter-rouge">show</code> action to the <code class="highlighter-rouge">McQuestionsController</code> class. This is the “<code class="highlighter-rouge">to:</code>” action specified in the above <code class="highlighter-rouge">show</code> route and will be called whenever an incoming HTTP request matches that route.</p>
+
+<p>To begin with, add the <code class="highlighter-rouge">show</code> action, including a <code class="highlighter-rouge">respond_to</code> block, like we’ve seen in <a href="/rails-demos-n-deets-2021/demo-static-pages/" target="_blank">previous demos</a>:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">show</span>
+    <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+        <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:show</span> <span class="p">}</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Similar to the <code class="highlighter-rouge">index</code> action, this one will also need to do some retrieving of model objects; however, in the case of the <code class="highlighter-rouge">show</code> action, we will just be retrieving one model object based on the <code class="highlighter-rouge">id</code> in the request URL.</p>
+
+<p>Retrieve the appropriate <code class="highlighter-rouge">McQuestion</code> record by inserting this line before the <code class="highlighter-rouge">respond_to</code> block in the <code class="highlighter-rouge">show</code> action:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">question</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>The <a href="https://api.rubyonrails.org/v6.0.0/classes/ActiveRecord/FinderMethods.html#method-i-find" target="_blank"><code class="highlighter-rouge">find</code> method</a> is yet another model method provided by Rails. In the above usage, it retrieves the saved <code class="highlighter-rouge">McQuestion</code> record with the specified <code class="highlighter-rouge">id</code>.</p>
+
+<p>Once the <code class="highlighter-rouge">McQuestion</code> object have been retrieved, it will need to be passed to the view for rendering.</p>
+
+<p>Similar to the <a href="/rails-demos-n-deets-2021/demo-model-index/" target="_blank">last demo</a>, we will add the <code class="highlighter-rouge">locals</code> hash as an argument to the call to <code class="highlighter-rouge">render</code> to pass the retrieved <code class="highlighter-rouge">McQuestion</code> object to the view, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:show</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">question: </span><span class="n">question</span> <span class="p">}</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>Note!</strong> In the <code class="highlighter-rouge">index</code> action, we had multiple <code class="highlighter-rouge">McQuestion</code> records, so we used the variable name <code class="highlighter-rouge">questions</code> (plural); however, in the <code class="highlighter-rouge">show</code> action, we have only one <code class="highlighter-rouge">McQuestion</code> record, so we use the variable name <code class="highlighter-rouge">question</code> (singular).</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/547fa4dc0991b85710f5d47aea715cb573df6c9c" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<h2 id="3-adding-a-show-view-for-mcquestion-records">3. Adding a <code class="highlighter-rouge">show</code> View for <code class="highlighter-rouge">McQuestion</code> Records</h2>
+
+<p>The <code class="highlighter-rouge">show</code> action should display all the <em>important</em> attributes of the <code class="highlighter-rouge">mc_question</code> object (i.e., not the timestamps and not the <code class="highlighter-rouge">id</code>, because that is shown in the URL). Similar to the <code class="highlighter-rouge">index</code> view, we will display the question text followed by a radio button with the answer choices, as depicted in Figure 1.</p>
+
+<p>To start with, create a file <code class="highlighter-rouge">app/views/mc_questions/show.html.erb</code> for the view.</p>
+
+<p>Display the question text by inserting a <code class="highlighter-rouge">&lt;p&gt;</code> block for the question text at the top of view, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">question</span><span class="p">.</span><span class="nf">question</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</code></pre></div></div>
+
+<p>Display answer choices as a radio button (using similar code to that which was used in the <code class="highlighter-rouge">index</code> view) by inserting this code after the question text:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%</span> <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="n">question</span><span class="p">.</span><span class="nf">answer</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">distractor_1</span><span class="p">,</span> <span class="n">question</span><span class="p">.</span><span class="nf">distractor_2</span><span class="p">]</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="n">choices</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;div&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">radio_button_tag</span> <span class="s2">"guess"</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">checked</span> <span class="o">=</span> <span class="n">c</span> <span class="o">==</span> <span class="n">question</span><span class="p">.</span><span class="nf">answer</span><span class="p">,</span> <span class="ss">disabled: </span><span class="kp">true</span> <span class="cp">%&gt;</span>
+        <span class="cp">&lt;%=</span> <span class="n">label_tag</span> <span class="s2">"guess_</span><span class="si">#{</span><span class="n">c</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">c</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>The QuizMe app now provides pages for displaying individual multiple-choice questions (<code class="highlighter-rouge">show</code> pages). For example, opening the URL <a href="http://localhost:3000/mc_questions/1">http://localhost:3000/mc_questions/1</a> should display a page like the on depicted in Figure 1. Similarly, the URLs <a href="http://localhost:3000/mc_questions/2">http://localhost:3000/mc_questions/2</a> and <a href="http://localhost:3000/mc_questions/3">http://localhost:3000/mc_questions/3</a> should display <code class="highlighter-rouge">show</code> pages for the other two questions in the database. Clearly, it isn’t very convenient entering URLs manually to show these records, and in future demos, we will add hyperlinks to make navigating to these pages more convenient.</p>
+
+<p>The QuizMe app now has <code class="highlighter-rouge">index</code> and <code class="highlighter-rouge">show</code> pages that cover the R (“Read”) functionality in <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete" target="_blank">CRUD</a>. In upcoming demos, we will add C (“Create”), U (“Update”), and D (“Delete”) functionality to complete the app’s CRUD capabilities.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/785e79a43a817269a4e0887184a6d1c1bd509674" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2021/demo-model-index/">⇦ Previous: Displaying All Model Records</a></li>
+        
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2021/demo-test-fixtures/">⇨ Next: Creating and Testing Valid Fixtures</a></li>
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2021
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>

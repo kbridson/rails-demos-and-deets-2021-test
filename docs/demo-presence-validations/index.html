@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2021/assets/img/favicon.png">
+
+<title>Creating and Testing Presence Validations | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2021/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2021/"><img src="/rails-demos-n-deets-2021/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2021/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2021/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="creating-and-testing-presence-validations">Creating and Testing Presence Validations</h1>
+
+<p>In this demonstration, I will show how to use the Rails model validation helper, <code class="highlighter-rouge">presence</code>, to enforce that specified model attribute values are present before a record can be saved to the database. We will continue to build upon the <a href="https://github.com/human-se/quiz-me-2020" target="_blank">QuizMe project</a> from the previous demos.</p>
+
+<p><a href="https://guides.rubyonrails.org/active_record_validations.html" target="_blank">Rails model validations</a> aim to prevent invalid data from being saved to the database. For example, recall the <code class="highlighter-rouge">McQuestion</code> model class we created for multiple-choice questions, shown in Figure 1. There are a number of requirements that we would like to enforce regarding what attribute values are and are not valid. For instance, the <code class="highlighter-rouge">question</code>, <code class="highlighter-rouge">answer</code>, and <code class="highlighter-rouge">distractor_1</code> attributes should all have a value. If a <code class="highlighter-rouge">McQuestion</code> object was missing values for any of those attributes, we would consider that <code class="highlighter-rouge">McQuestion</code> object to be invalid.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-n-deets-2021/resources/mc-question-model-class.svg" class="figure-img img-fluid rounded border" alt="A UML class diagram depicting the McQuestion model class" /><figcaption class="figure-caption"><p>Figure 1. The <code class="highlighter-rouge">McQuestion</code> model class.</p>
+</figcaption></figure></div>
+
+<p>To prevent such invalid records from being saved to the database, we will customize our <code class="highlighter-rouge">McQuestion</code> model class by adding <a href="https://guides.rubyonrails.org/v6.0.2.1/active_record_validations.html#presence" target="_blank"><code class="highlighter-rouge">presence</code> model validations</a>. The purpose of the <code class="highlighter-rouge">presence</code> validation helper is to make it so that a specified model class attribute must have a non-<code class="highlighter-rouge">nil</code>, non-blank value in order for the model <code class="highlighter-rouge">valid?</code> method to return <code class="highlighter-rouge">true</code>. If the specified attribute is assigned a value of <code class="highlighter-rouge">nil</code>, an empty string (<code class="highlighter-rouge">""</code>), or a blank string, comprised only of whitespace characters, then <code class="highlighter-rouge">valid?</code> will return <code class="highlighter-rouge">false</code>. This validation helps to prevent invalid records from being saved to the database, because Rails automatically rejects saving any model object whose <code class="highlighter-rouge">valid?</code> method returns <code class="highlighter-rouge">false</code>. Note that, in addition to <code class="highlighter-rouge">presence</code>, Rails provides a number of other useful <a href="https://guides.rubyonrails.org/v6.0.2.1/active_record_validations.html#validation-helpers" target="_blank">validation helpers</a>.</p>
+
+<h2 id="1-adding-presence-validations-to-the-mcquestion-model-class">1. Adding <code class="highlighter-rouge">presence</code> Validations to the <code class="highlighter-rouge">McQuestion</code> Model Class</h2>
+
+<p>In the body of the <code class="highlighter-rouge">McQuestion</code> class (in <code class="highlighter-rouge">app/models/mc_question.rb</code>), insert a <code class="highlighter-rouge">presence</code> validation for each of the attributes, <code class="highlighter-rouge">question</code>, <code class="highlighter-rouge">answer</code>, and <code class="highlighter-rouge">distractor_1</code>, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">validates</span> <span class="ss">:question</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+<span class="n">validates</span> <span class="ss">:answer</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+<span class="n">validates</span> <span class="ss">:distractor_1</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+</code></pre></div></div>
+
+<p>Note that we did not add a <code class="highlighter-rouge">presence</code> validation to <code class="highlighter-rouge">distractor_2</code>. Such a validation would inadvertently flag all true/false questions as invalid, which is not what we want.</p>
+
+<p>Verify that we didn’t accidentally introduce a syntax error into the model class by running the valid <code class="highlighter-rouge">McQuestion</code> fixture tests from <a href="/rails-demos-n-deets-2021/demo-test-fixtures/" target="_blank">last demo</a>, like this:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails <span class="nb">test</span>
+</code></pre></div></div>
+
+<p>If no syntax errors were made, the test should produce the same output as last time.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/91e2a798c84ac976da6f238a5dcb66fba8619f95" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<h2 id="2-testing-the-presence-validations-in-the-mcquestion-model-class">2. Testing the <code class="highlighter-rouge">presence</code> Validations in the <code class="highlighter-rouge">McQuestion</code> Model Class</h2>
+
+<p>Although running our previously created valid fixture tests will catch syntax errors, we also need to add tests to verify that we didn’t make any logic errors in writing our <code class="highlighter-rouge">presence</code> validations.</p>
+
+<p>It is considered a best practice for each model test to cover at most one validation for a single attribute. Thus, we will next write a test to verify the <code class="highlighter-rouge">presence</code> validation for the <code class="highlighter-rouge">question</code> attribute. Since the <code class="highlighter-rouge">presence</code> validation catches both <code class="highlighter-rouge">nil</code> and empty string values, we can check both in the same test.</p>
+
+<p>Test the <code class="highlighter-rouge">presence</code> validation on the <code class="highlighter-rouge">question</code> attribute by inserting a new test into the <code class="highlighter-rouge">McQuestionTest</code> class (in <code class="highlighter-rouge">test/models/mc_question_test.rb</code>), like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">test</span> <span class="s2">"question presence not valid"</span> <span class="k">do</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">mc_questions</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+    <span class="n">q</span><span class="p">.</span><span class="nf">question</span> <span class="o">=</span> <span class="kp">nil</span>
+    <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+    <span class="n">q</span><span class="p">.</span><span class="nf">question</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">assert_not</span> <span class="n">q</span><span class="p">.</span><span class="nf">valid?</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Note that this test follows the three basic steps for writing model tests mentioned in the <a href="/rails-demos-n-deets-2021/demo-test-fixtures/" target="_blank">previous demo</a>: (1) it retrieves a valid fixture; (2) it does some setting of fixture attributes (in this case, to make the <code class="highlighter-rouge">question</code> attribute invalid); and (3) it makes some assertions about the state of the model object (in this case, it asserts that the model object is invalid).</p>
+
+<p>Check that the test runs as expected by entering the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails <span class="nb">test</span>
+</code></pre></div></div>
+
+<p>If everything is correct, the test should produce output like this:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Finished in 0.211335s, 7.0493 runs/s, 14.3192 assertions/s.
+2 runs, 4 assertions, 0 failures, 0 errors, 0 skips
+</code></pre></div></div>
+
+<p>If the test fails, then there is a bug, most likely in either the model validation code, the fixture code, or the test code, and you must fix it.</p>
+
+<p>Following the same approach that was used to write the above test for the <code class="highlighter-rouge">presence</code> validation on the <code class="highlighter-rouge">question</code> attribute, add two more tests to <code class="highlighter-rouge">McQuestionTest</code> for the remaining <code class="highlighter-rouge">presence</code> validations, one for the <code class="highlighter-rouge">answer</code> attribute and one for the <code class="highlighter-rouge">distractor_1</code> attribute. After you add each test, run <code class="highlighter-rouge">rails test</code> to confirm that the test works.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/ee6b73ed20ab190ac6f291eccd3c0949360c60f7" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 14 16" version="1.1" width="21" role="img"><path fill-rule="evenodd" d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg> Code changeset for this part</a></strong></p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="">⇦ Previous: </a></li>
+        
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2021/demo-uniqueness-validations/">⇨ Next: Creating and Testing Uniqueness Validations</a></li>
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2021
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>

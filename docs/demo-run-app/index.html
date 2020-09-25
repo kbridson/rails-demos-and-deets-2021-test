@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2021/assets/img/favicon.png">
+
+<title>Running a Rails App | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2021/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2021/"><img src="/rails-demos-n-deets-2021/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2021/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2021/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <style>
+    .highlighter-rouge {
+        white-space: nowrap;
+    }
+
+    th {
+        white-space: nowrap;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+        padding: 0.25rem 0.75rem;
+    }
+</style>
+
+<h1 id="running-a-rails-app">Running a Rails App</h1>
+
+<p>In this demo, I will show how to download, configure, and run an existing Rails web app hosted on GitHub (<a href="https://github.com/human-se/rails-6-test-app-2020">Rails 6 Test App</a>). This demo will also serve as a good test of whether our development environment was set up correctly.</p>
+
+<h2 id="1-downloading-the-project">1. Downloading the Project</h2>
+
+<p>First, we will create a workspace for our Rails projects and download the test app.</p>
+
+<ol>
+  <li>
+    <p>Using your terminal application, create a folder <code class="highlighter-rouge">workspace</code> in your home directory by entering this command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">mkdir</span> ~/workspace
+</code></pre></div>    </div>
+
+    <p>This folder is where all our Rails projects will go.</p>
+  </li>
+  <li>
+    <p>Change directory to your <code class="highlighter-rouge">workspace</code> folder by entering this command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">cd</span> ~/workspace
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Use Git to download the test-app project by entering this command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git clone https://github.com/human-se/rails-6-test-app-2020.git
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Verify that the download was successful by entering the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">ls</span> <span class="nt">-l</span>
+</code></pre></div>    </div>
+
+    <p>You should see that a new <code class="highlighter-rouge">rails-6-test-app-2020</code> directory has been added to the <code class="highlighter-rouge">workspace</code> directory.</p>
+  </li>
+</ol>
+
+<h2 id="2-installing-project-dependencies">2. Installing Project Dependencies</h2>
+
+<p>Next, we will install the Ruby and JS package dependencies for the project.</p>
+
+<ol>
+  <li>
+    <p>Change the working directory to the <code class="highlighter-rouge">rails-6-test-app-2020</code> directory by entering this command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">cd </span>rails-6-test-app-2020
+</code></pre></div>    </div>
+
+    <p>When you run this command, RVM should print a message like the following, which lets you know it’s working. Note that this message appears only after the <em>first</em> time you <code class="highlighter-rouge">cd</code> into a new project.</p>
+
+    <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ruby-2.6.5 - #gemset created /home/vagrant/.rvm/gems/ruby-2.6.5@quiz-maker
+ ruby-2.6.5 - #generating quiz-maker wrappers.........
+</code></pre></div>    </div>
+
+    <p><span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails3-5" role="button" aria-expanded="false" aria-controls="moreDetails3-5">Troubleshoot: no messages appear…▼</a></small></span></p>
+
+    <div class="collapse" id="moreDetails3-5">
+ <p class="text-muted mr-3 ml-3">
+ If no messages from RVM appears, then something is wrong. A common problem is that the terminal application is not configured to run as a "login" shell. This issue seems to come up the most for Linux users, or users of more exotic terminal applications. Typically, the solution can be found in the terminal application's settings. Restarting the terminal application after fixing the setting will likely be necessary.
+ </p>
+ </div>
+  </li>
+  <li>
+    <p>Download and install the gems (Ruby libraries) for this Rails project by entering the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> bundle <span class="nb">install</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Download and install all the JS packages for this Rails project by entering the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> yarn <span class="nb">install</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="3-setting-up-the-database-backend">3. Setting Up the Database Backend</h2>
+
+<p>Next, we will initialize the database for the project.</p>
+
+<ol>
+  <li>
+    <p>Wipe and reset the database to be used by this Rails app by entering the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails db:migrate:reset db:seed
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="4-running-the-project">4. Running the Project</h2>
+
+<p>We should now be able to run the project. We will first run the project’s automated tests. If the tests are working correctly, we will then launch the web server and open the web app in a browser.</p>
+
+<ol>
+  <li>
+    <p>The project comes with some automated tests. Run them by entering the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails <span class="nb">test</span>
+</code></pre></div>    </div>
+
+    <p>You should see that all the tests passed.</p>
+  </li>
+  <li>
+    <p>Start up the Rails web app server by entering the following command:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails s
+</code></pre></div>    </div>
+
+    <p>You should see that the server has started without error. Note that this command will not “return” like other commands—that is, the command prompt will not reappear until you halt the server process (covered below).</p>
+
+    <p>Note that the <code class="highlighter-rouge">s</code> in the above command is short for <code class="highlighter-rouge">server</code>, and the command can alternatively be entered as follows:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rails server
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Open the URL <a href="http://localhost:3000">http://localhost:3000</a> in a web browser. You should see a “QuizMaker” web app with a list of quizzes.</p>
+  </li>
+  <li>
+    <p>Further test out the web app by logging in and creating a quiz:</p>
+
+    <ol>
+      <li>
+        <p>Follow the <code class="highlighter-rouge">Sign In</code> link at the top right and log in with the email <code class="highlighter-rouge">alice@email.com</code> and the password <code class="highlighter-rouge">password</code>.</p>
+      </li>
+      <li>
+        <p>Click the <code class="highlighter-rouge">Create New Quiz</code> link and enter a title and description for a quiz.</p>
+      </li>
+      <li>
+        <p>Add questions to the quiz by clicking to <code class="highlighter-rouge">Edit Quiz</code> link.</p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h2 id="5-inspecting-the-database-with-pgadmin">5. Inspecting the Database with pgAdmin</h2>
+
+<p>Verify that the Postgres DBMS running on the server is accessible and that the app’s database is configured as expected.</p>
+
+<ol>
+  <li>
+    <p>Launch pgAdmin 4, entering your pgAdmin password when prompted.</p>
+  </li>
+  <li>
+    <p>Add a new Server by first making the following selection:</p>
+
+    <p><code class="highlighter-rouge">Object</code> &gt; <code class="highlighter-rouge">Create</code> &gt; <code class="highlighter-rouge">Server...</code></p>
+  </li>
+  <li>
+    <p>Next, set the following configuration fields for the new server:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Value</th>
+          <th>Explanation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Name</td>
+          <td><code class="highlighter-rouge">SoftwareEng</code></td>
+          <td>Just a made-up name for this Postgres database.</td>
+        </tr>
+        <tr>
+          <td>Hostname/address</td>
+          <td><code class="highlighter-rouge">localhost</code></td>
+          <td>Tells pgAdmin that the database service is running on this machine.</td>
+        </tr>
+        <tr>
+          <td>Port</td>
+          <td><code class="highlighter-rouge">5432</code></td>
+          <td>The port on which the Postgres service listens.</td>
+        </tr>
+        <tr>
+          <td>User</td>
+          <td><code class="highlighter-rouge">homer</code></td>
+          <td>Your Unix username on the system. Replace <code class="highlighter-rouge">homer</code> with your actual username.</td>
+        </tr>
+        <tr>
+          <td>Password</td>
+          <td><code class="highlighter-rouge">password1</code></td>
+          <td>The Postgres password for your username. Replace <code class="highlighter-rouge">password1</code> with the password you entered when configuring Postgres in the <a href="/rails-demos-n-deets-2021/demo-dev-env/">previous demo</a>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Once you’ve entered these data, click <code class="highlighter-rouge">Save</code>.</p>
+  </li>
+  <li>
+    <p>Inspect the demo web app’s databases by performing the following steps. In the left sidebar, navigate as follows:</p>
+
+    <p><code class="highlighter-rouge">Servers</code> &gt; <code class="highlighter-rouge">SoftwareEng</code> &gt; <code class="highlighter-rouge">Databases</code> &gt; <code class="highlighter-rouge">default_development</code> &gt; <code class="highlighter-rouge">Schemas</code> &gt; <code class="highlighter-rouge">public</code> &gt; <code class="highlighter-rouge">Tables</code></p>
+
+    <p>Right click on <code class="highlighter-rouge">quizzes</code> and go to <code class="highlighter-rouge">View/Edit Data</code> &gt; <code class="highlighter-rouge">All Rows</code>.</p>
+
+    <p>You should see the Data Output panel in the bottom right corner of the screen showing information about all the quizzes in the application.</p>
+  </li>
+</ol>
+
+<p>As we begin developing the demo app, using pgAdmin in this way can be very useful for verifying that our app databases are being configured properly and for debugging problems.</p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2021/demo-dev-env/">⇦ Previous: Setting Up the Development Environment</a></li>
+        
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2021/demo-new-rails-project/">⇨ Next: Setting Up a New Rails Project</a></li>
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2021
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
