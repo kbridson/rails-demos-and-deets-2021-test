@@ -18,7 +18,7 @@ edition: "Spring 2021 Edition"
 email: Scott.Fleming@memphis.edu
 description: >- # this means to ignore newlines until "baseurl:"
   TODO.
-baseurl: "/rails-demos-n-deets-2021" # the subpath of your site, e.g. /blog
+baseurl: "/rails-demos-n-deets-2021-test" # the subpath of your site, e.g. /blog
 permalink: "/:title/"
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: scottdflem
