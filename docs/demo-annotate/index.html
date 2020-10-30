@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-and-deets-2021-test/assets/img/favicon.png">
+
+<title>Automatically Annotating Model Code | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-and-deets-2021-test/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-and-deets-2021-test/"><img src="/rails-demos-and-deets-2021-test/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-and-deets-2021-test/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-and-deets-2021-test/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="automatically-annotating-model-code">Automatically Annotating Model Code</h1>
+
+<p>In this demonstration, I will show how to set up the <a href="https://github.com/ctran/annotate_models" target="_blank">Annotate</a> gem to automatically add comments to Rails model classes and other related files. We will continue to build upon the <a href="https://github.com/human-se/quiz-me-2020" target="_blank">QuizMe project</a> from the previous demos.</p>
+
+<p>Something that is inconvenient about Rails model classes is that their class attributes are not defined (or otherwise visible) in their class definitions. For example, if you inspect the <code class="language-plaintext highlighter-rouge">McQuestion</code> model class in <code class="language-plaintext highlighter-rouge">app/models/mc_question.rb</code>, you will find only the following:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">McQuestion</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>This class definition makes no mention of the class attributes, because Rails automatically adds model class attributes based the database schema defined in the <code class="language-plaintext highlighter-rouge">db/schema.rb</code> file.</p>
+
+<p>Fortunately, the Annotate gem can help! In particular, it can be set up to automatically add comments into your model files every time you migrate the database. For example, it would add the following comments to the <code class="language-plaintext highlighter-rouge">McQuestion</code> model class:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># == Schema Information</span>
+<span class="c1">#</span>
+<span class="c1"># Table name: mc_questions</span>
+<span class="c1">#</span>
+<span class="c1">#  id           :bigint           not null, primary key</span>
+<span class="c1">#  answer       :string</span>
+<span class="c1">#  distractor_1 :string</span>
+<span class="c1">#  distractor_2 :string</span>
+<span class="c1">#  question     :string</span>
+<span class="c1">#  created_at   :datetime         not null</span>
+<span class="c1">#  updated_at   :datetime         not null</span>
+<span class="c1">#</span>
+
+<span class="k">class</span> <span class="nc">McQuestion</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Notice how all of the model classes attributes and their types are now listed in a generated comment at the top of the file.</p>
+
+<h2 id="1-setting-up-the-annotate-gem">1. Setting Up the Annotate Gem</h2>
+
+<p>First, add the Annotate gem to your project by adding the following lines to the bottom of your <code class="language-plaintext highlighter-rouge">Gemfile</code>:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Adds model attributes/routes to top of model files/routes file</span>
+<span class="n">gem</span> <span class="s1">'annotate'</span><span class="p">,</span> <span class="ss">group: :development</span>
+</code></pre></div></div>
+
+<p>Next, install the Annotate gem by running the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle <span class="nb">install</span>
+</code></pre></div></div>
+
+<p>Finally, generate a <a href="https://en.wikipedia.org/wiki/Rake_(software)" target="_blank">Rake</a> task (essentially a plugin to <code class="language-plaintext highlighter-rouge">rails</code>) that will automatically annotate your files every time you run <code class="language-plaintext highlighter-rouge">rails db:migrate</code> by running the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails g annotate:install
+</code></pre></div></div>
+
+<p>Note that the Rake task that was generated, <code class="language-plaintext highlighter-rouge">lib/tasks/auto_annotate_models.rake</code>, contains a number of settings that you can customize; however, for our purposes, the default settings will suffice.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/114d2c22216769f649596e53b30ec4090567ef0d" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 24 24" version="1.1" width="24" role="img"><path fill-rule="evenodd" d="M15.5 11.75a3.5 3.5 0 11-7 0 3.5 3.5 0 017 0zm1.444-.75a5.001 5.001 0 00-9.888 0H2.75a.75.75 0 100 1.5h4.306a5.001 5.001 0 009.888 0h4.306a.75.75 0 100-1.5h-4.306z"></path></svg> Code changeset for this part</a></strong></p>
+
+<h2 id="2-annotating-the-existing-model-class">2. Annotating the Existing Model Class</h2>
+
+<p>Annotate the model class we already have by running the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails db:migrate:reset
+</code></pre></div></div>
+
+<p>The above attribute comments should now have been added to the <code class="language-plaintext highlighter-rouge">mc_questions.rb</code> file as well as to the <code class="language-plaintext highlighter-rouge">McQuestion</code>-related model testing files.</p>
+
+<p>From now on, whenever we create new database migrations and run <code class="language-plaintext highlighter-rouge">rails db:migrate</code>, the Annotate gem will automatically insert comments into the relevant model class files—how convenient!</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/90b224f4d6edfacb0bf6202d2e9e13cb1213e5c2" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 24 24" version="1.1" width="24" role="img"><path fill-rule="evenodd" d="M15.5 11.75a3.5 3.5 0 11-7 0 3.5 3.5 0 017 0zm1.444-.75a5.001 5.001 0 00-9.888 0H2.75a.75.75 0 100 1.5h4.306a5.001 5.001 0 009.888 0h4.306a.75.75 0 100-1.5h-4.306z"></path></svg> Code changeset for this part</a></strong></p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-and-deets-2021-test/demo-model-classes/">⇦ Previous: Creating Model Classes</a></li>
+        
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-and-deets-2021-test/demo-db-seeds/">⇨ Next: Seeding the Database</a></li>
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2021
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>

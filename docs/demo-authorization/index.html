@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-and-deets-2021-test/assets/img/favicon.png">
+
+<title>Enforcing User Ownership of Resources | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-and-deets-2021-test/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-and-deets-2021-test/"><img src="/rails-demos-and-deets-2021-test/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-and-deets-2021-test/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-and-deets-2021-test/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="enforcing-user-ownership-of-resources">Enforcing User Ownership of Resources</h1>
+
+<p>In this demonstration, I will build upon the user-login functionality from the last demo by making it so that users have ownership of the quizzes they create (as well as the associated questions). Although one user may view the quizzes owned by another user, only the owner of a quiz will be allowed to edit or delete that quiz (or its associated questions).</p>
+
+<p>To accomplish to implement such ownership, we will perform three high-level tasks:</p>
+
+<ol>
+  <li>Create an ownership association between <code class="language-plaintext highlighter-rouge">User</code> and <code class="language-plaintext highlighter-rouge">Quiz</code>, as depicted in Figure 1.</li>
+  <li>Update the existing pages and actions to use this new association.</li>
+  <li>Restrict permissions to the <code class="language-plaintext highlighter-rouge">new</code>/<code class="language-plaintext highlighter-rouge">create</code>/<code class="language-plaintext highlighter-rouge">edit</code>/<code class="language-plaintext highlighter-rouge">update</code>/<code class="language-plaintext highlighter-rouge">delete</code> controller actions for quizzes and for questions such that only the user who owns a quiz/question is permitted to execute those actions on the quiz/question.</li>
+</ol>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-and-deets-2021-test/resources/user-quiz_class_assoc.svg" class="figure-img img-fluid rounded border" alt="Class diagram" /><figcaption class="figure-caption"><p>Figure 1. Model class design diagram showing the new ownership association between <code class="language-plaintext highlighter-rouge">User</code> and <code class="language-plaintext highlighter-rouge">Quiz</code>.</p>
+</figcaption></figure></div>
+
+<h2 id="1-creating-an-ownership-association-between-user-and-quiz">1. Creating an Ownership Association between <code class="language-plaintext highlighter-rouge">User</code> and <code class="language-plaintext highlighter-rouge">Quiz</code></h2>
+
+<p>Create a new database migration to add the <code class="language-plaintext highlighter-rouge">User</code> FK column to <code class="language-plaintext highlighter-rouge">Quiz</code>. This involves several sub-steps.</p>
+
+<p>Generate a new (empty) database migration by running the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails g migration AddUserFkColToQuizzes
+</code></pre></div></div>
+
+<p>Set up the migration to add a <code class="language-plaintext highlighter-rouge">user_id</code> FK column to the <code class="language-plaintext highlighter-rouge">quizzes</code> table by inserting the following line in the <code class="language-plaintext highlighter-rouge">change</code> method:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">add_reference</span> <span class="ss">:quizzes</span><span class="p">,</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">foreign_key: </span><span class="kp">true</span>
+</code></pre></div></div>
+
+<p>Update the database schema by running the migration with the following now-familiar command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails db:migrate
+</code></pre></div></div>
+
+<p>Set up the one-to-many association by adding <code class="language-plaintext highlighter-rouge">has_many</code> and <code class="language-plaintext highlighter-rouge">belongs_to</code> declarations to <code class="language-plaintext highlighter-rouge">User</code> and <code class="language-plaintext highlighter-rouge">Quiz</code>, respectively.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">User</code> declaration should look like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">has_many</span><span class="p">(</span>
+  <span class="ss">:quizzes</span><span class="p">,</span>
+  <span class="ss">class_name: </span><span class="s1">'Quiz'</span><span class="p">,</span>
+  <span class="ss">foreign_key: </span><span class="s1">'user_id'</span><span class="p">,</span>
+  <span class="ss">inverse_of: :creator</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">Quiz</code> declaration should look like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">belongs_to</span><span class="p">(</span>
+  <span class="ss">:creator</span><span class="p">,</span>
+  <span class="ss">class_name: </span><span class="s1">'User'</span><span class="p">,</span>
+  <span class="ss">foreign_key: </span><span class="s1">'user_id'</span><span class="p">,</span>
+  <span class="ss">inverse_of: :quizzes</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>In the above declarations, note that a <code class="language-plaintext highlighter-rouge">Quiz</code> object will refer to its owner as <code class="language-plaintext highlighter-rouge">creator</code>, which is different from the Rails default name (<code class="language-plaintext highlighter-rouge">user</code>). For example, to retrieve the <code class="language-plaintext highlighter-rouge">User</code> that owns a <code class="language-plaintext highlighter-rouge">Quiz</code> referenced by a variable <code class="language-plaintext highlighter-rouge">quiz</code>, the method invocation would be <code class="language-plaintext highlighter-rouge">quiz.creator</code>. Also note that in Figure 1, the association end is labeled <code class="language-plaintext highlighter-rouge">creator</code> to capture this custom name.</p>
+
+<p>Add some new <code class="language-plaintext highlighter-rouge">User</code> seed data, setting each user’s password to “<code class="language-plaintext highlighter-rouge">password</code>” (which would be too insecure to deploy, but is easy to remember for purposes of testing/development), like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">u1</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span>
+  <span class="ss">email: </span><span class="s1">'alice@gmail.com'</span><span class="p">,</span>
+  <span class="ss">password: </span><span class="s1">'password'</span>
+<span class="p">)</span>
+
+<span class="n">u2</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span>
+  <span class="ss">email: </span><span class="s1">'bob@gmail.com'</span><span class="p">,</span>
+  <span class="ss">password: </span><span class="s1">'password'</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Note that although the Devise <code class="language-plaintext highlighter-rouge">User</code> constructor has a <code class="language-plaintext highlighter-rouge">password</code> parameter that takes a clear-text password string, the password will actually be encrypted and saved in an <code class="language-plaintext highlighter-rouge">encrypted_password</code> attribute. It would be insecure for <code class="language-plaintext highlighter-rouge">User</code> objects to store clear-text passwords as attributes.</p>
+
+<p>Update each <code class="language-plaintext highlighter-rouge">Quiz</code> in the seed data to be owned by a particular <code class="language-plaintext highlighter-rouge">User</code>, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">q1</span> <span class="o">=</span> <span class="no">Quiz</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">creator: </span><span class="n">u1</span><span class="p">,</span> <span class="ss">title: </span><span class="s1">'MVC Concepts'</span><span class="p">,</span> <span class="ss">description: </span><span class="s1">'This quiz contains questions related to the Model-View-Controller web application architecture.'</span><span class="p">)</span>
+<span class="n">q2</span> <span class="o">=</span> <span class="no">Quiz</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">creator: </span><span class="n">u2</span><span class="p">,</span> <span class="ss">title: </span><span class="s1">'Rails Concepts'</span><span class="p">,</span> <span class="ss">description: </span><span class="s1">'This quiz contains questions related to web application development using the Ruby on Rails platform.'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Remove all existing data from the database and re-seed it by entering this command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails db:seed:replant
+</code></pre></div></div>
+
+<p>To confirm that the data was seeded correctly, use pgAdmin to inspect the database, or use the Rails console, for example, to run <code class="language-plaintext highlighter-rouge">Quiz.all</code> and inspect the output.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/8f9bc5e0c44a82fd13598df255b55ebdbb2ea5e3" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 24 24" version="1.1" width="24" role="img"><path fill-rule="evenodd" d="M15.5 11.75a3.5 3.5 0 11-7 0 3.5 3.5 0 017 0zm1.444-.75a5.001 5.001 0 00-9.888 0H2.75a.75.75 0 100 1.5h4.306a5.001 5.001 0 009.888 0h4.306a.75.75 0 100-1.5h-4.306z"></path></svg> Code changeset for this part</a></strong></p>
+
+<h2 id="2-updating-existing-pages-and-actions-to-use-the-association">2. Updating Existing Pages and Actions to Use the Association</h2>
+
+<h3 id="21-displaying-the-quiz-creator-on-the-index-and-show-pages-for-quiz">2.1. Displaying the Quiz Creator on the <code class="language-plaintext highlighter-rouge">index</code> and <code class="language-plaintext highlighter-rouge">show</code> Pages for <code class="language-plaintext highlighter-rouge">Quiz</code></h3>
+
+<p>Display the email address of each quiz’s creator above the quiz’s description on the <code class="language-plaintext highlighter-rouge">index</code> and <code class="language-plaintext highlighter-rouge">show</code> pages for <code class="language-plaintext highlighter-rouge">Quiz</code>, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;p&gt;</span>
+  Created by: <span class="cp">&lt;%=</span> <span class="n">quiz</span><span class="p">.</span><span class="nf">creator</span><span class="p">.</span><span class="nf">email</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/p&gt;</span>
+</code></pre></div></div>
+
+<p>Fix the <a href="https://guides.rubyonrails.org/v6.0.2.1/active_record_querying.html#eager-loading-associations" target="_blank">N+1 Queries Problem</a> (discussed in <a href="/rails-demos-and-deets-2021-test/demo-has-many-forms/" target="_blank">this previous demo</a> that we now have by modifying the query in the <code class="language-plaintext highlighter-rouge">index</code> controller action, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">quizzes</span> <span class="o">=</span> <span class="no">Quiz</span><span class="p">.</span><span class="nf">includes</span><span class="p">(</span><span class="ss">:creator</span><span class="p">).</span><span class="nf">all</span>
+</code></pre></div></div>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/cfc57e2f57b44f48e6bc098b4d1ac912294839d4" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 24 24" version="1.1" width="24" role="img"><path fill-rule="evenodd" d="M15.5 11.75a3.5 3.5 0 11-7 0 3.5 3.5 0 017 0zm1.444-.75a5.001 5.001 0 00-9.888 0H2.75a.75.75 0 100 1.5h4.306a5.001 5.001 0 009.888 0h4.306a.75.75 0 100-1.5h-4.306z"></path></svg> Code changeset for this part</a></strong></p>
+
+<h3 id="22-adding-a-new-index-page-that-shows-only-the-current-users-quizzes">2.2. Adding a New <code class="language-plaintext highlighter-rouge">index</code> Page That Shows Only the Current User’s Quizzes</h3>
+
+<p>The current <code class="language-plaintext highlighter-rouge">index</code> page for <code class="language-plaintext highlighter-rouge">Quiz</code> records displays all quizzes for all users; however, we would also like to have an <code class="language-plaintext highlighter-rouge">index</code>-style page that displays only the <code class="language-plaintext highlighter-rouge">Quiz</code> records owned by the currently signed-in user. To add this new <code class="language-plaintext highlighter-rouge">index</code> page, perform the following steps.</p>
+
+<p>Generate a new <code class="language-plaintext highlighter-rouge">AccountQuizzesController</code> class by entering this now-familiar command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails g controller AccountQuizzesController
+</code></pre></div></div>
+
+<p>This controller will service requests for actions on <code class="language-plaintext highlighter-rouge">Quiz</code> records that are <code class="language-plaintext highlighter-rouge">User</code> specific. The rationale for having this separate controller is twofold. Firstly, it has more knowledge about the <code class="language-plaintext highlighter-rouge">User</code> model class than the plain old <code class="language-plaintext highlighter-rouge">QuizzesController</code> class; thus, the new controller helps to separate concerns. Secondly, adding this controller enables us to use only standard RESTful routes/actions (i.e., <code class="language-plaintext highlighter-rouge">index</code>, <code class="language-plaintext highlighter-rouge">show</code>, <code class="language-plaintext highlighter-rouge">new</code>/<code class="language-plaintext highlighter-rouge">create</code>, <code class="language-plaintext highlighter-rouge">edit</code>/<code class="language-plaintext highlighter-rouge">update</code>, and <code class="language-plaintext highlighter-rouge">destroy</code>). For example, if we were to instead add the new <code class="language-plaintext highlighter-rouge">index</code>-style action to the existing <code class="language-plaintext highlighter-rouge">QuizzesController</code> class, we would have to use a non-standard route, because the standard <code class="language-plaintext highlighter-rouge">index</code> route is already in use.</p>
+
+<p>Add a route for the new user-specific <code class="language-plaintext highlighter-rouge">index</code> page, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">get</span> <span class="s1">'account/quizzes'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'account_quizzes#index'</span><span class="p">,</span> <span class="ss">as: </span><span class="s1">'account_quizzes'</span> <span class="c1"># my quizzes page</span>
+</code></pre></div></div>
+
+<p>Require users to be signed in in order to access the <code class="language-plaintext highlighter-rouge">AccountQuizzesController</code> actions by adding a <code class="language-plaintext highlighter-rouge">before_action</code> declaration to the controller class, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">before_action</span> <span class="ss">:authenticate_user!</span>
+</code></pre></div></div>
+
+<p>Add to the <code class="language-plaintext highlighter-rouge">AccountQuizzesController</code> class the new <code class="language-plaintext highlighter-rouge">index</code> action that will handle requests that match the new route, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">index</span>
+  <span class="c1"># get all quiz objects belonging to current user</span>
+  <span class="n">quizzes</span> <span class="o">=</span> <span class="n">current_user</span><span class="p">.</span><span class="nf">quizzes</span>
+  <span class="c1"># display index view</span>
+  <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+    <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:index</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">quizzes: </span><span class="n">quizzes</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Add the <code class="language-plaintext highlighter-rouge">account_quizzes/index.html.erb</code> view that will be rendered by the new <code class="language-plaintext highlighter-rouge">index</code> action, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;h1&gt;</span>My Quizzes<span class="nt">&lt;/h1&gt;</span>
+
+<span class="cp">&lt;%</span> <span class="n">quizzes</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">quiz</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">dom_id</span><span class="p">(</span><span class="n">quiz</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;br&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">quiz</span><span class="p">.</span><span class="nf">title</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'🔎'</span><span class="p">,</span> <span class="n">quiz_path</span><span class="p">(</span><span class="n">quiz</span><span class="p">)</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'🖋'</span><span class="p">,</span> <span class="n">edit_quiz_path</span><span class="p">(</span><span class="n">quiz</span><span class="p">)</span> <span class="cp">%&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'🗑'</span><span class="p">,</span> <span class="n">quiz_path</span><span class="p">(</span><span class="n">quiz</span><span class="p">),</span> <span class="ss">method: :delete</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/p&gt;</span>
+
+    <span class="nt">&lt;p&gt;</span>
+      <span class="cp">&lt;%=</span> <span class="n">truncate</span> <span class="n">quiz</span><span class="p">.</span><span class="nf">description</span><span class="p">,</span> <span class="ss">length: </span><span class="mi">75</span><span class="p">,</span> <span class="ss">separator: </span><span class="s1">' '</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>Make it easier for users to navigate to the <code class="language-plaintext highlighter-rouge">index</code> pages for <code class="language-plaintext highlighter-rouge">Quiz</code> records (i.e., <code class="language-plaintext highlighter-rouge">QuizzesController#index</code> and <code class="language-plaintext highlighter-rouge">AccountQuizzesController#index</code>) by adding a hyperlink to each of those <code class="language-plaintext highlighter-rouge">index</code> pages to the <code class="language-plaintext highlighter-rouge">ul</code> list of links in <code class="language-plaintext highlighter-rouge">application.html.erb</code> that display at the top of each page, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="n">current_user</span><span class="p">.</span><span class="nf">email</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">edit_user_registration_path</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Quizzes'</span><span class="p">,</span> <span class="n">quizzes_path</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'My Quizzes'</span><span class="p">,</span> <span class="n">account_quizzes_path</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;li&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Sign Out'</span><span class="p">,</span> <span class="n">destroy_user_session_path</span><span class="p">,</span> <span class="ss">method: :delete</span> <span class="cp">%&gt;</span><span class="nt">&lt;/li&gt;</span>
+</code></pre></div></div>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/ba8fbc2a44d9bae98816085dbc5a0c1a309322f2" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 24 24" version="1.1" width="24" role="img"><path fill-rule="evenodd" d="M15.5 11.75a3.5 3.5 0 11-7 0 3.5 3.5 0 017 0zm1.444-.75a5.001 5.001 0 00-9.888 0H2.75a.75.75 0 100 1.5h4.306a5.001 5.001 0 009.888 0h4.306a.75.75 0 100-1.5h-4.306z"></path></svg> Code changeset for this part</a></strong></p>
+
+<h3 id="23-updating-the-newcreate-pageactions-for-quiz">2.3. Updating the <code class="language-plaintext highlighter-rouge">new</code>/<code class="language-plaintext highlighter-rouge">create</code> Page/Actions for <code class="language-plaintext highlighter-rouge">Quiz</code></h3>
+
+<p>At this point, all the pages and actions for <code class="language-plaintext highlighter-rouge">Quiz</code> should still be functional, except the <code class="language-plaintext highlighter-rouge">new</code> and <code class="language-plaintext highlighter-rouge">create</code> actions. The reason that these actions are broken is because <code class="language-plaintext highlighter-rouge">Quiz</code> must now have a <code class="language-plaintext highlighter-rouge">user_id</code> in order for <code class="language-plaintext highlighter-rouge">save</code> to execute without a validation error. To solve this problem, we will update the <code class="language-plaintext highlighter-rouge">new</code> and <code class="language-plaintext highlighter-rouge">create</code> actions, and in the process, we will move those actions out of the <code class="language-plaintext highlighter-rouge">QuizzesController</code> class and into the <code class="language-plaintext highlighter-rouge">AccountQuizzesController</code> class.</p>
+
+<p>Remove the <code class="language-plaintext highlighter-rouge">new</code> and <code class="language-plaintext highlighter-rouge">create</code> routes for the <code class="language-plaintext highlighter-rouge">QuizzesController</code>.</p>
+
+<p>Add <code class="language-plaintext highlighter-rouge">new</code> and <code class="language-plaintext highlighter-rouge">create</code> routes for the <code class="language-plaintext highlighter-rouge">AccountQuizzesController</code>, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">get</span> <span class="s1">'account/quizzes/new'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'account_quizzes#new'</span><span class="p">,</span> <span class="ss">as: </span><span class="s1">'new_account_quiz'</span>
+<span class="n">post</span> <span class="s1">'account/quizzes'</span><span class="p">,</span> <span class="ss">to: </span><span class="s1">'account_quizzes#create'</span>
+</code></pre></div></div>
+
+<p>Move the existing <code class="language-plaintext highlighter-rouge">quizzes/new.html.erb</code> file to the <code class="language-plaintext highlighter-rouge">account_quizzes</code> directory, and change the form url to the new route, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%=</span> <span class="n">form_with</span> <span class="ss">model: </span><span class="n">quiz</span><span class="p">,</span> <span class="ss">url: </span><span class="n">account_quizzes_path</span><span class="p">,</span> <span class="ss">method: :post</span><span class="p">,</span> <span class="ss">local: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">scope: :quiz</span> <span class="k">do</span> <span class="o">|</span><span class="n">form</span><span class="o">|</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>Comment out the existing <code class="language-plaintext highlighter-rouge">new</code> and <code class="language-plaintext highlighter-rouge">create</code> actions in the <code class="language-plaintext highlighter-rouge">QuizzesController</code> class, and add new ones to the <code class="language-plaintext highlighter-rouge">AccountQuizzesController</code> class, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">new</span>
+  <span class="c1"># make empty quiz object</span>
+  <span class="n">quiz</span> <span class="o">=</span> <span class="no">Quiz</span><span class="p">.</span><span class="nf">new</span>
+  <span class="c1"># display new view</span>
+  <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+    <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">quiz: </span><span class="n">quiz</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">create</span>
+  <span class="c1"># new object from params</span>
+  <span class="n">quiz</span> <span class="o">=</span> <span class="n">current_user</span><span class="p">.</span><span class="nf">quizzes</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">require</span><span class="p">(</span><span class="ss">:quiz</span><span class="p">).</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:description</span><span class="p">))</span>
+  <span class="c1"># respond_to block</span>
+  <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+    <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="k">do</span>
+      <span class="k">if</span> <span class="n">quiz</span><span class="p">.</span><span class="nf">save</span>
+        <span class="c1"># success message</span>
+        <span class="n">flash</span><span class="p">[</span><span class="ss">:success</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Quiz saved successfully"</span>
+        <span class="c1"># redirect to index</span>
+        <span class="n">redirect_to</span> <span class="n">account_quizzes_url</span>
+      <span class="k">else</span>
+        <span class="c1"># error message</span>
+        <span class="n">flash</span><span class="p">.</span><span class="nf">now</span><span class="p">[</span><span class="ss">:error</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Error: Quiz could not be saved"</span>
+        <span class="c1"># render new</span>
+        <span class="n">render</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">locals: </span><span class="p">{</span> <span class="ss">quiz: </span><span class="n">quiz</span> <span class="p">}</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Add a “<code class="language-plaintext highlighter-rouge">New Quiz</code>” link to user-specific <code class="language-plaintext highlighter-rouge">index</code> page of quizzes by inserting a <code class="language-plaintext highlighter-rouge">link_to</code> call after the <code class="language-plaintext highlighter-rouge">h1</code> heading in <code class="language-plaintext highlighter-rouge">account_quizzes/index.html.erb</code> view, like this</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'New Quiz'</span><span class="p">,</span> <span class="n">new_account_quiz_path</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>Remove the “<code class="language-plaintext highlighter-rouge">New Quiz</code>” link from the <code class="language-plaintext highlighter-rouge">quizzes/index.html.erb</code> view. The rationale for this change is that creating a new quiz from a page where the user is viewing all the quizzes in the system (both theirs and everyone else’s) might not make sense, and it’s better to have the create-quiz link on the page that lists only the user’s quizzes.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/95e74bf0e56f5c9c1fe1edab00c4c6a5e8a9cacb" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 24 24" version="1.1" width="24" role="img"><path fill-rule="evenodd" d="M15.5 11.75a3.5 3.5 0 11-7 0 3.5 3.5 0 017 0zm1.444-.75a5.001 5.001 0 00-9.888 0H2.75a.75.75 0 100 1.5h4.306a5.001 5.001 0 009.888 0h4.306a.75.75 0 100-1.5h-4.306z"></path></svg> Code changeset for this part</a></strong></p>
+
+<h2 id="3-restricting-permissions-on-controller-actions-to-owners">3. Restricting Permissions on Controller Actions to Owners</h2>
+
+<p>Currently, it is possible for a signed-in user to edit and delete quizzes/questions that they don’t own (e.g., by directly entering an <code class="language-plaintext highlighter-rouge">edit</code>-page URL into their browser’s location/address bar with the ID of an arbitrary quiz/question). To fix this, we are going to (1) Add a new <code class="language-plaintext highlighter-rouge">before_action</code> to the <code class="language-plaintext highlighter-rouge">QuizzesController</code>, the <code class="language-plaintext highlighter-rouge">McQuestionsController</code>, and the <code class="language-plaintext highlighter-rouge">QuizMcQuestionsController</code>, and (2) we will display the edit and delete links on the <code class="language-plaintext highlighter-rouge">index</code> pages only when the current user owns the corresponding quiz/question.</p>
+
+<p>Create a new function <code class="language-plaintext highlighter-rouge">require_permission</code> in the <code class="language-plaintext highlighter-rouge">QuizzesController</code> that will check that the current user owns a specified quiz, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">require_permission</span>
+  <span class="k">if</span> <span class="no">Quiz</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">]).</span><span class="nf">creator</span> <span class="o">!=</span> <span class="n">current_user</span>
+    <span class="n">redirect_to</span> <span class="n">quizzes_path</span><span class="p">,</span> <span class="ss">flash: </span><span class="p">{</span> <span class="ss">error: </span><span class="s2">"You do not have permission to do that."</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Note that if the current user is not the owner, then browser is redirected to to the <code class="language-plaintext highlighter-rouge">index</code> page for all <code class="language-plaintext highlighter-rouge">Quiz</code> records.</p>
+
+<p>Add a <code class="language-plaintext highlighter-rouge">before_action</code> declaration at the top of the <code class="language-plaintext highlighter-rouge">QuizzesController</code> class definition that calls <code class="language-plaintext highlighter-rouge">require_permission</code> whenever any of the <code class="language-plaintext highlighter-rouge">edit</code>/<code class="language-plaintext highlighter-rouge">update</code>/<code class="language-plaintext highlighter-rouge">destroy</code> actions are invoked, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">before_action</span> <span class="ss">:require_permission</span><span class="p">,</span> <span class="ss">only: </span><span class="p">[</span><span class="ss">:edit</span><span class="p">,</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:destroy</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>Run the app to verify that the <code class="language-plaintext highlighter-rouge">🖋</code> and <code class="language-plaintext highlighter-rouge">🗑</code> links on <a href="http://localhost:3000/quizzes">http://localhost:3000/quizzes</a> only work for quizzes the current user created.</p>
+
+<p>Add the same <code class="language-plaintext highlighter-rouge">require_permission</code> method to the <code class="language-plaintext highlighter-rouge">QuizMcQuestionsController</code>. Also add the same <code class="language-plaintext highlighter-rouge">before_action</code>, except set it for only the <code class="language-plaintext highlighter-rouge">new</code> and <code class="language-plaintext highlighter-rouge">create</code> actions. Run the app to verify that a user cannot add a new question on the <code class="language-plaintext highlighter-rouge">show</code> page for a quiz they did not create.</p>
+
+<p>Similar to above, create a new method <code class="language-plaintext highlighter-rouge">require_permission</code> in the <code class="language-plaintext highlighter-rouge">McQuestionsController</code> that will check that the current user owns a specified question, like this::</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">require_permission</span>
+  <span class="n">quiz</span> <span class="o">=</span> <span class="no">McQuestion</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">]).</span><span class="nf">quiz</span>
+  <span class="k">if</span> <span class="n">quiz</span><span class="p">.</span><span class="nf">creator</span> <span class="o">!=</span> <span class="n">current_user</span>
+    <span class="n">redirect_to</span> <span class="n">quiz_path</span><span class="p">(</span><span class="n">quiz</span><span class="p">),</span> <span class="ss">flash: </span><span class="p">{</span> <span class="ss">error: </span><span class="s2">"You do not have permission to do that."</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Similar to above, add a <code class="language-plaintext highlighter-rouge">before_action</code> to the <code class="language-plaintext highlighter-rouge">McQuestionsController</code>, setting it for only the <code class="language-plaintext highlighter-rouge">edit</code>, <code class="language-plaintext highlighter-rouge">update</code> and <code class="language-plaintext highlighter-rouge">destroy</code> actions, like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">before_action</span> <span class="ss">:require_permission</span><span class="p">,</span> <span class="ss">only: </span><span class="p">[</span><span class="ss">:edit</span><span class="p">,</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:destroy</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>Run the app to verify that the <code class="language-plaintext highlighter-rouge">🖋</code> and <code class="language-plaintext highlighter-rouge">🗑</code> links for the questions on the <code class="language-plaintext highlighter-rouge">show</code> page for <code class="language-plaintext highlighter-rouge">Quiz</code> objects only work for quizzes that are owned by the current user.</p>
+
+<p>In the <code class="language-plaintext highlighter-rouge">quizzes/index.html.erb</code> view, display the <code class="language-plaintext highlighter-rouge">🖋</code>, and <code class="language-plaintext highlighter-rouge">🗑</code> hyperlinks only for the quiz owner by wrapping the links in <code class="language-plaintext highlighter-rouge">if</code> statements, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">quiz</span><span class="p">.</span><span class="nf">creator</span> <span class="o">==</span> <span class="n">current_user</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'🖋'</span><span class="p">,</span> <span class="n">edit_quiz_path</span><span class="p">(</span><span class="n">quiz</span><span class="p">)</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'🗑'</span><span class="p">,</span> <span class="n">quiz_path</span><span class="p">(</span><span class="n">quiz</span><span class="p">),</span> <span class="ss">method: :delete</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>Similarly, in the <code class="language-plaintext highlighter-rouge">quizzes/show.html.erb</code> amd <code class="language-plaintext highlighter-rouge">mc_questions/show.html.erb</code> views, display the “<code class="language-plaintext highlighter-rouge">New Question</code>”, <code class="language-plaintext highlighter-rouge">🖋</code>, and <code class="language-plaintext highlighter-rouge">🗑</code> hyperlinks only for the quiz owner by wrapping the links in <code class="language-plaintext highlighter-rouge">if</code> statements, like this:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">quiz</span><span class="p">.</span><span class="nf">creator</span> <span class="o">==</span> <span class="n">current_user</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'New Question'</span><span class="p">,</span> <span class="n">new_quiz_mc_question_path</span><span class="p">(</span><span class="n">quiz</span><span class="p">)</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">question</span><span class="p">.</span><span class="nf">quiz</span><span class="p">.</span><span class="nf">creator</span> <span class="o">==</span> <span class="n">current_user</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'🖋'</span><span class="p">,</span> <span class="n">edit_mc_question_path</span><span class="p">(</span><span class="n">question</span><span class="p">)</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'🗑'</span><span class="p">,</span> <span class="n">mc_question_path</span><span class="p">(</span><span class="n">question</span><span class="p">),</span> <span class="ss">method: :delete</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<p>With those steps completed, the QuizMe app should now be fully secured such that users are required to be authenticated in order to view most pages and the data that users create are protected against manipulation by other users.</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/f92a0e21ebc996ec45bd38811b59f7949422140d" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 24 24" version="1.1" width="24" role="img"><path fill-rule="evenodd" d="M15.5 11.75a3.5 3.5 0 11-7 0 3.5 3.5 0 017 0zm1.444-.75a5.001 5.001 0 00-9.888 0H2.75a.75.75 0 100 1.5h4.306a5.001 5.001 0 009.888 0h4.306a.75.75 0 100-1.5h-4.306z"></path></svg> Code changeset for this part</a></strong></p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-and-deets-2021-test/demo-devise-auth/">⇦ Previous: Adding Authentication with Devise</a></li>
+        
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-and-deets-2021-test/demo-bootstrap-setup/">⇨ Next: Setting Up Bootstrap and Bootswatch Styling</a></li>
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2021
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
