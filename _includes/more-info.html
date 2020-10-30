@@ -1,0 +1,6 @@
+<span class="ml-2 text-nowrap"><small><a class="text-muted" data-toggle="collapse" href="#moreDetails{{ include.id }}" role="button" aria-expanded="false" aria-controls="moreDetails{{ include.id }}">More details about this code...▼</a></small></span>
+<div class="collapse" id="moreDetails{{ include.id }}">
+  <p class="text-muted mr-3 ml-3">
+    {{ include.text | markdownify }}
+  </p>
+</div>

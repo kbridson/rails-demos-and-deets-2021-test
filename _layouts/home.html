@@ -21,6 +21,23 @@
 
                 <div class="row">
                         <div class="col-lg-6">
+
+                <div class="card mb-3">
+                    <h2 class="card-header my-0">2021 Demos</h2>
+                    <div class="card-body">
+                        {% assign sections = site.demos | map: 'section' | uniq %}
+                        {% for section in sections %}
+                            <h3 class="mt-1">{{ section }}</h3>
+                            <ul>
+                                {% for demo in site.demos %}
+                                    {% if demo.section == section %}
+                                        <li><a href="{{ demo.url }}">{{ demo.title }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}                            
+                    </div> <!-- /.card-body -->
+                </div> <!-- /.card -->
                           
                 <div class="card mb-3">
                     <h2 class="card-header my-0">Demos</h2>

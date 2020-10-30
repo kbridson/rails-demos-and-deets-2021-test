@@ -25,6 +25,11 @@ twitter_username: scottdflem
 github_username:  sdflem
 copyright_notice: '&copy; <a href="/about/">The Authors</a> 2021'
 
+collections:
+  demos:
+    output: true
+    sort_by: lesson
+
 # Build settings
 markdown: kramdown
 theme: minima
