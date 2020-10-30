@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Web Development with Ruby on Rails Tutorial 2019">
+<meta name="author" content="Scott Fleming">
+
+<link rel="shortcut icon" type="image/png" href="/rails-demos-n-deets-2021-test/assets/img/favicon.png">
+
+<title>Creating a Model Class and Seeding the Database | Ruby on Rails ⇨ Demos 'n' Deets</title>
+
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- Custom styles for this site -->
+<link href="/rails-demos-n-deets-2021-test/assets/css/site.css" rel="stylesheet">
+
+    </head>
+    <body>
+        
+
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="/rails-demos-n-deets-2021-test/"><img src="/rails-demos-n-deets-2021-test/assets/img/brand.png" style="height: 3.5rem"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2021-test/">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/rails-demos-n-deets-2021-test/about/">About</a>
+                </li>
+                </ul>
+        </div>
+    </nav>
+</header>
+
+        <main role="main">
+
+            <div class="container mt-4">
+                <h1 id="creating-a-model-class-and-seeding-the-database">Creating a Model Class and Seeding the Database</h1>
+
+<p>In this demonstration, I will show how to create model classes to store and manage data in the database. We will continue to build upon the <a href="https://github.com/human-se/quiz-me-2020" target="_blank">QuizMe project</a> from the previous demos.</p>
+
+<p>Since we are building a quizzing application, we will need to store questions in the database. At first, the app will only allow multiple choice questions but in a later demo we will see that it’s pretty easy to add other kinds of questions too (e.g., fill in the blank). For multiple choice questions, we need to store the question, answer, and a couple of incorrect options (<em>distractors</em>). Figure 1 shows the corresponding class diagram.</p>
+
+<div class="figure-container mx-auto my-4" style="max-width: 960px;"><figure class="figure"><img src="/rails-demos-n-deets-2021-test/resources/mc-question-model-class.svg" class="figure-img img-fluid rounded border" alt="A UML class diagram depicting the McQuestion model class" /><figcaption class="figure-caption"><p>Figure 1. The <code class="language-plaintext highlighter-rouge">McQuestion</code> model class.</p>
+</figcaption></figure></div>
+
+<h2 id="1-creating-the-mcquestion-model-class">1. Creating the <code class="language-plaintext highlighter-rouge">McQuestion</code> Model Class</h2>
+
+<p>First, generate the <code class="language-plaintext highlighter-rouge">McQuestion</code> model class shown in the above class diagram by running the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails generate model McQuestion question:string answer:string distractor_1:string distractor_2:string
+</code></pre></div></div>
+
+<p>This command generates several key files:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">app/models/mc_question.rb</code>: The Rails model class.</li>
+  <li><code class="language-plaintext highlighter-rouge">db/migrate/20190926192541_create_mc_questions.rb</code>: The database migration that is used to set up the database schema (timestamp will vary based on creation time).</li>
+  <li><code class="language-plaintext highlighter-rouge">test/models/mc_question_test.rb</code>: <a href="https://en.wikipedia.org/wiki/Unit_testing" target="_blank">Unit test</a> code skeleton where tests for the models can be defined.</li>
+  <li><code class="language-plaintext highlighter-rouge">test/fixtures/mc_questions.yml</code>: <a href="https://en.wikipedia.org/wiki/Test_fixture" target="_blank">Test fixtures</a> skeleton where <code class="language-plaintext highlighter-rouge">McQuestion</code> objects for use in the tests can be defined.</li>
+</ul>
+
+<p>Next, set up the <code class="language-plaintext highlighter-rouge">mc_questions</code> table in the database and regenerate the <code class="language-plaintext highlighter-rouge">db/schema.rb</code> file, which holds the Rails app’s representation of the database, by running the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails db:migrate
+</code></pre></div></div>
+
+<p>Finally, confirm that the database was set up correctly by</p>
+
+<ul>
+  <li>inspecting the <code class="language-plaintext highlighter-rouge">db/schema.rb</code> file to see that the <code class="language-plaintext highlighter-rouge">mc_questions</code> table is defined correctly, and</li>
+  <li>
+    <p>inspecting the Postgres database <code class="language-plaintext highlighter-rouge">quiz_me_development</code> with pgAdmin to see that <code class="language-plaintext highlighter-rouge">mc_questions</code> table is present and that its columns are correct by navigating as follows, starting from the pgAdmin sidebar:</p>
+
+    <p><code class="language-plaintext highlighter-rouge">Servers</code> &gt; <code class="language-plaintext highlighter-rouge">SoftwareEng</code> &gt; <code class="language-plaintext highlighter-rouge">Databases</code> &gt; <code class="language-plaintext highlighter-rouge">quiz_me_development</code> &gt; <code class="language-plaintext highlighter-rouge">Schemas</code> &gt; <code class="language-plaintext highlighter-rouge">public</code> &gt; <code class="language-plaintext highlighter-rouge">Tables</code> &gt; (right-click) <code class="language-plaintext highlighter-rouge">mc_questions</code> &gt; <code class="language-plaintext highlighter-rouge">View/Edit Data</code> &gt; <code class="language-plaintext highlighter-rouge">All Rows</code></p>
+  </li>
+</ul>
+
+<p>We have now created our first model class and corresponding database table; however, we have not yet saved any <code class="language-plaintext highlighter-rouge">McQuestion</code> records in the database—that will be coming soon!</p>
+
+<p><strong><a href="https://github.com/human-se/quiz-me-2020/commit/f7319c1698e42d78473183705998df679d831ff0" target="_blank"><svg height="24" class="octicon octicon-git-commit right left" aria-label="hi" viewBox="0 0 24 24" version="1.1" width="24" role="img"><path fill-rule="evenodd" d="M15.5 11.75a3.5 3.5 0 11-7 0 3.5 3.5 0 017 0zm1.444-.75a5.001 5.001 0 00-9.888 0H2.75a.75.75 0 100 1.5h4.306a5.001 5.001 0 009.888 0h4.306a.75.75 0 100-1.5h-4.306z"></path></svg> Code changeset for this part</a></strong></p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2021-test/demo-simple-forms/">⇦ Previous: Passing Data from View to Controller with Simple Forms</a></li>
+        
+        
+            
+            <li class="page-item"><a class="page-link" href="/rails-demos-n-deets-2021-test/demo-annotate/">⇨ Next: Automatically Annotating Model Code</a></li>
+        
+    </ul>
+</nav>
+
+
+            </div> <!-- /.container -->
+
+        </main>
+
+        <footer class="container">
+            <hr style="margin-top: 2rem;">
+            <p style="text-align: center;">
+                &copy; <a href="/about/">The Authors</a> 2021
+            </p>
+        </footer>
+
+        <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>
