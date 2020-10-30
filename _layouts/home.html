@@ -31,7 +31,7 @@
                             <ul>
                                 {% for demo in site.demos %}
                                     {% if demo.section == section %}
-                                        <li><a href="{{ demo.url }}">{{ demo.title }}</a></li>
+                                        <li><a href="{{ site.baseurl }}{{ demo.url }}">{{ demo.title }}</a></li>
                                     {% endif %}
                                 {% endfor %}
                             </ul>
