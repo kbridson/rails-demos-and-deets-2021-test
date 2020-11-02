@@ -31,8 +31,13 @@ collections:
     sort_by: lesson
 
 # Build settings
-markdown: kramdown
+# markdown: kramdown
+# highlighter: rouge
 theme: minima
+kramdown:
+  syntax_highlighter_opts:
+    disable: true
+# theme: jekyll-theme-leap-day
 plugins:
   - jekyll-feed
   - jekyll-octicons
